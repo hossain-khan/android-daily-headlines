@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.ApiCore;
 import com.google.firebase.crash.FirebaseCrash;
 
 import info.hossainkhan.android.core.CoreConfig;
@@ -17,7 +16,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d(TAG, "onCreate: " + ApiCore.TEST + CoreConfig.NAME);
+        Log.d(TAG, "onCreate: " + CoreConfig.NAME);
     }
 
     @Override

@@ -54,7 +54,7 @@ dependencies {
     compile "io.swagger:swagger-annotations:$rootProject.swaggerVersion"
 
     // Apache Oltu - https://oltu.apache.org/
-    compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
+    compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1') {
         /*
          * NOTE: Swagger generated client library depends on "org.apache.oltu.oauth2.client", which
          * includes classes from "org.apache.oltu.oauth2.common". So, we explicitly need to exclude
