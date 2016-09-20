@@ -69,10 +69,10 @@ dependencies {
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
     // ----------------------------------------------------------------
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     testCompile "junit:junit:$rootProject.junitVersion"
 }
 

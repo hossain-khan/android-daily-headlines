@@ -1,12 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    // https://developer.android.com/studio/releases/build-tools.html
+    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "info.hossainkhan.dailynewsheadlines"
-        minSdkVersion 21
-        targetSdkVersion 24
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -24,8 +26,8 @@ dependencies {
 
     compile project(':core-lib')
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:$rootProject.junitVersion"
 }
