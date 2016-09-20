@@ -26,8 +26,20 @@ dependencies {
 
     compile project(':core-lib')
 
+    compile 'com.google.firebase:firebase-core:9.4.0'
+
+    // https://firebase.google.com/docs/crash/android
+    compile 'com.google.firebase:firebase-crash:9.4.0'
+
+
+    // ----------------------------------------------------------------
+    // Android Unit and Instrumentation test
+    // ----------------------------------------------------------------
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile "junit:junit:$rootProject.junitVersion"
 }
+
+// Add to the bottom of the file
+apply plugin: 'com.google.gms.google-services'

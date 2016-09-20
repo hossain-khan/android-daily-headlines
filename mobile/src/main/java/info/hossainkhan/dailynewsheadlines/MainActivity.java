@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.ApiCore;
+import com.google.firebase.crash.FirebaseCrash;
 
 import info.hossainkhan.android.core.CoreConfig;
 
@@ -17,5 +18,13 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         Log.d(TAG, "onCreate: " + ApiCore.TEST + CoreConfig.NAME);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Test firebase crash
+        //FirebaseCrash.report(new Exception("My first Android non-fatal error"));
     }
 }
