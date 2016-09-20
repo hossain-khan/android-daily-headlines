@@ -46,6 +46,10 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
     compile "com.squareup.retrofit2:converter-scalars:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofitVersion"
+
+    // RxJava
+    compile "io.reactivex:rxjava:$rootProject.rxJavaVersion"
 
     // OkHttp - logging
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
