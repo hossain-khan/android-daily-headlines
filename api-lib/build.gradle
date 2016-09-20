@@ -1,0 +1,78 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    // https://developer.android.com/studio/releases/build-tools.html
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+
+    // Retrofit
+    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-scalars:$rootProject.retrofitVersion"
+
+    // OkHttp - logging
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+
+    // Swagger (for server api client)
+    compile "io.swagger:swagger-annotations:$rootProject.swaggerVersion"
+
+    // Apache Oltu - https://oltu.apache.org/
+    compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
+        /*
+         * NOTE: Swagger generated client library depends on "org.apache.oltu.oauth2.client", which
+         * includes classes from "org.apache.oltu.oauth2.common". So, we explicitly need to exclude
+         * common library being added during compilation to avoid "Multiple dex files" error.
+         */
+        exclude module: 'org.apache.oltu.oauth2.common'
+    }
+
+    // http://www.joda.org/joda-time/dependency-info.html
+    compile 'joda-time:joda-time:2.9.4'
+
+    // ----------------------------------------------------------------
+    // Android Unit and Instrumentation test
+    // ----------------------------------------------------------------
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    testCompile "junit:junit:$rootProject.junitVersion"
+}
+
