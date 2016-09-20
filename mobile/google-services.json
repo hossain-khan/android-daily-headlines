@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "738300055459",
+    "firebase_url": "https://daily-headlines-e7091.firebaseio.com",
+    "project_id": "daily-headlines-e7091",
+    "storage_bucket": "daily-headlines-e7091.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738300055459:android:733b1b4c8f216cc7",
+        "android_client_info": {
+          "package_name": "info.hossainkhan.dailynewsheadlines"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "738300055459-f1he2moe6nohed9uk2lee703snqheo5d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2HAlZyYo0qc-ZJ6TYyFz2AskypYxPLYQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
