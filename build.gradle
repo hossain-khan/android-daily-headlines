@@ -37,8 +37,9 @@ ext {
     // Android SDK Build Tools - Versions: https://developer.android.com/studio/releases/build-tools.html
     buildToolsVersion = '24.0.2'
 
-    // Support library dependencies
+    // Google Products & Support library dependencies
     supportLibraryVersion = '24.2.1'
+    firebaseVersion = '9.4.0'
 
     // Unit test dependencies
     junitVersion = '4.12'
