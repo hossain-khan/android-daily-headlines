@@ -2,8 +2,8 @@ package io.swagger.client.api;
 
 import io.swagger.client.CollectionFormats.*;
 
+import rx.Observable;
 
-import retrofit2.Call;
 import retrofit2.http.*;
 
 import okhttp3.RequestBody;
@@ -26,7 +26,7 @@ public interface StoriesApi {
    */
   
   @GET("{section}.{format}")
-  Call<InlineResponse200> sectionFormatGet(
+  Observable<InlineResponse200> sectionFormatGet(
     @Path("section") String section, @Path("format") String format, @Query("callback") String callback
   );
 
