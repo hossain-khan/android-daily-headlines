@@ -40,7 +40,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
 
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    provided "org.glassfish:javax.annotation:$rootProject.glassfishJavaxAnnotationVersion"
 
     // Retrofit
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
@@ -52,13 +52,13 @@ dependencies {
     compile "io.reactivex:rxjava:$rootProject.rxJavaVersion"
 
     // OkHttp - logging
-    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+    compile "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
 
     // Swagger (for server api client)
     compile "io.swagger:swagger-annotations:$rootProject.swaggerVersion"
 
     // Apache Oltu - https://oltu.apache.org/
-    compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1') {
+    compile ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$rootProject.apacheOltuOauth2Version") {
         /*
          * NOTE: Swagger generated client library depends on "org.apache.oltu.oauth2.client", which
          * includes classes from "org.apache.oltu.oauth2.common". So, we explicitly need to exclude
@@ -68,7 +68,7 @@ dependencies {
     }
 
     // http://www.joda.org/joda-time/dependency-info.html
-    compile 'joda-time:joda-time:2.9.4'
+    compile "joda-time:joda-time:$rootProject.jodaTimeVersion"
 
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test

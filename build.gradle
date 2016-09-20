@@ -4,20 +4,37 @@ buildscript {
     repositories {
         jcenter()
     }
+
+    // NOTE: Do not place your application dependencies here; they belong
+    // in the individual module build.gradle files
     dependencies {
+        /*
+         * Android Plugin for Gradle - Version number and release notes
+         *
+         *  - Stable: https://developer.android.com/studio/releases/gradle-plugin.html
+         *  - Alpha: http://tools.android.com/tech-docs/new-build-system
+         */
         classpath 'com.android.tools.build:gradle:2.2.0'
 
+        // Google Services Plugin - Required for Firebase and related Google services
+        // https://developers.google.com/android/guides/google-services-plugin
         // https://firebase.google.com/docs/android/setup
         classpath 'com.google.gms:google-services:3.0.0'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        // Annotation processors in combination with Android Studio (used by Dagger2 and so on)
+        // https://bitbucket.org/hvisser/android-apt
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+
+        // Generates dex count report - use `./gradlew assembleDebug`, reports @ ${buildDir}/outputs/dexcount/${variant}
+        // https://github.com/KeepSafe/dexcount-gradle-plugin
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.5'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -31,6 +48,7 @@ task clean(type: Delete) {
 // Define versions in a single place
 ext {
     // Sdk and tools
+    // --------------------------------------------------
     minSdkVersion = 21 // Lollipop 5.0
     targetSdkVersion = 24
     compileSdkVersion = 24
@@ -38,20 +56,30 @@ ext {
     buildToolsVersion = '24.0.2'
 
     // Google Products & Support library dependencies
+    // --------------------------------------------------
     supportLibraryVersion = '24.2.1'
     firebaseVersion = '9.4.0'
 
     // Unit test dependencies
+    // --------------------------------------------------
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
     hamcrestVersion = '1.3'
     espressoVersion = '2.2.2'
 
     // 3rd party library dependencies
+    // --------------------------------------------------
     daggerVersion = '2.2'
     gsonVersion = '2.7'
     retrofitVersion = '2.1.0'
     rxJavaVersion = '1.1.3'
+    rxAndroidVersion = '1.2.0'
     okHttpVersion = '3.3.1'
     swaggerVersion = '1.5.9'
+    picassoVersion = '2.5.2'
+    butterKnifeVersion = '8.0.1'
+    daggerVersion = '2.2'
+    apacheOltuOauth2Version = '1.0.1'
+    jodaTimeVersion = '2.9.4'
+    glassfishJavaxAnnotationVersion = '10.0-b28'
 }

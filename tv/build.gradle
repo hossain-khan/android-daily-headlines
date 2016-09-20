@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion 24
@@ -30,6 +32,10 @@ dependencies {
     // Firebase - Crash Reporting
     // https://firebase.google.com/docs/crash/android
     compile "com.google.firebase:firebase-crash:$rootProject.firebaseVersion"
+
+    // Butterknife - android-view injection
+    compile "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
+    apt "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
 }
 
 
