@@ -16,6 +16,8 @@ This is my personal project to experiment with following tools & technologies
  * Retrofit
  * Picasso
  * Coordinator Layout
+ * Timber (logging)
+ * Android TV Leanback
  * Design Support Library
  * Database (local caching)
  * Scheduler - data syncing

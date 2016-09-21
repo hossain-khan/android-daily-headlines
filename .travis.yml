@@ -1,5 +1,10 @@
 language: android
 
+addons: 
+  code_climate:
+    # https://codeclimate.com/github/amardeshbd/android-daily-headlines 
+    repo_token: d930b549878b857fe0be9bf587bfd712c6bb93736e3a37b5fadc0f96185b5d3e
+
 android:
   components:
     - platform-tools
