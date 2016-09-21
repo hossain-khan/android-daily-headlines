@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/amardeshbd/android-daily-headlines.svg?branch=develop)](https://travis-ci.org/amardeshbd/android-daily-headlines) [![GitHub issues](https://img.shields.io/github/issues/amardeshbd/android-daily-headlines.svg)](https://github.com/amardeshbd/android-daily-headlines/issues)
+
 # android-daily-headlines
 An app that provides daily headlines for popular news source.
 
