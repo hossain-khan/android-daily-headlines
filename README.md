@@ -21,5 +21,8 @@ This is my personal project to experiment with following tools & technologies
  * Design Support Library
  * Database (local caching)
  * Scheduler - data syncing
+ * Google Play Alpha Beta release
+ * LeakCanary
+ * Realm (maybe?)
  
 I'll try to cross out these items when I use in the app and put a reference here.
