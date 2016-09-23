@@ -25,9 +25,8 @@
 package info.hossainkhan.dailynewsheadlines;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
-
-import com.google.firebase.crash.FirebaseCrash;
 
 /*
  * MainActivity class that loads MainFragment
@@ -36,19 +35,14 @@ public class MainActivity extends Activity {
     /**
      * Called when the activity is first created.
      */
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-
-        // Test firebase crash reporting
-        //FirebaseCrash.report(new Exception("My first Android non-fatal error for Android TV App"));
+        if (savedInstanceState == null) {
+            Fragment fragment = new MainFragment();
+            getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment)
+                    .commit();
+        }
     }
 }
