@@ -83,7 +83,8 @@ public class MainFragment extends BrowseFragment {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-            Log.d(TAG, "onItemClicked() called with: itemViewHolder = [" + itemViewHolder + "], item = [" + item + "], rowViewHolder = [" + rowViewHolder + "], row = [" + row + "]");
+            Log.d(TAG, "onItemClicked() called with: itemViewHolder = [" + itemViewHolder + "], " +
+                    "item = [" + item + "], rowViewHolder = [" + rowViewHolder + "], row = [" + row + "]");
 
             Intent intent = null;
 
