@@ -50,6 +50,10 @@ dependencies {
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"
     provided 'javax.annotation:jsr250-api:1.0'
 
+    // RxAndroid (Note: RxJava is included in `api-lib` module)
+    // https://github.com/ReactiveX/RxAndroid
+    compile "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
+
 
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
