@@ -27,6 +27,7 @@ package info.hossainkhan.android.core.dagger.modules;
 
 import dagger.Module;
 import dagger.Provides;
+import info.hossainkhan.android.core.data.ExampleInteractor;
 
 @Module
 public class InteractorsModule {

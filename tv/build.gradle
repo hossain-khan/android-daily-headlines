@@ -22,6 +22,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Core module for the app
+    compile project(':core-lib')
+
     compile "com.android.support:leanback-v17:$rootProject.supportLibraryVersion"
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
 

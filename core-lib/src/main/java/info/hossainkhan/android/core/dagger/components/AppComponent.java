@@ -32,6 +32,7 @@ import dagger.Component;
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.dagger.modules.AppModule;
 import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
+import info.hossainkhan.android.core.data.ExampleInteractor;
 
 @Singleton
 @Component(

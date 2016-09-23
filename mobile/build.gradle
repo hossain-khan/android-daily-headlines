@@ -26,6 +26,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
+    // Core module for the app
     compile project(':core-lib')
 
     // Firebase CORE
