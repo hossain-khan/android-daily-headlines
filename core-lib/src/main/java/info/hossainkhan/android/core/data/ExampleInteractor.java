@@ -22,30 +22,30 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.util;
+package info.hossainkhan.android.core.data;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.annotation.NonNull;
 
-/**
- * This provides methods to help Activities load their UI.
- */
-public class ActivityUtils {
+import info.hossainkhan.android.core.data.remote.model.ExampleModel;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-    /**
-     * The {@code fragment} is added to the container view with id {@code frameId}. The operation is
-     * performed by the {@code fragmentManager}.
-     *
-     */
-    public static void addFragmentToActivity (@NonNull FragmentManager fragmentManager,
-                                              @NonNull Fragment fragment, int frameId) {
-        Validate.notNull(fragmentManager);
-        Validate.notNull(fragment);
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(frameId, fragment);
-        transaction.commit();
+public class ExampleInteractor {
+
+//    Inject retorfit service via dagger
+//    private final ExampleRestService mExampleRestService;
+
+
+    public Observable<ExampleModel> requestDataToInteractor() {
+        //Using RxJava + Retrofit we can call the a RetrofitRestService to get data from an API
+        //We return the subcription to the presenter
+        //Using RxJava + Realm we can get data from DataBase
+
+//        return Observable.defer(() -> mExampleRestService.getWhatever()
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io()));
+        return Observable.just(new ExampleModel())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
     }
-
 }

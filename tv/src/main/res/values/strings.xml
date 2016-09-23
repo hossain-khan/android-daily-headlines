@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Daily News Headlines</string>
+    <string name="app_name">Daily Headlines</string>
+    <string name="browse_title">Headlines</string>
 </resources>

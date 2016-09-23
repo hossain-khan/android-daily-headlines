@@ -22,9 +22,31 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.android.core.dagger.modules;
 
-import android.app.Application;
+import android.content.Context;
 
-public class CoreApplication extends Application {
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+import info.hossainkhan.android.core.CoreApplication;
+import info.hossainkhan.android.core.dagger.ApplicationContext;
+
+@Module
+public class AppModule {
+
+    private CoreApplication mApp;
+
+    public AppModule(CoreApplication app) {
+        mApp = app;
+    }
+
+    @Provides
+    @Singleton
+    @ApplicationContext
+    public Context provideApplicationContext() {
+        return mApp.getApplicationContext();
+    }
+
 }

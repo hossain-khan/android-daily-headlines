@@ -22,30 +22,26 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.util;
+package info.hossainkhan.android.core.dagger.modules;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.annotation.NonNull;
+import android.app.Activity;
 
-/**
- * This provides methods to help Activities load their UI.
- */
-public class ActivityUtils {
+import dagger.Module;
+import dagger.Provides;
+import info.hossainkhan.android.core.dagger.ActivityScope;
 
-    /**
-     * The {@code fragment} is added to the container view with id {@code frameId}. The operation is
-     * performed by the {@code fragmentManager}.
-     *
-     */
-    public static void addFragmentToActivity (@NonNull FragmentManager fragmentManager,
-                                              @NonNull Fragment fragment, int frameId) {
-        Validate.notNull(fragmentManager);
-        Validate.notNull(fragment);
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(frameId, fragment);
-        transaction.commit();
+@Module
+public class ActivityModule {
+
+    private final Activity activity;
+
+    public ActivityModule(Activity activity) {
+        this.activity = activity;
     }
 
+    @Provides
+    @ActivityScope
+    Activity activity() {
+        return activity;
+    }
 }

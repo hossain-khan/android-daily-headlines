@@ -22,9 +22,17 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.android.core.dagger.components;
 
-import android.app.Application;
+import dagger.Component;
+import info.hossainkhan.android.core.dagger.ActivityScope;
+import info.hossainkhan.android.core.dagger.modules.ActivityModule;
 
-public class CoreApplication extends Application {
+@ActivityScope
+@Component(
+        dependencies = AppComponent.class,
+        modules = ActivityModule.class
+)
+public interface ActivityComponent {
+    //Exposed to sub-graphs.
 }
