@@ -25,8 +25,9 @@
 package info.hossainkhan.dailynewsheadlines;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
+
+import info.hossainkhan.android.core.util.ActivityUtils;
 
 /*
  * MainActivity class that loads MainFragment
@@ -40,9 +41,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            Fragment fragment = new MainFragment();
-            getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment)
-                    .commit();
+            ActivityUtils.addFragmentToActivity(
+                    getFragmentManager(),
+                    new MainFragment(),
+                    R.id.fragment_container);
         }
     }
 }
