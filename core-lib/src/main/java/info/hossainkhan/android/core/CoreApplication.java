@@ -26,5 +26,8 @@ package info.hossainkhan.android.core;
 
 import android.app.Application;
 
+/**
+ * Extended {@link Application} that is shared among all the android application modules.
+ */
 public class CoreApplication extends Application {
 }

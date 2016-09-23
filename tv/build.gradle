@@ -3,12 +3,14 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    // https://developer.android.com/studio/releases/build-tools.html
+    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "info.hossainkhan.dailynewsheadlines"
-        minSdkVersion 21
-        targetSdkVersion 24
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2
         versionName "1.0-tv"
     }
