@@ -85,8 +85,12 @@ public class Article   {
   @SerializedName("des_facet")
   private List<String> desFacet = new ArrayList<String>();
 
+  /**
+   * Modified code because response spec has changed and not reflected in API spec. <br/>
+   * Created PR to fix it: https://github.com/NYTimes/public_api_specs/pull/17
+   */
   @SerializedName("org_facet")
-  private String orgFacet = null;
+  private List<String> orgFacet = new ArrayList<String>();
 
   @SerializedName("per_facet")
   private List<String> perFacet = new ArrayList<String>();
@@ -375,7 +379,7 @@ public class Article   {
     this.desFacet = desFacet;
   }
 
-  public Article orgFacet(String orgFacet) {
+  public Article orgFacet(List<String> orgFacet) {
     this.orgFacet = orgFacet;
     return this;
   }
@@ -385,11 +389,11 @@ public class Article   {
    * @return orgFacet
   **/
   @ApiModelProperty(example = "null", value = "")
-  public String getOrgFacet() {
+  public List<String> getOrgFacet() {
     return orgFacet;
   }
 
-  public void setOrgFacet(String orgFacet) {
+  public void setOrgFacet(List<String> orgFacet) {
     this.orgFacet = orgFacet;
   }
 
