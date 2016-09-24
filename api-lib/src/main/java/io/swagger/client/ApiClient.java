@@ -13,6 +13,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -116,6 +118,11 @@ public class ApiClient {
                 .create();
 
         okBuilder = new OkHttpClient.Builder();
+
+        // [DEV NOTE: Added http logging interceptor for logcat debugging]
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        okBuilder.addInterceptor(httpLoggingInterceptor); // LOGS request and response
 
         String baseUrl = "http://api.nytimes.com/svc/topstories/v2/";
         if(!baseUrl.endsWith("/"))
