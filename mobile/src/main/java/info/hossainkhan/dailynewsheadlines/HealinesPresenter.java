@@ -27,6 +27,9 @@ package info.hossainkhan.dailynewsheadlines;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import javax.inject.Inject;
+
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.base.*;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import io.swagger.client.ApiClient;
@@ -43,7 +46,6 @@ import static com.google.android.gms.internal.zzs.TAG;
 
 public class HealinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
 
-
     public HealinesPresenter(final HeadlinesContract.View view) {
         attachView(view);
         loadHeadlines(false);
@@ -51,8 +53,7 @@ public class HealinesPresenter extends BasePresenter<HeadlinesContract.View> imp
 
     @Override
     public void loadHeadlines(final boolean forceUpdate) {
-        // TODO inject API client through Dagger
-        ApiClient apiClient = new ApiClient("apikey", "4d94e696bef94de0b5fa2b14bab6b7e2");
+        ApiClient apiClient = CoreApplication.getAppComponent().getApiClient();
         StoriesApi service = apiClient.createService(StoriesApi.class);
 
         Observable<InlineResponse200> observable = service.sectionFormatGet("home", "json", null);

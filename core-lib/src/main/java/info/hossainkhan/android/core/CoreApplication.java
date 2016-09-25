@@ -25,6 +25,7 @@
 package info.hossainkhan.android.core;
 
 import android.app.Application;
+import android.content.Context;
 
 import info.hossainkhan.android.core.dagger.components.AppComponent;
 import info.hossainkhan.android.core.dagger.components.DaggerAppComponent;
@@ -51,5 +52,22 @@ public class CoreApplication extends Application {
                 .networkModule(new NetworkModule())
                 .build();
 
+    }
+
+    /**
+     * Provides the app component.
+     *
+     * @return {@link AppComponent}
+     */
+    public static AppComponent getAppComponent() {
+        return sAppComponent;
+    }
+
+    /**
+     * @param context Any context.
+     * @return {@link CoreApplication} instance.
+     */
+    public static CoreApplication getCoreApplication(final Context context) {
+        return (CoreApplication) context.getApplicationContext();
     }
 }

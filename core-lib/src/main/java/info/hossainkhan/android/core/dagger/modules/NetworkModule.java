@@ -34,8 +34,8 @@ import io.swagger.client.api.StoriesApi;
 
 @Module
 public class NetworkModule {
-    public static final String API_KEY_NYTIMES = "";
-    public static final String API_KEY_KEYWORD = "";
+    public static final String API_KEY_NYTIMES = "4d94e696bef94de0b5fa2b14bab6b7e2";
+    public static final String API_KEY_KEYWORD = "apikey";
 
     @Singleton
     @Provides
