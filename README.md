@@ -10,7 +10,7 @@ Initial planning stage, main goal is to create simple app with news source title
 ## DISCLAIMER
 This is my personal project to experiment with following tools & technologies
  * Firebase - Analytics, Crash Reporting _(See [#10](https://github.com/amardeshbd/android-daily-headlines/pull/10))_, Remote Config etc.
- * Travis CI - for build automation
+ * Travis CI - for build automation _(See [travis.yml](https://github.com/amardeshbd/android-daily-headlines/blob/develop/.travis.yml))_
  * Code coverage 
  * OpenAPI Specification & Related Tools _(See [#11](https://github.com/amardeshbd/android-daily-headlines/pull/11), [wiki](https://github.com/amardeshbd/android-daily-headlines/wiki/Swagger-Codegen))_
  * RxJava
@@ -22,10 +22,9 @@ This is my personal project to experiment with following tools & technologies
  * Timber (android logging) _(See [#30](https://github.com/amardeshbd/android-daily-headlines/pull/30))_
  * Android TV Leanback
  * Design Support Library
- * Database (local caching)
+ * Database (local caching - Realm (maybe?))
  * Scheduler - data syncing
  * Google Play Alpha Beta release
  * LeakCanary
- * Realm (maybe?)
  
 I'll try to cross out these items when I use in the app and put a reference here.
