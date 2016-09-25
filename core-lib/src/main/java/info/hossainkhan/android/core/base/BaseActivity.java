@@ -22,35 +22,15 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.headlines;
+package info.hossainkhan.android.core.base;
 
-import android.support.annotation.NonNull;
+import android.app.Activity;
 
-import java.util.List;
 
-import info.hossainkhan.android.core.base.MvpPresenter;
-import info.hossainkhan.android.core.base.MvpView;
-import io.swagger.client.model.Article;
-
-public interface HeadlinesContract {
-
-    interface View extends MvpView {
-
-        void setLoadingIndicator(boolean active);
-
-        void showHeadlines(List<Article> Headlines);
-
-        void showHeadlineDetailsUi(Article article);
-
-        void showLoadingHeadlinesError();
-
-        void showNoHeadlines();
-    }
-
-    interface Presenter extends MvpPresenter<View> {
-        
-        void loadHeadlines(boolean forceUpdate);
-
-        void openHeadlineDetails(@NonNull Article article);
-    }
+/**
+ * Base activity for the application.
+ *
+ * TODO: Add more base logic later.
+ */
+public class BaseActivity extends Activity {
 }

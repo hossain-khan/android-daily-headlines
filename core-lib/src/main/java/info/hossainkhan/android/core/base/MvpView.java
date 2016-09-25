@@ -22,10 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core;
+package info.hossainkhan.android.core.base;
 
-public interface BaseView<T> {
-
-    void setPresenter(T presenter);
-
+public interface MvpView {
 }
