@@ -26,8 +26,30 @@ package info.hossainkhan.android.core;
 
 import android.app.Application;
 
+import info.hossainkhan.android.core.dagger.components.AppComponent;
+import info.hossainkhan.android.core.dagger.components.DaggerAppComponent;
+import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
+import info.hossainkhan.android.core.dagger.modules.NetworkModule;
+
 /**
  * Extended {@link Application} that is shared among all the android application modules.
  */
 public class CoreApplication extends Application {
+
+    private static AppComponent sAppComponent;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        initAppComponent();
+    }
+
+    private void initAppComponent() {
+        sAppComponent = DaggerAppComponent.builder()
+                .interactorsModule(new InteractorsModule())
+                .networkModule(new NetworkModule())
+                .build();
+
+    }
 }
