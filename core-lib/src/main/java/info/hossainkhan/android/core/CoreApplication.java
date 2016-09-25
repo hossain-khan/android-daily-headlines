@@ -31,6 +31,7 @@ import info.hossainkhan.android.core.dagger.components.AppComponent;
 import info.hossainkhan.android.core.dagger.components.DaggerAppComponent;
 import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
 import info.hossainkhan.android.core.dagger.modules.NetworkModule;
+import timber.log.Timber;
 
 /**
  * Extended {@link Application} that is shared among all the android application modules.
@@ -44,6 +45,13 @@ public class CoreApplication extends Application {
         super.onCreate();
 
         initAppComponent();
+        initLogger();
+    }
+
+    private void initLogger() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
     private void initAppComponent() {

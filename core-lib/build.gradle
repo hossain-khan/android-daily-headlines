@@ -49,6 +49,11 @@ dependencies {
     compile "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
 
 
+    // Logging framework
+    // https://github.com/JakeWharton/timber
+    compile "com.jakewharton.timber:timber:$rootProject.timberLibraryVersion"
+
+
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
     // ----------------------------------------------------------------

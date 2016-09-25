@@ -25,12 +25,9 @@
 package info.hossainkhan.dailynewsheadlines;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
-
-import javax.inject.Inject;
 
 import info.hossainkhan.android.core.CoreApplication;
-import info.hossainkhan.android.core.base.*;
+import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.StoriesApi;
@@ -40,6 +37,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 import static com.google.android.gms.internal.zzs.TAG;
 
@@ -64,19 +62,19 @@ public class HealinesPresenter extends BasePresenter<HeadlinesContract.View> imp
                 .subscribe(new Subscriber<InlineResponse200>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted() called");
+                        Timber.d(TAG, "onCompleted() called");
                         getView().setLoadingIndicator(false);
                     }
 
                     @Override
                     public void onError(final Throwable e) {
-                        Log.d(TAG, "onError() called with: e = [" + e + "]");
+                        Timber.d(TAG, "onError() called with: e = [" + e + "]");
                         getView().showLoadingHeadlinesError();
                     }
 
                     @Override
                     public void onNext(final InlineResponse200 inlineResponse200) {
-                        Log.d(TAG, "onNext() called");
+                        Timber.d(TAG, "onNext() called");
                         getView().showHeadlines(inlineResponse200.getResults());
                     }
                 });

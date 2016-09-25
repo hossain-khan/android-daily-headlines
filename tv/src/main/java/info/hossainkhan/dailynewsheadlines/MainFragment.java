@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
-import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
@@ -36,7 +35,8 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.util.Log;
+
+import timber.log.Timber;
 
 
 public class MainFragment extends BrowseFragment {
@@ -83,7 +83,7 @@ public class MainFragment extends BrowseFragment {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-            Log.d(TAG, "onItemClicked() called with: itemViewHolder = [" + itemViewHolder + "], " +
+            Timber.d(TAG, "onItemClicked() called with: itemViewHolder = [" + itemViewHolder + "], " +
                     "item = [" + item + "], rowViewHolder = [" + rowViewHolder + "], row = [" + row + "]");
 
             Intent intent = null;
