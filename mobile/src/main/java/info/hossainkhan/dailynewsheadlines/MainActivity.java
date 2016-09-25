@@ -1,7 +1,6 @@
 package info.hossainkhan.dailynewsheadlines;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.util.List;
@@ -11,6 +10,7 @@ import butterknife.ButterKnife;
 import info.hossainkhan.android.core.base.BaseActivity;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import io.swagger.client.model.Article;
+import timber.log.Timber;
 
 public class MainActivity  extends BaseActivity implements HeadlinesContract.View {
     private static final String TAG = "MainActivity";
@@ -36,33 +36,33 @@ public class MainActivity  extends BaseActivity implements HeadlinesContract.Vie
     protected void onStart() {
         super.onStart();
 
-        Log.d(TAG, "onStart() called");
+        Timber.d(TAG, "onStart() called");
 
     }
 
     @Override
     public void setLoadingIndicator(final boolean active) {
-        Log.d(TAG, "setLoadingIndicator() called with: active = [" + active + "]");
+        Timber.d(TAG, "setLoadingIndicator() called with: active = [" + active + "]");
     }
 
     @Override
     public void showHeadlines(final List<Article> headlines) {
-        Log.d(TAG, "showHeadlines() called with: Headlines = [" + headlines.size() + "]");
+        Timber.d(TAG, "showHeadlines() called with: Headlines = [" + headlines.size() + "]");
         demoTextview.setText(headlines.toString());
     }
 
     @Override
     public void showHeadlineDetailsUi(final Article article) {
-        Log.d(TAG, "showHeadlineDetailsUi() called with: article = [" + article + "]");
+        Timber.d(TAG, "showHeadlineDetailsUi() called with: article = [" + article + "]");
     }
 
     @Override
     public void showLoadingHeadlinesError() {
-        Log.d(TAG, "showLoadingHeadlinesError() called");
+        Timber.d(TAG, "showLoadingHeadlinesError() called");
     }
 
     @Override
     public void showNoHeadlines() {
-        Log.d(TAG, "showNoHeadlines() called");
+        Timber.d(TAG, "showNoHeadlines() called");
     }
 }

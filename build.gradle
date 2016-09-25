@@ -78,4 +78,5 @@ ext {
     apacheOltuOauth2Version = '1.0.1'
     jodaTimeVersion = '2.9.4'
     glassfishJavaxAnnotationVersion = '10.0-b28'
+    timberLibraryVersion = '4.3.1'
 }
