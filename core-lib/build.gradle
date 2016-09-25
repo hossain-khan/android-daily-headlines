@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -25,10 +24,6 @@ android {
     }
 
 
-    lintOptions {
-        abortOnError false
-    }
-
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'
@@ -46,9 +41,8 @@ dependencies {
 
     //dagger 2
     //https://github.com/codepath/android_guides/wiki/Dependency-Injection-with-Dagger-2
-    apt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"
-    provided 'javax.annotation:jsr250-api:1.0'
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 
     // RxAndroid (Note: RxJava is included in `api-lib` module)
     // https://github.com/ReactiveX/RxAndroid

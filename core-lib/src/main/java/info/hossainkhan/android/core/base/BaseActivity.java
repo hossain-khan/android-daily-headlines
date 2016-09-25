@@ -22,34 +22,15 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.dagger.components;
+package info.hossainkhan.android.core.base;
 
 import android.app.Activity;
 
-import javax.inject.Singleton;
 
-import dagger.Component;
-import info.hossainkhan.android.core.CoreApplication;
-import info.hossainkhan.android.core.dagger.modules.AppModule;
-import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
-import info.hossainkhan.android.core.dagger.modules.NetworkModule;
-import info.hossainkhan.android.core.data.ExampleInteractor;
-import io.swagger.client.ApiClient;
-
-@Singleton
-@Component(
-        modules = {
-                AppModule.class,
-                InteractorsModule.class,
-                NetworkModule.class
-        }
-)
-public interface AppComponent {
-    void inject(CoreApplication app);
-
-    void inject(Activity activity);
-
-    ExampleInteractor providesExampleInteractorImpl();
-
-    ApiClient getApiClient();
+/**
+ * Base activity for the application.
+ *
+ * TODO: Add more base logic later.
+ */
+public class BaseActivity extends Activity {
 }

@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core;
+package info.hossainkhan.android.core.base;
 
-public interface BasePresenter {
+public interface MvpPresenter<V extends MvpView> {
 
-    void start();
+    void attachView(V mvpView);
 
+    void detachView();
 }

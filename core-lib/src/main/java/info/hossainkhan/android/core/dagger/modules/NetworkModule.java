@@ -22,10 +22,29 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core;
+package info.hossainkhan.android.core.dagger.modules;
 
-public interface BaseView<T> {
 
-    void setPresenter(T presenter);
+import javax.inject.Singleton;
 
+import dagger.Module;
+import dagger.Provides;
+import io.swagger.client.ApiClient;
+import io.swagger.client.api.StoriesApi;
+
+@Module
+public class NetworkModule {
+    public static final String API_KEY_NYTIMES = "4d94e696bef94de0b5fa2b14bab6b7e2";
+    public static final String API_KEY_KEYWORD = "apikey";
+
+    @Singleton
+    @Provides
+    public ApiClient provideApiClient() {
+        return new ApiClient(API_KEY_KEYWORD, API_KEY_NYTIMES);
+    }
+
+    @Provides
+    public StoriesApi provideStoriesApi(ApiClient apiClient) {
+        return apiClient.createService(StoriesApi.class);
+    }
 }

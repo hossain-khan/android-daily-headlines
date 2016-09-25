@@ -28,17 +28,17 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import info.hossainkhan.android.core.BasePresenter;
-import info.hossainkhan.android.core.BaseView;
+import info.hossainkhan.android.core.base.MvpPresenter;
+import info.hossainkhan.android.core.base.MvpView;
 import io.swagger.client.model.Article;
 
 public interface HeadlinesContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends MvpView {
 
         void setLoadingIndicator(boolean active);
 
-        void showHeadlines(List<Article> Headlines);
+        void showHeadlines(List<Article> headlines);
 
         void showHeadlineDetailsUi(Article article);
 
@@ -47,7 +47,7 @@ public interface HeadlinesContract {
         void showNoHeadlines();
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends MvpPresenter<View> {
         
         void loadHeadlines(boolean forceUpdate);
 
