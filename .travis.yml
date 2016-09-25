@@ -40,3 +40,7 @@ cache:
     - $HOME/.m2
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+# https://codecov.io
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
