@@ -21,10 +21,6 @@ buildscript {
         // https://firebase.google.com/docs/android/setup
         classpath 'com.google.gms:google-services:3.0.0'
 
-        // Annotation processors in combination with Android Studio (used by Dagger2 and so on)
-        // https://bitbucket.org/hvisser/android-apt
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-
         // Generates dex count report - use `./gradlew assembleDebug`, reports @ ${buildDir}/outputs/dexcount/${variant}
         // https://github.com/KeepSafe/dexcount-gradle-plugin
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.5'
