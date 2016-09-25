@@ -24,7 +24,7 @@
 
 package info.hossainkhan.android.core.dagger.components;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 
 import javax.inject.Singleton;
 
@@ -44,7 +44,7 @@ import info.hossainkhan.android.core.data.ExampleInteractor;
 public interface AppComponent {
     void inject(CoreApplication app);
 
-    void inject(AppCompatActivity activity);
+    void inject(Activity activity);
 
     ExampleInteractor providesExampleInteractorImpl();
 }

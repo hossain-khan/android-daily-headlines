@@ -38,7 +38,7 @@ public interface HeadlinesContract {
 
         void setLoadingIndicator(boolean active);
 
-        void showHeadlines(List<Article> Headlines);
+        void showHeadlines(List<Article> headlines);
 
         void showHeadlineDetailsUi(Article article);
 

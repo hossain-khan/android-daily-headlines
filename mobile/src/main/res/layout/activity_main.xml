@@ -12,6 +12,7 @@
     tools:context="info.hossainkhan.dailynewsheadlines.MainActivity">
 
     <TextView
+        android:id="@+id/test_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"/>
