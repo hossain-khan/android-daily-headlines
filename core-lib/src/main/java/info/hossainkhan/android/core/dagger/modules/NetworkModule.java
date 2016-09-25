@@ -22,34 +22,29 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.dagger.components;
+package info.hossainkhan.android.core.dagger.modules;
 
-import android.app.Activity;
 
 import javax.inject.Singleton;
 
-import dagger.Component;
-import info.hossainkhan.android.core.CoreApplication;
-import info.hossainkhan.android.core.dagger.modules.AppModule;
-import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
-import info.hossainkhan.android.core.dagger.modules.NetworkModule;
-import info.hossainkhan.android.core.data.ExampleInteractor;
+import dagger.Module;
+import dagger.Provides;
 import io.swagger.client.ApiClient;
+import io.swagger.client.api.StoriesApi;
 
-@Singleton
-@Component(
-        modules = {
-                AppModule.class,
-                InteractorsModule.class,
-                NetworkModule.class
-        }
-)
-public interface AppComponent {
-    void inject(CoreApplication app);
+@Module
+public class NetworkModule {
+    public static final String API_KEY_NYTIMES = "";
+    public static final String API_KEY_KEYWORD = "";
 
-    void inject(Activity activity);
+    @Singleton
+    @Provides
+    public ApiClient provideApiClient() {
+        return new ApiClient(API_KEY_KEYWORD, API_KEY_NYTIMES);
+    }
 
-    ExampleInteractor providesExampleInteractorImpl();
-
-    ApiClient getApiClient();
+    @Provides
+    public StoriesApi provideStoriesApi(ApiClient apiClient) {
+        return apiClient.createService(StoriesApi.class);
+    }
 }

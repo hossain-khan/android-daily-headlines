@@ -1,21 +1,4 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        // Annotation processors in combination with Android Studio (used by Dagger2 and so on)
-        // https://bitbucket.org/hvisser/android-apt
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-    }
-}
-
-
-// NOTE: The 'com.android.library' does to support APT needed for `dagger2`. See issues below.
-// SO reference: http://stackoverflow.com/questions/37942717/how-do-i-get-dagger-2-to-work-with-android-studio-java-library-project
-// SO reference: http://stackoverflow.com/questions/31165162/apt-and-android-library-plugins
-// APT Reference: https://bitbucket.org/hvisser/android-apt/issues/40/using-apt-plugin-with-comandroidlibrary
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -59,8 +42,7 @@ dependencies {
     //dagger 2
     //https://github.com/codepath/android_guides/wiki/Dependency-Injection-with-Dagger-2
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"
-    apt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-    provided 'javax.annotation:jsr250-api:1.0'
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 
     // RxAndroid (Note: RxJava is included in `api-lib` module)
     // https://github.com/ReactiveX/RxAndroid
