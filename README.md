@@ -3,7 +3,7 @@
 # android-daily-headlines
 An app that provides daily headlines for popular news source.
 
-Initial planning stage, main goal is to create simple app with news source title **only**.
+Initial planning stage, main goal is to create simple app with news source title **only** to keep it simple. This app is meant to take a glance through the headlines quickly with option to view details of the story _(future version)_.
 
 ----
 
@@ -15,10 +15,11 @@ This is my personal project to experiment with following tools & technologies
  * OpenAPI Specification & Related Tools _(See [#11](https://github.com/amardeshbd/android-daily-headlines/pull/11), [wiki](https://github.com/amardeshbd/android-daily-headlines/wiki/Swagger-Codegen))_
  * RxJava
  * Jack & Jill Toolchain 
- * Retrofit
+ * Retrofit 2 _(See [API Services](https://github.com/amardeshbd/android-daily-headlines/tree/develop/api-lib/src/main/java/io/swagger/client/api))_
+ * Dagger 2 _(See [#29](https://github.com/amardeshbd/android-daily-headlines/issues/29), [core-lib:gradle](https://github.com/amardeshbd/android-daily-headlines/blob/develop/core-lib/build.gradle#L42))_
  * Picasso
  * Coordinator Layout
- * Timber (logging)
+ * Timber (android logging) _(See [#30](https://github.com/amardeshbd/android-daily-headlines/pull/30))_
  * Android TV Leanback
  * Design Support Library
  * Database (local caching)
