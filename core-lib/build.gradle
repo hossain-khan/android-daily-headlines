@@ -53,6 +53,10 @@ dependencies {
     // https://github.com/JakeWharton/timber
     compile "com.jakewharton.timber:timber:$rootProject.timberLibraryVersion"
 
+    // Picasso - Fast and memory efficient image loading
+    // http://square.github.io/picasso/
+    compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+
 
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
