@@ -3,4 +3,9 @@
 
     <style name="TvAppTheme" parent="@style/Theme.Leanback">
     </style>
+
+    <!-- TextCardView. used in cards example -->
+    <style name="TextCardStyle" parent="Widget.Leanback.BaseCardViewStyle">
+        <item name="cardBackground">@null</item>
+    </style>
 </resources>
