@@ -32,5 +32,5 @@ import android.app.Activity;
  *
  * TODO: Add more base logic later.
  */
-public class BaseActivity extends Activity {
+public abstract class BaseActivity extends Activity {
 }

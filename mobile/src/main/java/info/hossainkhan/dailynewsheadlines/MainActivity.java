@@ -37,33 +37,33 @@ public class MainActivity  extends BaseActivity implements HeadlinesContract.Vie
     protected void onStart() {
         super.onStart();
 
-        Timber.d(TAG, "onStart() called");
+        Timber.d("onStart() called");
 
     }
 
     @Override
     public void setLoadingIndicator(final boolean active) {
-        Timber.d(TAG, "setLoadingIndicator() called with: active = [" + active + "]");
+        Timber.d("setLoadingIndicator() called with: active = [" + active + "]");
     }
 
     @Override
     public void showHeadlines(final List<Article> headlines) {
-        Timber.d(TAG, "showHeadlines() called with: Headlines = [" + headlines.size() + "]");
+        Timber.d("showHeadlines() called with: Headlines = [" + headlines.size() + "]");
         demoTextview.setText(headlines.toString());
     }
 
     @Override
     public void showHeadlineDetailsUi(final Article article) {
-        Timber.d(TAG, "showHeadlineDetailsUi() called with: article = [" + article + "]");
+        Timber.d("showHeadlineDetailsUi() called with: article = [" + article + "]");
     }
 
     @Override
     public void showLoadingHeadlinesError() {
-        Timber.d(TAG, "showLoadingHeadlinesError() called");
+        Timber.d("showLoadingHeadlinesError() called");
     }
 
     @Override
     public void showNoHeadlines() {
-        Timber.d(TAG, "showNoHeadlines() called");
+        Timber.d("showNoHeadlines() called");
     }
 }

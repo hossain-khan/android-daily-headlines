@@ -29,5 +29,5 @@ import android.app.Fragment;
 /**
  * Base fragment for the application.
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 }

@@ -27,12 +27,12 @@ package info.hossainkhan.dailynewsheadlines;
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 
 import io.swagger.client.model.Article;
+import timber.log.Timber;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
@@ -57,7 +57,7 @@ public class HeadlinePresenter extends Presenter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        Log.d(TAG, "onCreateViewHolder");
+        Timber.d("onCreateViewHolder");
 
         sDefaultBackgroundColor = parent.getResources().getColor(R.color.default_background);
         sSelectedBackgroundColor = parent.getResources().getColor(R.color.selected_background);
@@ -83,7 +83,7 @@ public class HeadlinePresenter extends Presenter {
         Article article = (Article) item;
         ImageCardView cardView = (ImageCardView) viewHolder.view;
 
-        Log.d(TAG, "onBindViewHolder " + article.getMultimedia().size());
+        Timber.d("onBindViewHolder " + article.getMultimedia().size());
         if (!article.getMultimedia().isEmpty()) {
             cardView.setTitleText(article.getTitle());
             cardView.setContentText(article.getAbstract());
@@ -99,7 +99,7 @@ public class HeadlinePresenter extends Presenter {
 
     @Override
     public void onUnbindViewHolder(ViewHolder viewHolder) {
-        Log.d(TAG, "onUnbindViewHolder");
+        Timber.d("onUnbindViewHolder");
         ImageCardView cardView = (ImageCardView) viewHolder.view;
         // Remove references to images so that the garbage collector can free up memory
         cardView.setBadgeImage(null);

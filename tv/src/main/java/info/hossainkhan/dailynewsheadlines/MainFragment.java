@@ -39,11 +39,8 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
 
 import java.net.URI;
 import java.util.List;
@@ -77,7 +74,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
+        Timber.i("onCreate");
         super.onActivityCreated(savedInstanceState);
 
 
@@ -94,7 +91,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
     public void onDestroy() {
         super.onDestroy();
         if (null != mBackgroundTimer) {
-            Log.d(TAG, "onDestroy: " + mBackgroundTimer.toString());
+            Timber.d("onDestroy: " + mBackgroundTimer.toString());
             mBackgroundTimer.cancel();
         }
     }
@@ -207,7 +204,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            Timber.d(TAG, "onItemClicked: " + item);
+            Timber.d("onItemClicked: " + item);
         }
     }
 
