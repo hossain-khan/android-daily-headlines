@@ -90,8 +90,8 @@ public class HeadlinePresenter extends Presenter {
             cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
             // FIXME - fit won't work, use proper sizing
             Picasso.with(viewHolder.view.getContext())
-                    .load(article.getMultimedia().get(0).getUrl())
-                    .fit()
+                    .load(article.getMultimedia().get(3).getUrl())
+                    //.fit()
                     .error(mDefaultCardImage)
                     .into(cardView.getMainImageView());
         }

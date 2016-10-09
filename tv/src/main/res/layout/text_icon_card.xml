@@ -22,20 +22,25 @@
     <TextView
         android:id="@+id/extra_text"
         style="@style/Widget.Leanback.ImageCardView.ContentStyle"
-        android:layout_width="256dp"
+        android:layout_width="@dimen/card_text_container_width"
         android:layout_height="wrap_content"
         android:background="@color/default_card_background_color"
         android:fontFamily="sans-serif-condensed"
         android:lines="7"
         android:maxLines="7"
         android:paddingBottom="14dp"
+        android:textSize="28sp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="12dp"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowColor="@color/white"
+        android:shadowRadius="5"
         lb:layout_viewType="main"/>
 
     <android.support.v17.leanback.widget.NonOverlappingRelativeLayout
-        android:layout_width="256dp"
+        android:layout_width="@dimen/card_text_container_width"
         android:layout_height="36dp"
         android:background="@color/default_card_footer_background_color"
         android:gravity="left"
@@ -65,15 +70,7 @@
             android:maxLines="1"
             />
 
-        <ImageView
-            android:id="@+id/footer_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:adjustViewBounds="true"
-            android:src="@drawable/stars_white"/>
+
 
     </android.support.v17.leanback.widget.NonOverlappingRelativeLayout>
 </merge>

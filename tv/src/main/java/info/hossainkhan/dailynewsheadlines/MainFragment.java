@@ -103,7 +103,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-        HeadlinePresenter cardPresenter = new HeadlinePresenter();
+        TextCardPresenter cardPresenter = new TextCardPresenter(getActivity().getApplicationContext());
 
         int i;
         for (i = 0; i < 1; i++) {
