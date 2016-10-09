@@ -24,6 +24,7 @@
 
 package info.hossainkhan.dailynewsheadlines;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,6 +43,10 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.util.List;
 import java.util.Timer;
@@ -50,18 +55,13 @@ import java.util.TimerTask;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import io.swagger.client.model.Article;
+import io.swagger.client.model.ArticleMultimedia;
 import timber.log.Timber;
 
 
-
 public class MainFragment extends BrowseFragment implements HeadlinesContract.View {
-    private static final String TAG = "MainFragment";
 
     private static final int BACKGROUND_UPDATE_DELAY = 300;
-    private static final int GRID_ITEM_WIDTH = 200;
-    private static final int GRID_ITEM_HEIGHT = 200;
-    private static final int NUM_ROWS = 6;
-    private static final int NUM_COLS = 15;
 
     private final Handler mHandler = new Handler();
     private ArrayObjectAdapter mRowsAdapter;
@@ -70,13 +70,13 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
     private Timer mBackgroundTimer;
     private URI mBackgroundURI;
     private BackgroundManager mBackgroundManager;
+    private Target mBackgroundDrawableTarget;
     HeadlinesPresenter mHeadlinesPresenter;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Timber.i("onCreate");
         super.onActivityCreated(savedInstanceState);
-
 
 
         prepareBackgroundManager();
@@ -119,6 +119,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
+        mBackgroundDrawableTarget = new PicassoImageTarget(mBackgroundManager);
         mDefaultBackground = getResources().getDrawable(R.drawable.default_background);
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -143,6 +144,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
             @Override
             public void onClick(View view) {
+                Timber.d("Search icon clicked.");
                 Toast.makeText(getActivity(), "Implement your own in-app search", Toast.LENGTH_LONG)
                         .show();
             }
@@ -153,13 +155,17 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
     }
 
     protected void updateBackground(String uri) {
+        Timber.d("Updating background: %s", uri);
+
         int width = mMetrics.widthPixels;
         int height = mMetrics.heightPixels;
-//        Picasso.with(getActivity())
-//                .load(uri)
-//                .centerCrop()
-//                .error(mDefaultBackground)
-//                .into();
+
+        Picasso.with(getActivity())
+                .load(uri)
+                .resize(width, height)
+                .centerCrop()
+                .error(mDefaultBackground)
+                .into(mBackgroundDrawableTarget);
         mBackgroundTimer.cancel();
     }
 
@@ -213,7 +219,54 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
 
+            Timber.d("onItemSelected");
 
+            if (item instanceof Article) {
+                List<ArticleMultimedia> multimedia = ((Article) item).getMultimedia();
+                int size = multimedia.size();
+                if (size >= 5) {
+                    String url = multimedia.get(4).getUrl();
+                    Timber.d("Loading HD background URL: %s", url);
+                    mBackgroundURI = URI.create(url);
+                    startBackgroundTimer();
+                } else {
+                    Timber.i("Article does not have HD background. Total items: %d", size);
+                }
+            }
+        }
+    }
+
+    /**
+     * Target to save as instance to avoid issue described in following SO: <br/>
+     * http://stackoverflow.com/questions/24180805/onbitmaploaded-of-target-object-not-called-on-first-load
+     */
+    private final static class PicassoImageTarget implements Target {
+
+        private final WeakReference<BackgroundManager> mBackgroundManagerRef;
+
+        PicassoImageTarget(BackgroundManager backgroundManager) {
+            mBackgroundManagerRef = new WeakReference<BackgroundManager>(backgroundManager);
+        }
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            Timber.d("onBitmapLoaded: %dx%d - %d bytes", bitmap.getHeight(), bitmap.getWidth(), bitmap.getByteCount());
+            BackgroundManager backgroundManager = mBackgroundManagerRef.get();
+            if (backgroundManager != null) {
+                backgroundManager.setBitmap(bitmap);
+            } else {
+                Timber.w("Background manager is unavailable.");
+            }
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+            Timber.w("onBitmapFailed");
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+            Timber.d("onPrepareLoad");
         }
     }
 

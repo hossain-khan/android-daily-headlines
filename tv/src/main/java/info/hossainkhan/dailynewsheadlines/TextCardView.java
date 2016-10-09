@@ -25,16 +25,21 @@
 package info.hossainkhan.dailynewsheadlines;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.res.Resources;
 import android.support.v17.leanback.widget.BaseCardView;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
+import info.hossainkhan.android.core.picasso.BlurTransformation;
+import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
 import io.swagger.client.model.Article;
+import io.swagger.client.model.ArticleMultimedia;
+import timber.log.Timber;
 
 public class TextCardView extends BaseCardView {
 
@@ -45,23 +50,30 @@ public class TextCardView extends BaseCardView {
     }
 
     public void updateUi(Article article) {
-        TextView extraText = (TextView) findViewById(R.id.extra_text);
-        TextView primaryText = (TextView) findViewById(R.id.primary_text);
-        final ImageView imageView = (ImageView) findViewById(R.id.main_image);
+        final TextView primaryHeadline = (TextView) findViewById(R.id.primary_headline_text);
+        final TextView summaryText = (TextView) findViewById(R.id.summary_text);
+        final ImageView mainContentBackground = (ImageView) findViewById(R.id.main_content_background);
 
-        extraText.setText(article.getTitle());
-        primaryText.setText(article.getAbstract());
 
-        // TODO check if we need this
-        /*/ Create a rounded drawable.
-        int resourceId = article.getLocalImageResourceId(getContext());
-        Bitmap bitmap = BitmapFactory
-                .decodeResource(getContext().getResources(), resourceId);
-        RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getContext().getResources(), bitmap);
-        drawable.setAntiAlias(true);
-        drawable.setCornerRadius(
-                Math.max(bitmap.getWidth(), bitmap.getHeight()) / 2.0f);
-        imageView.setImageDrawable(drawable); */
+        primaryHeadline.setText(article.getTitle());
+        summaryText.setText(article.getAbstract());
+
+        Context context = getContext();
+        Picasso picasso = Picasso.with(context);
+        Resources resources = context.getResources();
+        List<ArticleMultimedia> multimedia = article.getMultimedia();
+        if (multimedia.size() >= 5) {
+            picasso
+                    .load(multimedia.get(4).getUrl())
+                    .resize((int) resources.getDimension(R.dimen.card_text_container_width),
+                            (int) resources.getDimension(R.dimen.card_text_container_height))
+                    .transform(new GrayscaleTransformation(picasso))
+                    .transform(new BlurTransformation(context))
+                    .centerCrop()
+                    .into(mainContentBackground);
+        } else {
+            Timber.w("Unable to load thumb image.");
+        }
     }
 
 }
