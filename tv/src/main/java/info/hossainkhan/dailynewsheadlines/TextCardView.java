@@ -25,6 +25,7 @@
 package info.hossainkhan.dailynewsheadlines;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v17.leanback.widget.BaseCardView;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
@@ -32,8 +33,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
+import info.hossainkhan.android.core.picasso.BlurTransformation;
 import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
 import io.swagger.client.model.Article;
+import io.swagger.client.model.ArticleMultimedia;
+import timber.log.Timber;
 
 public class TextCardView extends BaseCardView {
 
@@ -52,13 +58,22 @@ public class TextCardView extends BaseCardView {
         primaryHeadline.setText(article.getTitle());
         summaryText.setText(article.getAbstract());
 
-        Picasso.with(getContext())
-                .load(article.getMultimedia().get(4).getUrl())
-                .resize((int) getContext().getResources().getDimension(R.dimen.card_text_container_width),
-                        (int) getContext().getResources().getDimension(R.dimen.card_text_container_height))
-                .transform(new GrayscaleTransformation(Picasso.with(getContext())))
-                .centerCrop()
-                .into(mainContentBackground);
+        Context context = getContext();
+        Picasso picasso = Picasso.with(context);
+        Resources resources = context.getResources();
+        List<ArticleMultimedia> multimedia = article.getMultimedia();
+        if (multimedia.size() >= 5) {
+            picasso
+                    .load(multimedia.get(4).getUrl())
+                    .resize((int) resources.getDimension(R.dimen.card_text_container_width),
+                            (int) resources.getDimension(R.dimen.card_text_container_height))
+                    .transform(new GrayscaleTransformation(picasso))
+                    .transform(new BlurTransformation(context))
+                    .centerCrop()
+                    .into(mainContentBackground);
+        } else {
+            Timber.w("Unable to load thumb image.");
+        }
     }
 
 }
