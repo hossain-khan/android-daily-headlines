@@ -58,6 +58,10 @@ ext {
     // Android SDK Build Tools - Versions: https://developer.android.com/studio/releases/build-tools.html
     buildToolsVersion = '24.0.2'
 
+    // Java Version Compatibility
+    javaSourceCompatibilityVersion = JavaVersion.VERSION_1_8
+    javaTargetCompatibilityVersion = JavaVersion.VERSION_1_8
+
     // Google Products & Support library dependencies
     // --------------------------------------------------
     supportLibraryVersion = '24.2.1'

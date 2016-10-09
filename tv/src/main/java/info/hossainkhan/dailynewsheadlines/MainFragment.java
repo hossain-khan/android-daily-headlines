@@ -40,7 +40,6 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -140,14 +139,10 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
     }
 
     private void setupEventListeners() {
-        setOnSearchClickedListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Timber.d("Search icon clicked.");
-                Toast.makeText(getActivity(), "Implement your own in-app search", Toast.LENGTH_LONG)
-                        .show();
-            }
+        setOnSearchClickedListener(view -> {
+            Timber.d("Search icon clicked.");
+            Toast.makeText(getActivity(), "Implement your own in-app search", Toast.LENGTH_LONG)
+                    .show();
         });
 
         setOnItemViewClickedListener(new MainFragment.ItemViewClickedListener());
@@ -245,7 +240,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
         private final WeakReference<BackgroundManager> mBackgroundManagerRef;
 
         PicassoImageTarget(BackgroundManager backgroundManager) {
-            mBackgroundManagerRef = new WeakReference<BackgroundManager>(backgroundManager);
+            mBackgroundManagerRef = new WeakReference<>(backgroundManager);
         }
 
         @Override
@@ -274,12 +269,9 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
         @Override
         public void run() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (mBackgroundURI != null) {
-                        updateBackground(mBackgroundURI.toString());
-                    }
+            mHandler.post(() -> {
+                if (mBackgroundURI != null) {
+                    updateBackground(mBackgroundURI.toString());
                 }
             });
 
