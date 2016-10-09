@@ -24,6 +24,13 @@ buildscript {
         // Generates dex count report - use `./gradlew assembleDebug`, reports @ ${buildDir}/outputs/dexcount/${variant}
         // https://github.com/KeepSafe/dexcount-gradle-plugin
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.5'
+
+
+        // Android plugin to support JacocoReport gradle task
+        // Use `./gradlew jacocoTestReport` to generate reports @ $buildDir/reports/jacoco
+        // https://github.com/arturdm/jacoco-android-gradle-plugin
+        // https://docs.gradle.org/current/dsl/org.gradle.testing.jacoco.tasks.JacocoReport.html
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
     }
 }
 
