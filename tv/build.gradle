@@ -13,6 +13,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2
         versionName "1.0-tv"
+
+        jackOptions {
+            enabled true
+        }
     }
     buildTypes {
         release {
@@ -28,6 +32,11 @@ android {
          * https://github.com/square/okio/issues/58
          */
         warning 'InvalidPackage'
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.javaSourceCompatibilityVersion
+        targetCompatibility rootProject.ext.javaTargetCompatibilityVersion
     }
 }
 

@@ -14,6 +14,10 @@ android {
         versionCode 2
         versionName "1.0-mobile"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        jackOptions {
+            enabled true
+        }
     }
     buildTypes {
         release {
@@ -29,6 +33,11 @@ android {
          * https://github.com/square/okio/issues/58
          */
         warning 'InvalidPackage'
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.javaSourceCompatibilityVersion
+        targetCompatibility rootProject.ext.javaTargetCompatibilityVersion
     }
 }
 
