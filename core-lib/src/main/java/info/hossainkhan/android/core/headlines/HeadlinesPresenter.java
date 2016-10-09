@@ -22,13 +22,12 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.android.core.headlines;
 
 import android.support.annotation.NonNull;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.base.BasePresenter;
-import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.StoriesApi;
 import io.swagger.client.model.Article;
@@ -39,12 +38,11 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-import static com.google.android.gms.internal.zzs.TAG;
 
+public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
+    private static final String TAG = "HeadlinesPresenter";
 
-public class HealinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
-
-    public HealinesPresenter(final HeadlinesContract.View view) {
+    public HeadlinesPresenter(final HeadlinesContract.View view) {
         attachView(view);
         loadHeadlines(false);
     }

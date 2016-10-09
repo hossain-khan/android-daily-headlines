@@ -24,83 +24,217 @@
 
 package info.hossainkhan.dailynewsheadlines;
 
-import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import info.hossainkhan.android.core.headlines.HeadlinesContract;
+import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
+import io.swagger.client.model.Article;
 import timber.log.Timber;
 
 
-public class MainFragment extends BrowseFragment {
 
+public class MainFragment extends BrowseFragment implements HeadlinesContract.View {
+    private static final String TAG = "MainFragment";
+
+    private static final int BACKGROUND_UPDATE_DELAY = 300;
+    private static final int GRID_ITEM_WIDTH = 200;
+    private static final int GRID_ITEM_HEIGHT = 200;
+    private static final int NUM_ROWS = 6;
+    private static final int NUM_COLS = 15;
+
+    private final Handler mHandler = new Handler();
     private ArrayObjectAdapter mRowsAdapter;
+    private Drawable mDefaultBackground;
+    private DisplayMetrics mMetrics;
+    private Timer mBackgroundTimer;
+    private URI mBackgroundURI;
+    private BackgroundManager mBackgroundManager;
+    HeadlinesPresenter mHeadlinesPresenter;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onActivityCreated(savedInstanceState);
 
+
+
+        prepareBackgroundManager();
+
         setupUIElements();
-        setupRowAdapter();
-        setupEventListeners();
+
+        mHeadlinesPresenter = new HeadlinesPresenter(this);
+
     }
 
-    private void setupRowAdapter() {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (null != mBackgroundTimer) {
+            Log.d(TAG, "onDestroy: " + mBackgroundTimer.toString());
+            mBackgroundTimer.cancel();
+        }
+    }
+
+    private void loadRows(final List<Article> list) {
+
+
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-        createRows();
+        TextCardPresenter cardPresenter = new TextCardPresenter(getActivity().getApplicationContext());
+
+        int i;
+        for (i = 0; i < 1; i++) {
+            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
+            for (int j = 0; j < list.size(); j++) {
+                listRowAdapter.add(list.get(j));
+            }
+            HeaderItem header = new HeaderItem(i, "Headlines");
+            mRowsAdapter.add(new ListRow(header, listRowAdapter));
+        }
         setAdapter(mRowsAdapter);
+
     }
 
-    private void createRows() {
-        // TODO - Populate with model data.
-        // mRowsAdapter.add(createCardRow(row));
-    }
+    private void prepareBackgroundManager() {
 
+        mBackgroundManager = BackgroundManager.getInstance(getActivity());
+        mBackgroundManager.attach(getActivity().getWindow());
+        mDefaultBackground = getResources().getDrawable(R.drawable.default_background);
+        mMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+    }
 
     private void setupUIElements() {
-        setTitle(getString(R.string.browse_title));
-        //setBadgeDrawable(getResources().getDrawable(R.drawable.title_android_tv, null));
-        setHeadersState(HEADERS_DISABLED);
-        setHeadersTransitionOnBackEnabled(false);
-        setBrandColor(getResources().getColor(R.color.lb_tv_white));
+        // setBadgeDrawable(getActivity().getResources().getDrawable(
+        // R.drawable.videos_by_google_banner));
+        setTitle(getString(R.string.browse_title)); // Badge, when set, takes precedent
+        // over title
+        setHeadersState(HEADERS_ENABLED);
+        setHeadersTransitionOnBackEnabled(true);
+
+        // set fastLane (or headers) background color
+        setBrandColor(getResources().getColor(R.color.fastlane_background));
+        // set search icon color
+        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
     }
 
     private void setupEventListeners() {
-        setOnItemViewClickedListener(new ItemViewClickedListener());
-        setOnItemViewSelectedListener(new ItemViewSelectedListener());
+        setOnSearchClickedListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "Implement your own in-app search", Toast.LENGTH_LONG)
+                        .show();
+            }
+        });
+
+        setOnItemViewClickedListener(new MainFragment.ItemViewClickedListener());
+        setOnItemViewSelectedListener(new MainFragment.ItemViewSelectedListener());
+    }
+
+    protected void updateBackground(String uri) {
+        int width = mMetrics.widthPixels;
+        int height = mMetrics.heightPixels;
+//        Picasso.with(getActivity())
+//                .load(uri)
+//                .centerCrop()
+//                .error(mDefaultBackground)
+//                .into();
+        mBackgroundTimer.cancel();
+    }
+
+    private void startBackgroundTimer() {
+        if (null != mBackgroundTimer) {
+            mBackgroundTimer.cancel();
+        }
+        mBackgroundTimer = new Timer();
+        mBackgroundTimer.schedule(new MainFragment.UpdateBackgroundTask(), BACKGROUND_UPDATE_DELAY);
+    }
+
+    @Override
+    public void setLoadingIndicator(final boolean active) {
+
+    }
+
+    @Override
+    public void showHeadlines(final List<Article> headlines) {
+
+        loadRows(headlines);
+
+        setupEventListeners();
+    }
+
+    @Override
+    public void showHeadlineDetailsUi(final Article article) {
+
+    }
+
+    @Override
+    public void showLoadingHeadlinesError() {
+
+    }
+
+    @Override
+    public void showNoHeadlines() {
+
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
-        private static final String TAG = "ItemViewClickedListener";
-
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-            Timber.d(TAG, "onItemClicked() called with: itemViewHolder = [" + itemViewHolder + "], " +
-                    "item = [" + item + "], rowViewHolder = [" + rowViewHolder + "], row = [" + row + "]");
 
-            Intent intent = null;
-
-            if (intent != null) {
-                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity())
-                        .toBundle();
-                startActivity(intent, bundle);
-            }
+            Timber.d(TAG, "onItemClicked: " + item);
         }
     }
 
     private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
-
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
+
+
         }
     }
+
+    private class UpdateBackgroundTask extends TimerTask {
+
+        @Override
+        public void run() {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (mBackgroundURI != null) {
+                        updateBackground(mBackgroundURI.toString());
+                    }
+                }
+            });
+
+        }
+    }
+
+
 }
