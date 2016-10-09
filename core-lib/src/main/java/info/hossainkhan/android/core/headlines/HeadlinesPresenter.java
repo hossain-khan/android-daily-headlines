@@ -52,6 +52,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         ApiClient apiClient = CoreApplication.getAppComponent().getApiClient();
         StoriesApi service = apiClient.createService(StoriesApi.class);
 
+        // TODO: Move params to constant configs
         Observable<InlineResponse200> observable = service.sectionFormatGet("home", "json", null);
 
         getView().setLoadingIndicator(true);
@@ -60,19 +61,18 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                 .subscribe(new Subscriber<InlineResponse200>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d(TAG, "onCompleted() called");
+                        Timber.d("onCompleted() called");
                         getView().setLoadingIndicator(false);
                     }
 
                     @Override
                     public void onError(final Throwable e) {
-                        Timber.d(TAG, "onError() called with: e = [" + e + "]");
                         getView().showLoadingHeadlinesError();
                     }
 
                     @Override
                     public void onNext(final InlineResponse200 inlineResponse200) {
-                        Timber.d(TAG, "onNext() called");
+                        Timber.d("onNext() called");
                         getView().showHeadlines(inlineResponse200.getResults());
                     }
                 });
