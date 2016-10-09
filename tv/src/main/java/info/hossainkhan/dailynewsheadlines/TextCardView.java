@@ -25,11 +25,7 @@
 package info.hossainkhan.dailynewsheadlines;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v17.leanback.widget.BaseCardView;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,32 +44,21 @@ public class TextCardView extends BaseCardView {
     }
 
     public void updateUi(Article article) {
-        TextView extraText = (TextView) findViewById(R.id.extra_text);
-        TextView primaryText = (TextView) findViewById(R.id.primary_text);
-        final ImageView imageView = (ImageView) findViewById(R.id.main_image);
+        final TextView primaryHeadline = (TextView) findViewById(R.id.primary_headline_text);
+        final TextView summaryText = (TextView) findViewById(R.id.summary_text);
         final ImageView mainContentBackground = (ImageView) findViewById(R.id.main_content_background);
 
 
-        extraText.setText(article.getTitle());
-        primaryText.setText(article.getAbstract());
+        primaryHeadline.setText(article.getTitle());
+        summaryText.setText(article.getAbstract());
 
         Picasso.with(getContext())
                 .load(article.getMultimedia().get(4).getUrl())
-                .resize((int) getContext().getResources().getDimension(R.dimen.card_text_container_width), (int) getContext().getResources().getDimension(R.dimen.card_text_container_height))
+                .resize((int) getContext().getResources().getDimension(R.dimen.card_text_container_width),
+                        (int) getContext().getResources().getDimension(R.dimen.card_text_container_height))
                 .transform(new GrayscaleTransformation(Picasso.with(getContext())))
                 .centerCrop()
                 .into(mainContentBackground);
-
-        // TODO check if we need this
-        /*/ Create a rounded drawable.
-        int resourceId = article.getLocalImageResourceId(getContext());
-        Bitmap bitmap = BitmapFactory
-                .decodeResource(getContext().getResources(), resourceId);
-        RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getContext().getResources(), bitmap);
-        drawable.setAntiAlias(true);
-        drawable.setCornerRadius(
-                Math.max(bitmap.getWidth(), bitmap.getHeight()) / 2.0f);
-        imageView.setImageDrawable(drawable); */
     }
 
 }
