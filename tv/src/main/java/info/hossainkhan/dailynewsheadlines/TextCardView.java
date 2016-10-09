@@ -34,6 +34,9 @@ import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
 import io.swagger.client.model.Article;
 
 public class TextCardView extends BaseCardView {
@@ -48,9 +51,18 @@ public class TextCardView extends BaseCardView {
         TextView extraText = (TextView) findViewById(R.id.extra_text);
         TextView primaryText = (TextView) findViewById(R.id.primary_text);
         final ImageView imageView = (ImageView) findViewById(R.id.main_image);
+        final ImageView mainContentBackground = (ImageView) findViewById(R.id.main_content_background);
+
 
         extraText.setText(article.getTitle());
         primaryText.setText(article.getAbstract());
+
+        Picasso.with(getContext())
+                .load(article.getMultimedia().get(4).getUrl())
+                .resize((int) getContext().getResources().getDimension(R.dimen.card_text_container_width), (int) getContext().getResources().getDimension(R.dimen.card_text_container_height))
+                .transform(new GrayscaleTransformation(Picasso.with(getContext())))
+                .centerCrop()
+                .into(mainContentBackground);
 
         // TODO check if we need this
         /*/ Create a rounded drawable.

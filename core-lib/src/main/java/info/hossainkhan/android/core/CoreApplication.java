@@ -37,8 +37,10 @@ import timber.log.Timber;
  * Extended {@link Application} that is shared among all the android application modules.
  */
 public class CoreApplication extends Application {
+    private static final String TAG = "CoreApplication";
 
     private static AppComponent sAppComponent;
+    private static final boolean ENABLE_LOGGING = true;
 
     @Override
     public void onCreate() {
@@ -49,8 +51,11 @@ public class CoreApplication extends Application {
     }
 
     private void initLogger() {
-        if (BuildConfig.DEBUG) {
+        if (ENABLE_LOGGING) {
+            android.util.Log.i(TAG, "Planting tree for timber logger.");
             Timber.plant(new Timber.DebugTree());
+        } else {
+            android.util.Log.w(TAG, "Not planting tree for timber logger.");
         }
     }
 

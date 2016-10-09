@@ -24,6 +24,7 @@
 
 package info.hossainkhan.dailynewsheadlines;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,6 +43,9 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import java.net.URI;
 import java.util.List;
 import java.util.Timer;
@@ -50,6 +54,7 @@ import java.util.TimerTask;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import io.swagger.client.model.Article;
+import io.swagger.client.model.ArticleMultimedia;
 import timber.log.Timber;
 
 
@@ -143,6 +148,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
             @Override
             public void onClick(View view) {
+                Timber.d("Search icon clicked.");
                 Toast.makeText(getActivity(), "Implement your own in-app search", Toast.LENGTH_LONG)
                         .show();
             }
@@ -153,13 +159,35 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
     }
 
     protected void updateBackground(String uri) {
+        Timber.d("Updating background: %s", uri);
+
         int width = mMetrics.widthPixels;
         int height = mMetrics.heightPixels;
-//        Picasso.with(getActivity())
-//                .load(uri)
-//                .centerCrop()
-//                .error(mDefaultBackground)
-//                .into();
+
+        // FiXME Target is not immediately updated on selection. Investigate.
+        final Target backgroundDrawableTarget = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                Timber.d("onBitmapLoaded: %dx%d - %d bytes", bitmap.getHeight(), bitmap.getWidth(), bitmap.getByteCount());
+                mBackgroundManager.setBitmap(bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                Timber.w("onBitmapFailed");
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                Timber.d("onPrepareLoad");
+            }
+        };
+        Picasso.with(getActivity())
+                .load(uri)
+                .resize(width, height)
+                .centerCrop()
+                .error(mDefaultBackground)
+                .into(backgroundDrawableTarget);
         mBackgroundTimer.cancel();
     }
 
@@ -213,7 +241,20 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
 
+            Timber.d("onItemSelected");
 
+            if (item instanceof Article) {
+                List<ArticleMultimedia> multimedia = ((Article) item).getMultimedia();
+                int size = multimedia.size();
+                if (size >= 5) {
+                    String url = multimedia.get(4).getUrl();
+                    Timber.d("Loading HD background URL: %s", url);
+                    mBackgroundURI = URI.create(url);
+                    startBackgroundTimer();
+                } else {
+                    Timber.i("Article does not have HD background. Total items: %d", size);
+                }
+            }
         }
     }
 

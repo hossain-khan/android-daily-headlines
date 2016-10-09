@@ -27,5 +27,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="card_text_container_width">400dp</dimen>
+    <dimen name="card_text_container_width">420dp</dimen>
+    <dimen name="card_text_container_height">300dp</dimen>
 </resources>
