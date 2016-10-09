@@ -11,7 +11,7 @@ Initial planning stage, main goal is to create simple app with news source title
 This is my personal project to experiment with following tools & technologies
  * Firebase - Analytics, Crash Reporting _(See [#10](https://github.com/amardeshbd/android-daily-headlines/pull/10))_, Remote Config etc.
  * Travis CI - for build automation _(See [travis.yml](https://github.com/amardeshbd/android-daily-headlines/blob/develop/.travis.yml))_
- * Code coverage 
+ * Code coverage (jacoco, Codecov.io)
  * OpenAPI Specification & Related Tools _(See [#11](https://github.com/amardeshbd/android-daily-headlines/pull/11), [wiki](https://github.com/amardeshbd/android-daily-headlines/wiki/Swagger-Codegen))_
  * RxJava
  * Jack & Jill Toolchain 
