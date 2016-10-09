@@ -49,8 +49,8 @@ public class TextCardView extends BaseCardView {
         TextView primaryText = (TextView) findViewById(R.id.primary_text);
         final ImageView imageView = (ImageView) findViewById(R.id.main_image);
 
-        extraText.setText(article.getAbstract());
-        primaryText.setText(article.getTitle());
+        extraText.setText(article.getTitle());
+        primaryText.setText(article.getAbstract());
 
         // TODO check if we need this
         /*/ Create a rounded drawable.

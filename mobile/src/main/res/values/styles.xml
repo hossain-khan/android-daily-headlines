@@ -5,4 +5,13 @@
         <!-- Customize your theme here. -->
     </style>
 
+
+    <!--
+    TODO: Define extended style for text Shadow on main view, if needed
+
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowColor="@color/white"
+        android:shadowRadius="5"
+    -->
 </resources>
