@@ -1,9 +1,26 @@
 [![Build Status](https://travis-ci.org/amardeshbd/android-daily-headlines.svg?branch=develop)](https://travis-ci.org/amardeshbd/android-daily-headlines) [![GitHub issues](https://img.shields.io/github/issues/amardeshbd/android-daily-headlines.svg)](https://github.com/amardeshbd/android-daily-headlines/issues)
 
 # android-daily-headlines
-An app that provides daily headlines for popular news source.
+An app that provides daily headlines from popular news source.
 
-Initial planning stage, main goal is to create simple app with news source title **only** to keep it simple. This app is meant to take a glance through the headlines quickly with option to view details of the story _(future version)_.
+Initial planning stage, main goal is to create simple app with news source title **only** to keep it simple. This app is meant to take a glance through the headlines quickly with possible option to view details of the story _(future version)_.
+
+
+## Goal and Status
+
+Current plan is to create simple possible 📺 app with news headline only. This allows users to quickly glance through headlines over a ☕
+
+The 📱 version of the app will follow after 2.0 release of 📺 _(TV)_ app.
+
+### Project Planning
+I am currently tracking issues and tasks using :octocat:'s kanban board
+
+ * Release v1 - https://github.com/amardeshbd/android-daily-headlines/projects/1
+ * Release v2 - https://github.com/amardeshbd/android-daily-headlines/projects/2
+
+### Screenshot from `develop` build
+
+![device-2016-10-09-110011](https://cloud.githubusercontent.com/assets/99822/19221348/9ffed4ca-8e0f-11e6-859e-ab60daa794d3.png)
 
 ----
 
@@ -11,20 +28,20 @@ Initial planning stage, main goal is to create simple app with news source title
 This is my personal project to experiment with following tools & technologies
  * Firebase - Analytics, Crash Reporting _(See [#10](https://github.com/amardeshbd/android-daily-headlines/pull/10))_, Remote Config etc.
  * Travis CI - for build automation _(See [travis.yml](https://github.com/amardeshbd/android-daily-headlines/blob/develop/.travis.yml))_
- * Code coverage (jacoco, Codecov.io)
+ * Code coverage (jacoco _[See [travis.yml](https://github.com/amardeshbd/android-daily-headlines/blob/develop/.travis.yml#L32)]_,  [Codecov.io](https://codecov.io/gh/amardeshbd/android-daily-headlines))
  * OpenAPI Specification & Related Tools _(See [#11](https://github.com/amardeshbd/android-daily-headlines/pull/11), [wiki](https://github.com/amardeshbd/android-daily-headlines/wiki/Swagger-Codegen))_
- * RxJava
+ * RxJava _(Using for retrofit and app)_
  * Jack & Jill Toolchain 
  * Retrofit 2 _(See [API Services](https://github.com/amardeshbd/android-daily-headlines/tree/develop/api-lib/src/main/java/io/swagger/client/api))_
  * Dagger 2 _(See [#29](https://github.com/amardeshbd/android-daily-headlines/issues/29), [core-lib:gradle](https://github.com/amardeshbd/android-daily-headlines/blob/develop/core-lib/build.gradle#L42))_
- * Picasso
+ * Picasso 
  * Coordinator Layout
  * Timber (android logging) _(See [#30](https://github.com/amardeshbd/android-daily-headlines/pull/30))_
- * Android TV Leanback
+ * Android TV Leanback _(Most code samples are taken from "[leanback-showcase](https://github.com/googlesamples/leanback-showcase)" project)_
  * Design Support Library
  * Database (local caching - Realm (maybe?))
  * Scheduler - data syncing
  * Google Play Alpha Beta release
  * LeakCanary
  
-I'll try to cross out these items when I use in the app and put a reference here.
+I'll try to update references for these items when I use in the app :sunglasses:
