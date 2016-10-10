@@ -30,6 +30,7 @@ import java.util.List;
 
 import info.hossainkhan.android.core.base.MvpPresenter;
 import info.hossainkhan.android.core.base.MvpView;
+import info.hossainkhan.android.core.model.NavigationRow;
 import io.swagger.client.model.Article;
 
 public interface HeadlinesContract {
@@ -38,7 +39,7 @@ public interface HeadlinesContract {
 
         void setLoadingIndicator(boolean active);
 
-        void showHeadlines(List<Article> headlines);
+        void showHeadlines(List<NavigationRow> headlines);
 
         void showHeadlineDetailsUi(Article article);
 

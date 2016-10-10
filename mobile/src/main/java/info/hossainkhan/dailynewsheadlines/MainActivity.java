@@ -10,10 +10,11 @@ import butterknife.ButterKnife;
 import info.hossainkhan.android.core.base.BaseActivity;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
+import info.hossainkhan.android.core.model.NavigationRow;
 import io.swagger.client.model.Article;
 import timber.log.Timber;
 
-public class MainActivity  extends BaseActivity implements HeadlinesContract.View {
+public class MainActivity extends BaseActivity implements HeadlinesContract.View {
     private static final String TAG = "MainActivity";
 
     HeadlinesPresenter mHeadlinesPresenter;
@@ -36,9 +37,7 @@ public class MainActivity  extends BaseActivity implements HeadlinesContract.Vie
     @Override
     protected void onStart() {
         super.onStart();
-
         Timber.d("onStart() called");
-
     }
 
     @Override
@@ -47,7 +46,7 @@ public class MainActivity  extends BaseActivity implements HeadlinesContract.Vie
     }
 
     @Override
-    public void showHeadlines(final List<Article> headlines) {
+    public void showHeadlines(final List<NavigationRow> headlines) {
         Timber.d("showHeadlines() called with: Headlines = [" + headlines.size() + "]");
         demoTextview.setText(headlines.toString());
     }
