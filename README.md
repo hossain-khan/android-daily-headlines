@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/amardeshbd/android-daily-headlines.svg?branch=develop)](https://travis-ci.org/amardeshbd/android-daily-headlines) [![GitHub issues](https://img.shields.io/github/issues/amardeshbd/android-daily-headlines.svg)](https://github.com/amardeshbd/android-daily-headlines/issues)
+[![Build Status](https://travis-ci.org/amardeshbd/android-daily-headlines.svg?branch=develop)](https://travis-ci.org/amardeshbd/android-daily-headlines) [![GitHub issues](https://img.shields.io/github/issues/amardeshbd/android-daily-headlines.svg)](https://github.com/amardeshbd/android-daily-headlines/issues) [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/amardeshbd/android-daily-headlines.svg?maxAge=2592000)](https://github.com/amardeshbd/android-daily-headlines/issues?q=is%3Aissue+is%3Aclosed) [![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/amardeshbd/android-daily-headlines.svg?maxAge=2592000)](https://github.com/amardeshbd/android-daily-headlines/pulls?q=is%3Apr+is%3Aclosed)
 
 # android-daily-headlines
 An app that provides daily headlines from popular news source.
 
-Initial planning stage, main goal is to create simple app with news source title **only** to keep it simple. This app is meant to take a glance through the headlines quickly with possible option to view details of the story _(future version)_.
+Initial planning stage, main goal is to create simple app with news source title '**only**' to keep it simple. This app is meant to take a glance through the headlines quickly with possible option to view details of the story _(future version)_.
 
 
 ## Goal and Status
@@ -20,7 +20,8 @@ I am currently tracking issues and tasks using :octocat:'s kanban board
 
 ### Screenshot from `develop` build
 
-![device-2016-10-09-110011](https://cloud.githubusercontent.com/assets/99822/19221348/9ffed4ca-8e0f-11e6-859e-ab60daa794d3.png)
+![device-2016-10-10-184136](https://cloud.githubusercontent.com/assets/99822/19253463/37a6102c-8f19-11e6-97a1-d7c778a9b3d1.png)
+![device-2016-10-10-184114](https://cloud.githubusercontent.com/assets/99822/19253464/37a966a0-8f19-11e6-95ed-f3663c3f45f9.png)
 
 ----
 
