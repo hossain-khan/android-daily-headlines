@@ -134,17 +134,9 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
         // set fastLane (or headers) background color
         setBrandColor(getResources().getColor(R.color.fastlane_background));
-        // set search icon color
-        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
     }
 
     private void setupEventListeners() {
-        setOnSearchClickedListener(view -> {
-            Timber.d("Search icon clicked.");
-            Toast.makeText(getActivity(), "Implement your own in-app search", Toast.LENGTH_LONG)
-                    .show();
-        });
-
         setOnItemViewClickedListener(new MainFragment.ItemViewClickedListener());
         setOnItemViewSelectedListener(new MainFragment.ItemViewSelectedListener());
     }
