@@ -29,9 +29,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 import io.swagger.client.model.Article;
+import io.swagger.client.model.ArticleCategory;
 
 /**
- * This class represents a navigation row of news headline cards.
+ * This class represents a navigation row with news headline cards.
  */
 public class NavigationRow {
 
@@ -49,11 +50,14 @@ public class NavigationRow {
     private boolean mShadow = true;
     @SerializedName("title")
     private String mTitle;
+    @SerializedName("category")
+    private ArticleCategory mCategory;
     @SerializedName("cards")
     private List<Article> mCards;
 
-    private NavigationRow(int type, String title, List<Article> cards) {
+    private NavigationRow(int type, String title, ArticleCategory category, List<Article> cards) {
         mTitle = title;
+        mCategory = category;
         mType = type;
         mCards = cards;
     }
@@ -74,9 +78,15 @@ public class NavigationRow {
         return mCards;
     }
 
+    public ArticleCategory getCategory() {
+        return mCategory;
+    }
+
+
     public static class Builder {
         private int type;
         private String title;
+        private ArticleCategory category;
         private List<Article> cards;
 
         public Builder setType(int type) {
@@ -89,13 +99,18 @@ public class NavigationRow {
             return this;
         }
 
+        public Builder setCategory(ArticleCategory category) {
+            this.category = category;
+            return this;
+        }
+
         public Builder setCards(List<Article> cards) {
             this.cards = cards;
             return this;
         }
 
         public NavigationRow build() {
-            return new NavigationRow(type, title, cards);
+            return new NavigationRow(type, title, category, cards);
         }
     }
 }

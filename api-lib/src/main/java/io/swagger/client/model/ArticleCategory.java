@@ -30,7 +30,7 @@ package io.swagger.client.model;
  * <br>
  * Source: https://developer.nytimes.com/top_stories_v2.json
  */
-public enum ArticleSection {
+public enum ArticleCategory {
     home, opinion, world, national, politics, upshot, nyregion, business, technology, science, health,
     sports, arts, books, movies, theater, sundayreview, fashion, tmagazine, food, travel, magazine,
     realestate, automobiles, obituaries, insider

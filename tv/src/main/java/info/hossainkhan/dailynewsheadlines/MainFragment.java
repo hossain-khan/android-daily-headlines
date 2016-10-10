@@ -54,6 +54,7 @@ import java.util.TimerTask;
 
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
+import info.hossainkhan.android.core.model.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
 import io.swagger.client.model.Article;
 import io.swagger.client.model.ArticleMultimedia;
@@ -79,13 +80,11 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
         Timber.i("onCreate");
         super.onActivityCreated(savedInstanceState);
 
-
         prepareBackgroundManager();
 
         setupUIElements();
 
-        mHeadlinesPresenter = new HeadlinesPresenter(this);
-
+        mHeadlinesPresenter = new HeadlinesPresenter(this, CategoryNameResolver.getSupportedCategories());
     }
 
     @Override
@@ -117,6 +116,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
     /**
      * Creates appropriate {@link Row} item based on {@link NavigationRow} type.
+     *
      * @param navigationRow Navigation row
      * @return {@link Row}
      */
@@ -135,7 +135,8 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
                 for (int j = 0; j < totalArticleSize; j++) {
                     listRowAdapter.add(articles.get(j));
                 }
-                HeaderItem header = new HeaderItem(navigationRow.getTitle());
+
+                HeaderItem header = new HeaderItem(getString(CategoryNameResolver.resolveCategoryResId(navigationRow.getCategory())));
 
                 return new ListRow(header, listRowAdapter);
         }

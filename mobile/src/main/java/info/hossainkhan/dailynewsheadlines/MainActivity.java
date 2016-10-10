@@ -3,6 +3,7 @@ package info.hossainkhan.dailynewsheadlines;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,7 +32,7 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
         ButterKnife.bind(this);
 
         // TODO use DI to inject
-        mHeadlinesPresenter = new HeadlinesPresenter(this);
+        mHeadlinesPresenter = new HeadlinesPresenter(this, Collections.EMPTY_LIST);
     }
 
     @Override

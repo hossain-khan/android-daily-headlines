@@ -36,7 +36,7 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.api.ConsumptionFormat;
 import io.swagger.client.api.StoriesApi;
 import io.swagger.client.model.Article;
-import io.swagger.client.model.ArticleSection;
+import io.swagger.client.model.ArticleCategory;
 import io.swagger.client.model.InlineResponse200;
 import rx.Observable;
 import rx.Subscription;
@@ -48,8 +48,11 @@ import timber.log.Timber;
 
 public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
 
-    public HeadlinesPresenter(final HeadlinesContract.View view) {
+    private final List<ArticleCategory> mArticleCategories;
+
+    public HeadlinesPresenter(final HeadlinesContract.View view, List<ArticleCategory> articleCategories) {
         attachView(view);
+        mArticleCategories = articleCategories;
         loadHeadlines(false);
     }
 
@@ -58,20 +61,17 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         ApiClient apiClient = CoreApplication.getAppComponent().getApiClient();
         StoriesApi service = apiClient.createService(StoriesApi.class);
 
-        final List<ArticleSection> articleSections = new ArrayList<>();
-        articleSections.add(ArticleSection.home);
-        articleSections.add(ArticleSection.books);
-        articleSections.add(ArticleSection.technology);
-
-        int sectionSize = articleSections.size();
+        int sectionSize = mArticleCategories.size();
         List<Observable<InlineResponse200>> observableList = new ArrayList<>(sectionSize);
+
+        Timber.i("Loading categories: %s", mArticleCategories);
 
         // NOTE: Unable to use java8 lambda using jack. Error: Library projects cannot enable Jack (Java 8).
         // ASOP Issue # https://code.google.com/p/android/issues/detail?id=211386
-        Observable.from(articleSections).subscribe(new Action1<ArticleSection>() {
+        Observable.from(mArticleCategories).subscribe(new Action1<ArticleCategory>() {
             @Override
-            public void call(ArticleSection articleSection) {
-                observableList.add(service.sectionFormatGet(articleSection.name(), ConsumptionFormat.json.name(), null));
+            public void call(ArticleCategory articleCategory) {
+                observableList.add(service.sectionFormatGet(articleCategory.name(), ConsumptionFormat.json.name(), null));
             }
         });
 
@@ -92,9 +92,11 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                         } else {
                             List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize);
                             for (int i = 0; i < totalResponseItemSize; i++) {
+                                ArticleCategory articleCategory = mArticleCategories.get(i);
                                 navigationHeadlines.add(
                                         new NavigationRow.Builder()
-                                                .setTitle(articleSections.get(i).name())
+                                                .setTitle(articleCategory.name())
+                                                .setCategory(articleCategory)
                                                 .setCards(inlineResponse200s.get(i).getResults())
                                                 .build()
 
