@@ -56,6 +56,14 @@ dependencies {
     // https://github.com/ReactiveX/RxAndroid
     compile "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
 
+    // Firebase CORE
+    // https://firebase.google.com/docs/android/setup
+    compile "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
+
+    // Firebase - Crash Reporting
+    // https://firebase.google.com/docs/crash/android
+    compile "com.google.firebase:firebase-crash:$rootProject.firebaseVersion"
+
 
     // Logging framework
     // https://github.com/JakeWharton/timber
