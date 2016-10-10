@@ -26,6 +26,8 @@ package info.hossainkhan.android.core.headlines;
 
 import android.support.annotation.NonNull;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,7 @@ import io.swagger.client.model.Article;
 import io.swagger.client.model.ArticleCategory;
 import io.swagger.client.model.InlineResponse200;
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -78,17 +81,32 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
         Subscription subscription = Observable.merge(observableList)
                 .subscribeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .toList()
                 .single()
-                .subscribe(new Action1<List<InlineResponse200>>() { // TODO - create subscriber with error callbackss
+                .subscribe(new Subscriber<List<InlineResponse200>>() {
                     @Override
-                    public void call(List<InlineResponse200> inlineResponse200s) {
+                    public void onCompleted() {
+                        Timber.d("onCompleted() called");
+                        getView().setLoadingIndicator(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "Failed to load responses.");
+
+                        FirebaseCrash.report(e);
+                        getView().showLoadingHeadlinesError();
+                    }
+
+                    @Override
+                    public void onNext(List<InlineResponse200> inlineResponse200s) {
                         int totalResponseItemSize = inlineResponse200s.size();
                         Timber.i("Got total responses: %d", totalResponseItemSize);
 
                         if (totalResponseItemSize != sectionSize) {
                             // Error
+                            FirebaseCrash.log("Unable to get all responses.");
                         } else {
                             List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize);
                             for (int i = 0; i < totalResponseItemSize; i++) {
@@ -99,15 +117,13 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                                                 .setCategory(articleCategory)
                                                 .setCards(inlineResponse200s.get(i).getResults())
                                                 .build()
-
                                 );
                             }
 
                             getView().showHeadlines(navigationHeadlines);
                         }
                     }
-                }); // subscribe to List<Response>
-
+                });
     }
 
     @Override
