@@ -26,24 +26,33 @@ package info.hossainkhan.android.core.headlines;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.base.BasePresenter;
+import info.hossainkhan.android.core.model.NavigationRow;
 import io.swagger.client.ApiClient;
+import io.swagger.client.api.ConsumptionFormat;
 import io.swagger.client.api.StoriesApi;
 import io.swagger.client.model.Article;
+import io.swagger.client.model.ArticleCategory;
 import io.swagger.client.model.InlineResponse200;
 import rx.Observable;
-import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 
 public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
-    private static final String TAG = "HeadlinesPresenter";
 
-    public HeadlinesPresenter(final HeadlinesContract.View view) {
+    private final List<ArticleCategory> mArticleCategories;
+
+    public HeadlinesPresenter(final HeadlinesContract.View view, List<ArticleCategory> articleCategories) {
         attachView(view);
+        mArticleCategories = articleCategories;
         loadHeadlines(false);
     }
 
@@ -52,30 +61,53 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         ApiClient apiClient = CoreApplication.getAppComponent().getApiClient();
         StoriesApi service = apiClient.createService(StoriesApi.class);
 
-        // TODO: Move params to constant configs
-        Observable<InlineResponse200> observable = service.sectionFormatGet("home", "json", null);
+        int sectionSize = mArticleCategories.size();
+        List<Observable<InlineResponse200>> observableList = new ArrayList<>(sectionSize);
 
-        getView().setLoadingIndicator(true);
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<InlineResponse200>() {
-                    @Override
-                    public void onCompleted() {
-                        Timber.d("onCompleted() called");
-                        getView().setLoadingIndicator(false);
-                    }
+        Timber.i("Loading categories: %s", mArticleCategories);
 
-                    @Override
-                    public void onError(final Throwable e) {
-                        getView().showLoadingHeadlinesError();
-                    }
+        // NOTE: Unable to use java8 lambda using jack. Error: Library projects cannot enable Jack (Java 8).
+        // ASOP Issue # https://code.google.com/p/android/issues/detail?id=211386
+        Observable.from(mArticleCategories).subscribe(new Action1<ArticleCategory>() {
+            @Override
+            public void call(ArticleCategory articleCategory) {
+                observableList.add(service.sectionFormatGet(articleCategory.name(), ConsumptionFormat.json.name(), null));
+            }
+        });
 
+
+        Subscription subscription = Observable.merge(observableList)
+                .subscribeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .toList()
+                .single()
+                .subscribe(new Action1<List<InlineResponse200>>() { // TODO - create subscriber with error callbackss
                     @Override
-                    public void onNext(final InlineResponse200 inlineResponse200) {
-                        Timber.d("onNext() called");
-                        getView().showHeadlines(inlineResponse200.getResults());
+                    public void call(List<InlineResponse200> inlineResponse200s) {
+                        int totalResponseItemSize = inlineResponse200s.size();
+                        Timber.i("Got total responses: %d", totalResponseItemSize);
+
+                        if (totalResponseItemSize != sectionSize) {
+                            // Error
+                        } else {
+                            List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize);
+                            for (int i = 0; i < totalResponseItemSize; i++) {
+                                ArticleCategory articleCategory = mArticleCategories.get(i);
+                                navigationHeadlines.add(
+                                        new NavigationRow.Builder()
+                                                .setTitle(articleCategory.name())
+                                                .setCategory(articleCategory)
+                                                .setCards(inlineResponse200s.get(i).getResults())
+                                                .build()
+
+                                );
+                            }
+
+                            getView().showHeadlines(navigationHeadlines);
+                        }
                     }
-                });
+                }); // subscribe to List<Response>
+
     }
 
     @Override

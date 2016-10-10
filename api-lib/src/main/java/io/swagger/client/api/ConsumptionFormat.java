@@ -22,36 +22,13 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.headlines;
+package io.swagger.client.api;
 
-import android.support.annotation.NonNull;
-
-import java.util.List;
-
-import info.hossainkhan.android.core.base.MvpPresenter;
-import info.hossainkhan.android.core.base.MvpView;
-import info.hossainkhan.android.core.model.NavigationRow;
-import io.swagger.client.model.Article;
-
-public interface HeadlinesContract {
-
-    interface View extends MvpView {
-
-        void setLoadingIndicator(boolean active);
-
-        void showHeadlines(List<NavigationRow> headlines);
-
-        void showHeadlineDetailsUi(Article article);
-
-        void showLoadingHeadlinesError();
-
-        void showNoHeadlines();
-    }
-
-    interface Presenter extends MvpPresenter<View> {
-        
-        void loadHeadlines(boolean forceUpdate);
-
-        void openHeadlineDetails(@NonNull Article article);
-    }
+/**
+ * Supported consumption format for the API on {@link io.swagger.client.api.StoriesApi#sectionFormatGet(String, String, String)}.
+ * <br>
+ * Source: https://developer.nytimes.com/top_stories_v2.json
+ */
+public enum ConsumptionFormat {
+    json, jsonp
 }

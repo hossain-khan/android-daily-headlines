@@ -33,6 +33,9 @@ android {
     }
 
     compileOptions {
+        // NOTE: Despite java8 support, Unable to use java8 lambda using jack because of following error:
+        // Error: Library projects cannot enable Jack (Java 8).
+        // ASOP Issue # https://code.google.com/p/android/issues/detail?id=211386
         sourceCompatibility rootProject.ext.javaSourceCompatibilityVersion
         targetCompatibility rootProject.ext.javaTargetCompatibilityVersion
     }

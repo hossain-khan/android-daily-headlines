@@ -31,6 +31,7 @@ import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.DividerRow;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
@@ -39,8 +40,8 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v17.leanback.widget.SectionRow;
 import android.util.DisplayMetrics;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -53,6 +54,8 @@ import java.util.TimerTask;
 
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
+import info.hossainkhan.android.core.model.CategoryNameResolver;
+import info.hossainkhan.android.core.model.NavigationRow;
 import io.swagger.client.model.Article;
 import io.swagger.client.model.ArticleMultimedia;
 import timber.log.Timber;
@@ -77,13 +80,11 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
         Timber.i("onCreate");
         super.onActivityCreated(savedInstanceState);
 
-
         prepareBackgroundManager();
 
         setupUIElements();
 
-        mHeadlinesPresenter = new HeadlinesPresenter(this);
-
+        mHeadlinesPresenter = new HeadlinesPresenter(this, CategoryNameResolver.getSupportedCategories());
     }
 
     @Override
@@ -95,23 +96,50 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
         }
     }
 
-    private void loadRows(final List<Article> list) {
+    private void loadRows(final List<NavigationRow> list) {
+        // Prepare/inject additional items for the navigation
+        list.add(0, new NavigationRow.Builder().setTitle("NYTimes").setType(NavigationRow.TYPE_SECTION_HEADER).build());
+        list.add(new NavigationRow.Builder().setType(NavigationRow.TYPE_DIVIDER).build());
+        list.add(new NavigationRow.Builder().setTitle("Settings").setType(NavigationRow.TYPE_SECTION_HEADER).build());
 
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-        TextCardPresenter cardPresenter = new TextCardPresenter(getActivity().getApplicationContext());
-
+        int totalNavigationItems = list.size();
         int i;
-        for (i = 0; i < 1; i++) {
-            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
-            for (int j = 0; j < list.size(); j++) {
-                listRowAdapter.add(list.get(j));
-            }
-            HeaderItem header = new HeaderItem(i, "Headlines");
-            mRowsAdapter.add(new ListRow(header, listRowAdapter));
+        for (i = 0; i < totalNavigationItems; i++) {
+            NavigationRow navigationRow = list.get(i);
+            mRowsAdapter.add(createCardRow(navigationRow));
         }
-        setAdapter(mRowsAdapter);
 
+        setAdapter(mRowsAdapter);
+    }
+
+    /**
+     * Creates appropriate {@link Row} item based on {@link NavigationRow} type.
+     *
+     * @param navigationRow Navigation row
+     * @return {@link Row}
+     */
+    private Row createCardRow(final NavigationRow navigationRow) {
+        switch (navigationRow.getType()) {
+            case NavigationRow.TYPE_SECTION_HEADER:
+                return new SectionRow(new HeaderItem(navigationRow.getTitle()));
+            case NavigationRow.TYPE_DIVIDER:
+                return new DividerRow();
+            case NavigationRow.TYPE_DEFAULT:
+            default:
+                List<Article> articles = navigationRow.getCards();
+                int totalArticleSize = articles.size();
+                TextCardPresenter cardPresenter = new TextCardPresenter(getActivity().getApplicationContext());
+                ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
+                for (int j = 0; j < totalArticleSize; j++) {
+                    listRowAdapter.add(articles.get(j));
+                }
+
+                HeaderItem header = new HeaderItem(getString(CategoryNameResolver.resolveCategoryResId(navigationRow.getCategory())));
+
+                return new ListRow(header, listRowAdapter);
+        }
     }
 
     private void prepareBackgroundManager() {
@@ -170,7 +198,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
     }
 
     @Override
-    public void showHeadlines(final List<Article> headlines) {
+    public void showHeadlines(final List<NavigationRow> headlines) {
 
         loadRows(headlines);
 
