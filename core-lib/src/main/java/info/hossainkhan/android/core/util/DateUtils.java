@@ -31,8 +31,14 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 public class DateUtils {
 
+    /**
+     * Provides period of time elapsed since now in human readable format.
+     * @param dateTimeString ISO Format date time string.
+     * @return Formatted text. Eg. "2h, 23m", "4m, 14d"
+     */
     public static String getElapsedTime(String dateTimeString) {
-        final int MAX_SEGMENT = 2;
+        final int MAX_SEGMENT = 2; // Maximum time segment (use most significant units)
+
         DateTime myBirthDate = new DateTime(dateTimeString);
         Period period = new Period(myBirthDate, DateTime.now());
 
@@ -40,13 +46,13 @@ public class DateUtils {
 
         PeriodFormatterBuilder formatterBuilder = new PeriodFormatterBuilder();
 
-        if (period.getYears() > 0) {
+        if (segmentCount < MAX_SEGMENT && period.getYears() > 0) {
             formatterBuilder.appendYears().appendSuffix("y")
                     .appendSeparator(", ");
             segmentCount++;
         }
 
-        if (period.getMonths() > 0) {
+        if (segmentCount < MAX_SEGMENT && period.getMonths() > 0) {
             formatterBuilder.appendMonths().appendSuffix("m")
                 .appendSeparator(", ");
             segmentCount++;
@@ -68,12 +74,15 @@ public class DateUtils {
             segmentCount++;
         }
         if (segmentCount < MAX_SEGMENT && period.getMinutes() > 0) {
-            formatterBuilder.appendMinutes().appendSuffix("m");
+            formatterBuilder.appendMinutes().appendSuffix("m")
+                    .appendSeparator(", ");
             segmentCount++;
         }
 
-        if(segmentCount > 0) {
-            formatterBuilder.appendSuffix(" ago");
+        if (segmentCount < MAX_SEGMENT && period.getSeconds() > 0) {
+            formatterBuilder.appendSeconds().appendSuffix("s")
+                    .appendSeparator(", ");
+            segmentCount++;
         }
 
         formatterBuilder.printZeroNever();
