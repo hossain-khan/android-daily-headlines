@@ -33,10 +33,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.DateTimeUtils;
+
 import java.util.List;
 
 import info.hossainkhan.android.core.picasso.BlurTransformation;
 import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
+import info.hossainkhan.android.core.util.DateUtils;
 import io.swagger.client.model.Article;
 import io.swagger.client.model.ArticleMultimedia;
 import timber.log.Timber;
@@ -51,12 +54,14 @@ public class TextCardView extends BaseCardView {
 
     public void updateUi(Article article) {
         final TextView primaryHeadline = (TextView) findViewById(R.id.primary_headline_text);
-        final TextView summaryText = (TextView) findViewById(R.id.summary_text);
+        final TextView summaryText1 = (TextView) findViewById(R.id.summary_text_1);
+        final TextView summaryText2 = (TextView) findViewById(R.id.summary_text_2);
         final ImageView mainContentBackground = (ImageView) findViewById(R.id.main_content_background);
 
 
         primaryHeadline.setText(article.getTitle());
-        summaryText.setText(article.getAbstract());
+        summaryText1.setText(article.getSection());
+        summaryText2.setText(DateUtils.getElapsedTime(article.getCreatedDate()));
 
         Context context = getContext();
         Picasso picasso = Picasso.with(context);

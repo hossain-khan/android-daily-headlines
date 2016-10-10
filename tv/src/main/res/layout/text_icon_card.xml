@@ -52,14 +52,15 @@
             android:layout_alignParentTop="true"
             android:background="@color/default_card_background_color"
             android:fontFamily="sans-serif-black"
-            android:lines="5"
-            android:maxLines="5"
+            android:lines="6"
+            android:maxLines="6"
             android:paddingBottom="14dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="12dp"
             android:textSize="34sp"
             lb:layout_viewType="main"
+            android:textColor="@color/card_headline_text"
             tools:text="This is a headline title that can be long. It may be truncated if the text is too long." />
 
 
@@ -69,7 +70,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:background="@color/default_card_footer_background_color"
-            android:gravity="left"
             android:orientation="horizontal"
             android:paddingBottom="7dp"
             android:paddingLeft="12dp"
@@ -77,15 +77,16 @@
             android:paddingTop="7dp">
 
             <TextView
-                android:id="@+id/summary_text"
-                style="@style/Widget.Leanback.ImageCardView.ContentStyle"
-                android:layout_width="match_parent"
-                android:fontFamily="sans-serif-light"
-                android:gravity="center_vertical"
-                android:lines="3"
-                android:maxLines="3"
-                android:textSize="16sp"
-                tools:text="This is a sub-headline or summary title that can be long. It may be truncated if the text is too long." />
+                android:id="@+id/summary_text_1"
+                style="@style/Widget.Leanback.ImageCardView.ContentStyle.InfoText"
+                android:layout_gravity="left"
+                tools:text="Info Left" />
+
+            <TextView
+                android:id="@+id/summary_text_2"
+                style="@style/Widget.Leanback.ImageCardView.ContentStyle.InfoText"
+                android:layout_gravity="right"
+                tools:text="Info Right" />
         </FrameLayout>
     </RelativeLayout>
 
