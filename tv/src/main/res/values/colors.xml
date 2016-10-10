@@ -25,7 +25,7 @@
 <resources>
     <color name="background_gradient_start">#000000</color>
     <color name="background_gradient_end">#DDDDDD</color>
-    <color name="fastlane_background">#0096a6</color>
+    <color name="fastlane_background">#37474F</color><!-- Sidebar -->
     <color name="search_opaque">#ffaa3f</color>
     <color name="selected_background">#ffaa3f</color>
     <color name="detail_background">#0096a6</color>
@@ -35,6 +35,7 @@
     <color name="black_opaque">#AA000000</color>
     <color name="black">#59000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="card_headline_text">#DDFFFFFF</color>
     <color name="orange_transparent">#AAFADCA7</color>
     <color name="orange">#FADCA7</color>
     <color name="yellow">#EEFF41</color>
