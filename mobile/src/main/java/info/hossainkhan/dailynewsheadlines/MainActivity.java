@@ -3,7 +3,10 @@ package info.hossainkhan.dailynewsheadlines;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,7 +52,7 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     @Override
     public void showHeadlines(final List<NavigationRow> headlines) {
         Timber.d("showHeadlines() called with: Headlines = [" + headlines.size() + "]");
-        demoTextview.setText(headlines.toString());
+        demoTextview.setText("Total headline categories: " + headlines.size());
     }
 
     @Override
