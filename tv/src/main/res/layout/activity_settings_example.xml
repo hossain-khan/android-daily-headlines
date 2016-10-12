@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ MIT License
   ~
@@ -21,28 +22,12 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   ~ SOFTWARE.
   -->
-
-<resources>
-    <color name="background_gradient_start">#000000</color>
-    <color name="background_gradient_end">#DDDDDD</color>
-    <color name="fastlane_background">#37474F</color><!-- Sidebar -->
-    <color name="search_opaque">#ffaa3f</color>
-    <color name="selected_background">#ffaa3f</color>
-    <color name="detail_background">#0096a6</color>
-    <color name="soft_opaque">#30000000</color>
-    <color name="img_soft_opaque">#30FF0000</color>
-    <color name="img_full_opaque">#00000000</color>
-    <color name="black_opaque">#AA000000</color>
-    <color name="black">#59000000</color>
-    <color name="white">#FFFFFF</color>
-    <color name="card_headline_text">#DDFFFFFF</color>
-    <color name="orange_transparent">#AAFADCA7</color>
-    <color name="orange">#FADCA7</color>
-    <color name="yellow">#EEFF41</color>
-    <color name="default_background">#3d3d3d</color>
-    <color name="settings_background">#00695C</color>
-
-    <color name="default_card_background_color">#88263238</color>
-    <color name="default_card_footer_background_color">#ee37474F</color>
-    <color name="selected_card_footer_background_color">#F0F</color>
-</resources>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="info.hossainkhan.dailynewsheadlines.settings.SettingsExampleFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></fragment>
+</RelativeLayout>

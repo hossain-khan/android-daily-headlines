@@ -24,6 +24,7 @@
 
 package info.hossainkhan.dailynewsheadlines;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -65,6 +66,7 @@ import info.hossainkhan.android.core.util.Validate;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
+import info.hossainkhan.dailynewsheadlines.settings.SettingsExampleActivity;
 import timber.log.Timber;
 
 
@@ -273,6 +275,18 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             Timber.d("onItemClicked: " + item);
+
+            Intent intent = null;
+            CardItem card = (CardItem) item;
+            int id = card.getId();
+            CardItem.Type type = card.getType();
+
+            if(type == CardItem.Type.ICON) {
+                // TODO rename activity
+                intent = new Intent(getActivity().getBaseContext(),
+                        SettingsExampleActivity.class);
+                startActivity(intent);
+            }
         }
     }
 
