@@ -25,6 +25,7 @@
 package info.hossainkhan.android.core.model;
 
 import android.graphics.Color;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.crash.FirebaseCrash;
@@ -42,7 +43,6 @@ import timber.log.Timber;
  * This is a model object that encapsulates an card item with required and optional information.
  */
 public class CardItem {
-
 
 
     /**
@@ -72,6 +72,9 @@ public class CardItem {
     @SerializedName("imageUrl")
     private String mImageUrl;
 
+    @SerializedName("localImageResourceId")
+    private int mLocalImageResourceId;
+
     @SerializedName("footerColor")
     private String mFooterColor = null;
 
@@ -92,6 +95,7 @@ public class CardItem {
 
     /**
      * Creates a card item with {@link Article} model.
+     *
      * @param article
      */
     public CardItem(@NonNull final Article article) {
@@ -106,8 +110,8 @@ public class CardItem {
 
         List<ArticleMultimedia> multimedia = article.getMultimedia();
         int size = multimedia.size();
-        if(!multimedia.isEmpty()) {
-            ArticleMultimedia articleMultimedia = multimedia.get(size-1);
+        if (!multimedia.isEmpty()) {
+            ArticleMultimedia articleMultimedia = multimedia.get(size - 1);
             mImageUrl = articleMultimedia.getUrl();
             mWidth = articleMultimedia.getWidth();
             mHeight = articleMultimedia.getHeight();
@@ -116,6 +120,15 @@ public class CardItem {
             Timber.w("%s Total items: %d", NO_IMAGE_MSG, size);
             FirebaseCrash.log(NO_IMAGE_MSG);
         }
+    }
+
+    /**
+     * Creates a simple card of type.
+     *
+     * @param type Type of card.
+     */
+    public CardItem(Type type) {
+        mType = type;
     }
 
     public String getTitle() {
@@ -228,4 +241,12 @@ public class CardItem {
         }
     }
 
+    @DrawableRes
+    public int getLocalImageResourceId() {
+        return mLocalImageResourceId;
+    }
+
+    public void setLocalImageResourceId(@DrawableRes int localImageResourceId) {
+        this.mLocalImageResourceId = localImageResourceId;
+    }
 }

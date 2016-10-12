@@ -66,7 +66,10 @@ public class ImageCardViewPresenter extends AbstractCardPresenter<ImageCardView>
         cardView.setTag(cardItem);
         cardView.setTitleText(cardItem.getTitle());
         cardView.setContentText(cardItem.getDescription());
-        if (StringUtils.isNotEmpty(cardItem.getImageUrl())) {
+        if (cardItem.getLocalImageResourceId() != 0) {
+            int resourceId = cardItem.getLocalImageResourceId();
+            Picasso.with(getContext()).load(resourceId).into(cardView.getMainImageView());
+        } else if (StringUtils.isNotEmpty(cardItem.getImageUrl())) {
             Picasso.with(getContext())
                     .load(cardItem.getImageUrl())
                     .into(cardView.getMainImageView());

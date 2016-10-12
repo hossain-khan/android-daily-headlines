@@ -38,6 +38,7 @@ import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.PresenterSelector;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.SectionRow;
@@ -48,6 +49,7 @@ import com.squareup.picasso.Target;
 
 import java.lang.ref.WeakReference;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,8 +59,7 @@ import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
-import info.hossainkhan.dailynewsheadlines.cards.presenters.TextCardPresenter;
-import io.swagger.client.model.ArticleMultimedia;
+import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
 import timber.log.Timber;
 
 
@@ -98,10 +99,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
     }
 
     private void loadRows(final List<NavigationRow> list) {
-        // Prepare/inject additional items for the navigation
-        list.add(0, new NavigationRow.Builder().setTitle("NYTimes").setType(NavigationRow.TYPE_SECTION_HEADER).build());
-        list.add(new NavigationRow.Builder().setType(NavigationRow.TYPE_DIVIDER).build());
-        list.add(new NavigationRow.Builder().setTitle("Settings").setType(NavigationRow.TYPE_SECTION_HEADER).build());
+        applyStaticNavigationItems(list);
 
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
@@ -116,27 +114,59 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
     }
 
     /**
+     * Adds static navigation items like Menu and settings to existing list of navigation.
+     * @param list
+     */
+    private void applyStaticNavigationItems(final List<NavigationRow> list) {
+        // Prepare/inject additional items for the navigation
+        list.add(0, new NavigationRow.Builder().setTitle("NYTimes").setType(NavigationRow.TYPE_SECTION_HEADER).build());
+
+        // Begin settings section
+        list.add(new NavigationRow.Builder().setType(NavigationRow.TYPE_DIVIDER).build());
+        list.add(new NavigationRow.Builder().setTitle("Settings").setType(NavigationRow.TYPE_SECTION_HEADER).build());
+
+        // Build settings items
+
+        List<CardItem> settingsItems = new ArrayList<>();
+        CardItem item = new CardItem(CardItem.Type.ICON);
+        item.setTitle("Test 1");
+        item.setImageUrl("http://morelab.deusto.es/media/research_group/social_profiles/github.png");
+        item.setLocalImageResourceId(R.drawable.ic_settings_settings);
+        settingsItems.add(item);
+
+        item = new CardItem(CardItem.Type.ICON);
+        item.setTitle("Test 2");
+        item.setImageUrl("http://kinlane-productions.s3.amazonaws.com/github/github-round.png");
+        settingsItems.add(item);
+
+        list.add(new NavigationRow.Builder().setTitle("Categories").setType(NavigationRow.TYPE_DEFAULT).setCards(settingsItems).build());
+    }
+
+
+
+    /**
      * Creates appropriate {@link Row} item based on {@link NavigationRow} type.
      *
      * @param navigationRow Navigation row
      * @return {@link Row}
      */
     private Row createCardRow(final NavigationRow navigationRow) {
-        switch (navigationRow.getType()) {
+        int navigationRowType = navigationRow.getType();
+        Timber.d("createCardRow() - Row type: %d", navigationRowType);
+
+        switch (navigationRowType) {
             case NavigationRow.TYPE_SECTION_HEADER:
                 return new SectionRow(new HeaderItem(navigationRow.getTitle()));
             case NavigationRow.TYPE_DIVIDER:
                 return new DividerRow();
             case NavigationRow.TYPE_DEFAULT:
             default:
-                List<CardItem> cards = navigationRow.getCards();
-                int totalArticleSize = cards.size();
-                TextCardPresenter cardPresenter = new TextCardPresenter(getActivity().getApplicationContext());
-                ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
-                for (int j = 0; j < totalArticleSize; j++) {
-                    listRowAdapter.add(cards.get(j));
+                // Build main row using the ImageCardViewPresenter.
+                PresenterSelector presenterSelector = new CardPresenterSelector(getActivity());
+                ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(presenterSelector);
+                for (CardItem card : navigationRow.getCards()) {
+                    listRowAdapter.add(card);
                 }
-
                 HeaderItem header = new HeaderItem(getString(CategoryNameResolver.resolveCategoryResId(navigationRow.getCategory())));
 
                 return new ListRow(header, listRowAdapter);
