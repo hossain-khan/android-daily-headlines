@@ -24,7 +24,9 @@
 
 package info.hossainkhan.dailynewsheadlines;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ import android.support.v17.leanback.widget.PresenterSelector;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.SectionRow;
+import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
@@ -63,6 +66,7 @@ import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
+import io.swagger.client.model.ArticleCategory;
 import timber.log.Timber;
 
 
@@ -89,7 +93,32 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
         setupUIElements();
 
-        mHeadlinesPresenter = new HeadlinesPresenter(this, CategoryNameResolver.getSupportedCategories());
+        mHeadlinesPresenter = new HeadlinesPresenter(this, getPreferredCategories());
+    }
+
+    private List<ArticleCategory> getPreferredCategories() {
+        ArrayList<ArticleCategory> supportedCategories = CategoryNameResolver.getSupportedCategories();
+        Context context = getActivity().getApplicationContext();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // FIXME - remove repeatative code.
+        if (sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_sports), true)) {
+            supportedCategories.remove(ArticleCategory.sports);
+        }
+
+        if (sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_technology), true)) {
+            supportedCategories.remove(ArticleCategory.technology);
+        }
+
+        if (sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_business), true)) {
+            supportedCategories.remove(ArticleCategory.business);
+        }
+
+        if (sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_top_headlines), true)) {
+            supportedCategories.remove(ArticleCategory.home);
+        }
+        return supportedCategories;
     }
 
     @Override
