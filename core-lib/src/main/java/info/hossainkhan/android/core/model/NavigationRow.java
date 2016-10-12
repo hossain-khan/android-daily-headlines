@@ -44,21 +44,26 @@ public class NavigationRow {
 
     @SerializedName("type")
     private int mType = TYPE_DEFAULT;
+
     // Used to determine whether the row shall use shadows when displaying its cards or not.
     @SerializedName("shadow")
-    private boolean mShadow = true;
+    private boolean mShadow;
+
     @SerializedName("title")
     private String mTitle;
+
     @SerializedName("category")
     private ArticleCategory mCategory;
+
     @SerializedName("cards")
     private List<CardItem> mCards;
 
-    private NavigationRow(int type, String title, ArticleCategory category, List<CardItem> cards) {
+    private NavigationRow(int type, String title, ArticleCategory category, List<CardItem> cards, boolean useShadow) {
         mTitle = title;
         mCategory = category;
         mType = type;
         mCards = cards;
+        mShadow = useShadow;
     }
 
     public int getType() {
@@ -87,6 +92,7 @@ public class NavigationRow {
         private String title;
         private ArticleCategory category;
         private List<CardItem> cards;
+        private boolean useShadow = true;
 
         public Builder setType(int type) {
             this.type = type;
@@ -95,6 +101,16 @@ public class NavigationRow {
 
         public Builder setTitle(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * Used to determine whether the row shall use shadows when displaying its cards or not.
+         * @param useShadow
+         * @return
+         */
+        public Builder useShadow(boolean useShadow) {
+            this.useShadow = useShadow;
             return this;
         }
 
@@ -109,7 +125,7 @@ public class NavigationRow {
         }
 
         public NavigationRow build() {
-            return new NavigationRow(type, title, category, cards);
+            return new NavigationRow(type, title, category, cards, useShadow);
         }
     }
 }

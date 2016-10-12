@@ -43,6 +43,7 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.SectionRow;
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -59,7 +60,11 @@ import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.util.ObjectUtils;
+import info.hossainkhan.android.core.util.Validate;
+import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
+import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
 import timber.log.Timber;
 
 
@@ -102,7 +107,8 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
         applyStaticNavigationItems(list);
 
 
-        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        mRowsAdapter = new ArrayObjectAdapter(new ShadowRowPresenterSelector());
+
         int totalNavigationItems = list.size();
         int i;
         for (i = 0; i < totalNavigationItems; i++) {
@@ -130,16 +136,20 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
         List<CardItem> settingsItems = new ArrayList<>();
         CardItem item = new CardItem(CardItem.Type.ICON);
         item.setTitle("Test 1");
-        item.setImageUrl("http://morelab.deusto.es/media/research_group/social_profiles/github.png");
         item.setLocalImageResourceId(R.drawable.ic_settings_settings);
         settingsItems.add(item);
 
         item = new CardItem(CardItem.Type.ICON);
         item.setTitle("Test 2");
-        item.setImageUrl("http://kinlane-productions.s3.amazonaws.com/github/github-round.png");
+        item.setLocalImageResourceId(R.drawable.ic_settings_settings);
         settingsItems.add(item);
 
-        list.add(new NavigationRow.Builder().setTitle("Categories").setType(NavigationRow.TYPE_DEFAULT).setCards(settingsItems).build());
+        list.add(new NavigationRow.Builder()
+                .setTitle("Categories")
+                .setType(NavigationRow.TYPE_DEFAULT)
+                .setCards(settingsItems)
+                .useShadow(false)
+                .build());
     }
 
 
@@ -167,9 +177,15 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
                 for (CardItem card : navigationRow.getCards()) {
                     listRowAdapter.add(card);
                 }
-                HeaderItem header = new HeaderItem(getString(CategoryNameResolver.resolveCategoryResId(navigationRow.getCategory())));
 
-                return new ListRow(header, listRowAdapter);
+                HeaderItem header;
+                if(navigationRow.getCategory() != null) {
+                    header = new HeaderItem(getString(CategoryNameResolver.resolveCategoryResId(navigationRow.getCategory())));
+                } else {
+                    header = new HeaderItem(navigationRow.getTitle());
+                }
+
+                return new CardListRow(header, listRowAdapter, navigationRow);
         }
     }
 
@@ -238,12 +254,12 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
     @Override
     public void showHeadlineDetailsUi(final CardItem cardItem) {
-
+        Timber.d("Load details view for item: %s", cardItem);
     }
 
     @Override
     public void showLoadingHeadlinesError() {
-
+        Toast.makeText(getActivity(), "Unable to load headlines", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -2,6 +2,7 @@ package info.hossainkhan.dailynewsheadlines;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -60,6 +61,7 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     @Override
     public void showLoadingHeadlinesError() {
         Timber.d("showLoadingHeadlinesError() called");
+        Toast.makeText(this, "Unable to load headlines", Toast.LENGTH_SHORT).show();
     }
 
     @Override
