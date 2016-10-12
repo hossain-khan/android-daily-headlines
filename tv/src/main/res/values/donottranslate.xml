@@ -38,6 +38,8 @@
     <string name="prefs_key_content_category_business" translatable="false">prefs_content_category_business</string>
     <string name="prefs_key_content_category_top_headlines" translatable="false">prefs_content_category_top_headlines</string>
 
+    <string name="prefs_screen_key_content_category_top_headlines" translatable="false">prefs_screen_headlines_category</string>
+
     <!--
         List of keys used for shared transition
         - https://developer.android.com/training/material/animations.html

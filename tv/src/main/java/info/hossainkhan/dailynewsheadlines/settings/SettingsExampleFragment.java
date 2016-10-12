@@ -46,7 +46,7 @@ public class SettingsExampleFragment extends LeanbackSettingsFragment implements
 
     @Override
     public void onPreferenceStartInitialScreen() {
-        startPreferenceFragment(buildPreferenceFragment(R.xml.prefs, null));
+        startPreferenceFragment(buildPreferenceFragment(R.xml.preferences_screen, null));
     }
 
     @Override
@@ -58,7 +58,7 @@ public class SettingsExampleFragment extends LeanbackSettingsFragment implements
     @Override
     public boolean onPreferenceStartScreen(PreferenceFragment preferenceFragment,
                                            PreferenceScreen preferenceScreen) {
-        PreferenceFragment frag = buildPreferenceFragment(R.xml.prefs, preferenceScreen.getKey());
+        PreferenceFragment frag = buildPreferenceFragment(R.xml.preferences_screen, preferenceScreen.getKey());
         startPreferenceFragment(frag);
         return true;
     }

@@ -23,42 +23,42 @@
   ~ SOFTWARE.
   -->
 
-<!-- TODO: Move strings to resources -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                  android:summary="Update your preferences."
-                  android:title="Headlines Preference">
+                  android:summary="@string/prefs_screen_title_root_screen"
+                  android:title="@string/prefs_screen_summary_root_screen">
     <PreferenceScreen
         android:icon="@drawable/ic_action_name"
-        android:key="prefs_date_time_screen_key"
-        android:title="Enable/Disable Headlines Category">
+        android:key="@string/prefs_screen_key_content_category_top_headlines"
+        android:title="@string/prefs_screen_title_category_selection"
+        android:summary="@string/prefs_screen_summary_category_selection">
         <CheckBoxPreference
             android:defaultValue="true"
             android:disableDependentsState="true"
             android:key="@string/prefs_key_content_category_top_headlines"
             android:summaryOff="@string/general_item_disabled"
-            android:summaryOn="@string/general_item_disabled"
+            android:summaryOn="@string/general_item_enabled"
             android:title="@string/category_name_top_news"/>
         <CheckBoxPreference
             android:defaultValue="true"
             android:disableDependentsState="true"
             android:key="@string/prefs_key_content_category_business"
             android:summaryOff="@string/general_item_disabled"
-            android:summaryOn="@string/general_item_disabled"
+            android:summaryOn="@string/general_item_enabled"
             android:title="@string/category_name_business"/>
         <CheckBoxPreference
             android:defaultValue="true"
             android:disableDependentsState="true"
             android:key="@string/prefs_key_content_category_technology"
             android:summaryOff="@string/general_item_disabled"
-            android:summaryOn="@string/general_item_disabled"
+            android:summaryOn="@string/general_item_enabled"
             android:title="@string/category_name_technology"/>
         <CheckBoxPreference
             android:defaultValue="true"
             android:disableDependentsState="true"
             android:key="@string/prefs_key_content_category_sports"
             android:summaryOff="@string/general_item_disabled"
-            android:summaryOn="@string/general_item_disabled"
+            android:summaryOn="@string/general_item_enabled"
             android:title="@string/category_name_sports"/>
 
     </PreferenceScreen>
