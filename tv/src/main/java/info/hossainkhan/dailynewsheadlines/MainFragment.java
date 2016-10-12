@@ -54,10 +54,10 @@ import java.util.TimerTask;
 
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
+import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.TextCardPresenter;
-import io.swagger.client.model.Article;
 import io.swagger.client.model.ArticleMultimedia;
 import timber.log.Timber;
 
@@ -129,12 +129,12 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
                 return new DividerRow();
             case NavigationRow.TYPE_DEFAULT:
             default:
-                List<Article> articles = navigationRow.getCards();
-                int totalArticleSize = articles.size();
+                List<CardItem> cards = navigationRow.getCards();
+                int totalArticleSize = cards.size();
                 TextCardPresenter cardPresenter = new TextCardPresenter(getActivity().getApplicationContext());
                 ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
                 for (int j = 0; j < totalArticleSize; j++) {
-                    listRowAdapter.add(articles.get(j));
+                    listRowAdapter.add(cards.get(j));
                 }
 
                 HeaderItem header = new HeaderItem(getString(CategoryNameResolver.resolveCategoryResId(navigationRow.getCategory())));
@@ -207,7 +207,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
     }
 
     @Override
-    public void showHeadlineDetailsUi(final Article article) {
+    public void showHeadlineDetailsUi(final CardItem cardItem) {
 
     }
 
@@ -237,16 +237,15 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
             Timber.d("onItemSelected");
 
-            if (item instanceof Article) {
-                List<ArticleMultimedia> multimedia = ((Article) item).getMultimedia();
-                int size = multimedia.size();
-                if (size >= 5) {
-                    String url = multimedia.get(4).getUrl();
-                    Timber.d("Loading HD background URL: %s", url);
-                    mBackgroundURI = URI.create(url);
+            if (item instanceof CardItem) {
+                CardItem cardItem = ((CardItem) item);
+
+                if (cardItem.getImageUrl() !=null) {
+                    mBackgroundURI = cardItem.getImageURI();
+                    Timber.d("Loading HD background URL: %s", mBackgroundURI);
                     startBackgroundTimer();
                 } else {
-                    Timber.i("Article does not have HD background. Total items: %d", size);
+                    Timber.i("Card object does not have HD background.");
                 }
             }
         }

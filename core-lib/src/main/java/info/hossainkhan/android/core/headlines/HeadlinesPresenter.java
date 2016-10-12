@@ -33,6 +33,7 @@ import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.base.BasePresenter;
+import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.ConsumptionFormat;
@@ -115,7 +116,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                                         new NavigationRow.Builder()
                                                 .setTitle(articleCategory.name())
                                                 .setCategory(articleCategory)
-                                                .setCards(inlineResponse200s.get(i).getResults())
+                                                .setCards(convertArticleToCardItems(inlineResponse200s.get(i).getResults()))
                                                 .build()
                                 );
                             }
@@ -126,8 +127,25 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                 });
     }
 
+    /**
+     * Converts {@link Article} list into generic {@link CardItem} model.
+     * <p>
+     * <br/>
+     * Check if we can use "adapter" or "factory" pattern to standardize this.
+     *
+     * @param articles List of articles.
+     * @return List of converted {@link CardItem}.
+     */
+    private List<CardItem> convertArticleToCardItems(final List<Article> articles) {
+        List<CardItem> cardItems = new ArrayList<>(articles.size());
+        for (Article result : articles) {
+            cardItems.add(new CardItem(result));
+        }
+        return cardItems;
+    }
+
     @Override
-    public void openHeadlineDetails(@NonNull final Article article) {
+    public void openHeadlineDetails(@NonNull final CardItem cardItem) {
 
     }
 }

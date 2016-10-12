@@ -29,14 +29,14 @@ import android.support.v17.leanback.widget.BaseCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.ViewGroup;
 
-import io.swagger.client.model.Article;
+import info.hossainkhan.android.core.model.CardItem;
 
 /**
  * This abstract, generic class will create and manage the
  * ViewHolder and will provide typed Presenter callbacks such that you do not have to perform casts
  * on your own.
  *
- * @param <T> View type for the article.
+ * @param <T> View type for the card.
  */
 public abstract class AbstractCardPresenter<T extends BaseCardView> extends Presenter {
 
@@ -60,8 +60,8 @@ public abstract class AbstractCardPresenter<T extends BaseCardView> extends Pres
     }
 
     @Override public final void onBindViewHolder(ViewHolder viewHolder, Object item) {
-        Article article = (Article) item;
-        onBindViewHolder(article, (T) viewHolder.view);
+        CardItem cardItem = (CardItem) item;
+        onBindViewHolder(cardItem, (T) viewHolder.view);
     }
 
     @Override public final void onUnbindViewHolder(ViewHolder viewHolder) {
@@ -80,12 +80,12 @@ public abstract class AbstractCardPresenter<T extends BaseCardView> extends Pres
     protected abstract T onCreateView();
 
     /**
-     * Implement this method to update your article's view with the data bound to it.
+     * Implement this method to update your cardItem's view with the data bound to it.
      *
-     * @param article The model containing the data for the article.
-     * @param cardView The view the article is bound to.
+     * @param cardItem The model containing the data for the cardItem.
+     * @param cardView The view the cardItem is bound to.
      * @see Presenter#onBindViewHolder(Presenter.ViewHolder, Object)
      */
-    public abstract void onBindViewHolder(Article article, T cardView);
+    public abstract void onBindViewHolder(CardItem cardItem, T cardView);
 
 }

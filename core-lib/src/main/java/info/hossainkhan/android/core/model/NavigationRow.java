@@ -28,7 +28,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import io.swagger.client.model.Article;
 import io.swagger.client.model.ArticleCategory;
 
 /**
@@ -53,9 +52,9 @@ public class NavigationRow {
     @SerializedName("category")
     private ArticleCategory mCategory;
     @SerializedName("cards")
-    private List<Article> mCards;
+    private List<CardItem> mCards;
 
-    private NavigationRow(int type, String title, ArticleCategory category, List<Article> cards) {
+    private NavigationRow(int type, String title, ArticleCategory category, List<CardItem> cards) {
         mTitle = title;
         mCategory = category;
         mType = type;
@@ -74,7 +73,7 @@ public class NavigationRow {
         return mShadow;
     }
 
-    public List<Article> getCards() {
+    public List<CardItem> getCards() {
         return mCards;
     }
 
@@ -87,7 +86,7 @@ public class NavigationRow {
         private int type;
         private String title;
         private ArticleCategory category;
-        private List<Article> cards;
+        private List<CardItem> cards;
 
         public Builder setType(int type) {
             this.type = type;
@@ -104,7 +103,7 @@ public class NavigationRow {
             return this;
         }
 
-        public Builder setCards(List<Article> cards) {
+        public Builder setCards(List<CardItem> cards) {
             this.cards = cards;
             return this;
         }

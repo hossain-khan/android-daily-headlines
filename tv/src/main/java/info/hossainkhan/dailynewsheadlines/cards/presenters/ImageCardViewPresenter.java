@@ -30,8 +30,9 @@ import android.view.ContextThemeWrapper;
 
 import com.squareup.picasso.Picasso;
 
+import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.util.StringUtils;
 import info.hossainkhan.dailynewsheadlines.R;
-import io.swagger.client.model.Article;
 
 /**
  * A very basic {@link ImageCardView} {@link android.support.v17.leanback.widget.Presenter}.You can
@@ -61,13 +62,13 @@ public class ImageCardViewPresenter extends AbstractCardPresenter<ImageCardView>
     }
 
     @Override
-    public void onBindViewHolder(final Article article, final ImageCardView cardView) {
-        cardView.setTag(article);
-        cardView.setTitleText(article.getTitle());
-        cardView.setContentText(article.getAbstract());
-        if (article.getMultimedia() != null && article.getMultimedia().size() > 4) {
+    public void onBindViewHolder(final CardItem cardItem, final ImageCardView cardView) {
+        cardView.setTag(cardItem);
+        cardView.setTitleText(cardItem.getTitle());
+        cardView.setContentText(cardItem.getDescription());
+        if (StringUtils.isNotEmpty(cardItem.getImageUrl())) {
             Picasso.with(getContext())
-                    .load(article.getMultimedia().get(3).getUrl())
+                    .load(cardItem.getImageUrl())
                     .into(cardView.getMainImageView());
         }
     }

@@ -43,6 +43,8 @@ import timber.log.Timber;
  */
 public class CardItem {
 
+
+
     /**
      * Type of the cards supported by the TV browser.
      */
@@ -61,7 +63,13 @@ public class CardItem {
     @SerializedName("extraText")
     private String mExtraText = "";
 
-    @SerializedName("card")
+    @SerializedName("category")
+    private String mCategory;
+
+    @SerializedName("dateCreated")
+    private String mDateCreated;
+
+    @SerializedName("imageUrl")
     private String mImageUrl;
 
     @SerializedName("footerColor")
@@ -91,6 +99,9 @@ public class CardItem {
         mDescription = article.getAbstract();
         mType = Type.HEADLINES;
         mId = article.getUrl().hashCode();
+
+        mCategory = article.getSection();
+        mDateCreated = article.getCreatedDate();
 
 
         List<ArticleMultimedia> multimedia = article.getMultimedia();
@@ -153,6 +164,22 @@ public class CardItem {
 
     public void setDescription(String description) {
         mDescription = description;
+    }
+
+    public String getCategory() {
+        return mCategory;
+    }
+
+    public void setCategory(String category) {
+        mCategory = category;
+    }
+
+    public String getDateCreated() {
+        return mDateCreated;
+    }
+
+    public void setDateCreated(String mDateCreated) {
+        this.mDateCreated = mDateCreated;
     }
 
 

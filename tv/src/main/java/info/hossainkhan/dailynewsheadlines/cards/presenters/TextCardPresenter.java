@@ -26,8 +26,8 @@ package info.hossainkhan.dailynewsheadlines.cards.presenters;
 
 import android.content.Context;
 
+import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.dailynewsheadlines.cards.TextCardView;
-import io.swagger.client.model.Article;
 
 /**
  * The Presenter displays a card consisting of text as a replacement for a big image. The footer is
@@ -45,8 +45,8 @@ public class TextCardPresenter extends AbstractCardPresenter<TextCardView> {
     }
 
     @Override
-    public void onBindViewHolder(Article card, TextCardView cardView) {
-        cardView.updateUi(card);
+    public void onBindViewHolder(CardItem cardItem, TextCardView cardView) {
+        cardView.updateUi(cardItem);
     }
 
 }
