@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.dailynewsheadlines.cards.presenters;
 
 import android.content.Context;
 import android.support.v17.leanback.widget.BaseCardView;

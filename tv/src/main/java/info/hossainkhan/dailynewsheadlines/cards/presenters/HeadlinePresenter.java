@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.dailynewsheadlines.cards.presenters;
 
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.ImageCardView;
@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 
+import info.hossainkhan.dailynewsheadlines.R;
 import io.swagger.client.model.Article;
 import timber.log.Timber;
 

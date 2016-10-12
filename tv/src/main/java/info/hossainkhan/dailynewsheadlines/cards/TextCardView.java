@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.dailynewsheadlines.cards;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -40,6 +40,7 @@ import java.util.List;
 import info.hossainkhan.android.core.picasso.BlurTransformation;
 import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
 import info.hossainkhan.android.core.util.DateUtils;
+import info.hossainkhan.dailynewsheadlines.R;
 import io.swagger.client.model.Article;
 import io.swagger.client.model.ArticleMultimedia;
 import timber.log.Timber;

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.dailynewsheadlines.cards.presenters;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -30,6 +30,8 @@ import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.view.View;
 import android.widget.ImageView;
+
+import info.hossainkhan.dailynewsheadlines.R;
 
 /**
  * This Presenter will display cards which consists of a single icon which will be highlighted by a
