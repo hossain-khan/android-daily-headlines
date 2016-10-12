@@ -42,7 +42,7 @@ import java.util.Stack;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 
-public class SettingsExampleFragment extends LeanbackSettingsFragment implements DialogPreference.TargetFragment {
+public class SettingsFragment extends LeanbackSettingsFragment implements DialogPreference.TargetFragment {
 
     public static final String BUNDLE_KEY_ROOT_SCREEN_ID = "root";
     public static final String BUNDLE_KEY_PREFERENCE_RESOURCE_ID = "preferenceResource";

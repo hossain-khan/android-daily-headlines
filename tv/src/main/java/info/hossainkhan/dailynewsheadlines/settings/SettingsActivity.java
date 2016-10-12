@@ -32,7 +32,7 @@ import info.hossainkhan.dailynewsheadlines.R;
 /*
  * TODO: Javadoc
  */
-public class SettingsExampleActivity extends Activity {
+public class SettingsActivity extends Activity {
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
