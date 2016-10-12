@@ -152,27 +152,30 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
      */
     private void applyStaticNavigationItems(final List<NavigationRow> list) {
         // Prepare/inject additional items for the navigation
-        list.add(0, new NavigationRow.Builder().setTitle("NYTimes").setType(NavigationRow.TYPE_SECTION_HEADER).build());
+        // TODO: This news source heading item should be dynamic once multiple news source is allowed
+        list.add(0, new NavigationRow.Builder()
+                .setTitle(getString(R.string.navigation_header_item_news_source_nytimes_title))
+                .setType(NavigationRow.TYPE_SECTION_HEADER)
+                .build());
 
         // Begin settings section
         list.add(new NavigationRow.Builder().setType(NavigationRow.TYPE_DIVIDER).build());
-        list.add(new NavigationRow.Builder().setTitle("Settings").setType(NavigationRow.TYPE_SECTION_HEADER).build());
+        list.add(new NavigationRow.Builder()
+                .setTitle(getString(R.string.navigation_header_item_settings_title))
+                .setType(NavigationRow.TYPE_SECTION_HEADER)
+                .build());
 
         // Build settings items
 
         List<CardItem> settingsItems = new ArrayList<>();
         CardItem item = new CardItem(CardItem.Type.ICON);
-        item.setTitle("Test 1");
-        item.setLocalImageResourceId(R.drawable.ic_settings_settings);
-        settingsItems.add(item);
-
-        item = new CardItem(CardItem.Type.ICON);
-        item.setTitle("Test 2");
+        item.setId(R.string.settings_card_item_news_source_title);
+        item.setTitle(getString(R.string.settings_card_item_news_source_title));
         item.setLocalImageResourceId(R.drawable.ic_settings_settings);
         settingsItems.add(item);
 
         list.add(new NavigationRow.Builder()
-                .setTitle("Categories")
+                .setTitle(getString(R.string.settings_navigation_row_news_source_title))
                 .setType(NavigationRow.TYPE_DEFAULT)
                 .setCards(settingsItems)
                 .useShadow(false)
@@ -306,11 +309,16 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
             int id = card.getId();
             CardItem.Type type = card.getType();
 
-            if(type == CardItem.Type.ICON) {
-                // TODO rename activity
-                intent = new Intent(getActivity().getBaseContext(),
-                        SettingsActivity.class);
-                startActivity(intent);
+            if (type == CardItem.Type.ICON) {
+                switch (id) {
+                    case R.string.settings_card_item_news_source_title:
+                        intent = new Intent(getActivity().getBaseContext(),
+                                SettingsActivity.class);
+                        startActivity(intent);
+                        break;
+                    default:
+                        Timber.w("Unable to handle settings item: %s", card.getTitle());
+                }
             }
         }
     }
