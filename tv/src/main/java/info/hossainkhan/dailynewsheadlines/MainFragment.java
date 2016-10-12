@@ -98,26 +98,30 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
     private List<ArticleCategory> getPreferredCategories() {
         ArrayList<ArticleCategory> supportedCategories = CategoryNameResolver.getSupportedCategories();
+        Timber.d("getPreferredCategories() - Supported Total: %s,  %s", supportedCategories.size(),
+                supportedCategories);
+
         Context context = getActivity().getApplicationContext();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         // FIXME - remove repeatative code.
-        if (sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_sports), true)) {
+        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_sports), true)) {
             supportedCategories.remove(ArticleCategory.sports);
         }
 
-        if (sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_technology), true)) {
+        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_technology), true)) {
             supportedCategories.remove(ArticleCategory.technology);
         }
 
-        if (sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_business), true)) {
+        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_business), true)) {
             supportedCategories.remove(ArticleCategory.business);
         }
 
-        if (sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_top_headlines), true)) {
+        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_top_headlines), true)) {
             supportedCategories.remove(ArticleCategory.home);
         }
+        Timber.d("getPreferredCategories() - Total: %s,  %s", supportedCategories.size(), supportedCategories);
         return supportedCategories;
     }
 
