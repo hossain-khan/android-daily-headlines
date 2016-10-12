@@ -24,6 +24,9 @@
 
 package info.hossainkhan.dailynewsheadlines;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -33,8 +36,6 @@ import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.DividerRow;
 import android.support.v17.leanback.widget.HeaderItem;
-import android.support.v17.leanback.widget.ListRow;
-import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
@@ -42,6 +43,7 @@ import android.support.v17.leanback.widget.PresenterSelector;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.SectionRow;
+import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
@@ -60,11 +62,11 @@ import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
-import info.hossainkhan.android.core.util.ObjectUtils;
-import info.hossainkhan.android.core.util.Validate;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
+import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
+import io.swagger.client.model.ArticleCategory;
 import timber.log.Timber;
 
 
@@ -91,7 +93,36 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
         setupUIElements();
 
-        mHeadlinesPresenter = new HeadlinesPresenter(this, CategoryNameResolver.getSupportedCategories());
+        mHeadlinesPresenter = new HeadlinesPresenter(this, getPreferredCategories());
+    }
+
+    private List<ArticleCategory> getPreferredCategories() {
+        ArrayList<ArticleCategory> supportedCategories = CategoryNameResolver.getSupportedCategories();
+        Timber.d("getPreferredCategories() - Supported Total: %s,  %s", supportedCategories.size(),
+                supportedCategories);
+
+        Context context = getActivity().getApplicationContext();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // FIXME - remove repeatative code.
+        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_sports), true)) {
+            supportedCategories.remove(ArticleCategory.sports);
+        }
+
+        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_technology), true)) {
+            supportedCategories.remove(ArticleCategory.technology);
+        }
+
+        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_business), true)) {
+            supportedCategories.remove(ArticleCategory.business);
+        }
+
+        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_top_headlines), true)) {
+            supportedCategories.remove(ArticleCategory.home);
+        }
+        Timber.d("getPreferredCategories() - Total: %s,  %s", supportedCategories.size(), supportedCategories);
+        return supportedCategories;
     }
 
     @Override
@@ -125,27 +156,30 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
      */
     private void applyStaticNavigationItems(final List<NavigationRow> list) {
         // Prepare/inject additional items for the navigation
-        list.add(0, new NavigationRow.Builder().setTitle("NYTimes").setType(NavigationRow.TYPE_SECTION_HEADER).build());
+        // TODO: This news source heading item should be dynamic once multiple news source is allowed
+        list.add(0, new NavigationRow.Builder()
+                .setTitle(getString(R.string.navigation_header_item_news_source_nytimes_title))
+                .setType(NavigationRow.TYPE_SECTION_HEADER)
+                .build());
 
         // Begin settings section
         list.add(new NavigationRow.Builder().setType(NavigationRow.TYPE_DIVIDER).build());
-        list.add(new NavigationRow.Builder().setTitle("Settings").setType(NavigationRow.TYPE_SECTION_HEADER).build());
+        list.add(new NavigationRow.Builder()
+                .setTitle(getString(R.string.navigation_header_item_settings_title))
+                .setType(NavigationRow.TYPE_SECTION_HEADER)
+                .build());
 
         // Build settings items
 
         List<CardItem> settingsItems = new ArrayList<>();
         CardItem item = new CardItem(CardItem.Type.ICON);
-        item.setTitle("Test 1");
-        item.setLocalImageResourceId(R.drawable.ic_settings_settings);
-        settingsItems.add(item);
-
-        item = new CardItem(CardItem.Type.ICON);
-        item.setTitle("Test 2");
+        item.setId(R.string.settings_card_item_news_source_title);
+        item.setTitle(getString(R.string.settings_card_item_news_source_title));
         item.setLocalImageResourceId(R.drawable.ic_settings_settings);
         settingsItems.add(item);
 
         list.add(new NavigationRow.Builder()
-                .setTitle("Categories")
+                .setTitle(getString(R.string.settings_navigation_row_news_source_title))
                 .setType(NavigationRow.TYPE_DEFAULT)
                 .setCards(settingsItems)
                 .useShadow(false)
@@ -273,6 +307,23 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             Timber.d("onItemClicked: " + item);
+
+            Intent intent = null;
+            CardItem card = (CardItem) item;
+            int id = card.getId();
+            CardItem.Type type = card.getType();
+
+            if (type == CardItem.Type.ICON) {
+                switch (id) {
+                    case R.string.settings_card_item_news_source_title:
+                        intent = new Intent(getActivity().getBaseContext(),
+                                SettingsActivity.class);
+                        startActivity(intent);
+                        break;
+                    default:
+                        Timber.w("Unable to handle settings item: %s", card.getTitle());
+                }
+            }
         }
     }
 

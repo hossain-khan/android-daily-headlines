@@ -55,6 +55,11 @@ dependencies {
     compile "com.android.support:leanback-v17:$rootProject.supportLibraryVersion"
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
 
+    // Needed for leanback preference
+    compile "com.android.support:preference-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:preference-leanback-v17:$rootProject.supportLibraryVersion"
+    compile "com.android.support:preference-v14:$rootProject.supportLibraryVersion"
+
     // Firebase CORE
     // https://firebase.google.com/docs/android/setup
     compile "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
