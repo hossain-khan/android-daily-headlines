@@ -42,6 +42,11 @@ public class CategoryNameResolver {
     /**
      * List of supported sections by the application.
      *
+     * <p>
+     * NOTE: Due to limitation <code>X-RateLimit-Limit-second: 5</code>
+     * we can not make more than 5 concurrent request per seconds.
+     * </p>
+     *
      * The order is important, and that is why {@link LinkedHashMap} has been used.
      */
     static {

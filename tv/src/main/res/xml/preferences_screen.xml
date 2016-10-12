@@ -25,6 +25,7 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:key="@string/prefs_screen_key_root_container_screen"
                   android:summary="@string/prefs_screen_title_root_screen"
                   android:title="@string/prefs_screen_summary_root_screen">
     <PreferenceScreen

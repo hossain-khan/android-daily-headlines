@@ -24,6 +24,7 @@
 
 package info.hossainkhan.dailynewsheadlines.settings;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -39,10 +40,13 @@ import java.util.Arrays;
 import java.util.Stack;
 
 import info.hossainkhan.dailynewsheadlines.R;
+import timber.log.Timber;
 
 public class SettingsExampleFragment extends LeanbackSettingsFragment implements DialogPreference.TargetFragment {
 
-    private final Stack<Fragment> fragments = new Stack<Fragment>();
+    public static final String BUNDLE_KEY_ROOT_SCREEN_ID = "root";
+    public static final String BUNDLE_KEY_PREFERENCE_RESOURCE_ID = "preferenceResource";
+    private final Stack<Fragment> fragmentStack = new Stack<Fragment>();
 
     @Override
     public void onPreferenceStartInitialScreen() {
@@ -65,14 +69,16 @@ public class SettingsExampleFragment extends LeanbackSettingsFragment implements
 
     @Override
     public Preference findPreference(CharSequence prefKey) {
-        return ((PreferenceFragment) fragments.peek()).findPreference(prefKey);
+        Timber.d("findPreference() called with: prefKey = [" + prefKey + "]");
+        return ((PreferenceFragment) fragmentStack.peek()).findPreference(prefKey);
     }
 
     private PreferenceFragment buildPreferenceFragment(int preferenceResId, String root) {
+        Timber.d("buildPreferenceFragment() called with: preferenceResId = [" + preferenceResId + "], root = [" + root + "]");
         PreferenceFragment fragment = new PrefFragment();
         Bundle args = new Bundle();
-        args.putInt("preferenceResource", preferenceResId);
-        args.putString("root", root);
+        args.putInt(BUNDLE_KEY_PREFERENCE_RESOURCE_ID, preferenceResId);
+        args.putString(BUNDLE_KEY_ROOT_SCREEN_ID, root);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,8 +87,8 @@ public class SettingsExampleFragment extends LeanbackSettingsFragment implements
 
         @Override
         public void onCreatePreferences(Bundle bundle, String s) {
-            String root = getArguments().getString("root", null);
-            int prefResId = getArguments().getInt("preferenceResource");
+            String root = getArguments().getString(BUNDLE_KEY_ROOT_SCREEN_ID, null);
+            int prefResId = getArguments().getInt(BUNDLE_KEY_PREFERENCE_RESOURCE_ID);
             if (root == null) {
                 addPreferencesFromResource(prefResId);
             } else {
@@ -92,9 +98,7 @@ public class SettingsExampleFragment extends LeanbackSettingsFragment implements
 
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
-            final String[] keys = {"prefs_wifi_connect_wps", "prefs_date", "prefs_time",
-                    "prefs_date_time_use_timezone", "app_banner_sample_app", "pref_force_stop",
-                    "pref_uninstall", "pref_more_info"};
+            final String[] keys = {"prefs_content_category_business"};
             if (Arrays.asList(keys).contains(preference.getKey())) {
                 Toast.makeText(getActivity(), "Implement your own action handler.", Toast.LENGTH_SHORT).show();
                 return true;
@@ -104,13 +108,26 @@ public class SettingsExampleFragment extends LeanbackSettingsFragment implements
 
         @Override
         public void onAttach(Context context) {
-            fragments.push(this);
+            fragmentStack.push(this);
+            Timber.d("onAttach() called with: context = [%s], stack size: %d", context, fragmentStack.size());
             super.onAttach(context);
         }
 
         @Override
+        public void onAttach(final Activity activity) {
+            if(!fragmentStack.contains(this)) {
+                fragmentStack.push(this);
+            } else {
+                Timber.i("Fragment [%s] already exist in the stack", this);
+            }
+            Timber.d("onAttach() called with: activity = [%s], stack size: %d", activity, fragmentStack.size());
+            super.onAttach(activity);
+        }
+
+        @Override
         public void onDetach() {
-            fragments.pop();
+            Timber.d("onDetach() called, stack size: %d", fragmentStack.size());
+            fragmentStack.pop();
             super.onDetach();
         }
     }
