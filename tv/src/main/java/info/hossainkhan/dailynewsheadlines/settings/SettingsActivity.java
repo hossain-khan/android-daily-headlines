@@ -29,8 +29,8 @@ import android.os.Bundle;
 
 import info.hossainkhan.dailynewsheadlines.R;
 
-/*
- * TODO: Javadoc
+/**
+ * Applications settings activity, see {@link SettingsFragment} for more information.
  */
 public class SettingsActivity extends Activity {
 

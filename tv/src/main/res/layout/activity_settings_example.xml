@@ -27,7 +27,7 @@
                 android:layout_height="match_parent">
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="info.hossainkhan.dailynewsheadlines.settings.SettingsExampleFragment"
+        android:name="info.hossainkhan.dailynewsheadlines.settings.SettingsFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></fragment>
+        android:layout_height="match_parent"/>
 </RelativeLayout>

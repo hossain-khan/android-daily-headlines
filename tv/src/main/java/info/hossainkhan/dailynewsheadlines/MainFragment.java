@@ -34,8 +34,6 @@ import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.DividerRow;
 import android.support.v17.leanback.widget.HeaderItem;
-import android.support.v17.leanback.widget.ListRow;
-import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
@@ -61,12 +59,10 @@ import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
-import info.hossainkhan.android.core.util.ObjectUtils;
-import info.hossainkhan.android.core.util.Validate;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
-import info.hossainkhan.dailynewsheadlines.settings.SettingsExampleActivity;
+import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
 import timber.log.Timber;
 
 
@@ -284,7 +280,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
             if(type == CardItem.Type.ICON) {
                 // TODO rename activity
                 intent = new Intent(getActivity().getBaseContext(),
-                        SettingsExampleActivity.class);
+                        SettingsActivity.class);
                 startActivity(intent);
             }
         }

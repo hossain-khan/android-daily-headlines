@@ -42,6 +42,9 @@ import java.util.Stack;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 
+/**
+ * Application's settings fragment with possible preference options. See preference XML for supported options.
+ */
 public class SettingsFragment extends LeanbackSettingsFragment implements DialogPreference.TargetFragment {
 
     public static final String BUNDLE_KEY_ROOT_SCREEN_ID = "root";
