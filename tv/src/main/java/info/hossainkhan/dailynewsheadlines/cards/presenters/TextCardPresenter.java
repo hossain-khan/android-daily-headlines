@@ -26,7 +26,6 @@ package info.hossainkhan.dailynewsheadlines.cards.presenters;
 
 import android.content.Context;
 
-import info.hossainkhan.dailynewsheadlines.AbstractCardPresenter;
 import info.hossainkhan.dailynewsheadlines.cards.TextCardView;
 import io.swagger.client.model.Article;
 
