@@ -43,6 +43,6 @@ This is my personal project to experiment with following tools & technologies
  * Database (local caching - Realm (maybe?))
  * Scheduler - data syncing
  * Google Play Alpha Beta release
- * LeakCanary
+ * LeakCanary _(See [#60](https://github.com/amardeshbd/android-daily-headlines/pull/60))_
  
 I'll try to update references for these items when I use in the app :sunglasses:
