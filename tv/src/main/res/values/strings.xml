@@ -6,11 +6,6 @@
     <string name="loading">Loading&#8230;</string>
     <string name="no_content_found">No content was found</string>
     <string name="version">Version: %1$s</string>
-    <string name="settings_navigation_row_news_source_title">News Source</string>
-    <string name="settings_card_item_news_source_title">Categories</string>
-    <string name="navigation_header_item_settings_title">Settings</string>
-    <string name="navigation_header_item_news_source_nytimes_title">The New York Times</string>
-
 
     <!-- Preference screen -->
     <string name="prefs_screen_title_root_screen">Headlines Preference</string>

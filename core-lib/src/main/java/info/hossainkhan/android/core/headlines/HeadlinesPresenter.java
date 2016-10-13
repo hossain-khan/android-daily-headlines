@@ -24,6 +24,7 @@
 
 package info.hossainkhan.android.core.headlines;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.crash.FirebaseCrash;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
+import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
@@ -147,5 +149,23 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     @Override
     public void openHeadlineDetails(@NonNull final CardItem cardItem) {
 
+    }
+
+    @Override
+    public void onHeadlineItemSelected(@NonNull final CardItem cardItem) {
+
+    }
+
+    @Override
+    public void onHeadlineItemClicked(@NonNull final CardItem cardItem) {
+        int id = cardItem.getId();
+        CardItem.Type type = cardItem.getType();
+        if (type == CardItem.Type.ICON) {
+            if (id == R.string.settings_card_item_news_source_title) {
+                getView().showAppSettingsScreen();
+            } else {
+                Timber.w("Unable to handle settings item: %s", cardItem.getTitle());
+            }
+        }
     }
 }

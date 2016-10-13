@@ -22,42 +22,37 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.headlines;
+package info.hossainkhan.dailynewsheadlines.browser.listeners;
 
-import android.support.annotation.NonNull;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 
-import java.util.List;
+import java.lang.ref.WeakReference;
 
-import info.hossainkhan.android.core.base.MvpPresenter;
-import info.hossainkhan.android.core.base.MvpView;
+import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.NavigationRow;
+import timber.log.Timber;
 
-public interface HeadlinesContract {
 
-    interface View extends MvpView {
+public class ItemViewClickedListener implements OnItemViewClickedListener {
 
-        void setLoadingIndicator(boolean active);
+    private final WeakReference<HeadlinesContract.Presenter> mHeadlinesPresenterRef;
 
-        void showHeadlines(List<NavigationRow> headlines);
-
-        void showHeadlineDetailsUi(CardItem cardItem);
-
-        void showLoadingHeadlinesError();
-
-        void showNoHeadlines();
-
-        void showAppSettingsScreen();
+    public ItemViewClickedListener(final HeadlinesContract.Presenter presenter) {
+        this.mHeadlinesPresenterRef = new WeakReference<>(presenter);
     }
 
-    interface Presenter extends MvpPresenter<View> {
-        
-        void loadHeadlines(boolean forceUpdate);
+    @Override
+    public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
+                              RowPresenter.ViewHolder rowViewHolder, Row row) {
+        Timber.d("onItemClicked: " + item);
+        final CardItem card = (CardItem) item;
 
-        void openHeadlineDetails(@NonNull CardItem cardItem);
-
-        void onHeadlineItemSelected(@NonNull CardItem cardItem);
-
-        void onHeadlineItemClicked(@NonNull CardItem cardItem);
+        HeadlinesContract.Presenter presenter = mHeadlinesPresenterRef.get();
+        if(presenter != null) {
+            presenter.onHeadlineItemClicked(card);
+        }
     }
 }
