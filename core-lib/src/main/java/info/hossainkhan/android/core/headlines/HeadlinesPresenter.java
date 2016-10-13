@@ -24,7 +24,6 @@
 
 package info.hossainkhan.android.core.headlines;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.crash.FirebaseCrash;
@@ -82,6 +81,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         });
 
 
+        getView().setLoadingIndicator(true);
         Subscription subscription = Observable.merge(observableList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -97,6 +97,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                     @Override
                     public void onError(Throwable e) {
                         Timber.e(e, "Failed to load responses.");
+                        getView().setLoadingIndicator(false);
 
                         FirebaseCrash.report(e);
                         getView().showLoadingHeadlinesError();
