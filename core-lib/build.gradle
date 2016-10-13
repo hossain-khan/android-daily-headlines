@@ -74,6 +74,12 @@ dependencies {
     compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 
 
+    // leakcanary - A memory leak detection library for Android and Java.
+    // https://github.com/square/leakcanary
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanaryLibraryVersion"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryLibraryVersion"
+
+
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
     // ----------------------------------------------------------------
@@ -82,4 +88,5 @@ dependencies {
     })
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     testCompile "junit:junit:$rootProject.junitVersion"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryLibraryVersion"
 }
