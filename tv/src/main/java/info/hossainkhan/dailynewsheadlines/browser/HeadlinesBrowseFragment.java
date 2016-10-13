@@ -35,15 +35,11 @@ import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.DividerRow;
 import android.support.v17.leanback.widget.HeaderItem;
-import android.support.v17.leanback.widget.OnItemViewSelectedListener;
-import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.PresenterSelector;
 import android.support.v17.leanback.widget.Row;
-import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.SectionRow;
 import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -59,8 +55,9 @@ import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
-import info.hossainkhan.dailynewsheadlines.browser.listeners.ItemViewClickedListener;
+import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.PicassoImageTarget;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
@@ -248,8 +245,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     private void setupEventListeners() {
-        setOnItemViewClickedListener(new ItemViewClickedListener(mHeadlinesPresenter));
-        setOnItemViewSelectedListener(new HeadlinesBrowseFragment.ItemViewSelectedListener());
+        CardItemViewInteractionListener listener = new CardItemViewInteractionListener(mHeadlinesPresenter);
+        setOnItemViewClickedListener(listener);
+        setOnItemViewSelectedListener(listener);
     }
 
     protected void updateBackground(String uri) {
@@ -277,7 +275,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
 
     @Override
     public void setLoadingIndicator(final boolean active) {
-
+        Timber.d("setLoadingIndicator() called with: active = [" + active + "]");
     }
 
     @Override
@@ -295,12 +293,12 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
 
     @Override
     public void showLoadingHeadlinesError() {
-        Toast.makeText(getActivity(), "Unable to load headlines", Toast.LENGTH_SHORT).show();
+        UiUtils.showToast(getActivity(), "Unable to load headlines");
     }
 
     @Override
     public void showNoHeadlines() {
-
+        Timber.d("showNoHeadlines() called");
     }
 
     @Override
@@ -310,26 +308,11 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         startActivity(intent);
     }
 
-
-    private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
-        @Override
-        public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
-                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-
-            Timber.d("onItemSelected");
-
-            if (item instanceof CardItem) {
-                CardItem cardItem = ((CardItem) item);
-
-                if (cardItem.getImageUrl() !=null) {
-                    mBackgroundURI = cardItem.getImageURI();
-                    Timber.d("Loading HD background URL: %s", mBackgroundURI);
-                    startBackgroundTimer();
-                } else {
-                    Timber.i("Card object does not have HD background.");
-                }
-            }
-        }
+    @Override
+    public void showHeadlineBackdropBackground(final URI imageURI) {
+        mBackgroundURI = imageURI;
+        Timber.d("Loading HD background URL: %s", mBackgroundURI);
+        startBackgroundTimer();
     }
 
     private class UpdateBackgroundTask extends TimerTask {

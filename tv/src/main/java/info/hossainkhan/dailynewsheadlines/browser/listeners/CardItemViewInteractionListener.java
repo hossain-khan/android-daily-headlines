@@ -25,6 +25,7 @@
 package info.hossainkhan.dailynewsheadlines.browser.listeners;
 
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
@@ -36,23 +37,39 @@ import info.hossainkhan.android.core.model.CardItem;
 import timber.log.Timber;
 
 
-public class ItemViewClickedListener implements OnItemViewClickedListener {
+public class CardItemViewInteractionListener implements OnItemViewClickedListener, OnItemViewSelectedListener {
 
     private final WeakReference<HeadlinesContract.Presenter> mHeadlinesPresenterRef;
 
-    public ItemViewClickedListener(final HeadlinesContract.Presenter presenter) {
+    public CardItemViewInteractionListener(final HeadlinesContract.Presenter presenter) {
         this.mHeadlinesPresenterRef = new WeakReference<>(presenter);
     }
 
     @Override
     public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                               RowPresenter.ViewHolder rowViewHolder, Row row) {
-        Timber.d("onItemClicked: " + item);
+        Timber.d("onItemClicked: %s", item);
         final CardItem card = (CardItem) item;
 
         HeadlinesContract.Presenter presenter = mHeadlinesPresenterRef.get();
         if(presenter != null) {
             presenter.onHeadlineItemClicked(card);
+        }
+    }
+
+    @Override
+    public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
+                               RowPresenter.ViewHolder rowViewHolder, Row row) {
+
+        Timber.d("onItemSelected: %s", item);
+
+        if (item instanceof CardItem) {
+            CardItem cardItem = ((CardItem) item);
+
+            HeadlinesContract.Presenter presenter = mHeadlinesPresenterRef.get();
+            if(presenter != null) {
+                presenter.onHeadlineItemSelected(cardItem);
+            }
         }
     }
 }

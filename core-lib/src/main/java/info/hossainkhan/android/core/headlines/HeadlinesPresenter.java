@@ -153,7 +153,11 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
     @Override
     public void onHeadlineItemSelected(@NonNull final CardItem cardItem) {
-
+        if (cardItem.getImageUrl() !=null) {
+            getView().showHeadlineBackdropBackground(cardItem.getImageURI());
+        } else {
+            Timber.i("Card object does not have HD background.");
+        }
     }
 
     @Override
