@@ -27,6 +27,7 @@ package info.hossainkhan.dailynewsheadlines.browser;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -66,6 +67,9 @@ import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
 import io.swagger.client.model.ArticleCategory;
 import timber.log.Timber;
 
+import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.buildNavigationDivider;
+import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.buildNavigationHeader;
+
 /**
  * Leanback browser fragment that is responsible for showing all the headlines.
  */
@@ -81,12 +85,19 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     private URI mBackgroundURI;
     private BackgroundManager mBackgroundManager;
     private Target mBackgroundDrawableTarget;
-    HeadlinesPresenter mHeadlinesPresenter;
+    private HeadlinesPresenter mHeadlinesPresenter;
+    private Resources mResources;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Timber.i("onCreate");
         super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState == null) {
+            prepareEntranceTransition();
+        }
+
+        mResources = getResources();
 
         prepareBackgroundManager();
 
@@ -156,17 +167,11 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     private void applyStaticNavigationItems(final List<NavigationRow> list) {
         // Prepare/inject additional items for the navigation
         // TODO: This news source heading item should be dynamic once multiple news source is allowed
-        list.add(0, new NavigationRow.Builder()
-                .setTitle(getString(R.string.navigation_header_item_news_source_nytimes_title))
-                .setType(NavigationRow.TYPE_SECTION_HEADER)
-                .build());
+        list.add(0, buildNavigationHeader(mResources, R.string.navigation_header_item_news_source_nytimes_title));
 
         // Begin settings section
-        list.add(new NavigationRow.Builder().setType(NavigationRow.TYPE_DIVIDER).build());
-        list.add(new NavigationRow.Builder()
-                .setTitle(getString(R.string.navigation_header_item_settings_title))
-                .setType(NavigationRow.TYPE_SECTION_HEADER)
-                .build());
+        list.add(buildNavigationDivider());
+        list.add(buildNavigationHeader(mResources, R.string.navigation_header_item_settings_title));
 
         // Build settings items
 
@@ -184,7 +189,6 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
                 .useShadow(false)
                 .build());
     }
-
 
 
     /**
@@ -227,7 +231,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
         mBackgroundDrawableTarget = new PicassoImageTarget(mBackgroundManager);
-        mDefaultBackground = getResources().getDrawable(R.drawable.default_background);
+        mDefaultBackground = mResources.getDrawable(R.drawable.default_background);
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
@@ -276,6 +280,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     @Override
     public void setLoadingIndicator(final boolean active) {
         Timber.d("setLoadingIndicator() called with: active = [" + active + "]");
+        if (!active) {
+            startEntranceTransition();
+        }
     }
 
     @Override

@@ -99,8 +99,8 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                         Timber.e(e, "Failed to load responses.");
                         getView().setLoadingIndicator(false);
 
-                        FirebaseCrash.report(e);
                         getView().showLoadingHeadlinesError();
+                        FirebaseCrash.report(e);
                     }
 
                     @Override
