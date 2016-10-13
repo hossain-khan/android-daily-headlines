@@ -70,8 +70,10 @@ import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
 import io.swagger.client.model.ArticleCategory;
 import timber.log.Timber;
 
-
-public class MainFragment extends BrowseFragment implements HeadlinesContract.View {
+/**
+ * Leanback browser fragment that is responsible for showing all the headlines.
+ */
+public class HeadlinesBrowseFragment extends BrowseFragment implements HeadlinesContract.View {
 
     private static final int BACKGROUND_UPDATE_DELAY = 300;
 
@@ -247,8 +249,8 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
     }
 
     private void setupEventListeners() {
-        setOnItemViewClickedListener(new MainFragment.ItemViewClickedListener());
-        setOnItemViewSelectedListener(new MainFragment.ItemViewSelectedListener());
+        setOnItemViewClickedListener(new HeadlinesBrowseFragment.ItemViewClickedListener());
+        setOnItemViewSelectedListener(new HeadlinesBrowseFragment.ItemViewSelectedListener());
     }
 
     protected void updateBackground(String uri) {
@@ -271,7 +273,7 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
             mBackgroundTimer.cancel();
         }
         mBackgroundTimer = new Timer();
-        mBackgroundTimer.schedule(new MainFragment.UpdateBackgroundTask(), BACKGROUND_UPDATE_DELAY);
+        mBackgroundTimer.schedule(new HeadlinesBrowseFragment.UpdateBackgroundTask(), BACKGROUND_UPDATE_DELAY);
     }
 
     @Override

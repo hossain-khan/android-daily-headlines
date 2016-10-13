@@ -31,7 +31,7 @@ import info.hossainkhan.android.core.util.ActivityUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 
 /*
- * MainActivity class that loads MainFragment
+ * MainActivity class that loads HeadlinesBrowseFragment
  */
 public class MainActivity extends Activity {
     /**
@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
         if (savedInstanceState == null) {
             ActivityUtils.addFragmentToActivity(
                     getFragmentManager(),
-                    new MainFragment(),
+                    new HeadlinesBrowseFragment(),
                     R.id.fragment_container);
         }
     }

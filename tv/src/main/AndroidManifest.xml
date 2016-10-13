@@ -28,7 +28,7 @@
             android:logo="@drawable/app_icon_your_company"
         -->
         <activity
-            android:name=".MainActivity"
+            android:name=".browser.MainActivity"
 
             android:label="@string/app_name"
 
