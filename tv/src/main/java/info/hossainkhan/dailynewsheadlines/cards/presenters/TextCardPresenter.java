@@ -22,36 +22,31 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.headlines;
+package info.hossainkhan.dailynewsheadlines.cards.presenters;
 
-import android.support.annotation.NonNull;
+import android.content.Context;
 
-import java.util.List;
-
-import info.hossainkhan.android.core.base.MvpPresenter;
-import info.hossainkhan.android.core.base.MvpView;
 import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.dailynewsheadlines.cards.TextCardView;
 
-public interface HeadlinesContract {
+/**
+ * The Presenter displays a card consisting of text as a replacement for a big image. The footer is
+ * also quite unique since it does contain two images rather than one or non.
+ */
+public class TextCardPresenter extends AbstractCardPresenter<TextCardView> {
 
-    interface View extends MvpView {
-
-        void setLoadingIndicator(boolean active);
-
-        void showHeadlines(List<NavigationRow> headlines);
-
-        void showHeadlineDetailsUi(CardItem cardItem);
-
-        void showLoadingHeadlinesError();
-
-        void showNoHeadlines();
+    public TextCardPresenter(Context context) {
+        super(context);
     }
 
-    interface Presenter extends MvpPresenter<View> {
-        
-        void loadHeadlines(boolean forceUpdate);
-
-        void openHeadlineDetails(@NonNull CardItem cardItem);
+    @Override
+    protected TextCardView onCreateView() {
+        return new TextCardView(getContext());
     }
+
+    @Override
+    public void onBindViewHolder(CardItem cardItem, TextCardView cardView) {
+        cardView.updateUi(cardItem);
+    }
+
 }

@@ -29,4 +29,7 @@
 
     <dimen name="card_text_container_width">420dp</dimen>
     <dimen name="card_text_container_height">305dp</dimen>
+
+    <dimen name="default_image_card_width">224dp</dimen>
+    <dimen name="default_image_card_height">126dp</dimen>
 </resources>

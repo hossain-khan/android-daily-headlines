@@ -40,6 +40,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Example.LeanbackPreferences"/>
+
     </application>
 
 </manifest>

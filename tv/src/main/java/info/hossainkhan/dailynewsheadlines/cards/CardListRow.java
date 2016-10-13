@@ -22,36 +22,33 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.headlines;
+package info.hossainkhan.dailynewsheadlines.cards;
 
-import android.support.annotation.NonNull;
+import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ListRow;
+import android.support.v17.leanback.widget.ObjectAdapter;
 
-import java.util.List;
-
-import info.hossainkhan.android.core.base.MvpPresenter;
-import info.hossainkhan.android.core.base.MvpView;
-import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 
-public interface HeadlinesContract {
+/**
+ * The {@link CardListRow} allows the {@link info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector}
+ * to access the {@link NavigationRow} held by the row and determine whether to use a
+ * {@link android.support.v17.leanback.widget.Presenter} with or without a shadow.
+ */
+public class CardListRow extends ListRow {
 
-    interface View extends MvpView {
+    private NavigationRow mNavigationRow;
 
-        void setLoadingIndicator(boolean active);
-
-        void showHeadlines(List<NavigationRow> headlines);
-
-        void showHeadlineDetailsUi(CardItem cardItem);
-
-        void showLoadingHeadlinesError();
-
-        void showNoHeadlines();
+    public CardListRow(HeaderItem header, ObjectAdapter adapter, NavigationRow navigationRow) {
+        super(header, adapter);
+        setNavigationRow(navigationRow);
     }
 
-    interface Presenter extends MvpPresenter<View> {
-        
-        void loadHeadlines(boolean forceUpdate);
+    public NavigationRow getNavigationRow() {
+        return mNavigationRow;
+    }
 
-        void openHeadlineDetails(@NonNull CardItem cardItem);
+    public void setNavigationRow(NavigationRow navigationRow) {
+        this.mNavigationRow = navigationRow;
     }
 }

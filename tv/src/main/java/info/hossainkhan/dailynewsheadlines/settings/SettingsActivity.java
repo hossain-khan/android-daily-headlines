@@ -22,30 +22,20 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.dailynewsheadlines.settings;
 
-import android.content.Context;
+import android.app.Activity;
+import android.os.Bundle;
 
-import io.swagger.client.model.Article;
+import info.hossainkhan.dailynewsheadlines.R;
 
 /**
- * The Presenter displays a card consisting of text as a replacement for a big image. The footer is
- * also quite unique since it does contain two images rather than one or non.
+ * Applications settings activity, see {@link SettingsFragment} for more information.
  */
-public class TextCardPresenter extends AbstractCardPresenter<TextCardView> {
+public class SettingsActivity extends Activity {
 
-    public TextCardPresenter(Context context) {
-        super(context);
+    @Override public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings_example);
     }
-
-    @Override
-    protected TextCardView onCreateView() {
-        return new TextCardView(getContext());
-    }
-
-    @Override
-    public void onBindViewHolder(Article card, TextCardView cardView) {
-        cardView.updateUi(card);
-    }
-
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.dailynewsheadlines.cards;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -33,15 +33,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.joda.time.DateTimeUtils;
-
-import java.util.List;
-
+import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.picasso.BlurTransformation;
 import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
 import info.hossainkhan.android.core.util.DateUtils;
-import io.swagger.client.model.Article;
-import io.swagger.client.model.ArticleMultimedia;
+import info.hossainkhan.android.core.util.StringUtils;
+import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 
 public class TextCardView extends BaseCardView {
@@ -52,24 +49,23 @@ public class TextCardView extends BaseCardView {
         setFocusable(true);
     }
 
-    public void updateUi(Article article) {
+    public void updateUi(CardItem cardItem) {
         final TextView primaryHeadline = (TextView) findViewById(R.id.primary_headline_text);
         final TextView summaryText1 = (TextView) findViewById(R.id.summary_text_1);
         final TextView summaryText2 = (TextView) findViewById(R.id.summary_text_2);
         final ImageView mainContentBackground = (ImageView) findViewById(R.id.main_content_background);
 
 
-        primaryHeadline.setText(article.getTitle());
-        summaryText1.setText(article.getSection());
-        summaryText2.setText(DateUtils.getElapsedTime(article.getCreatedDate()));
+        primaryHeadline.setText(cardItem.getTitle());
+        summaryText1.setText(cardItem.getCategory());
+        summaryText2.setText(DateUtils.getElapsedTime(cardItem.getDateCreated()));
 
         Context context = getContext();
         Picasso picasso = Picasso.with(context);
         Resources resources = context.getResources();
-        List<ArticleMultimedia> multimedia = article.getMultimedia();
-        if (multimedia.size() >= 5) {
+        if (StringUtils.isNotEmpty(cardItem.getImageUrl())) {
             picasso
-                    .load(multimedia.get(4).getUrl())
+                    .load(cardItem.getImageUrl())
                     .resize((int) resources.getDimension(R.dimen.card_text_container_width),
                             (int) resources.getDimension(R.dimen.card_text_container_height))
                     .transform(new GrayscaleTransformation(picasso))

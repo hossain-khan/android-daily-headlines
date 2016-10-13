@@ -28,7 +28,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import io.swagger.client.model.Article;
 import io.swagger.client.model.ArticleCategory;
 
 /**
@@ -45,21 +44,26 @@ public class NavigationRow {
 
     @SerializedName("type")
     private int mType = TYPE_DEFAULT;
+
     // Used to determine whether the row shall use shadows when displaying its cards or not.
     @SerializedName("shadow")
-    private boolean mShadow = true;
+    private boolean mShadow;
+
     @SerializedName("title")
     private String mTitle;
+
     @SerializedName("category")
     private ArticleCategory mCategory;
-    @SerializedName("cards")
-    private List<Article> mCards;
 
-    private NavigationRow(int type, String title, ArticleCategory category, List<Article> cards) {
+    @SerializedName("cards")
+    private List<CardItem> mCards;
+
+    private NavigationRow(int type, String title, ArticleCategory category, List<CardItem> cards, boolean useShadow) {
         mTitle = title;
         mCategory = category;
         mType = type;
         mCards = cards;
+        mShadow = useShadow;
     }
 
     public int getType() {
@@ -74,7 +78,7 @@ public class NavigationRow {
         return mShadow;
     }
 
-    public List<Article> getCards() {
+    public List<CardItem> getCards() {
         return mCards;
     }
 
@@ -87,7 +91,8 @@ public class NavigationRow {
         private int type;
         private String title;
         private ArticleCategory category;
-        private List<Article> cards;
+        private List<CardItem> cards;
+        private boolean useShadow = true;
 
         public Builder setType(int type) {
             this.type = type;
@@ -99,18 +104,28 @@ public class NavigationRow {
             return this;
         }
 
+        /**
+         * Used to determine whether the row shall use shadows when displaying its cards or not.
+         * @param useShadow
+         * @return
+         */
+        public Builder useShadow(boolean useShadow) {
+            this.useShadow = useShadow;
+            return this;
+        }
+
         public Builder setCategory(ArticleCategory category) {
             this.category = category;
             return this;
         }
 
-        public Builder setCards(List<Article> cards) {
+        public Builder setCards(List<CardItem> cards) {
             this.cards = cards;
             return this;
         }
 
         public NavigationRow build() {
-            return new NavigationRow(type, title, category, cards);
+            return new NavigationRow(type, title, category, cards, useShadow);
         }
     }
 }

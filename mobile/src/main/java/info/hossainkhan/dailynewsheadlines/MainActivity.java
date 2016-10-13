@@ -2,11 +2,9 @@ package info.hossainkhan.dailynewsheadlines;
 
 import android.os.Bundle;
 import android.widget.TextView;
-
-import com.google.firebase.crash.FirebaseCrash;
+import android.widget.Toast;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -14,8 +12,8 @@ import butterknife.ButterKnife;
 import info.hossainkhan.android.core.base.BaseActivity;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
+import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
-import io.swagger.client.model.Article;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements HeadlinesContract.View {
@@ -56,13 +54,14 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     }
 
     @Override
-    public void showHeadlineDetailsUi(final Article article) {
-        Timber.d("showHeadlineDetailsUi() called with: article = [" + article + "]");
+    public void showHeadlineDetailsUi(final CardItem cardItem) {
+        Timber.d("showHeadlineDetailsUi() called with: cardItem = [" + cardItem + "]");
     }
 
     @Override
     public void showLoadingHeadlinesError() {
         Timber.d("showLoadingHeadlinesError() called");
+        Toast.makeText(this, "Unable to load headlines", Toast.LENGTH_SHORT).show();
     }
 
     @Override

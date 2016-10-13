@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.dailynewsheadlines.cards.presenters;
 
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.ImageCardView;
@@ -31,7 +31,9 @@ import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 
-import io.swagger.client.model.Article;
+import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.util.StringUtils;
+import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 
 /*
@@ -80,21 +82,28 @@ public class HeadlinePresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-        Article article = (Article) item;
+        CardItem cardItem = (CardItem) item;
+        Timber.d("onBindViewHolder, item %s", cardItem);
+
         ImageCardView cardView = (ImageCardView) viewHolder.view;
 
-        Timber.d("onBindViewHolder " + article.getMultimedia().size());
-        if (!article.getMultimedia().isEmpty()) {
-            cardView.setTitleText(article.getTitle());
-            cardView.setContentText(article.getAbstract());
+
+            cardView.setTitleText(cardItem.getTitle());
+            cardView.setContentText(cardItem.getDescription());
             cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+
+
+        if(StringUtils.isNotEmpty(cardItem.getImageUrl())) {
             // FIXME - fit won't work, use proper sizing
             Picasso.with(viewHolder.view.getContext())
-                    .load(article.getMultimedia().get(3).getUrl())
+                    .load(cardItem.getImageUrl())
                     //.fit()
                     .error(mDefaultCardImage)
                     .into(cardView.getMainImageView());
+        } else {
+            Timber.w("Card does not have image URL");
         }
+
     }
 
     @Override
