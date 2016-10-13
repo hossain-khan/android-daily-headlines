@@ -22,12 +22,13 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.dailynewsheadlines.browser;
 
 import android.app.Activity;
 import android.os.Bundle;
 
 import info.hossainkhan.android.core.util.ActivityUtils;
+import info.hossainkhan.dailynewsheadlines.R;
 
 /*
  * MainActivity class that loads MainFragment

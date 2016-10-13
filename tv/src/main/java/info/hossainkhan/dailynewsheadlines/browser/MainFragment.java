@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.dailynewsheadlines.browser;
 
 import android.content.Context;
 import android.content.Intent;
@@ -62,6 +62,7 @@ import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
