@@ -86,7 +86,6 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     private BackgroundManager mBackgroundManager;
     private Target mBackgroundDrawableTarget;
     private HeadlinesPresenter mHeadlinesPresenter;
-    private boolean mLoadingIndicatorEnabled = false;
     private Resources mResources;
 
     @Override
@@ -281,7 +280,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     @Override
     public void setLoadingIndicator(final boolean active) {
         Timber.d("setLoadingIndicator() called with: active = [" + active + "]");
-        mLoadingIndicatorEnabled = active;
+        if (!active) {
+            startEntranceTransition();
+        }
     }
 
     @Override
@@ -290,10 +291,6 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         loadRows(headlines);
 
         setupEventListeners();
-
-        if (!mLoadingIndicatorEnabled) {
-            startEntranceTransition();
-        }
     }
 
     @Override
@@ -304,9 +301,6 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     @Override
     public void showLoadingHeadlinesError() {
         UiUtils.showToast(getActivity(), "Unable to load headlines");
-        if (!mLoadingIndicatorEnabled) {
-            startEntranceTransition();
-        }
     }
 
     @Override
