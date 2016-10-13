@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
+import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
@@ -80,6 +81,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         });
 
 
+        getView().setLoadingIndicator(true);
         Subscription subscription = Observable.merge(observableList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -95,6 +97,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                     @Override
                     public void onError(Throwable e) {
                         Timber.e(e, "Failed to load responses.");
+                        getView().setLoadingIndicator(false);
 
                         FirebaseCrash.report(e);
                         getView().showLoadingHeadlinesError();
@@ -147,5 +150,27 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     @Override
     public void openHeadlineDetails(@NonNull final CardItem cardItem) {
 
+    }
+
+    @Override
+    public void onHeadlineItemSelected(@NonNull final CardItem cardItem) {
+        if (cardItem.getImageUrl() !=null) {
+            getView().showHeadlineBackdropBackground(cardItem.getImageURI());
+        } else {
+            Timber.i("Card object does not have HD background.");
+        }
+    }
+
+    @Override
+    public void onHeadlineItemClicked(@NonNull final CardItem cardItem) {
+        int id = cardItem.getId();
+        CardItem.Type type = cardItem.getType();
+        if (type == CardItem.Type.ICON) {
+            if (id == R.string.settings_card_item_news_source_title) {
+                getView().showAppSettingsScreen();
+            } else {
+                Timber.w("Unable to handle settings item: %s", cardItem.getTitle());
+            }
+        }
     }
 }

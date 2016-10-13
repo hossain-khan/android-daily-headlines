@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="info.hossainkhan.dailynewsheadlines.MainActivity">
+    tools:context="info.hossainkhan.dailynewsheadlines.browser.MainActivity">
 
     <TextView
         android:id="@+id/test_textview"

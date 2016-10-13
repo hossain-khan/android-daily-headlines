@@ -26,6 +26,7 @@ package info.hossainkhan.android.core.headlines;
 
 import android.support.annotation.NonNull;
 
+import java.net.URI;
 import java.util.List;
 
 import info.hossainkhan.android.core.base.MvpPresenter;
@@ -46,6 +47,10 @@ public interface HeadlinesContract {
         void showLoadingHeadlinesError();
 
         void showNoHeadlines();
+
+        void showAppSettingsScreen();
+
+        void showHeadlineBackdropBackground(URI imageURI);
     }
 
     interface Presenter extends MvpPresenter<View> {
@@ -53,5 +58,9 @@ public interface HeadlinesContract {
         void loadHeadlines(boolean forceUpdate);
 
         void openHeadlineDetails(@NonNull CardItem cardItem);
+
+        void onHeadlineItemSelected(@NonNull CardItem cardItem);
+
+        void onHeadlineItemClicked(@NonNull CardItem cardItem);
     }
 }

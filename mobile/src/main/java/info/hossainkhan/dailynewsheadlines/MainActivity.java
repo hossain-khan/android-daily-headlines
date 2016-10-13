@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Collections;
+import java.net.URI;
 import java.util.List;
 
 import butterknife.BindView;
@@ -13,6 +13,7 @@ import info.hossainkhan.android.core.base.BaseActivity;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
 import timber.log.Timber;
 
@@ -33,7 +34,7 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
         ButterKnife.bind(this);
 
         // TODO use DI to inject
-        mHeadlinesPresenter = new HeadlinesPresenter(this, Collections.EMPTY_LIST);
+        mHeadlinesPresenter = new HeadlinesPresenter(this, CategoryNameResolver.getSupportedCategories());
     }
 
     @Override
@@ -67,5 +68,15 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     @Override
     public void showNoHeadlines() {
         Timber.d("showNoHeadlines() called");
+    }
+
+    @Override
+    public void showAppSettingsScreen() {
+        Timber.d("showAppSettingsScreen() called");
+    }
+
+    @Override
+    public void showHeadlineBackdropBackground(final URI imageURI) {
+        Timber.d("showHeadlineBackdropBackground() called with: imageURI = [" + imageURI + "]");
     }
 }

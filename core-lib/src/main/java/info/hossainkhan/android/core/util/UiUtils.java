@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.android.core.util;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -33,12 +33,12 @@ import android.widget.Toast;
 /**
  * A collection of utility methods, all static.
  */
-public class Utils {
+public class UiUtils {
 
     /*
      * Making sure public utility methods remain static
      */
-    private Utils() {
+    private UiUtils() {
     }
 
     /**

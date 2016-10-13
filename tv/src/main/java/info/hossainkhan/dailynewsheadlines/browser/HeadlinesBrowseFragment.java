@@ -22,12 +22,11 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines;
+package info.hossainkhan.dailynewsheadlines.browser;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,21 +35,15 @@ import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.DividerRow;
 import android.support.v17.leanback.widget.HeaderItem;
-import android.support.v17.leanback.widget.OnItemViewClickedListener;
-import android.support.v17.leanback.widget.OnItemViewSelectedListener;
-import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.PresenterSelector;
 import android.support.v17.leanback.widget.Row;
-import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.SectionRow;
 import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +55,10 @@ import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.util.UiUtils;
+import info.hossainkhan.dailynewsheadlines.R;
+import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
+import info.hossainkhan.dailynewsheadlines.browser.listeners.PicassoImageTarget;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
@@ -69,8 +66,10 @@ import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
 import io.swagger.client.model.ArticleCategory;
 import timber.log.Timber;
 
-
-public class MainFragment extends BrowseFragment implements HeadlinesContract.View {
+/**
+ * Leanback browser fragment that is responsible for showing all the headlines.
+ */
+public class HeadlinesBrowseFragment extends BrowseFragment implements HeadlinesContract.View {
 
     private static final int BACKGROUND_UPDATE_DELAY = 300;
 
@@ -246,8 +245,9 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
     }
 
     private void setupEventListeners() {
-        setOnItemViewClickedListener(new MainFragment.ItemViewClickedListener());
-        setOnItemViewSelectedListener(new MainFragment.ItemViewSelectedListener());
+        CardItemViewInteractionListener listener = new CardItemViewInteractionListener(mHeadlinesPresenter);
+        setOnItemViewClickedListener(listener);
+        setOnItemViewSelectedListener(listener);
     }
 
     protected void updateBackground(String uri) {
@@ -270,12 +270,12 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
             mBackgroundTimer.cancel();
         }
         mBackgroundTimer = new Timer();
-        mBackgroundTimer.schedule(new MainFragment.UpdateBackgroundTask(), BACKGROUND_UPDATE_DELAY);
+        mBackgroundTimer.schedule(new HeadlinesBrowseFragment.UpdateBackgroundTask(), BACKGROUND_UPDATE_DELAY);
     }
 
     @Override
     public void setLoadingIndicator(final boolean active) {
-
+        Timber.d("setLoadingIndicator() called with: active = [" + active + "]");
     }
 
     @Override
@@ -293,93 +293,26 @@ public class MainFragment extends BrowseFragment implements HeadlinesContract.Vi
 
     @Override
     public void showLoadingHeadlinesError() {
-        Toast.makeText(getActivity(), "Unable to load headlines", Toast.LENGTH_SHORT).show();
+        UiUtils.showToast(getActivity(), "Unable to load headlines");
     }
 
     @Override
     public void showNoHeadlines() {
-
+        Timber.d("showNoHeadlines() called");
     }
 
-    private final class ItemViewClickedListener implements OnItemViewClickedListener {
-        @Override
-        public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
-                                  RowPresenter.ViewHolder rowViewHolder, Row row) {
-
-            Timber.d("onItemClicked: " + item);
-
-            Intent intent = null;
-            CardItem card = (CardItem) item;
-            int id = card.getId();
-            CardItem.Type type = card.getType();
-
-            if (type == CardItem.Type.ICON) {
-                switch (id) {
-                    case R.string.settings_card_item_news_source_title:
-                        intent = new Intent(getActivity().getBaseContext(),
-                                SettingsActivity.class);
-                        startActivity(intent);
-                        break;
-                    default:
-                        Timber.w("Unable to handle settings item: %s", card.getTitle());
-                }
-            }
-        }
+    @Override
+    public void showAppSettingsScreen() {
+        Intent intent = null;
+        intent = new Intent(getActivity().getBaseContext(), SettingsActivity.class);
+        startActivity(intent);
     }
 
-    private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
-        @Override
-        public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
-                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-
-            Timber.d("onItemSelected");
-
-            if (item instanceof CardItem) {
-                CardItem cardItem = ((CardItem) item);
-
-                if (cardItem.getImageUrl() !=null) {
-                    mBackgroundURI = cardItem.getImageURI();
-                    Timber.d("Loading HD background URL: %s", mBackgroundURI);
-                    startBackgroundTimer();
-                } else {
-                    Timber.i("Card object does not have HD background.");
-                }
-            }
-        }
-    }
-
-    /**
-     * Target to save as instance to avoid issue described in following SO: <br/>
-     * http://stackoverflow.com/questions/24180805/onbitmaploaded-of-target-object-not-called-on-first-load
-     */
-    private final static class PicassoImageTarget implements Target {
-
-        private final WeakReference<BackgroundManager> mBackgroundManagerRef;
-
-        PicassoImageTarget(BackgroundManager backgroundManager) {
-            mBackgroundManagerRef = new WeakReference<>(backgroundManager);
-        }
-
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            Timber.d("onBitmapLoaded: %dx%d - %d bytes", bitmap.getHeight(), bitmap.getWidth(), bitmap.getByteCount());
-            BackgroundManager backgroundManager = mBackgroundManagerRef.get();
-            if (backgroundManager != null) {
-                backgroundManager.setBitmap(bitmap);
-            } else {
-                Timber.w("Background manager is unavailable.");
-            }
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
-            Timber.w("onBitmapFailed");
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
-            Timber.d("onPrepareLoad");
-        }
+    @Override
+    public void showHeadlineBackdropBackground(final URI imageURI) {
+        mBackgroundURI = imageURI;
+        Timber.d("Loading HD background URL: %s", mBackgroundURI);
+        startBackgroundTimer();
     }
 
     private class UpdateBackgroundTask extends TimerTask {
