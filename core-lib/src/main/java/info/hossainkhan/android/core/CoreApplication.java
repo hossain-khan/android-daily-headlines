@@ -27,6 +27,8 @@ package info.hossainkhan.android.core;
 import android.app.Application;
 import android.content.Context;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import info.hossainkhan.android.core.dagger.components.AppComponent;
 import info.hossainkhan.android.core.dagger.components.DaggerAppComponent;
 import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
@@ -46,8 +48,18 @@ public class CoreApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        initLeakCanary();
         initAppComponent();
         initLogger();
+    }
+
+    private void initLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
     }
 
     private void initLogger() {

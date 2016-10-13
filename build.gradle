@@ -90,4 +90,5 @@ ext {
     jodaTimeVersion = '2.9.4'
     glassfishJavaxAnnotationVersion = '10.0-b28'
     timberLibraryVersion = '4.3.1'
+    leakcanaryLibraryVersion = '1.5'
 }
