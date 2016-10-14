@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.model;
+package info.hossainkhan.android.core.data;
 
 import android.support.annotation.StringRes;
 

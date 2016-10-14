@@ -54,7 +54,7 @@ import java.util.TimerTask;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.CategoryNameResolver;
+import info.hossainkhan.android.core.data.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
