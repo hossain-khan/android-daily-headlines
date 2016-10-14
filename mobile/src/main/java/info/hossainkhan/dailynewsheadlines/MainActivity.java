@@ -34,7 +34,8 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
         ButterKnife.bind(this);
 
         // TODO use DI to inject
-        mHeadlinesPresenter = new HeadlinesPresenter(this, CategoryNameResolver.getSupportedCategories());
+        mHeadlinesPresenter = new HeadlinesPresenter(getApplicationContext(), this, CategoryNameResolver
+                .getSupportedCategories());
     }
 
     @Override
