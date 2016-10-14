@@ -24,6 +24,7 @@
 
 package info.hossainkhan.android.core.headlines;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.crash.FirebaseCrash;
@@ -34,6 +35,7 @@ import java.util.List;
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
+import info.hossainkhan.android.core.data.CategoryNameResolver;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 import io.swagger.client.ApiClient;
@@ -54,9 +56,12 @@ import timber.log.Timber;
 public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
 
     private final List<ArticleCategory> mArticleCategories;
+    private final Context mContext;
 
-    public HeadlinesPresenter(final HeadlinesContract.View view, List<ArticleCategory> articleCategories) {
+    public HeadlinesPresenter(final Context context, final HeadlinesContract.View view, final List<ArticleCategory>
+            articleCategories) {
         attachView(view);
+        mContext = context;
         mArticleCategories = articleCategories;
         loadHeadlines(false);
     }
@@ -117,7 +122,8 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                                 ArticleCategory articleCategory = mArticleCategories.get(i);
                                 navigationHeadlines.add(
                                         new NavigationRow.Builder()
-                                                .setTitle(articleCategory.name())
+                                                .setTitle(mContext.getString(CategoryNameResolver
+                                                        .resolveCategoryResId(articleCategory)))
                                                 .setCategory(articleCategory)
                                                 .setCards(convertArticleToCardItems(inlineResponse200s.get(i).getResults()))
                                                 .build()

@@ -33,11 +33,6 @@ import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
-import android.support.v17.leanback.widget.DividerRow;
-import android.support.v17.leanback.widget.HeaderItem;
-import android.support.v17.leanback.widget.PresenterSelector;
-import android.support.v17.leanback.widget.Row;
-import android.support.v17.leanback.widget.SectionRow;
 import android.util.DisplayMetrics;
 
 import com.squareup.picasso.Picasso;
@@ -49,7 +44,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import info.hossainkhan.android.core.data.CategoryNameResolver;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
@@ -58,13 +52,12 @@ import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.PicassoImageTarget;
-import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
-import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
 import timber.log.Timber;
 
 import static info.hossainkhan.android.core.data.CategoryNameResolver.getPreferredCategories;
+import static info.hossainkhan.dailynewsheadlines.browser.RowBuilderFactory.buildCardRow;
 import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.buildNavigationDivider;
 import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.buildNavigationHeader;
 
@@ -104,7 +97,8 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         setupUIElements();
 
 
-        mHeadlinesPresenter = new HeadlinesPresenter(this, getPreferredCategories(mApplicationContext));
+        mHeadlinesPresenter = new HeadlinesPresenter(mApplicationContext, this, getPreferredCategories
+                (mApplicationContext));
     }
 
     @Override
@@ -126,7 +120,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         int i;
         for (i = 0; i < totalNavigationItems; i++) {
             NavigationRow navigationRow = list.get(i);
-            mRowsAdapter.add(createCardRow(navigationRow));
+            mRowsAdapter.add(buildCardRow(mApplicationContext, navigationRow));
         }
 
         setAdapter(mRowsAdapter);
@@ -160,42 +154,6 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
                 .setCards(settingsItems)
                 .useShadow(false)
                 .build());
-    }
-
-
-    /**
-     * Creates appropriate {@link Row} item based on {@link NavigationRow} type.
-     *
-     * @param navigationRow Navigation row
-     * @return {@link Row}
-     */
-    private Row createCardRow(final NavigationRow navigationRow) {
-        int navigationRowType = navigationRow.getType();
-        Timber.d("createCardRow() - Row type: %d", navigationRowType);
-
-        switch (navigationRowType) {
-            case NavigationRow.TYPE_SECTION_HEADER:
-                return new SectionRow(new HeaderItem(navigationRow.getTitle()));
-            case NavigationRow.TYPE_DIVIDER:
-                return new DividerRow();
-            case NavigationRow.TYPE_DEFAULT:
-            default:
-                // Build main row using the ImageCardViewPresenter.
-                PresenterSelector presenterSelector = new CardPresenterSelector(getActivity());
-                ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(presenterSelector);
-                for (CardItem card : navigationRow.getCards()) {
-                    listRowAdapter.add(card);
-                }
-
-                HeaderItem header;
-                if(navigationRow.getCategory() != null) {
-                    header = new HeaderItem(getString(CategoryNameResolver.resolveCategoryResId(navigationRow.getCategory())));
-                } else {
-                    header = new HeaderItem(navigationRow.getTitle());
-                }
-
-                return new CardListRow(header, listRowAdapter, navigationRow);
-        }
     }
 
     private void prepareBackgroundManager() {
