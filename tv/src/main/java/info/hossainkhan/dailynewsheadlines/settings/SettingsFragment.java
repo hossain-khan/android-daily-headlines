@@ -103,7 +103,7 @@ public class SettingsFragment extends LeanbackSettingsFragment implements Dialog
         public boolean onPreferenceTreeClick(Preference preference) {
             final String[] keys = {"prefs_content_category_business"};
             if (Arrays.asList(keys).contains(preference.getKey())) {
-                Toast.makeText(getActivity(), "Implement your own action handler.", Toast.LENGTH_SHORT).show();
+                // Example of how to handle custom actions for specific item.
                 return true;
             }
             return super.onPreferenceTreeClick(preference);

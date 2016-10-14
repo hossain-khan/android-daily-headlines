@@ -26,7 +26,6 @@ package info.hossainkhan.dailynewsheadlines.browser;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -39,7 +38,6 @@ import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.PresenterSelector;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.SectionRow;
-import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 
 import com.squareup.picasso.Picasso;
@@ -51,10 +49,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import info.hossainkhan.android.core.data.CategoryNameResolver;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
@@ -64,9 +62,9 @@ import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
-import io.swagger.client.model.ArticleCategory;
 import timber.log.Timber;
 
+import static info.hossainkhan.android.core.data.CategoryNameResolver.getPreferredCategories;
 import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.buildNavigationDivider;
 import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.buildNavigationHeader;
 
@@ -87,52 +85,26 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     private Target mBackgroundDrawableTarget;
     private HeadlinesPresenter mHeadlinesPresenter;
     private Resources mResources;
+    private Context mApplicationContext;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Timber.i("onCreate");
         super.onActivityCreated(savedInstanceState);
+        mResources = getResources();
+        mApplicationContext = getActivity().getApplicationContext();
 
         if(savedInstanceState == null) {
             prepareEntranceTransition();
         }
 
-        mResources = getResources();
 
         prepareBackgroundManager();
 
         setupUIElements();
 
-        mHeadlinesPresenter = new HeadlinesPresenter(this, getPreferredCategories());
-    }
 
-    private List<ArticleCategory> getPreferredCategories() {
-        ArrayList<ArticleCategory> supportedCategories = CategoryNameResolver.getSupportedCategories();
-        Timber.d("getPreferredCategories() - Supported Total: %s,  %s", supportedCategories.size(),
-                supportedCategories);
-
-        Context context = getActivity().getApplicationContext();
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        // FIXME - remove repeatative code.
-        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_sports), true)) {
-            supportedCategories.remove(ArticleCategory.sports);
-        }
-
-        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_technology), true)) {
-            supportedCategories.remove(ArticleCategory.technology);
-        }
-
-        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_business), true)) {
-            supportedCategories.remove(ArticleCategory.business);
-        }
-
-        if (!sharedPreferences.getBoolean(getString(R.string.prefs_key_content_category_top_headlines), true)) {
-            supportedCategories.remove(ArticleCategory.home);
-        }
-        Timber.d("getPreferredCategories() - Total: %s,  %s", supportedCategories.size(), supportedCategories);
-        return supportedCategories;
+        mHeadlinesPresenter = new HeadlinesPresenter(this, getPreferredCategories(mApplicationContext));
     }
 
     @Override

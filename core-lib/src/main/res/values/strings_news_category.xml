@@ -25,7 +25,7 @@
 
 <!--
 Contains list of category names supported by the application.
-See "info.hossainkhan.android.core.model.CategoryNameResolver" class for more info.
+See "info.hossainkhan.android.core.data.CategoryNameResolver" class for more info.
 
 
 Here are some example category keyword which may be translated to longer version.
