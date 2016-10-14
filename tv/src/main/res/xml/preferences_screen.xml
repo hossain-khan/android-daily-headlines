@@ -34,6 +34,7 @@
         android:title="@string/prefs_screen_title_category_selection"
         android:summary="@string/prefs_screen_summary_category_selection">
         <CheckBoxPreference
+            android:enabled="false"
             android:defaultValue="true"
             android:disableDependentsState="true"
             android:key="@string/prefs_key_content_category_top_headlines"
@@ -61,6 +62,20 @@
             android:summaryOff="@string/general_item_disabled"
             android:summaryOn="@string/general_item_enabled"
             android:title="@string/category_name_sports"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:disableDependentsState="true"
+            android:key="@string/prefs_key_content_category_world"
+            android:summaryOff="@string/general_item_disabled"
+            android:summaryOn="@string/general_item_enabled"
+            android:title="@string/category_name_world"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:disableDependentsState="true"
+            android:key="@string/prefs_key_content_category_movies"
+            android:summaryOff="@string/general_item_disabled"
+            android:summaryOn="@string/general_item_enabled"
+            android:title="@string/category_name_movies"/>
 
     </PreferenceScreen>
 </PreferenceScreen>
