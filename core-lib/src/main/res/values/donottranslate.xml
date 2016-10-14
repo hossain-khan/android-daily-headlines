@@ -37,6 +37,8 @@
     <string name="prefs_key_content_category_technology" translatable="false">prefs_content_category_technology</string>
     <string name="prefs_key_content_category_business" translatable="false">prefs_content_category_business</string>
     <string name="prefs_key_content_category_top_headlines" translatable="false">prefs_content_category_top_headlines</string>
+    <string name="prefs_key_content_category_world" translatable="false">prefs_content_category_world</string>
+    <string name="prefs_key_content_category_movies" translatable="false">prefs_content_category_movies</string>
 
     <string name="prefs_screen_key_root_container_screen" translatable="false">prefs_screen_root_preference</string>
     <string name="prefs_screen_key_content_category_top_headlines" translatable="false">prefs_screen_headlines_category</string>
