@@ -46,6 +46,13 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
     compile "com.squareup.retrofit2:converter-scalars:$rootProject.retrofitVersion"
+    compile ("com.squareup.retrofit2:converter-simplexml:$rootProject.retrofitVersion") {
+        // https://github.com/square/retrofit/tree/master/retrofit-converters/simplexml
+        // exclude the following transitive dependencies: stax:stax-api, stax:stax, and xpp3:xpp3
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
+    }
     compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofitVersion"
 
     // RxJava

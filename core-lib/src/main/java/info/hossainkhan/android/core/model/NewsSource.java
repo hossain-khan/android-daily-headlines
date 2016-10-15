@@ -24,6 +24,8 @@
 
 package info.hossainkhan.android.core.model;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -38,7 +40,7 @@ public class NewsSource {
     private String id = null;
 
     /**
-     * The publication’s name.
+     * The publication's name.
      */
     @SerializedName("name")
     private String name = null;
@@ -47,7 +49,7 @@ public class NewsSource {
     private String description = null;
 
     /**
-     * The URL to the publication’s homepage
+     * The URL to the publication's homepage
      */
     @SerializedName("url")
     private String url = null;
@@ -55,4 +57,94 @@ public class NewsSource {
     @SerializedName("imageUrl")
     private String imageUrl = null;
 
+    /**
+     * Max cache duration in <b>SECONDS</b> for the publication content. Default is {@code 0}, which means no
+     * limitation.
+     */
+    @SerializedName("cacheDuration")
+    private long cacheDuration;
+
+    /**
+     * Creates news source with required information.
+     *
+     * @param id   Source ID.
+     * @param name Name of news source that is used to display to user.
+     */
+    public NewsSource(@NonNull final String id, @NonNull final String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull final String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(@NonNull final String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(final String url) {
+        this.url = url;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    /**
+     * Get max cache duration in <b>SECONDS</b> for the publication content.
+     *
+     * @return Duration in seconds, or {@code 0}, which means no limitation.
+     */
+    public long getCacheDuration() {
+        return cacheDuration;
+    }
+
+    public void setCacheDuration(final long cacheDuration) {
+        this.cacheDuration = cacheDuration;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final NewsSource that = (NewsSource) o;
+
+        if (!id.equals(that.id)) return false;
+        return name.equals(that.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        return result;
+    }
 }
