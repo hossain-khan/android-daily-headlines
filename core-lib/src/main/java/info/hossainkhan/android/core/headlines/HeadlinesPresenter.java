@@ -32,6 +32,9 @@ import com.google.firebase.crash.FirebaseCrash;
 import java.util.ArrayList;
 import java.util.List;
 
+import feed.FeedAdapterUtil;
+import feed.rss.RSS;
+import feed.rss.RssFeedService;
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
@@ -64,6 +67,31 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         mContext = context;
         mArticleCategories = articleCategories;
         loadHeadlines(false);
+    }
+
+    /**
+     * TODO: Move this to proper place with proper model converter.
+     */
+    private void loadNewsFeed() {
+        Timber.d("loadNewsFeed() called");
+        RssFeedService xmlAdapterFor = FeedAdapterUtil.createXmlAdapterFor(RssFeedService.class, "http://www.thestar.com/");
+        Observable<RSS> rssObservable = xmlAdapterFor.getFeed("http://www.thestar.com/feeds.topstories.rss");
+        rssObservable.subscribe(new Subscriber<RSS>() {
+            @Override
+            public void onCompleted() {
+                Timber.d("onCompleted() called");
+            }
+
+            @Override
+            public void onError(final Throwable e) {
+                Timber.d("onError() called with: e = [" + e + "]");
+            }
+
+            @Override
+            public void onNext(final RSS rss) {
+                Timber.d("onNext() called with: rss = [" + rss + "]");
+            }
+        });
     }
 
     @Override
