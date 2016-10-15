@@ -177,6 +177,8 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
             } else {
                 Timber.w("Unable to handle settings item: %s", cardItem.getTitle());
             }
+        } else if(type == CardItem.Type.HEADLINES) {
+            getView().showHeadlineDetailsUi(cardItem);
         }
     }
 }
