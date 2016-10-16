@@ -227,9 +227,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     @Override
     public void showHeadlineDetailsUi(final CardItem item) {
         Timber.d("Load details view for item: %s", item);
-        Intent intent = new Intent(getActivity().getBaseContext(),
-                HeadlinesDetailsActivity.class);
-        startActivity(intent);
+        startActivity(HeadlinesDetailsActivity.createLaunchIntent(getActivity().getBaseContext(),item));
     }
 
     @Override

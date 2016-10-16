@@ -25,19 +25,52 @@
 package info.hossainkhan.dailynewsheadlines.details;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v17.leanback.app.DetailsFragment;
 
+import com.google.gson.Gson;
+
+import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.dailynewsheadlines.R;
 
 /**
  * Contains a {@link DetailsFragment} in order to display more details for a given card.
  */
 public class HeadlinesDetailsActivity extends Activity {
+    private static final String BUNDLE_KEY_CARD_DATA = "KEY_CARD_DATA";
+    private CardItem mCardItem;
+
+
+    /**
+     * Creates launch intent with required information.
+     * @param activityContext Activity context.
+     * @param cardItem The card item data.
+     * @return
+     */
+    public static Intent createLaunchIntent(Context activityContext, CardItem cardItem) {
+        Intent intent = new Intent(activityContext, HeadlinesDetailsActivity.class);
+
+        intent.putExtra(BUNDLE_KEY_CARD_DATA, new Gson().toJson(cardItem));
+
+        return intent;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Bundle data needs to be extracted first, because the data is needed by the fragment as soon as
+        // we "setContentView" with layout.
+        Bundle extras = getIntent().getExtras();
+        mCardItem = new Gson().fromJson(extras.getString(BUNDLE_KEY_CARD_DATA), CardItem.class);
+
         setContentView(R.layout.activity_headlines_details);
     }
+
+    /* package private */ CardItem getCardItem() {
+        return mCardItem;
+    }
+
 }

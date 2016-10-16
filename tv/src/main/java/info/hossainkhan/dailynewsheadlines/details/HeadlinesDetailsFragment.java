@@ -24,7 +24,11 @@
 
 package info.hossainkhan.dailynewsheadlines.details;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.DetailsFragment;
 import android.support.v17.leanback.widget.Action;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -32,7 +36,6 @@ import android.support.v17.leanback.widget.ClassPresenterSelector;
 import android.support.v17.leanback.widget.DetailsOverviewRow;
 import android.support.v17.leanback.widget.FullWidthDetailsOverviewRowPresenter;
 import android.support.v17.leanback.widget.FullWidthDetailsOverviewSharedElementHelper;
-import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
@@ -40,14 +43,19 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.dailynewsheadlines.R;
+import info.hossainkhan.dailynewsheadlines.browser.listeners.PicassoImageTarget;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
-import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
+import timber.log.Timber;
 
 /**
  * Displays a card with more details using a {@link DetailsFragment}.
@@ -55,35 +63,39 @@ import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelecto
 public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemViewClickedListener,
         OnItemViewSelectedListener {
 
-    public static final String TRANSITION_NAME = "t_for_transition";
-    public static final String EXTRA_CARD = "card";
 
     private ArrayObjectAdapter mRowsAdapter;
+
+    private BackgroundManager mBackgroundManager;
+    private Drawable mDefaultBackground;
+    private DisplayMetrics mMetrics;
+    private PicassoImageTarget mBackgroundDrawableTarget;
+
+    private Context mApplicationContext;
+    private HeadlinesDetailsActivity mAttachedHeadlinesActivity;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prepareBackgroundManager();
         setupUi();
         setupEventListeners();
     }
 
-    private void setupUi() {
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+        Timber.d("onAttach() called with: context = [" + context + "]");
+        mAttachedHeadlinesActivity = (HeadlinesDetailsActivity) context;
+    }
 
+    private void setupUi() {
 
         // Load the card we want to display from a JSON resource. This JSON data could come from
         // anywhere in a real world app, e.g. a server.
-        CardItem data = new CardItem(CardItem.Type.HEADLINES);
-        data.setId(22222);
-        data.setTitle("Title");
-        data.setDescription("Desc");
-        data.setImageUrl("http://cdn.demo.fabthemes.com/kansas/files/2012/08/wallpaper-722590cp.jpg");
-        data.setExtraText("Extra Info");
+        CardItem data = mAttachedHeadlinesActivity.getCardItem();
 
-        int imageResId = data.getLocalImageResourceId();
-        Bundle extras = getActivity().getIntent().getExtras();
-        if (extras != null && extras.containsKey(EXTRA_CARD)) {
-            imageResId = extras.getInt(EXTRA_CARD, imageResId);
-        }
 
         // Setup fragment
         setTitle(getString(R.string.detail_view_title));
@@ -109,7 +121,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         };
 
         FullWidthDetailsOverviewSharedElementHelper mHelper = new FullWidthDetailsOverviewSharedElementHelper();
-        mHelper.setSharedElementEnterTransition(getActivity(), TRANSITION_NAME);
+        mHelper.setSharedElementEnterTransition(getActivity(), "adsaddadasdasdasdsad");
         rowPresenter.setListener(mHelper);
         rowPresenter.setParticipatingEntranceTransition(false);
         prepareEntranceTransition();
@@ -126,28 +138,34 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
 
         // Setup action and detail row.
         DetailsOverviewRow detailsOverview = new DetailsOverviewRow(data);
-        detailsOverview.setImageDrawable(null);
+        detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.stars_white));
+        mApplicationContext = getActivity().getApplicationContext();
+        Picasso.with(mApplicationContext).load(data.getImageUrl()).into(new Target() {
+            @Override
+            public void onBitmapLoaded(final Bitmap bitmap, final Picasso.LoadedFrom from) {
+                Timber.d("onBitmapLoaded() called with: bitmap = [" + bitmap + "], from = [" + from + "]");
+                detailsOverview.setImageBitmap(mApplicationContext, bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(final Drawable errorDrawable) {
+                Timber.d("onBitmapFailed() called with: errorDrawable = [" + errorDrawable + "]");
+            }
+
+            public void onPrepareLoad(final Drawable placeHolderDrawable) {
+                Timber.d("onPrepareLoad() called with: placeHolderDrawable = [" + placeHolderDrawable + "]");
+            }
+        });
 
 
         ArrayObjectAdapter actionAdapter = new ArrayObjectAdapter();
-        actionAdapter.add(new Action(1, "Action"));
+        actionAdapter.add(new Action(1, "Read More"));
         detailsOverview.setActionsAdapter(actionAdapter);
         mRowsAdapter.add(detailsOverview);
 
-        // Setup related row.
-        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(
-                new CardPresenterSelector(getActivity()));
-        //for (Card characterCard : data.getCharacters()) listRowAdapter.add(characterCard);
-        HeaderItem header = new HeaderItem(0, "Related");
-        mRowsAdapter.add(new CardListRow(header, listRowAdapter, null));
-
-        // Setup recommended row.
-        listRowAdapter = new ArrayObjectAdapter(new CardPresenterSelector(getActivity()));
-        //for (Card card : data.getRecommended()) listRowAdapter.add(card);
-        header = new HeaderItem(1, "Recommended");
-        mRowsAdapter.add(new ListRow(header, listRowAdapter));
 
         setAdapter(mRowsAdapter);
+        updateBackground(data.getImageUrl());
 
         // NOTE: Move this when data is loaded
         startEntranceTransition();
@@ -158,6 +176,29 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         setOnItemViewClickedListener(this);
     }
 
+    private void prepareBackgroundManager() {
+        mBackgroundManager = BackgroundManager.getInstance(mAttachedHeadlinesActivity);
+        mBackgroundManager.attach(mAttachedHeadlinesActivity.getWindow());
+        mBackgroundDrawableTarget = new PicassoImageTarget(mBackgroundManager);
+        mDefaultBackground = getResources().getDrawable(R.drawable.default_background);
+        mMetrics = new DisplayMetrics();
+        mAttachedHeadlinesActivity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+        Timber.d("prepareBackgroundManager() called : metrics %s", mMetrics);
+
+    }
+
+    protected void updateBackground(String uri) {
+        int width = mMetrics.widthPixels;
+        int height = mMetrics.heightPixels;
+
+        Picasso.with(mAttachedHeadlinesActivity)
+                .load(uri)
+                .resize(width, height)
+                .centerCrop()
+                .error(mDefaultBackground)
+                .into(mBackgroundDrawableTarget);
+    }
+
     @Override
     public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                               RowPresenter.ViewHolder rowViewHolder, Row row) {
@@ -166,7 +207,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         if (action.getId() == 3) {
             setSelectedPosition(1);
         } else {
-            Toast.makeText(getActivity(), "Action Clicked", Toast.LENGTH_LONG)
+            Toast.makeText(mAttachedHeadlinesActivity, "Action Clicked", Toast.LENGTH_LONG)
                     .show();
         }
     }
