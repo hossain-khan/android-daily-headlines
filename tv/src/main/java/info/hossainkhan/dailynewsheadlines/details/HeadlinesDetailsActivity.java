@@ -38,6 +38,6 @@ public class HeadlinesDetailsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_example);
+        setContentView(R.layout.activity_headlines_details);
     }
 }
