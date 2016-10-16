@@ -22,13 +22,15 @@
   ~ SOFTWARE.
   -->
 
+<!--
+    Application specific colors. Primary palette is "Blue Grey"
+
+    https://material.google.com/style/color.html#color-color-palette
+-->
 <resources>
-    <color name="background_gradient_start">#000000</color>
-    <color name="background_gradient_end">#DDDDDD</color>
-    <color name="fastlane_background">#37474F</color><!-- Sidebar -->
-    <color name="search_opaque">#ffaa3f</color>
-    <color name="selected_background">#ffaa3f</color>
-    <color name="detail_background">#0096a6</color>
+    <!--
+        Generic colors
+    -->
     <color name="soft_opaque">#30000000</color>
     <color name="img_soft_opaque">#30FF0000</color>
     <color name="img_full_opaque">#00000000</color>
@@ -39,10 +41,34 @@
     <color name="orange_transparent">#AAFADCA7</color>
     <color name="orange">#FADCA7</color>
     <color name="yellow">#EEFF41</color>
+
+    <!-- Navigation Sidebar on Headline Browser -->
+    <color name="fastlane_background">#37474F</color>
+
+    <color name="background_gradient_start">#000000</color>
+    <color name="background_gradient_end">#DDDDDD</color>
+    <color name="search_opaque">#ffaa3f</color>
+    <color name="selected_background">#ffaa3f</color>
+    <color name="detail_background">#0096a6</color>
+
     <color name="default_background">#3d3d3d</color>
+
+    <!--
+        Settings
+    -->
     <color name="settings_background">#00695C</color>
 
+    <!--
+        Details View
+    -->
+    <color name="detail_view_actionbar_background">#263238</color><!-- Note does not support ALPHA -->
+    <color name="detail_view_background">#aa37474F</color>
+    <color name="detail_view_related_background">#cc263238</color>
+
+    <!--
+        Card View
+    -->
     <color name="default_card_background_color">#88263238</color>
     <color name="default_card_footer_background_color">#ee37474F</color>
-    <color name="selected_card_footer_background_color">#F0F</color>
+    <color name="selected_card_footer_background_color">#00897B</color>
 </resources>

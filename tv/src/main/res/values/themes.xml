@@ -44,4 +44,9 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:colorPrimary">@color/settings_background</item>
     </style>
+
+    <style name="Theme.Example.LeanbackDetails" parent="Theme.Leanback.Details">
+        <item name="android:colorPrimary">@color/detail_view_actionbar_background</item>
+        <!--<item name="android:windowBackground">@drawable/background_canyon</item>-->
+    </style>
 </resources>

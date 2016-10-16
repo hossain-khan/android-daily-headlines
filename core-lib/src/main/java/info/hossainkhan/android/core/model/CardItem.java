@@ -72,6 +72,9 @@ public class CardItem {
     @SerializedName("imageUrl")
     private String mImageUrl;
 
+    @SerializedName("contentUrl")
+    private String mContentUrl;
+
     @SerializedName("localImageResourceId")
     private int mLocalImageResourceId;
 
@@ -106,6 +109,7 @@ public class CardItem {
 
         mCategory = article.getSection();
         mDateCreated = article.getCreatedDate();
+        mContentUrl = article.getUrl();
 
 
         List<ArticleMultimedia> multimedia = article.getMultimedia();
@@ -216,6 +220,14 @@ public class CardItem {
     public int getSelectedColor() {
         if (mSelectedColor == null) return -1;
         return Color.parseColor(mSelectedColor);
+    }
+
+    public String getContentUrl() {
+        return mContentUrl;
+    }
+
+    public void setContentUrl(final String mContentUrl) {
+        this.mContentUrl = mContentUrl;
     }
 
     public String getImageUrl() {

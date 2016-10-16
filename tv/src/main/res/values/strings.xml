@@ -23,4 +23,6 @@
     <string name="oops">Oops</string>
     <string name="general_item_enabled">Enabled</string>
     <string name="general_item_disabled">Disabled</string>
+    <string name="warning_no_browser_app_available">You currently do not have any web browser app installed in
+        the system to view this article.</string>
 </resources>

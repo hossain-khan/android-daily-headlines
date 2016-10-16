@@ -53,6 +53,7 @@ import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.PicassoImageTarget;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
+import info.hossainkhan.dailynewsheadlines.details.HeadlinesDetailsActivity;
 import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
 import timber.log.Timber;
 
@@ -224,8 +225,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     @Override
-    public void showHeadlineDetailsUi(final CardItem cardItem) {
-        Timber.d("Load details view for item: %s", cardItem);
+    public void showHeadlineDetailsUi(final CardItem item) {
+        Timber.d("Load details view for item: %s", item);
+        startActivity(HeadlinesDetailsActivity.createLaunchIntent(getActivity().getBaseContext(),item));
     }
 
     @Override

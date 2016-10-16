@@ -45,6 +45,11 @@
             android:exported="true"
             android:theme="@style/Theme.Example.LeanbackPreferences"/>
 
+        <activity
+            android:name=".details.HeadlinesDetailsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Example.LeanbackDetails"/>
+
     </application>
 
 </manifest>
