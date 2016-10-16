@@ -52,6 +52,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.PicassoImageTarget;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
@@ -191,10 +192,11 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         int width = mMetrics.widthPixels;
         int height = mMetrics.heightPixels;
 
-        Picasso.with(mAttachedHeadlinesActivity)
-                .load(uri)
+        final Picasso picasso = Picasso.with(mAttachedHeadlinesActivity);
+        picasso.load(uri)
                 .resize(width, height)
                 .centerCrop()
+                .transform(new GrayscaleTransformation(picasso))
                 .error(mDefaultBackground)
                 .into(mBackgroundDrawableTarget);
     }

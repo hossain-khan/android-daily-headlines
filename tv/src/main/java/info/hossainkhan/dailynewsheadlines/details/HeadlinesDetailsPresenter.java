@@ -61,9 +61,9 @@ public class HeadlinesDetailsPresenter extends Presenter {
 
         CardItem card = (CardItem) item;
         primaryText.setText(card.getTitle());
-        sndText1.setText(card.getDescription());
-        sndText2.setText(card.getHeight() + "");
-        extraText.setText(card.getExtraText());
+        sndText1.setText(card.getCategory());
+        sndText2.setText(card.getDateCreated());
+        extraText.setText(card.getDescription());
     }
 
     @Override public void onUnbindViewHolder(ViewHolder viewHolder) {
