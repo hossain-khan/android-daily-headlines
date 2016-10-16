@@ -27,6 +27,8 @@ package info.hossainkhan.android.core.util;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 /**
@@ -46,6 +48,21 @@ public class ActivityUtils {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(frameId, fragment);
         transaction.commit();
+    }
+
+    /**
+     * Creates an intent that can be used to view web URL
+     *
+     * https://developer.android.com/guide/components/intents-common.html#Browser
+     * 
+     * @param url URL to show on browser apps.
+     * @return
+     */
+    public static Intent provideOpenWebUrlIntent(String url) {
+        Validate.notNull(url);
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        return intent;
     }
 
 }

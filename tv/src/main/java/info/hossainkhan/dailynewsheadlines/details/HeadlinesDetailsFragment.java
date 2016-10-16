@@ -25,6 +25,7 @@
 package info.hossainkhan.dailynewsheadlines.details;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -48,11 +49,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
+import info.hossainkhan.android.core.util.ActivityUtils;
+import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.PicassoImageTarget;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
@@ -74,6 +78,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
 
     private Context mApplicationContext;
     private HeadlinesDetailsActivity mAttachedHeadlinesActivity;
+    private CardItem mCardItem;
 
 
     @Override
@@ -95,7 +100,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
 
         // Load the card we want to display from a JSON resource. This JSON data could come from
         // anywhere in a real world app, e.g. a server.
-        CardItem data = mAttachedHeadlinesActivity.getCardItem();
+        mCardItem = mAttachedHeadlinesActivity.getCardItem();
 
 
         // Setup fragment
@@ -138,10 +143,10 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         mRowsAdapter = new ArrayObjectAdapter(rowPresenterSelector);
 
         // Setup action and detail row.
-        DetailsOverviewRow detailsOverview = new DetailsOverviewRow(data);
+        DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mCardItem);
         detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.stars_white));
         mApplicationContext = getActivity().getApplicationContext();
-        Picasso.with(mApplicationContext).load(data.getImageUrl()).into(new Target() {
+        Picasso.with(mApplicationContext).load(mCardItem.getImageUrl()).into(new Target() {
             @Override
             public void onBitmapLoaded(final Bitmap bitmap, final Picasso.LoadedFrom from) {
                 Timber.d("onBitmapLoaded() called with: bitmap = [" + bitmap + "], from = [" + from + "]");
@@ -166,7 +171,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
 
 
         setAdapter(mRowsAdapter);
-        updateBackground(data.getImageUrl());
+        updateBackground(mCardItem.getImageUrl());
 
         // NOTE: Move this when data is loaded
         startEntranceTransition();
@@ -206,11 +211,16 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
                               RowPresenter.ViewHolder rowViewHolder, Row row) {
         if (!(item instanceof Action)) return;
         Action action = (Action) item;
-        if (action.getId() == 3) {
-            setSelectedPosition(1);
+
+        String contentUrl = mCardItem.getContentUrl();
+        Intent intent = ActivityUtils.provideOpenWebUrlIntent(contentUrl);
+        if (intent.resolveActivity(mAttachedHeadlinesActivity.getPackageManager()) != null) {
+            startActivity(intent);
         } else {
-            Toast.makeText(mAttachedHeadlinesActivity, "Action Clicked", Toast.LENGTH_LONG)
-                    .show();
+            String logMsg = "App does not have browser to show URL: %s.";
+            Timber.w(logMsg, contentUrl);
+            FirebaseCrash.log(logMsg);
+            UiUtils.showToast(mApplicationContext, R.string.warning_no_browser_app_available);
         }
     }
 
