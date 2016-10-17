@@ -28,9 +28,26 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
-import info.hossainkhan.android.core.model.NavigationRow;
+import java.util.ArrayList;
+import java.util.List;
 
+import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.util.Validate;
+import info.hossainkhan.dailynewsheadlines.R;
+
+/**
+ * Util classes related to leanback and application.
+ */
 public final class LeanbackHelper {
+
+    /**
+     * Builds a navigation header item.
+     *
+     * @param resources   Resources.
+     * @param stringResId String res for the navigation header item.
+     * @return {@link NavigationRow} for a header.
+     */
     public static NavigationRow buildNavigationHeader(@NonNull Resources resources, @StringRes int stringResId) {
         return new NavigationRow.Builder()
                 .setTitle(resources.getString(stringResId))
@@ -38,7 +55,47 @@ public final class LeanbackHelper {
                 .build();
     }
 
+    /**
+     * Builds a navigation divider item.
+     *
+     * @return {@link NavigationRow} for a divider.
+     */
     public static NavigationRow buildNavigationDivider() {
         return new NavigationRow.Builder().setType(NavigationRow.TYPE_DIVIDER).build();
+    }
+
+
+    /**
+     * Adds leanback app's navigation {@link android.support.v17.leanback.widget.Row} for sidebar.
+     * Adds static navigation items like Menu and settings to existing list of navigation.
+     *
+     * @param resources Resources for using string res.
+     * @param list      Existing list where setting will be added.
+     */
+    public static void addSettingsNavigation(final Resources resources, final List<NavigationRow> list) {
+        Validate.notNull(list);
+
+        // Begin settings section
+        list.add(buildNavigationDivider());
+        list.add(buildNavigationHeader(resources, R.string.navigation_header_item_settings_title));
+
+        // Build settings items
+
+        List<CardItem> settingsItems = new ArrayList<>();
+        CardItem item = new CardItem(CardItem.Type.ICON);
+        item.setId(R.string.settings_card_item_news_source_title);
+        item.setTitle(resources.getString(R.string.settings_card_item_news_source_title));
+        item.setLocalImageResourceId(R.drawable.ic_settings_settings);
+        settingsItems.add(item);
+
+        list.add(new NavigationRow.Builder()
+                .setTitle(resources.getString(R.string.settings_navigation_row_news_source_title))
+                .setType(NavigationRow.TYPE_DEFAULT)
+                .setCards(settingsItems)
+                .useShadow(false)
+                .build());
+
+        // Add end divider
+        list.add(buildNavigationDivider());
     }
 }
