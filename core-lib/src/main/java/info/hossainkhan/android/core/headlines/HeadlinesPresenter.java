@@ -31,7 +31,6 @@ import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.R;
@@ -55,10 +54,6 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-import static android.R.id.list;
-import static android.media.CamcorderProfile.get;
-import static com.google.android.gms.common.api.Status.sw;
-
 
 public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
 
@@ -76,7 +71,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     @Override
     public void loadHeadlines(final boolean forceUpdate) {
         for (final NewsProvider newsProvider : mNewsProviders) {
-            if(NyTimesNewsProvider.PROVIDER_ID_NYTIMES.equals(newsProvider.getNewsSource().getId())) {
+            if(NyTimesNewsProvider.PROVIDER_ID_NYTIMES.equals(newsProvider.getNewsSource().id())) {
                 loadNyTimesHeadlines(newsProvider);
             }
             else {
@@ -141,7 +136,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                         } else {
                             List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
                             navigationHeadlines.add(new NavigationRow.Builder()
-                                    .setTitle(newsProvider.getNewsSource().getName())
+                                    .setTitle(newsProvider.getNewsSource().name())
                                     .setType(NavigationRow.TYPE_SECTION_HEADER)
                                     .build());
 
