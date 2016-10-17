@@ -90,6 +90,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         ApiClient apiClient = CoreApplication.getAppComponent().getApiClient();
         StoriesApi service = apiClient.createService(StoriesApi.class);
 
+        // TODO Use preferred categories instead
         final List<ArticleCategory> categories = new ArrayList<>(newsProvider.getSupportedCategories());
 
         int sectionSize = categories.size();
