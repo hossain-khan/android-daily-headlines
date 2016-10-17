@@ -26,8 +26,6 @@ package info.hossainkhan.dailynewsheadlines.details;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v17.leanback.app.DetailsFragment;
 import android.support.v17.leanback.widget.Action;
@@ -48,7 +46,6 @@ import android.view.ViewGroup;
 
 import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.util.ActivityUtils;
@@ -56,6 +53,7 @@ import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.utils.PicassoBackgroundManager;
+import info.hossainkhan.dailynewsheadlines.utils.PicassoImageTargetDetailsOverview;
 import timber.log.Timber;
 
 /**
@@ -69,6 +67,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
     private HeadlinesDetailsActivity mAttachedHeadlinesActivity;
     private CardItem mCardItem;
     private PicassoBackgroundManager mPicassoBackgroundManager;
+    private PicassoImageTargetDetailsOverview mDetailsRowPicassoTarget;
 
 
     @Override
@@ -76,6 +75,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         super.onAttach(context);
         Timber.d("onAttach() called with: context = [" + context + "]");
         mAttachedHeadlinesActivity = (HeadlinesDetailsActivity) context;
+        mApplicationContext = getActivity().getApplicationContext();
     }
 
     @Override
@@ -137,23 +137,11 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         // Setup action and detail row.
         DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mCardItem);
         detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.stars_white));
-        mApplicationContext = getActivity().getApplicationContext();
-        Picasso.with(mApplicationContext).load(mCardItem.getImageUrl()).into(new Target() {
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, final Picasso.LoadedFrom from) {
-                Timber.d("onBitmapLoaded() called with: bitmap = [" + bitmap + "], from = [" + from + "]");
-                detailsOverview.setImageBitmap(mApplicationContext, bitmap);
-            }
 
-            @Override
-            public void onBitmapFailed(final Drawable errorDrawable) {
-                Timber.d("onBitmapFailed() called with: errorDrawable = [" + errorDrawable + "]");
-            }
-
-            public void onPrepareLoad(final Drawable placeHolderDrawable) {
-                Timber.d("onPrepareLoad() called with: placeHolderDrawable = [" + placeHolderDrawable + "]");
-            }
-        });
+        mDetailsRowPicassoTarget = new PicassoImageTargetDetailsOverview(mApplicationContext, detailsOverview);
+        Picasso.with(mApplicationContext)
+                .load(mCardItem.getImageUrl())
+                .into(mDetailsRowPicassoTarget);
 
 
         ArrayObjectAdapter actionAdapter = new ArrayObjectAdapter();
