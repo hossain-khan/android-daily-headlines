@@ -49,9 +49,12 @@ import io.swagger.client.model.ArticleCategory;
  */
 public final class NyTimesNewsProvider implements NewsProvider {
 
+    public static final String PROVIDER_ID_NYTIMES = "nytimes";
+
     @Override
     public NewsSource getNewsSource() {
-        NewsSource nyTimesNewsSource = new NewsSource("nytimes", "The New York Times");
+        // TODO Refactor this - not a correct way to provide implementation
+        NewsSource nyTimesNewsSource = new NewsSource(PROVIDER_ID_NYTIMES, "The New York Times");
 
         /*
          * All applications must be accompanied by a Times API logo on any page or screen that displays
@@ -63,7 +66,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
          * For applications that do not easily support logos or where Times data are used in alternative media formats,
          * the written attribution "Data provided by The New York Times" can be substituted.
          */
-        nyTimesNewsSource.setName("Data provided by The New York Times");
+        nyTimesNewsSource.setName("Data provided by \nThe New York Times");
 
         /*
          * Taken from https://developer.nytimes.com/branding

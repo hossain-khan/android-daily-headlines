@@ -32,12 +32,15 @@ import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.newssource.NewsProvider;
+import info.hossainkhan.android.core.newssource.NyTimesNewsProvider;
 import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
@@ -80,8 +83,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         setupUIElements();
 
 
-        mHeadlinesPresenter = new HeadlinesPresenter(mApplicationContext, this, getPreferredCategories
-                (mApplicationContext));
+        List<NewsProvider> providers = new ArrayList<>(2);
+        providers.add(new NyTimesNewsProvider());
+        mHeadlinesPresenter = new HeadlinesPresenter(mApplicationContext, this, providers);
     }
 
     @Override
@@ -174,13 +178,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
 
     /**
      * Adds static navigation items like Menu and settings to existing list of navigation.
-     * @param list
+     * @param list Existing list of items.
      */
     private void applyStaticNavigationItems(final List<NavigationRow> list) {
-        // Prepare/inject additional items for the navigation
-        // TODO: This news source heading item should be dynamic once multiple news source is allowed
-        list.add(0, buildNavigationHeader(mResources, R.string.navigation_header_item_news_source_nytimes_title));
-
         addSettingsNavigation(mResources, list);
     }
 
