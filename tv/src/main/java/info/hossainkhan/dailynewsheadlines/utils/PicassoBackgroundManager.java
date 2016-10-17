@@ -25,7 +25,6 @@
 package info.hossainkhan.dailynewsheadlines.utils;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,13 +32,15 @@ import android.support.v17.leanback.app.BackgroundManager;
 import android.util.DisplayMetrics;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.squareup.picasso.RequestCreator;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import info.hossainkhan.android.core.picasso.BlurTransformation;
+import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 
@@ -58,16 +59,22 @@ public class PicassoBackgroundManager {
     private BackgroundManager mBackgroundManager = null;
     private DisplayMetrics mMetrics;
     private URI mBackgroundURI;
-    private PicassoBackgroundManagerTarget mBackgroundTarget;
+    private PicassoImageTarget mBackgroundTarget;
 
-    Timer mBackgroundTimer; // null when no UpdateBackgroundTask is running.
+    private Timer mBackgroundTimer; // null when no UpdateBackgroundTask is running.
+    private TransformType mTransformType = null;
+
+    public enum TransformType {
+        GREYSCALE,
+        BLUR
+    }
 
     public PicassoBackgroundManager(Activity activity) {
         mActivity = activity;
         mDefaultBackground = activity.getDrawable(DEFAULT_BACKGROUND_RES_ID);
         mBackgroundManager = BackgroundManager.getInstance(activity);
         mBackgroundManager.attach(activity.getWindow());
-        mBackgroundTarget = new PicassoBackgroundManagerTarget(mBackgroundManager);
+        mBackgroundTarget = new PicassoImageTarget(mBackgroundManager);
         mMetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
@@ -112,6 +119,7 @@ public class PicassoBackgroundManager {
         startBackgroundTimer();
     }
 
+
     public void updateBackgroundWithDelay(String url) {
         try {
             URI uri = new URI(url);
@@ -128,17 +136,34 @@ public class PicassoBackgroundManager {
      * @param uri Image URI to load
      */
     public void updateBackgroundWithDelay(URI uri) {
+        updateBackgroundWithDelay(uri, null);
+    }
+
+    public void updateBackgroundWithDelay(URI uri, TransformType transformType) {
         mBackgroundURI = uri;
+        mTransformType = transformType;
         startBackgroundTimer();
     }
 
     private void updateBackground(URI uri) {
         try {
-            Picasso.with(mActivity)
+            Picasso picasso = Picasso.with(mActivity);
+            RequestCreator requestCreator = picasso
                     .load(uri.toString())
                     .resize(mMetrics.widthPixels, mMetrics.heightPixels)
                     .centerCrop()
-                    .error(mDefaultBackground)
+                    .error(mDefaultBackground);
+
+            // Check if any transformation needs to be applied.
+            if(TransformType.GREYSCALE == mTransformType) {
+                requestCreator.transform(new GrayscaleTransformation(picasso));
+            }
+
+            if(TransformType.BLUR == mTransformType) {
+                requestCreator.transform(new BlurTransformation(mActivity));
+            }
+
+            requestCreator
                     .into(mBackgroundTarget);
         } catch (Exception e) {
             Timber.e(e);
@@ -160,51 +185,4 @@ public class PicassoBackgroundManager {
             Timber.e(e);
         }
     }
-
-    /**
-     * Copied from AOSP sample code.
-     * Inner class
-     * Picasso target for updating default_background images
-     */
-    private class PicassoBackgroundManagerTarget implements Target {
-        BackgroundManager mBackgroundManager;
-
-        PicassoBackgroundManagerTarget(BackgroundManager backgroundManager) {
-            this.mBackgroundManager = backgroundManager;
-        }
-
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
-            this.mBackgroundManager.setBitmap(bitmap);
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable drawable) {
-            this.mBackgroundManager.setDrawable(drawable);
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable drawable) {
-            // Do nothing, default_background manager has its own transitions
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o)
-                return true;
-            if (o == null || getClass() != o.getClass())
-                return false;
-
-            PicassoBackgroundManagerTarget that = (PicassoBackgroundManagerTarget) o;
-
-            return mBackgroundManager.equals(that.mBackgroundManager);
-        }
-
-        @Override
-        public int hashCode() {
-            return mBackgroundManager.hashCode();
-        }
-    }
-
-    
 }

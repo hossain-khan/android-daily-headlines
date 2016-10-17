@@ -163,7 +163,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
 
 
         setAdapter(mRowsAdapter);
-        mPicassoBackgroundManager.updateBackgroundWithDelay(mCardItem.getImageURI());
+        mPicassoBackgroundManager.updateBackgroundWithDelay(mCardItem.getImageURI(), PicassoBackgroundManager.TransformType.GREYSCALE);
 
         // NOTE: Move this when data is loaded
         startEntranceTransition();
