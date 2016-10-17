@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/amardeshbd/android-daily-headlines.svg?branch=develop)](https://travis-ci.org/amardeshbd/android-daily-headlines) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/33be4683227a4d1e83cea377562dcc09)](https://www.codacy.com/app/amardeshbd/android-daily-headlines) [![codebeat badge](https://codebeat.co/badges/e2dd5a2b-0d57-4946-9696-17f82366395f)](https://codebeat.co/projects/github-com-amardeshbd-android-daily-headlines) [![release](https://img.shields.io/github/release/amardeshbd/android-daily-headlines.svg?maxAge=2592000)](https://github.com/amardeshbd/android-daily-headlines/releases) [![license](https://img.shields.io/github/license/amardeshbd/android-daily-headlines.svg?maxAge=2592000)](https://github.com/amardeshbd/android-daily-headlines/blob/develop/LICENSE)
-
+[![Build Status](https://travis-ci.org/amardeshbd/android-daily-headlines.svg?branch=develop)](https://travis-ci.org/amardeshbd/android-daily-headlines) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/33be4683227a4d1e83cea377562dcc09)](https://www.codacy.com/app/amardeshbd/android-daily-headlines) [![codebeat badge](https://codebeat.co/badges/e2dd5a2b-0d57-4946-9696-17f82366395f)](https://codebeat.co/projects/github-com-amardeshbd-android-daily-headlines) [![release](https://img.shields.io/github/release/amardeshbd/android-daily-headlines.svg?maxAge=2592000)](https://github.com/amardeshbd/android-daily-headlines/releases) [![license](https://img.shields.io/github/license/amardeshbd/android-daily-headlines.svg?maxAge=2592000)](https://github.com/amardeshbd/android-daily-headlines/blob/develop/LICENSE)   
 [![GitHub issues](https://img.shields.io/github/issues/amardeshbd/android-daily-headlines.svg)](https://github.com/amardeshbd/android-daily-headlines/issues) [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/amardeshbd/android-daily-headlines.svg?maxAge=2592000)](https://github.com/amardeshbd/android-daily-headlines/issues?q=is%3Aissue+is%3Aclosed) [![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/amardeshbd/android-daily-headlines.svg?maxAge=2592000)](https://github.com/amardeshbd/android-daily-headlines/pulls?q=is%3Apr+is%3Aclosed) 
 
 # android-daily-headlines
@@ -20,9 +19,13 @@ I am currently tracking issues and tasks using :octocat:'s kanban board
  * Release v1 - https://github.com/amardeshbd/android-daily-headlines/projects/1
  * Release v2 - https://github.com/amardeshbd/android-daily-headlines/projects/2
 
+### Gradle Modues
+[![android-daily-headlines-module-overview](https://cloud.githubusercontent.com/assets/99822/19424108/8593d212-93f4-11e6-9caa-c3cc4d2e4481.png)](https://docs.google.com/drawings/d/1mbFW9Yq9r7h7DmFYhA6X1M26dBp7Uw-mX4aRaPm4GMg/edit?usp=sharing)
+
+For more infromation check **[project wiki](https://github.com/amardeshbd/android-daily-headlines/wiki)**
+
 ### Screenshot from `develop` build
 
-![device-2016-10-10-184136](https://cloud.githubusercontent.com/assets/99822/19253463/37a6102c-8f19-11e6-97a1-d7c778a9b3d1.png)
 ![device-2016-10-10-184114](https://cloud.githubusercontent.com/assets/99822/19253464/37a966a0-8f19-11e6-95ed-f3663c3f45f9.png)
 
 ----
