@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines.browser.listeners;
+package info.hossainkhan.dailynewsheadlines.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;

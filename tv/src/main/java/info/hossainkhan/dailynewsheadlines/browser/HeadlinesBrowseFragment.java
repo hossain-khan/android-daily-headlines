@@ -27,22 +27,13 @@ package info.hossainkhan.dailynewsheadlines.browser;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
-import android.util.DisplayMetrics;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
@@ -51,10 +42,10 @@ import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
-import info.hossainkhan.dailynewsheadlines.browser.listeners.PicassoImageTarget;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.details.HeadlinesDetailsActivity;
 import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
+import info.hossainkhan.dailynewsheadlines.utils.PicassoBackgroundManager;
 import timber.log.Timber;
 
 import static info.hossainkhan.android.core.data.CategoryNameResolver.getPreferredCategories;
@@ -66,20 +57,11 @@ import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.buildNavi
  * Leanback browser fragment that is responsible for showing all the headlines.
  */
 public class HeadlinesBrowseFragment extends BrowseFragment implements HeadlinesContract.View {
-
-    private static final int BACKGROUND_UPDATE_DELAY = 300;
-
-    private final Handler mHandler = new Handler();
     private ArrayObjectAdapter mRowsAdapter;
-    private Drawable mDefaultBackground;
-    private DisplayMetrics mMetrics;
-    private Timer mBackgroundTimer;
-    private URI mBackgroundURI;
-    private BackgroundManager mBackgroundManager;
-    private Target mBackgroundDrawableTarget;
     private HeadlinesPresenter mHeadlinesPresenter;
     private Resources mResources;
     private Context mApplicationContext;
+    private PicassoBackgroundManager mPicassoBackgroundManager;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -93,7 +75,8 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         }
 
 
-        prepareBackgroundManager();
+        mPicassoBackgroundManager = new PicassoBackgroundManager(getActivity());
+        mPicassoBackgroundManager.updateBackgroundWithDelay();
 
         setupUIElements();
 
@@ -105,9 +88,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (null != mBackgroundTimer) {
-            Timber.d("onDestroy: " + mBackgroundTimer.toString());
-            mBackgroundTimer.cancel();
+        if (null != mPicassoBackgroundManager) {
+            Timber.d("onDestroy: " + mPicassoBackgroundManager.toString());
+            //mPicassoBackgroundManager.cancel();
         }
     }
 
@@ -157,16 +140,6 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
                 .build());
     }
 
-    private void prepareBackgroundManager() {
-
-        mBackgroundManager = BackgroundManager.getInstance(getActivity());
-        mBackgroundManager.attach(getActivity().getWindow());
-        mBackgroundDrawableTarget = new PicassoImageTarget(mBackgroundManager);
-        mDefaultBackground = mResources.getDrawable(R.drawable.default_background);
-        mMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
-    }
-
     private void setupUIElements() {
         // setBadgeDrawable(getActivity().getResources().getDrawable(
         // R.drawable.videos_by_google_banner));
@@ -183,29 +156,6 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         CardItemViewInteractionListener listener = new CardItemViewInteractionListener(mHeadlinesPresenter);
         setOnItemViewClickedListener(listener);
         setOnItemViewSelectedListener(listener);
-    }
-
-    protected void updateBackground(String uri) {
-        Timber.d("Updating background: %s", uri);
-
-        int width = mMetrics.widthPixels;
-        int height = mMetrics.heightPixels;
-
-        Picasso.with(getActivity())
-                .load(uri)
-                .resize(width, height)
-                .centerCrop()
-                .error(mDefaultBackground)
-                .into(mBackgroundDrawableTarget);
-        mBackgroundTimer.cancel();
-    }
-
-    private void startBackgroundTimer() {
-        if (null != mBackgroundTimer) {
-            mBackgroundTimer.cancel();
-        }
-        mBackgroundTimer = new Timer();
-        mBackgroundTimer.schedule(new HeadlinesBrowseFragment.UpdateBackgroundTask(), BACKGROUND_UPDATE_DELAY);
     }
 
     @Override
@@ -249,23 +199,8 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
 
     @Override
     public void showHeadlineBackdropBackground(final URI imageURI) {
-        mBackgroundURI = imageURI;
-        Timber.d("Loading HD background URL: %s", mBackgroundURI);
-        startBackgroundTimer();
+        Timber.d("Loading HD background URL: %s", imageURI);
+        mPicassoBackgroundManager.updateBackgroundWithDelay(imageURI);
     }
-
-    private class UpdateBackgroundTask extends TimerTask {
-
-        @Override
-        public void run() {
-            mHandler.post(() -> {
-                if (mBackgroundURI != null) {
-                    updateBackground(mBackgroundURI.toString());
-                }
-            });
-
-        }
-    }
-
 
 }
