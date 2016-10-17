@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines.browser.listeners;
+package info.hossainkhan.dailynewsheadlines.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -61,6 +61,13 @@ public class PicassoImageTarget implements Target {
     @Override
     public void onBitmapFailed(Drawable errorDrawable) {
         Timber.w("onBitmapFailed");
+
+        BackgroundManager backgroundManager = mBackgroundManagerRef.get();
+        if (backgroundManager != null) {
+            backgroundManager.setDrawable(errorDrawable);
+        } else {
+            Timber.w("Background manager is unavailable.");
+        }
     }
 
     @Override

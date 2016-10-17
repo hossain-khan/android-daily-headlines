@@ -26,10 +26,7 @@ package info.hossainkhan.dailynewsheadlines.details;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.DetailsFragment;
 import android.support.v17.leanback.widget.Action;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -44,22 +41,19 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
 import info.hossainkhan.android.core.util.ActivityUtils;
 import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
-import info.hossainkhan.dailynewsheadlines.browser.listeners.PicassoImageTarget;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
+import info.hossainkhan.dailynewsheadlines.utils.PicassoBackgroundManager;
+import info.hossainkhan.dailynewsheadlines.utils.PicassoImageTargetDetailsOverview;
 import timber.log.Timber;
 
 /**
@@ -68,33 +62,31 @@ import timber.log.Timber;
 public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemViewClickedListener,
         OnItemViewSelectedListener {
 
-
     private ArrayObjectAdapter mRowsAdapter;
-
-    private BackgroundManager mBackgroundManager;
-    private Drawable mDefaultBackground;
-    private DisplayMetrics mMetrics;
-    private PicassoImageTarget mBackgroundDrawableTarget;
-
     private Context mApplicationContext;
     private HeadlinesDetailsActivity mAttachedHeadlinesActivity;
     private CardItem mCardItem;
+    private PicassoBackgroundManager mPicassoBackgroundManager;
+    private PicassoImageTargetDetailsOverview mDetailsRowPicassoTarget;
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        prepareBackgroundManager();
-        setupUi();
-        setupEventListeners();
-    }
 
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
         Timber.d("onAttach() called with: context = [" + context + "]");
         mAttachedHeadlinesActivity = (HeadlinesDetailsActivity) context;
+        mApplicationContext = getActivity().getApplicationContext();
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mPicassoBackgroundManager = new PicassoBackgroundManager(mAttachedHeadlinesActivity);
+        setupUi();
+        setupEventListeners();
+    }
+
 
     private void setupUi() {
 
@@ -145,23 +137,11 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         // Setup action and detail row.
         DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mCardItem);
         detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.stars_white));
-        mApplicationContext = getActivity().getApplicationContext();
-        Picasso.with(mApplicationContext).load(mCardItem.getImageUrl()).into(new Target() {
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, final Picasso.LoadedFrom from) {
-                Timber.d("onBitmapLoaded() called with: bitmap = [" + bitmap + "], from = [" + from + "]");
-                detailsOverview.setImageBitmap(mApplicationContext, bitmap);
-            }
 
-            @Override
-            public void onBitmapFailed(final Drawable errorDrawable) {
-                Timber.d("onBitmapFailed() called with: errorDrawable = [" + errorDrawable + "]");
-            }
-
-            public void onPrepareLoad(final Drawable placeHolderDrawable) {
-                Timber.d("onPrepareLoad() called with: placeHolderDrawable = [" + placeHolderDrawable + "]");
-            }
-        });
+        mDetailsRowPicassoTarget = new PicassoImageTargetDetailsOverview(mApplicationContext, detailsOverview);
+        Picasso.with(mApplicationContext)
+                .load(mCardItem.getImageUrl())
+                .into(mDetailsRowPicassoTarget);
 
 
         ArrayObjectAdapter actionAdapter = new ArrayObjectAdapter();
@@ -171,7 +151,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
 
 
         setAdapter(mRowsAdapter);
-        updateBackground(mCardItem.getImageUrl());
+        mPicassoBackgroundManager.updateBackgroundWithDelay(mCardItem.getImageURI(), PicassoBackgroundManager.TransformType.GREYSCALE);
 
         // NOTE: Move this when data is loaded
         startEntranceTransition();
@@ -180,30 +160,6 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
     private void setupEventListeners() {
         setOnItemViewSelectedListener(this);
         setOnItemViewClickedListener(this);
-    }
-
-    private void prepareBackgroundManager() {
-        mBackgroundManager = BackgroundManager.getInstance(mAttachedHeadlinesActivity);
-        mBackgroundManager.attach(mAttachedHeadlinesActivity.getWindow());
-        mBackgroundDrawableTarget = new PicassoImageTarget(mBackgroundManager);
-        mDefaultBackground = getResources().getDrawable(R.drawable.default_background);
-        mMetrics = new DisplayMetrics();
-        mAttachedHeadlinesActivity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
-        Timber.d("prepareBackgroundManager() called : metrics %s", mMetrics);
-
-    }
-
-    protected void updateBackground(String uri) {
-        int width = mMetrics.widthPixels;
-        int height = mMetrics.heightPixels;
-
-        final Picasso picasso = Picasso.with(mAttachedHeadlinesActivity);
-        picasso.load(uri)
-                .resize(width, height)
-                .centerCrop()
-                .transform(new GrayscaleTransformation(picasso))
-                .error(mDefaultBackground)
-                .into(mBackgroundDrawableTarget);
     }
 
     @Override
