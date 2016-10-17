@@ -31,6 +31,7 @@ import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.R;
@@ -38,6 +39,8 @@ import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.data.CategoryNameResolver;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.newssource.NewsProvider;
+import info.hossainkhan.android.core.newssource.NyTimesNewsProvider;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.ConsumptionFormat;
 import io.swagger.client.api.StoriesApi;
@@ -52,33 +55,52 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
+import static android.R.id.list;
+import static android.media.CamcorderProfile.get;
+import static com.google.android.gms.common.api.Status.sw;
+
 
 public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
 
-    private final List<ArticleCategory> mArticleCategories;
+    private final List<NewsProvider> mNewsProviders;
     private final Context mContext;
 
-    public HeadlinesPresenter(final Context context, final HeadlinesContract.View view, final List<ArticleCategory>
-            articleCategories) {
+    public HeadlinesPresenter(final Context context, final HeadlinesContract.View view, final List<NewsProvider>
+            newsProviders) {
         attachView(view);
         mContext = context;
-        mArticleCategories = articleCategories;
+        mNewsProviders = newsProviders;
         loadHeadlines(false);
     }
 
     @Override
     public void loadHeadlines(final boolean forceUpdate) {
+        for (final NewsProvider newsProvider : mNewsProviders) {
+            if(NyTimesNewsProvider.PROVIDER_ID_NYTIMES.equals(newsProvider.getNewsSource().getId())) {
+                loadNyTimesHeadlines(newsProvider);
+            }
+            else {
+                Timber.w("Unsupported news provider: %s", newsProvider);
+            }
+        }
+
+    }
+
+    private void loadNyTimesHeadlines(final NewsProvider newsProvider) {
         ApiClient apiClient = CoreApplication.getAppComponent().getApiClient();
         StoriesApi service = apiClient.createService(StoriesApi.class);
 
-        int sectionSize = mArticleCategories.size();
+        // TODO Use preferred categories instead
+        final List<ArticleCategory> categories = new ArrayList<>(newsProvider.getSupportedCategories());
+
+        int sectionSize = categories.size();
         List<Observable<InlineResponse200>> observableList = new ArrayList<>(sectionSize);
 
-        Timber.i("Loading categories: %s", mArticleCategories);
+        Timber.i("Loading categories: %s", categories);
 
         // NOTE: Unable to use java8 lambda using jack. Error: Library projects cannot enable Jack (Java 8).
         // ASOP Issue # https://code.google.com/p/android/issues/detail?id=211386
-        Observable.from(mArticleCategories).subscribe(new Action1<ArticleCategory>() {
+        Observable.from(categories).subscribe(new Action1<ArticleCategory>() {
             @Override
             public void call(ArticleCategory articleCategory) {
                 observableList.add(service.sectionFormatGet(articleCategory.name(), ConsumptionFormat.json.name(), null));
@@ -117,9 +139,14 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                             // Error
                             FirebaseCrash.log("Unable to get all responses.");
                         } else {
-                            List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize);
+                            List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
+                            navigationHeadlines.add(new NavigationRow.Builder()
+                                    .setTitle(newsProvider.getNewsSource().getName())
+                                    .setType(NavigationRow.TYPE_SECTION_HEADER)
+                                    .build());
+
                             for (int i = 0; i < totalResponseItemSize; i++) {
-                                ArticleCategory articleCategory = mArticleCategories.get(i);
+                                ArticleCategory articleCategory = categories.get(i);
                                 navigationHeadlines.add(
                                         new NavigationRow.Builder()
                                                 .setTitle(mContext.getString(CategoryNameResolver
@@ -129,7 +156,6 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                                                 .build()
                                 );
                             }
-
                             getView().showHeadlines(navigationHeadlines);
                         }
                     }

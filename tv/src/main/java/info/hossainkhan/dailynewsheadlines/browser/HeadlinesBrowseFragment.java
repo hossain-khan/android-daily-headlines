@@ -39,6 +39,8 @@ import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.newssource.NewsProvider;
+import info.hossainkhan.android.core.newssource.NyTimesNewsProvider;
 import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
@@ -50,7 +52,7 @@ import timber.log.Timber;
 
 import static info.hossainkhan.android.core.data.CategoryNameResolver.getPreferredCategories;
 import static info.hossainkhan.dailynewsheadlines.browser.RowBuilderFactory.buildCardRow;
-import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.buildNavigationDivider;
+import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.addSettingsNavigation;
 import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.buildNavigationHeader;
 
 /**
@@ -81,8 +83,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         setupUIElements();
 
 
-        mHeadlinesPresenter = new HeadlinesPresenter(mApplicationContext, this, getPreferredCategories
-                (mApplicationContext));
+        List<NewsProvider> providers = new ArrayList<>(2);
+        providers.add(new NyTimesNewsProvider());
+        mHeadlinesPresenter = new HeadlinesPresenter(mApplicationContext, this, providers);
     }
 
     @Override
@@ -94,51 +97,6 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         }
     }
 
-    private void loadRows(final List<NavigationRow> list) {
-        applyStaticNavigationItems(list);
-
-
-        mRowsAdapter = new ArrayObjectAdapter(new ShadowRowPresenterSelector());
-
-        int totalNavigationItems = list.size();
-        int i;
-        for (i = 0; i < totalNavigationItems; i++) {
-            NavigationRow navigationRow = list.get(i);
-            mRowsAdapter.add(buildCardRow(mApplicationContext, navigationRow));
-        }
-
-        setAdapter(mRowsAdapter);
-    }
-
-    /**
-     * Adds static navigation items like Menu and settings to existing list of navigation.
-     * @param list
-     */
-    private void applyStaticNavigationItems(final List<NavigationRow> list) {
-        // Prepare/inject additional items for the navigation
-        // TODO: This news source heading item should be dynamic once multiple news source is allowed
-        list.add(0, buildNavigationHeader(mResources, R.string.navigation_header_item_news_source_nytimes_title));
-
-        // Begin settings section
-        list.add(buildNavigationDivider());
-        list.add(buildNavigationHeader(mResources, R.string.navigation_header_item_settings_title));
-
-        // Build settings items
-
-        List<CardItem> settingsItems = new ArrayList<>();
-        CardItem item = new CardItem(CardItem.Type.ICON);
-        item.setId(R.string.settings_card_item_news_source_title);
-        item.setTitle(getString(R.string.settings_card_item_news_source_title));
-        item.setLocalImageResourceId(R.drawable.ic_settings_settings);
-        settingsItems.add(item);
-
-        list.add(new NavigationRow.Builder()
-                .setTitle(getString(R.string.settings_navigation_row_news_source_title))
-                .setType(NavigationRow.TYPE_DEFAULT)
-                .setCards(settingsItems)
-                .useShadow(false)
-                .build());
-    }
 
     private void setupUIElements() {
         // setBadgeDrawable(getActivity().getResources().getDrawable(
@@ -168,9 +126,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
 
     @Override
     public void showHeadlines(final List<NavigationRow> headlines) {
-
         loadRows(headlines);
-
         setupEventListeners();
     }
 
@@ -201,6 +157,31 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     public void showHeadlineBackdropBackground(final URI imageURI) {
         Timber.d("Loading HD background URL: %s", imageURI);
         mPicassoBackgroundManager.updateBackgroundWithDelay(imageURI);
+    }
+
+
+    private void loadRows(final List<NavigationRow> list) {
+        applyStaticNavigationItems(list);
+
+
+        mRowsAdapter = new ArrayObjectAdapter(new ShadowRowPresenterSelector());
+
+        int totalNavigationItems = list.size();
+        int i;
+        for (i = 0; i < totalNavigationItems; i++) {
+            NavigationRow navigationRow = list.get(i);
+            mRowsAdapter.add(buildCardRow(mApplicationContext, navigationRow));
+        }
+
+        setAdapter(mRowsAdapter);
+    }
+
+    /**
+     * Adds static navigation items like Menu and settings to existing list of navigation.
+     * @param list Existing list of items.
+     */
+    private void applyStaticNavigationItems(final List<NavigationRow> list) {
+        addSettingsNavigation(mResources, list);
     }
 
 }

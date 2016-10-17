@@ -5,6 +5,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -13,8 +14,9 @@ import info.hossainkhan.android.core.base.BaseActivity;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.data.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.newssource.NewsProvider;
+import info.hossainkhan.android.core.newssource.NyTimesNewsProvider;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements HeadlinesContract.View {
@@ -34,8 +36,9 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
         ButterKnife.bind(this);
 
         // TODO use DI to inject
-        mHeadlinesPresenter = new HeadlinesPresenter(getApplicationContext(), this, CategoryNameResolver
-                .getSupportedCategories());
+        List<NewsProvider> providers = new ArrayList<>(2);
+        providers.add(new NyTimesNewsProvider());
+        mHeadlinesPresenter = new HeadlinesPresenter(getApplicationContext(), this, providers);
     }
 
     @Override
