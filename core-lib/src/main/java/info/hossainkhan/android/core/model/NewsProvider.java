@@ -24,48 +24,26 @@
 
 package info.hossainkhan.android.core.model;
 
-import com.google.auto.value.AutoValue;
-import com.google.gson.annotations.SerializedName;
+import java.util.Set;
+
+import info.hossainkhan.android.core.model.NewsSource;
+import io.swagger.client.model.ArticleCategory;
+
 
 /**
- * A model class to define information on news source or publisher.
+ * Interface for news source provider.
  */
-@AutoValue
-public abstract class NewsSource {
-
-    public static NewsSource create(String id, String name, String description, String url, String imageUrl,
-                             long cacheDuration) {
-        return new AutoValue_NewsSource(id, name, description, url, imageUrl, cacheDuration);
-    }
+public interface NewsProvider {
+    /**
+     * Provide news source info for the provider.
+     *
+     * @return {@link NewsSource}
+     */
+    NewsSource getNewsSource();
 
     /**
-     * A unique identifier for the news-source/publication.
+     * Provide list of supported categories for the current {@link NewsSource}.
+     * @return Unique list of categories.
      */
-    @SerializedName("id")
-    public abstract String id();
-
-    /**
-     * The publication's name.
-     */
-    @SerializedName("name")
-    public abstract String name();
-
-    @SerializedName("description")
-    public abstract String description();
-
-    /**
-     * The URL to the publication's homepage
-     */
-    @SerializedName("url")
-    public abstract String url();
-
-    @SerializedName("imageUrl")
-    public abstract String imageUrl();
-
-    /**
-     * Max cache duration in <b>SECONDS</b> for the publication content. Default is {@code 0}, which means no
-     * limitation.
-     */
-    @SerializedName("cacheDuration")
-    public abstract long cacheDuration();
+    Set<ArticleCategory> getSupportedCategories();
 }

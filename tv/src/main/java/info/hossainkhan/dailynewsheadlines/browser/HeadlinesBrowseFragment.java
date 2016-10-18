@@ -39,8 +39,8 @@ import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
-import info.hossainkhan.android.core.newssource.NewsProvider;
-import info.hossainkhan.android.core.newssource.NyTimesNewsProvider;
+import info.hossainkhan.android.core.model.NewsProvider;
+import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
 import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
@@ -50,10 +50,8 @@ import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
 import info.hossainkhan.dailynewsheadlines.utils.PicassoBackgroundManager;
 import timber.log.Timber;
 
-import static info.hossainkhan.android.core.data.CategoryNameResolver.getPreferredCategories;
 import static info.hossainkhan.dailynewsheadlines.browser.RowBuilderFactory.buildCardRow;
 import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.addSettingsNavigation;
-import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.buildNavigationHeader;
 
 /**
  * Leanback browser fragment that is responsible for showing all the headlines.

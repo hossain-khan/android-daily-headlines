@@ -31,7 +31,6 @@ import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.R;
@@ -39,8 +38,8 @@ import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.data.CategoryNameResolver;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
-import info.hossainkhan.android.core.newssource.NewsProvider;
-import info.hossainkhan.android.core.newssource.NyTimesNewsProvider;
+import info.hossainkhan.android.core.model.NewsProvider;
+import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.ConsumptionFormat;
 import io.swagger.client.api.StoriesApi;
@@ -54,10 +53,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
-
-import static android.R.id.list;
-import static android.media.CamcorderProfile.get;
-import static com.google.android.gms.common.api.Status.sw;
 
 
 public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
@@ -76,7 +71,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     @Override
     public void loadHeadlines(final boolean forceUpdate) {
         for (final NewsProvider newsProvider : mNewsProviders) {
-            if(NyTimesNewsProvider.PROVIDER_ID_NYTIMES.equals(newsProvider.getNewsSource().getId())) {
+            if(NyTimesNewsProvider.PROVIDER_ID_NYTIMES.equals(newsProvider.getNewsSource().id())) {
                 loadNyTimesHeadlines(newsProvider);
             }
             else {
@@ -140,19 +135,19 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                             FirebaseCrash.log("Unable to get all responses.");
                         } else {
                             List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
-                            navigationHeadlines.add(new NavigationRow.Builder()
-                                    .setTitle(newsProvider.getNewsSource().getName())
-                                    .setType(NavigationRow.TYPE_SECTION_HEADER)
+                            navigationHeadlines.add(NavigationRow.builder()
+                                    .title(newsProvider.getNewsSource().name())
+                                    .type(NavigationRow.TYPE_SECTION_HEADER)
                                     .build());
 
                             for (int i = 0; i < totalResponseItemSize; i++) {
                                 ArticleCategory articleCategory = categories.get(i);
                                 navigationHeadlines.add(
-                                        new NavigationRow.Builder()
-                                                .setTitle(mContext.getString(CategoryNameResolver
+                                        NavigationRow.builder()
+                                                .title(mContext.getString(CategoryNameResolver
                                                         .resolveCategoryResId(articleCategory)))
-                                                .setCategory(articleCategory)
-                                                .setCards(convertArticleToCardItems(inlineResponse200s.get(i).getResults()))
+                                                .category(articleCategory)
+                                                .cards(convertArticleToCardItems(inlineResponse200s.get(i).getResults()))
                                                 .build()
                                 );
                             }
@@ -174,7 +169,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     private List<CardItem> convertArticleToCardItems(final List<Article> articles) {
         List<CardItem> cardItems = new ArrayList<>(articles.size());
         for (Article result : articles) {
-            cardItems.add(new CardItem(result));
+            cardItems.add(CardItem.create(result));
         }
         return cardItems;
     }
@@ -186,7 +181,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
     @Override
     public void onHeadlineItemSelected(@NonNull final CardItem cardItem) {
-        if (cardItem.getImageUrl() !=null) {
+        if (cardItem.imageUrl() !=null) {
             getView().showHeadlineBackdropBackground(cardItem.getImageURI());
         } else {
             Timber.i("Card object does not have HD background.");
@@ -195,13 +190,13 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
     @Override
     public void onHeadlineItemClicked(@NonNull final CardItem cardItem) {
-        int id = cardItem.getId();
-        CardItem.Type type = cardItem.getType();
+        int id = cardItem.id();
+        CardItem.Type type = cardItem.type();
         if (type == CardItem.Type.ICON) {
             if (id == R.string.settings_card_item_news_source_title) {
                 getView().showAppSettingsScreen();
             } else {
-                Timber.w("Unable to handle settings item: %s", cardItem.getTitle());
+                Timber.w("Unable to handle settings item: %s", cardItem.title());
             }
         } else if(type == CardItem.Type.HEADLINES) {
             getView().showHeadlineDetailsUi(cardItem);

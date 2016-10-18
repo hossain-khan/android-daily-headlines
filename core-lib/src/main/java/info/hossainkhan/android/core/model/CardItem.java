@@ -24,10 +24,11 @@
 
 package info.hossainkhan.android.core.model;
 
-import android.graphics.Color;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.google.auto.value.AutoValue;
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.annotations.SerializedName;
 
@@ -35,6 +36,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import info.hossainkhan.android.core.gson.AutoGson;
 import io.swagger.client.model.Article;
 import io.swagger.client.model.ArticleMultimedia;
 import timber.log.Timber;
@@ -42,8 +44,8 @@ import timber.log.Timber;
 /**
  * This is a model object that encapsulates an card item with required and optional information.
  */
-public class CardItem {
-
+@AutoValue @AutoGson
+public abstract class CardItem {
 
     /**
      * Type of the cards supported by the TV browser.
@@ -54,211 +56,132 @@ public class CardItem {
         ICON
     }
 
-    @SerializedName("title")
-    private String mTitle = "";
-
-    @SerializedName("description")
-    private String mDescription = "";
-
-    @SerializedName("extraText")
-    private String mExtraText = "";
-
-    @SerializedName("category")
-    private String mCategory;
-
-    @SerializedName("dateCreated")
-    private String mDateCreated;
-
-    @SerializedName("imageUrl")
-    private String mImageUrl;
-
-    @SerializedName("contentUrl")
-    private String mContentUrl;
-
-    @SerializedName("localImageResourceId")
-    private int mLocalImageResourceId;
-
-    @SerializedName("footerColor")
-    private String mFooterColor = null;
-
-    @SerializedName("selectedColor")
-    private String mSelectedColor = null;
-
-    @SerializedName("type")
-    private CardItem.Type mType;
-
     @SerializedName("id")
-    private int mId;
+    public abstract int id();
+
+    @Nullable
+    @SerializedName("title")
+    public abstract String title();
+
+    @Nullable
+    @SerializedName("description")
+    public abstract String description();
+
+    @Nullable
+    @SerializedName("extraText")
+    public abstract String extraText();
+
+    @Nullable
+    @SerializedName("category")
+    public abstract String category();
+
+    @Nullable
+    @SerializedName("dateCreated")
+    public abstract String dateCreated();
+
+    @Nullable
+    @SerializedName("imageUrl")
+    public abstract String imageUrl();
+
+    @Nullable
+    @SerializedName("contentUrl")
+    public abstract String contentUrl();
+
+    @DrawableRes
+    @SerializedName("localImageResourceId")
+    public abstract int localImageResourceId();
+
+    @Nullable
+    @SerializedName("footerColor")
+    public abstract String footerColor();
+
+    @Nullable
+    @SerializedName("selectedColor")
+    public abstract String selectedColor();
+
+    @NonNull
+    @SerializedName("type")
+    public abstract CardItem.Type type();
 
     @SerializedName("width")
-    private int mWidth;
+    public abstract int width();
 
     @SerializedName("height")
-    private int mHeight;
+    public abstract int height();
+
+    public static CardItem create(
+            int id, @Nullable String title, @Nullable String description, @Nullable String extraText, @Nullable
+            String category, @Nullable String dateCreated, @Nullable String imageUrl, @Nullable String contentUrl,
+            int localImageResourceId, @Nullable String footerColor, @Nullable String selectedColor,
+            CardItem.Type type, int width, int height) {
+        return new AutoValue_CardItem(id,
+                title,
+                description,
+                extraText,
+                category,
+                dateCreated,
+                imageUrl,
+                contentUrl,
+                localImageResourceId,
+                footerColor,
+                selectedColor,
+                type,
+                width,
+                height);
+    }
 
     /**
      * Creates a card item with {@link Article} model.
      *
-     * @param article
+     * @param article Article instance to convert to CardItem.
      */
-    public CardItem(@NonNull final Article article) {
-        mTitle = article.getTitle();
-        mDescription = article.getAbstract();
-        mType = Type.HEADLINES;
-        mId = article.getUrl().hashCode();
-
-        mCategory = article.getSection();
-        mDateCreated = article.getCreatedDate();
-        mContentUrl = article.getUrl();
-
+    public static CardItem create(@NonNull final Article article) {
 
         List<ArticleMultimedia> multimedia = article.getMultimedia();
         int size = multimedia.size();
+        String imageUrl = null;
+        int width = 0;
+        int height = 0;
         if (!multimedia.isEmpty()) {
             ArticleMultimedia articleMultimedia = multimedia.get(size - 1);
-            mImageUrl = articleMultimedia.getUrl();
-            mWidth = articleMultimedia.getWidth();
-            mHeight = articleMultimedia.getHeight();
+            imageUrl = articleMultimedia.getUrl();
+            width = articleMultimedia.getWidth();
+            height = articleMultimedia.getHeight();
         } else {
             String NO_IMAGE_MSG = "Article does not have image.";
             Timber.w("%s Total items: %d", NO_IMAGE_MSG, size);
             FirebaseCrash.log(NO_IMAGE_MSG);
         }
-    }
 
-    /**
-     * Creates a simple card of type.
-     *
-     * @param type Type of card.
-     */
-    public CardItem(Type type) {
-        mType = type;
-    }
+        return new AutoValue_CardItem(
+                article.getUrl().hashCode(), // id,
+                article.getTitle(), // title,
+                article.getAbstract(), // description,
+                "", //extraText,
+                article.getSection(), //category,
+                article.getCreatedDate(), // dateCreated,
+                imageUrl, // imageUrl,
+                article.getUrl(), // contentUrl,
+                0, // localImageResourceId,
+                "", // footerColor,
+                "", // selectedColor,
+                Type.HEADLINES, // type,
+                width, // width,
+                height);
 
-    public String getTitle() {
-        return mTitle;
-    }
-
-    public void setTitle(String title) {
-        mTitle = title;
-    }
-
-    public void setType(Type type) {
-        mType = type;
-    }
-
-    public void setId(int id) {
-        mId = id;
-    }
-
-    public void setWidth(int width) {
-        mWidth = width;
-    }
-
-    public void setHeight(int height) {
-        mHeight = height;
-    }
-
-    public int getWidth() {
-        return mWidth;
-    }
-
-    public int getHeight() {
-        return mHeight;
-    }
-
-    public int getId() {
-        return mId;
-    }
-
-    public CardItem.Type getType() {
-        return mType;
-    }
-
-    public String getDescription() {
-        return mDescription;
-    }
-
-    public void setDescription(String description) {
-        mDescription = description;
-    }
-
-    public String getCategory() {
-        return mCategory;
-    }
-
-    public void setCategory(String category) {
-        mCategory = category;
-    }
-
-    public String getDateCreated() {
-        return mDateCreated;
-    }
-
-    public void setDateCreated(String mDateCreated) {
-        this.mDateCreated = mDateCreated;
     }
 
 
-    public String getExtraText() {
-        return mExtraText;
-    }
-
-    public void setExtraText(String extraText) {
-        mExtraText = extraText;
-    }
-
-    public int getFooterColor() {
-        if (mFooterColor == null) return -1;
-        return Color.parseColor(mFooterColor);
-    }
-
-    public void setFooterColor(String footerColor) {
-        mFooterColor = footerColor;
-    }
-
-    public int getSelectedColor() {
-        if (mSelectedColor == null) return -1;
-        return Color.parseColor(mSelectedColor);
-    }
-
-    public String getContentUrl() {
-        return mContentUrl;
-    }
-
-    public void setContentUrl(final String mContentUrl) {
-        this.mContentUrl = mContentUrl;
-    }
-
-    public String getImageUrl() {
-        return mImageUrl;
-    }
-
-    public void setSelectedColor(String selectedColor) {
-        mSelectedColor = selectedColor;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        mImageUrl = imageUrl;
-    }
 
     public URI getImageURI() {
-        if (getImageUrl() == null) return null;
+        if (imageUrl() == null) return null;
         try {
-            return new URI(getImageUrl());
+            return new URI(imageUrl());
         } catch (URISyntaxException e) {
             FirebaseCrash.report(e);
-            Timber.w("URI exception: ", getImageUrl());
+            Timber.w("URI exception: ", imageUrl());
             return null;
         }
     }
 
-    @DrawableRes
-    public int getLocalImageResourceId() {
-        return mLocalImageResourceId;
-    }
-
-    public void setLocalImageResourceId(@DrawableRes int localImageResourceId) {
-        this.mLocalImageResourceId = localImageResourceId;
-    }
 }

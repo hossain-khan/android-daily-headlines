@@ -51,12 +51,12 @@ class RowBuilderFactory {
      * @return {@link Row}
      */
     static Row buildCardRow(final Context context, final NavigationRow navigationRow) {
-        int navigationRowType = navigationRow.getType();
+        int navigationRowType = navigationRow.type();
         Timber.d("buildCardRow() - Row type: %d", navigationRowType);
 
         switch (navigationRowType) {
             case NavigationRow.TYPE_SECTION_HEADER:
-                return new SectionRow(new HeaderItem(navigationRow.getTitle()));
+                return new SectionRow(new HeaderItem(navigationRow.title()));
             case NavigationRow.TYPE_DIVIDER:
                 return new DividerRow();
             case NavigationRow.TYPE_DEFAULT:
@@ -64,11 +64,11 @@ class RowBuilderFactory {
                 // Build rows using different presenter defined in "CardPresenterSelector"
                 PresenterSelector presenterSelector = new CardPresenterSelector(context);
                 ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(presenterSelector);
-                for (CardItem card : navigationRow.getCards()) {
+                for (CardItem card : navigationRow.cards()) {
                     listRowAdapter.add(card);
                 }
 
-                HeaderItem header = new HeaderItem(navigationRow.getTitle());
+                HeaderItem header = new HeaderItem(navigationRow.title());
 
                 return new CardListRow(header, listRowAdapter, navigationRow);
         }

@@ -22,12 +22,13 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.newssource;
+package info.hossainkhan.android.core.newsprovider;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import info.hossainkhan.android.core.model.NewsProvider;
 import info.hossainkhan.android.core.model.NewsSource;
 import io.swagger.client.model.ArticleCategory;
 
@@ -50,37 +51,44 @@ import io.swagger.client.model.ArticleCategory;
 public final class NyTimesNewsProvider implements NewsProvider {
 
     public static final String PROVIDER_ID_NYTIMES = "nytimes";
+    /**
+     * For applications that do not easily support logos or where Times data are used in alternative media formats,
+     * the written attribution "Data provided by The New York Times" can be substituted.
+     */
+    private static final String PROVIDER_NAME = "The New York Times";
+
+    /**
+     * NYTimes source info.
+     */
+    private static final String PROVIDER_DESCRIPTION = "Data provided by The New York Times";
+
+    /**
+     * All applications must be accompanied by a Times API logo on any page or screen that displays
+     * Times API content or data. The logo must link directly to http://developer.nytimes.com.
+     */
+    private static final String PROVIDER_URL = "http://developer.nytimes.com";
+    /**
+     * Taken from https://developer.nytimes.com/branding
+     */
+    private static final String PROVIDER_IMAGE_URL = "http://static01.nytimes.com/packages/images/developer/logos/poweredby_nytimes_200a.png";
+
+    /**
+     * RESTRICTION: Unless otherwise consented to or permitted by NYTIMES.COM, you will not archive or cache any
+     * of the API content for access by users for more than 24 hours after you have finished using the service;
+     * or for any period of time if your account is terminated.
+     */
+    private static final long MAX_CACHE_LENGTH = TimeUnit.HOURS.toSeconds(24);
+
+
+    /**
+     * Create the NYTimes news source instance with required info.
+     */
+    private NewsSource mNewsSource = NewsSource.create(PROVIDER_ID_NYTIMES, PROVIDER_NAME, PROVIDER_DESCRIPTION,
+            PROVIDER_URL, PROVIDER_IMAGE_URL, MAX_CACHE_LENGTH);
 
     @Override
     public NewsSource getNewsSource() {
-        // TODO Refactor this - not a correct way to provide implementation
-        NewsSource nyTimesNewsSource = new NewsSource(PROVIDER_ID_NYTIMES, "The New York Times");
-
-        /*
-         * All applications must be accompanied by a Times API logo on any page or screen that displays
-         * Times API content or data. The logo must link directly to http://developer.nytimes.com.
-         */
-        nyTimesNewsSource.setUrl("http://developer.nytimes.com");
-
-        /*
-         * For applications that do not easily support logos or where Times data are used in alternative media formats,
-         * the written attribution "Data provided by The New York Times" can be substituted.
-         */
-        nyTimesNewsSource.setName("Data provided by \nThe New York Times");
-
-        /*
-         * Taken from https://developer.nytimes.com/branding
-         */
-        nyTimesNewsSource.setImageUrl("http://static01.nytimes.com/packages/images/developer/logos/poweredby_nytimes_200a.png");
-
-        /*
-         * RESTRICTION: Unless otherwise consented to or permitted by NYTIMES.COM, you will not archive or cache any
-         * of the API content for access by users for more than 24 hours after you have finished using the service;
-         * or for any period of time if your account is terminated.
-         */
-        nyTimesNewsSource.setCacheDuration(TimeUnit.HOURS.toSeconds(24));
-
-        return nyTimesNewsSource;
+        return mNewsSource;
     }
 
     @Override

@@ -31,7 +31,9 @@ import android.os.Bundle;
 import android.support.v17.leanback.app.DetailsFragment;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import info.hossainkhan.android.core.gson.AutoValueAdapterFactory;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.dailynewsheadlines.R;
 
@@ -64,7 +66,10 @@ public class HeadlinesDetailsActivity extends Activity {
         // Bundle data needs to be extracted first, because the data is needed by the fragment as soon as
         // we "setContentView" with layout.
         Bundle extras = getIntent().getExtras();
-        mCardItem = new Gson().fromJson(extras.getString(BUNDLE_KEY_CARD_DATA), CardItem.class);
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new AutoValueAdapterFactory())
+                .create();
+        mCardItem = gson.fromJson(extras.getString(BUNDLE_KEY_CARD_DATA), CardItem.class);
 
         setContentView(R.layout.activity_headlines_details);
     }

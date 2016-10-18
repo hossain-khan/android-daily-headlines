@@ -80,6 +80,16 @@ dependencies {
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryLibraryVersion"
 
 
+    // AutoValue - Generated immutable value classes for Java 1.6+
+    // https://github.com/google/auto/tree/master/value
+    provided "com.google.auto.value:auto-value:$rootProject.autoValueLibraryVersion"
+    annotationProcessor "com.google.auto.value:auto-value:$rootProject.autoValueLibraryVersion"
+
+    // AutoValue extension for GSON
+    // https://github.com/rharter/auto-value-gson
+    provided "com.ryanharter.auto.value:auto-value-gson:$rootProject.autoValueExtentionGsonVersion"
+    annotationProcessor "com.ryanharter.auto.value:auto-value-gson:$rootProject.autoValueExtentionGsonVersion"
+
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
     // ----------------------------------------------------------------

@@ -50,9 +50,10 @@ public class CardPresenterSelector extends PresenterSelector {
                 String.format("The PresenterSelector only supports data items of type '%s'",
                         CardItem.class.getName()));
         CardItem card = (CardItem) item;
-        Presenter presenter = presenters.get(card.getType());
+        CardItem.Type type = card.type();
+        Presenter presenter = presenters.get(type);
         if (presenter == null) {
-            switch (card.getType()) {
+            switch (type) {
                 case HEADLINES:
                     presenter = new TextCardPresenter(mContext);
                     break;
@@ -64,7 +65,7 @@ public class CardPresenterSelector extends PresenterSelector {
                     break;
             }
         }
-        presenters.put(card.getType(), presenter);
+        presenters.put(type, presenter);
         return presenter;
     }
 

@@ -24,16 +24,20 @@
 
 package info.hossainkhan.android.core.model;
 
+import com.google.auto.value.AutoValue;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import info.hossainkhan.android.core.gson.AutoGson;
 import io.swagger.client.model.ArticleCategory;
 
 /**
  * This class represents a navigation row with news headline cards.
  */
-public class NavigationRow {
+@AutoValue
+@AutoGson
+public abstract class NavigationRow {
 
     // default is a list of cards
     public static final int TYPE_DEFAULT = 0;
@@ -43,89 +47,42 @@ public class NavigationRow {
     public static final int TYPE_DIVIDER = 2;
 
     @SerializedName("type")
-    private int mType = TYPE_DEFAULT;
+    public abstract int type();
 
     // Used to determine whether the row shall use shadows when displaying its cards or not.
     @SerializedName("shadow")
-    private boolean mShadow;
+    public abstract boolean useShadow();
 
     @SerializedName("title")
-    private String mTitle;
+    public abstract String title();
 
     @SerializedName("category")
-    private ArticleCategory mCategory;
+    public abstract ArticleCategory category();
 
     @SerializedName("cards")
-    private List<CardItem> mCards;
+    public abstract List<CardItem> cards();
 
-    private NavigationRow(int type, String title, ArticleCategory category, List<CardItem> cards, boolean useShadow) {
-        mTitle = title;
-        mCategory = category;
-        mType = type;
-        mCards = cards;
-        mShadow = useShadow;
-    }
-
-    public int getType() {
-        return mType;
-    }
-
-    public String getTitle() {
-        return mTitle;
-    }
-
-    public boolean useShadow() {
-        return mShadow;
-    }
-
-    public List<CardItem> getCards() {
-        return mCards;
-    }
-
-    public ArticleCategory getCategory() {
-        return mCategory;
+    public static Builder builder() {
+        // Provides the builder with some default values
+        return new AutoValue_NavigationRow.Builder()
+                .type(TYPE_DEFAULT)
+                .useShadow(true);
     }
 
 
-    public static class Builder {
-        private int type;
-        private String title;
-        private ArticleCategory category;
-        private List<CardItem> cards;
-        private boolean useShadow = true;
-
-        public Builder setType(int type) {
-            this.type = type;
-            return this;
-        }
-
-        public Builder setTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Builder type(int type);
+        public abstract Builder title(String title);
+        public abstract Builder category(ArticleCategory category);
+        public abstract Builder cards(List<CardItem> cards);
         /**
          * Used to determine whether the row shall use shadows when displaying its cards or not.
-         * @param useShadow
-         * @return
+         * @param useShadow flag for card shadow
+         * @return Builder
          */
-        public Builder useShadow(boolean useShadow) {
-            this.useShadow = useShadow;
-            return this;
-        }
+        public abstract Builder useShadow(boolean useShadow);
 
-        public Builder setCategory(ArticleCategory category) {
-            this.category = category;
-            return this;
-        }
-
-        public Builder setCards(List<CardItem> cards) {
-            this.cards = cards;
-            return this;
-        }
-
-        public NavigationRow build() {
-            return new NavigationRow(type, title, category, cards, useShadow);
-        }
+        public abstract NavigationRow build();
     }
 }

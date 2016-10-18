@@ -22,28 +22,25 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.newssource;
+package info.hossainkhan.android.core.gson;
 
-import java.util.Set;
+import com.google.auto.value.AutoValue;
 
-import info.hossainkhan.android.core.model.NewsSource;
-import io.swagger.client.model.ArticleCategory;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+// Source: https://gist.github.com/JakeWharton/0d67d01badcee0ae7bc9
 
 /**
- * Interface for news source provider.
+ * Marks an {@link AutoValue @AutoValue}-annotated type for proper Gson serialization.
+ * <p>
+ * This annotation is needed because the {@linkplain Retention retention} of {@code @AutoValue}
+ * does not allow reflection at runtime.
  */
-public interface NewsProvider {
-    /**
-     * Provide news source info for the provider.
-     *
-     * @return {@link NewsSource}
-     */
-    NewsSource getNewsSource();
-
-    /**
-     * Provide list of supported categories for the current {@link NewsSource}.
-     * @return Unique list of categories.
-     */
-    Set<ArticleCategory> getSupportedCategories();
+@Target(TYPE)
+@Retention(RUNTIME)
+public @interface AutoGson {
 }
