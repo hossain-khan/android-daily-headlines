@@ -135,19 +135,19 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                             FirebaseCrash.log("Unable to get all responses.");
                         } else {
                             List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
-                            navigationHeadlines.add(new NavigationRow.Builder()
-                                    .setTitle(newsProvider.getNewsSource().name())
-                                    .setType(NavigationRow.TYPE_SECTION_HEADER)
+                            navigationHeadlines.add(NavigationRow.builder()
+                                    .title(newsProvider.getNewsSource().name())
+                                    .type(NavigationRow.TYPE_SECTION_HEADER)
                                     .build());
 
                             for (int i = 0; i < totalResponseItemSize; i++) {
                                 ArticleCategory articleCategory = categories.get(i);
                                 navigationHeadlines.add(
-                                        new NavigationRow.Builder()
-                                                .setTitle(mContext.getString(CategoryNameResolver
+                                        NavigationRow.builder()
+                                                .title(mContext.getString(CategoryNameResolver
                                                         .resolveCategoryResId(articleCategory)))
-                                                .setCategory(articleCategory)
-                                                .setCards(convertArticleToCardItems(inlineResponse200s.get(i).getResults()))
+                                                .category(articleCategory)
+                                                .cards(convertArticleToCardItems(inlineResponse200s.get(i).getResults()))
                                                 .build()
                                 );
                             }

@@ -49,9 +49,9 @@ public final class LeanbackHelper {
      * @return {@link NavigationRow} for a header.
      */
     public static NavigationRow buildNavigationHeader(@NonNull Resources resources, @StringRes int stringResId) {
-        return new NavigationRow.Builder()
-                .setTitle(resources.getString(stringResId))
-                .setType(NavigationRow.TYPE_SECTION_HEADER)
+        return NavigationRow.builder()
+                .title(resources.getString(stringResId))
+                .type(NavigationRow.TYPE_SECTION_HEADER)
                 .build();
     }
 
@@ -61,7 +61,7 @@ public final class LeanbackHelper {
      * @return {@link NavigationRow} for a divider.
      */
     public static NavigationRow buildNavigationDivider() {
-        return new NavigationRow.Builder().setType(NavigationRow.TYPE_DIVIDER).build();
+        return NavigationRow.builder().type(NavigationRow.TYPE_DIVIDER).build();
     }
 
 
@@ -101,10 +101,10 @@ public final class LeanbackHelper {
 
         settingsItems.add(item);
 
-        list.add(new NavigationRow.Builder()
-                .setTitle(resources.getString(R.string.settings_navigation_row_news_source_title))
-                .setType(NavigationRow.TYPE_DEFAULT)
-                .setCards(settingsItems)
+        list.add(NavigationRow.builder()
+                .title(resources.getString(R.string.settings_navigation_row_news_source_title))
+                .type(NavigationRow.TYPE_DEFAULT)
+                .cards(settingsItems)
                 .useShadow(false)
                 .build());
 
