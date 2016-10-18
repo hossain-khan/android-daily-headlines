@@ -47,6 +47,8 @@ import android.view.ViewGroup;
 import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 
+import info.hossainkhan.android.core.headlines.HeadlinesDetailsContract;
+import info.hossainkhan.android.core.headlines.HeadlinesDetailsViewPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.util.ActivityUtils;
 import info.hossainkhan.android.core.util.UiUtils;
@@ -60,7 +62,7 @@ import timber.log.Timber;
  * Displays a card with more details using a {@link DetailsFragment}.
  */
 public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemViewClickedListener,
-        OnItemViewSelectedListener {
+        OnItemViewSelectedListener, HeadlinesDetailsContract.View {
 
     private ArrayObjectAdapter mRowsAdapter;
     private Context mApplicationContext;
@@ -68,6 +70,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
     private CardItem mCardItem;
     private PicassoBackgroundManager mPicassoBackgroundManager;
     private PicassoImageTargetDetailsOverview mDetailsRowPicassoTarget;
+    private HeadlinesDetailsViewPresenter mPresenter;
 
 
     @Override
@@ -82,7 +85,10 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mCardItem = mAttachedHeadlinesActivity.getCardItem();
+        mPresenter = new HeadlinesDetailsViewPresenter(mApplicationContext, this,  mCardItem);
         mPicassoBackgroundManager = new PicassoBackgroundManager(mAttachedHeadlinesActivity);
+
         setupUi();
         setupEventListeners();
     }
@@ -90,9 +96,6 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
 
     private void setupUi() {
 
-        // Load the card we want to display from a JSON resource. This JSON data could come from
-        // anywhere in a real world app, e.g. a server.
-        mCardItem = mAttachedHeadlinesActivity.getCardItem();
 
 
         // Setup fragment
@@ -189,5 +192,10 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         } else {
             getView().setBackground(null);
         }
+    }
+
+    @Override
+    public void updateScreenTitle(final String title) {
+        setTitle(title);
     }
 }

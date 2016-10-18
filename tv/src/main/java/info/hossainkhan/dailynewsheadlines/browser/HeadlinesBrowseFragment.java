@@ -115,8 +115,8 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     @Override
-    public void setLoadingIndicator(final boolean active) {
-        Timber.d("setLoadingIndicator() called with: active = [" + active + "]");
+    public void toggleLoadingIndicator(final boolean active) {
+        Timber.d("toggleLoadingIndicator() called with: active = [" + active + "]");
         if (!active) {
             startEntranceTransition();
         }
@@ -135,13 +135,13 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     @Override
-    public void showLoadingHeadlinesError() {
+    public void showDataLoadingError() {
         UiUtils.showToast(getActivity(), "Unable to load headlines");
     }
 
     @Override
-    public void showNoHeadlines() {
-        Timber.d("showNoHeadlines() called");
+    public void showDataNotAvailable() {
+        Timber.d("showDataNotAvailable() called");
     }
 
     @Override

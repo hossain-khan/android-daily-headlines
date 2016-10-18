@@ -103,7 +103,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         });
 
 
-        getView().setLoadingIndicator(true);
+        getView().toggleLoadingIndicator(true);
         Subscription subscription = Observable.merge(observableList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -113,15 +113,15 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                     @Override
                     public void onCompleted() {
                         Timber.d("onCompleted() called");
-                        getView().setLoadingIndicator(false);
+                        getView().toggleLoadingIndicator(false);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Timber.e(e, "Failed to load responses.");
-                        getView().setLoadingIndicator(false);
+                        getView().toggleLoadingIndicator(false);
 
-                        getView().showLoadingHeadlinesError();
+                        getView().showDataLoadingError();
                         FirebaseCrash.report(e);
                     }
 

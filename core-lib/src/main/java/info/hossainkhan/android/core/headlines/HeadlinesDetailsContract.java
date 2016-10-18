@@ -24,54 +24,17 @@
 
 package info.hossainkhan.android.core.headlines;
 
-import android.support.annotation.NonNull;
-
-import java.net.URI;
-import java.util.List;
-
 import info.hossainkhan.android.core.base.MvpPresenter;
 import info.hossainkhan.android.core.base.MvpView;
-import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.NavigationRow;
 
-public interface HeadlinesContract {
-
+/**
+ * Contract for headlines details view
+ */
+public interface HeadlinesDetailsContract {
     interface View extends MvpView {
-
-        void showHeadlines(List<NavigationRow> headlines);
-
-        void showHeadlineDetailsUi(CardItem cardItem);
-
-        void showAppSettingsScreen();
-
-        void showHeadlineBackdropBackground(URI imageURI);
-
-        /**
-         * Toggles loading indicator based on boolean flag.
-         *
-         * @param active Flag to show or hide data loading indicator.
-         */
-        void toggleLoadingIndicator(boolean active);
-
-        /**
-         * Shows when data loading has failed.
-         */
-        void showDataLoadingError();
-
-        /**
-         * Show empty data state.
-         */
-        void showDataNotAvailable();
+        void updateScreenTitle(String title);
     }
 
-    interface Presenter extends MvpPresenter<HeadlinesContract.View> {
-        
-        void loadHeadlines(boolean forceUpdate);
-
-        void openHeadlineDetails(@NonNull CardItem cardItem);
-
-        void onHeadlineItemSelected(@NonNull CardItem cardItem);
-
-        void onHeadlineItemClicked(@NonNull CardItem cardItem);
+    interface Presenter extends MvpPresenter<HeadlinesDetailsContract.View> {
     }
 }
