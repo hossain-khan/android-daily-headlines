@@ -29,7 +29,15 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.annotation.Retention;
+
 // Source: https://gist.github.com/JakeWharton/0d67d01badcee0ae7bc9
+/**
+ * {@link TypeAdapterFactory} used for deserialization of classes Marked with an {@link AutoGson @AutoGson}-annotation.
+ * <p>
+ * This factory is needed because the {@linkplain Retention retention} of {@code @AutoValue}
+ * does not allow reflection at runtime.
+ */
 public final class AutoValueAdapterFactory implements TypeAdapterFactory {
     @SuppressWarnings("unchecked")
     @Override

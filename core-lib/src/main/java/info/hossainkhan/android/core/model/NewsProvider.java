@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.newssource;
+package info.hossainkhan.android.core.model;
 
 import java.util.Set;
 

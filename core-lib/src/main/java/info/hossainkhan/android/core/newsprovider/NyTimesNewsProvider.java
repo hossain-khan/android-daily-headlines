@@ -22,12 +22,13 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.newssource;
+package info.hossainkhan.android.core.newsprovider;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import info.hossainkhan.android.core.model.NewsProvider;
 import info.hossainkhan.android.core.model.NewsSource;
 import io.swagger.client.model.ArticleCategory;
 
