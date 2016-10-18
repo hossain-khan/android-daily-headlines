@@ -33,11 +33,7 @@ import com.google.gson.annotations.SerializedName;
 @AutoValue
 public abstract class NewsSource {
 
-    public static NewsSource create(String id,
-                             String name,
-                             String description,
-                             String url,
-                             String imageUrl,
+    public static NewsSource create(String id, String name, String description, String url, String imageUrl,
                              long cacheDuration) {
         return new AutoValue_NewsSource(id, name, description, url, imageUrl, cacheDuration);
     }

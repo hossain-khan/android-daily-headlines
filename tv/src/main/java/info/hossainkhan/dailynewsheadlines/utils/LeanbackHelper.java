@@ -82,10 +82,23 @@ public final class LeanbackHelper {
         // Build settings items
 
         List<CardItem> settingsItems = new ArrayList<>();
-        CardItem item = new CardItem(CardItem.Type.ICON);
-        item.setId(R.string.settings_card_item_news_source_title);
-        item.setTitle(resources.getString(R.string.settings_card_item_news_source_title));
-        item.setLocalImageResourceId(R.drawable.ic_settings_settings);
+        CardItem item = CardItem.create(
+                R.string.settings_card_item_news_source_title, // id,
+                resources.getString(R.string.settings_card_item_news_source_title), // title,
+                null, // description,
+                null, //extraText,
+                null, //category,
+                null, // dateCreated,
+                null, // imageUrl,
+                null, // contentUrl,
+                R.drawable.ic_settings_settings, // localImageResourceId,
+                null, // footerColor,
+                null, // selectedColor,
+                CardItem.Type.ICON, // type,
+                0, // width,
+                0 // height
+        );
+
         settingsItems.add(item);
 
         list.add(new NavigationRow.Builder()

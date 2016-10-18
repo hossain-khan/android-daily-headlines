@@ -140,7 +140,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
 
         mDetailsRowPicassoTarget = new PicassoImageTargetDetailsOverview(mApplicationContext, detailsOverview);
         Picasso.with(mApplicationContext)
-                .load(mCardItem.getImageUrl())
+                .load(mCardItem.imageUrl())
                 .into(mDetailsRowPicassoTarget);
 
 
@@ -168,7 +168,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         if (!(item instanceof Action)) return;
         Action action = (Action) item;
 
-        String contentUrl = mCardItem.getContentUrl();
+        String contentUrl = mCardItem.contentUrl();
         Intent intent = ActivityUtils.provideOpenWebUrlIntent(contentUrl);
         if (intent.resolveActivity(mAttachedHeadlinesActivity.getPackageManager()) != null) {
             startActivity(intent);

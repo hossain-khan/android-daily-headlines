@@ -88,15 +88,15 @@ public class HeadlinePresenter extends Presenter {
         ImageCardView cardView = (ImageCardView) viewHolder.view;
 
 
-            cardView.setTitleText(cardItem.getTitle());
-            cardView.setContentText(cardItem.getDescription());
+            cardView.setTitleText(cardItem.title());
+            cardView.setContentText(cardItem.description());
             cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
 
 
-        if(StringUtils.isNotEmpty(cardItem.getImageUrl())) {
+        if(StringUtils.isNotEmpty(cardItem.imageUrl())) {
             // FIXME - fit won't work, use proper sizing
             Picasso.with(viewHolder.view.getContext())
-                    .load(cardItem.getImageUrl())
+                    .load(cardItem.imageUrl())
                     //.fit()
                     .error(mDefaultCardImage)
                     .into(cardView.getMainImageView());

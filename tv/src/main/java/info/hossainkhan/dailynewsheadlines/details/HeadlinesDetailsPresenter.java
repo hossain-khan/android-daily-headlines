@@ -60,10 +60,10 @@ public class HeadlinesDetailsPresenter extends Presenter {
         TextView extraText = mResourceCache.getViewById(viewHolder.view, R.id.extra_text);
 
         CardItem card = (CardItem) item;
-        primaryText.setText(card.getTitle());
-        sndText1.setText(card.getCategory());
-        sndText2.setText(card.getDateCreated());
-        extraText.setText(card.getDescription());
+        primaryText.setText(card.title());
+        sndText1.setText(card.category());
+        sndText2.setText(card.dateCreated());
+        extraText.setText(card.description());
     }
 
     @Override public void onUnbindViewHolder(ViewHolder viewHolder) {

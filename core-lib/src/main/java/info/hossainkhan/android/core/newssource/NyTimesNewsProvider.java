@@ -55,6 +55,12 @@ public final class NyTimesNewsProvider implements NewsProvider {
      * the written attribution "Data provided by The New York Times" can be substituted.
      */
     private static final String PROVIDER_NAME = "The New York Times";
+
+    /**
+     * NYTimes source info.
+     */
+    private static final String PROVIDER_DESCRIPTION = "Data provided by The New York Times";
+
     /**
      * All applications must be accompanied by a Times API logo on any page or screen that displays
      * Times API content or data. The logo must link directly to http://developer.nytimes.com.
@@ -72,10 +78,16 @@ public final class NyTimesNewsProvider implements NewsProvider {
      */
     private static final long MAX_CACHE_LENGTH = TimeUnit.HOURS.toSeconds(24);
 
+
+    /**
+     * Create the NYTimes news source instance with required info.
+     */
+    private NewsSource mNewsSource = NewsSource.create(PROVIDER_ID_NYTIMES, PROVIDER_NAME, PROVIDER_DESCRIPTION,
+            PROVIDER_URL, PROVIDER_IMAGE_URL, MAX_CACHE_LENGTH);
+
     @Override
     public NewsSource getNewsSource() {
-        return NewsSource.create(PROVIDER_ID_NYTIMES, PROVIDER_NAME, "", PROVIDER_URL,
-                PROVIDER_IMAGE_URL, MAX_CACHE_LENGTH);
+        return mNewsSource;
     }
 
     @Override

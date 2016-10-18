@@ -169,7 +169,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     private List<CardItem> convertArticleToCardItems(final List<Article> articles) {
         List<CardItem> cardItems = new ArrayList<>(articles.size());
         for (Article result : articles) {
-            cardItems.add(new CardItem(result));
+            cardItems.add(CardItem.create(result));
         }
         return cardItems;
     }
@@ -181,7 +181,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
     @Override
     public void onHeadlineItemSelected(@NonNull final CardItem cardItem) {
-        if (cardItem.getImageUrl() !=null) {
+        if (cardItem.imageUrl() !=null) {
             getView().showHeadlineBackdropBackground(cardItem.getImageURI());
         } else {
             Timber.i("Card object does not have HD background.");
@@ -190,13 +190,13 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
     @Override
     public void onHeadlineItemClicked(@NonNull final CardItem cardItem) {
-        int id = cardItem.getId();
-        CardItem.Type type = cardItem.getType();
+        int id = cardItem.id();
+        CardItem.Type type = cardItem.type();
         if (type == CardItem.Type.ICON) {
             if (id == R.string.settings_card_item_news_source_title) {
                 getView().showAppSettingsScreen();
             } else {
-                Timber.w("Unable to handle settings item: %s", cardItem.getTitle());
+                Timber.w("Unable to handle settings item: %s", cardItem.title());
             }
         } else if(type == CardItem.Type.HEADLINES) {
             getView().showHeadlineDetailsUi(cardItem);
