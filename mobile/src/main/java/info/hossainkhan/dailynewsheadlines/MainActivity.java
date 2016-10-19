@@ -48,8 +48,8 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     }
 
     @Override
-    public void setLoadingIndicator(final boolean active) {
-        Timber.d("setLoadingIndicator() called with: active = [" + active + "]");
+    public void toggleLoadingIndicator(final boolean active) {
+        Timber.d("toggleLoadingIndicator() called with: active = [" + active + "]");
     }
 
     @Override
@@ -64,14 +64,14 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     }
 
     @Override
-    public void showLoadingHeadlinesError() {
-        Timber.d("showLoadingHeadlinesError() called");
+    public void showDataLoadingError() {
+        Timber.d("showDataLoadingError() called");
         Toast.makeText(this, "Unable to load headlines", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void showNoHeadlines() {
-        Timber.d("showNoHeadlines() called");
+    public void showDataNotAvailable() {
+        Timber.d("showDataNotAvailable() called");
     }
 
     @Override

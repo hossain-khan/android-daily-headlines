@@ -47,6 +47,8 @@ This is my personal project to experiment with following tools & technologies
  * Design Support Library
  * Database (local caching - Realm (maybe?))
  * Scheduler - data syncing
+ * MVP Architecture _(See [#27](https://github.com/amardeshbd/android-daily-headlines/issues/27))_
+ * AutoValue _(See [#76](https://github.com/amardeshbd/android-daily-headlines/pull/76))_
  * Google Play Alpha Beta release
  * LeakCanary _(See [#60](https://github.com/amardeshbd/android-daily-headlines/pull/60))_
  

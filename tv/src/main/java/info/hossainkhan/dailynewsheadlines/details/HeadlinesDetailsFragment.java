@@ -24,6 +24,7 @@
 
 package info.hossainkhan.dailynewsheadlines.details;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,10 +37,6 @@ import android.support.v17.leanback.widget.FullWidthDetailsOverviewRowPresenter;
 import android.support.v17.leanback.widget.FullWidthDetailsOverviewSharedElementHelper;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
-import android.support.v17.leanback.widget.OnItemViewClickedListener;
-import android.support.v17.leanback.widget.OnItemViewSelectedListener;
-import android.support.v17.leanback.widget.Presenter;
-import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,11 +44,14 @@ import android.view.ViewGroup;
 import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 
+import info.hossainkhan.android.core.headlines.HeadlinesDetailsContract;
+import info.hossainkhan.android.core.headlines.HeadlinesDetailsViewPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.util.ActivityUtils;
 import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
+import info.hossainkhan.dailynewsheadlines.details.listeners.DetailsViewInteractionListener;
 import info.hossainkhan.dailynewsheadlines.utils.PicassoBackgroundManager;
 import info.hossainkhan.dailynewsheadlines.utils.PicassoImageTargetDetailsOverview;
 import timber.log.Timber;
@@ -59,15 +59,14 @@ import timber.log.Timber;
 /**
  * Displays a card with more details using a {@link DetailsFragment}.
  */
-public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemViewClickedListener,
-        OnItemViewSelectedListener {
+public class HeadlinesDetailsFragment extends DetailsFragment implements HeadlinesDetailsContract.View {
 
     private ArrayObjectAdapter mRowsAdapter;
     private Context mApplicationContext;
     private HeadlinesDetailsActivity mAttachedHeadlinesActivity;
-    private CardItem mCardItem;
     private PicassoBackgroundManager mPicassoBackgroundManager;
     private PicassoImageTargetDetailsOverview mDetailsRowPicassoTarget;
+    private HeadlinesDetailsViewPresenter mPresenter;
 
 
     @Override
@@ -79,25 +78,37 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
     }
 
     @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+
+        Timber.d("onAttach() called with: Activity = [%s]", activity);
+
+        // Note, this callback is used in lower API, otherwise "onAttach(final Context)" is used
+        if (mAttachedHeadlinesActivity == null) {
+            mAttachedHeadlinesActivity = (HeadlinesDetailsActivity) activity;
+            mApplicationContext = activity.getApplicationContext();
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        CardItem cardItem = mAttachedHeadlinesActivity.getCardItem();
         mPicassoBackgroundManager = new PicassoBackgroundManager(mAttachedHeadlinesActivity);
-        setupUi();
-        setupEventListeners();
+        mPresenter = new HeadlinesDetailsViewPresenter(mApplicationContext, this, cardItem);
+        DetailsViewInteractionListener listener = new DetailsViewInteractionListener(mPresenter);
+        setupEventListeners(listener);
+    }
+
+    private void setupEventListeners(final DetailsViewInteractionListener listener) {
+        setOnItemViewSelectedListener(listener);
+        setOnItemViewClickedListener(listener);
     }
 
 
-    private void setupUi() {
-
-        // Load the card we want to display from a JSON resource. This JSON data could come from
-        // anywhere in a real world app, e.g. a server.
-        mCardItem = mAttachedHeadlinesActivity.getCardItem();
-
-
-        // Setup fragment
-        setTitle(getString(R.string.detail_view_title));
-
+    @Override
+    public void showHeadlineDetails(final CardItem cardItem) {
         FullWidthDetailsOverviewRowPresenter rowPresenter = new FullWidthDetailsOverviewRowPresenter(
                 new HeadlinesDetailsPresenter(getActivity())) {
 
@@ -119,7 +130,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         };
 
         FullWidthDetailsOverviewSharedElementHelper mHelper = new FullWidthDetailsOverviewSharedElementHelper();
-        mHelper.setSharedElementEnterTransition(getActivity(), "adsaddadasdasdasdsad");
+        mHelper.setSharedElementEnterTransition(getActivity(), getString(R.string.shared_transition_key_item_thumbnail));
         rowPresenter.setListener(mHelper);
         rowPresenter.setParticipatingEntranceTransition(false);
         prepareEntranceTransition();
@@ -135,59 +146,45 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
         mRowsAdapter = new ArrayObjectAdapter(rowPresenterSelector);
 
         // Setup action and detail row.
-        DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mCardItem);
+        DetailsOverviewRow detailsOverview = new DetailsOverviewRow(cardItem);
         detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.stars_white));
 
         mDetailsRowPicassoTarget = new PicassoImageTargetDetailsOverview(mApplicationContext, detailsOverview);
         Picasso.with(mApplicationContext)
-                .load(mCardItem.imageUrl())
+                .load(cardItem.imageUrl())
                 .into(mDetailsRowPicassoTarget);
 
 
         ArrayObjectAdapter actionAdapter = new ArrayObjectAdapter();
-        actionAdapter.add(new Action(1, "Read More"));
+        actionAdapter.add(new Action(HeadlinesDetailsContract.ACTION_ID_OPEN_NEWS_URL, "Read More"));
         detailsOverview.setActionsAdapter(actionAdapter);
         mRowsAdapter.add(detailsOverview);
 
 
         setAdapter(mRowsAdapter);
-        mPicassoBackgroundManager.updateBackgroundWithDelay(mCardItem.getImageURI(), PicassoBackgroundManager.TransformType.GREYSCALE);
+        mPicassoBackgroundManager.updateBackgroundWithDelay(cardItem.getImageURI(), PicassoBackgroundManager.TransformType.GREYSCALE);
 
         // NOTE: Move this when data is loaded
         startEntranceTransition();
     }
 
-    private void setupEventListeners() {
-        setOnItemViewSelectedListener(this);
-        setOnItemViewClickedListener(this);
+
+
+    @Override
+    public void updateScreenTitle(final String title) {
+        setTitle(title);
     }
 
     @Override
-    public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
-                              RowPresenter.ViewHolder rowViewHolder, Row row) {
-        if (!(item instanceof Action)) return;
-        Action action = (Action) item;
-
-        String contentUrl = mCardItem.contentUrl();
+    public void openArticleWebUrl(final String contentUrl) {
         Intent intent = ActivityUtils.provideOpenWebUrlIntent(contentUrl);
-        if (intent.resolveActivity(mAttachedHeadlinesActivity.getPackageManager()) != null) {
-            startActivity(intent);
+        if (intent.resolveActivity(mApplicationContext.getPackageManager()) != null) {
+            mApplicationContext.startActivity(intent);
         } else {
             String logMsg = "App does not have browser to show URL: %s.";
             Timber.w(logMsg, contentUrl);
             FirebaseCrash.log(logMsg);
             UiUtils.showToast(mApplicationContext, R.string.warning_no_browser_app_available);
-        }
-    }
-
-    @Override
-    public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
-                               RowPresenter.ViewHolder rowViewHolder, Row row) {
-        if (mRowsAdapter.indexOf(row) > 0) {
-            int backgroundColor = getResources().getColor(R.color.detail_view_related_background);
-            getView().setBackgroundColor(backgroundColor);
-        } else {
-            getView().setBackground(null);
         }
     }
 }
