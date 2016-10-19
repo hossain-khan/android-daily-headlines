@@ -31,10 +31,15 @@ import info.hossainkhan.android.core.base.MvpView;
  * Contract for headlines details view
  */
 public interface HeadlinesDetailsContract {
+    int ACTION_ID_OPEN_NEWS_URL = 101;
+
     interface View extends MvpView {
         void updateScreenTitle(String title);
+
+        void openArticleWebUrl(String contentUrl);
     }
 
     interface Presenter extends MvpPresenter<HeadlinesDetailsContract.View> {
+        void onActionItemClicked(final int action);
     }
 }

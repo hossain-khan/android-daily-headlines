@@ -36,10 +36,6 @@ import android.support.v17.leanback.widget.FullWidthDetailsOverviewRowPresenter;
 import android.support.v17.leanback.widget.FullWidthDetailsOverviewSharedElementHelper;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
-import android.support.v17.leanback.widget.OnItemViewClickedListener;
-import android.support.v17.leanback.widget.OnItemViewSelectedListener;
-import android.support.v17.leanback.widget.Presenter;
-import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +50,7 @@ import info.hossainkhan.android.core.util.ActivityUtils;
 import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
+import info.hossainkhan.dailynewsheadlines.details.listeners.DetailsViewInteractionListener;
 import info.hossainkhan.dailynewsheadlines.utils.PicassoBackgroundManager;
 import info.hossainkhan.dailynewsheadlines.utils.PicassoImageTargetDetailsOverview;
 import timber.log.Timber;
@@ -61,8 +58,7 @@ import timber.log.Timber;
 /**
  * Displays a card with more details using a {@link DetailsFragment}.
  */
-public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemViewClickedListener,
-        OnItemViewSelectedListener, HeadlinesDetailsContract.View {
+public class HeadlinesDetailsFragment extends DetailsFragment implements HeadlinesDetailsContract.View {
 
     private ArrayObjectAdapter mRowsAdapter;
     private Context mApplicationContext;
@@ -148,7 +144,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
 
 
         ArrayObjectAdapter actionAdapter = new ArrayObjectAdapter();
-        actionAdapter.add(new Action(1, "Read More"));
+        actionAdapter.add(new Action(HeadlinesDetailsContract.ACTION_ID_OPEN_NEWS_URL, "Read More"));
         detailsOverview.setActionsAdapter(actionAdapter);
         mRowsAdapter.add(detailsOverview);
 
@@ -161,41 +157,26 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements OnItemV
     }
 
     private void setupEventListeners() {
-        setOnItemViewSelectedListener(this);
-        setOnItemViewClickedListener(this);
+        DetailsViewInteractionListener listener = new DetailsViewInteractionListener(mPresenter);
+        setOnItemViewSelectedListener(listener);
+        setOnItemViewClickedListener(listener);
     }
 
     @Override
-    public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
-                              RowPresenter.ViewHolder rowViewHolder, Row row) {
-        if (!(item instanceof Action)) return;
-        Action action = (Action) item;
+    public void updateScreenTitle(final String title) {
+        setTitle(title);
+    }
 
-        String contentUrl = mCardItem.contentUrl();
+    @Override
+    public void openArticleWebUrl(final String contentUrl) {
         Intent intent = ActivityUtils.provideOpenWebUrlIntent(contentUrl);
-        if (intent.resolveActivity(mAttachedHeadlinesActivity.getPackageManager()) != null) {
-            startActivity(intent);
+        if (intent.resolveActivity(mApplicationContext.getPackageManager()) != null) {
+            mApplicationContext.startActivity(intent);
         } else {
             String logMsg = "App does not have browser to show URL: %s.";
             Timber.w(logMsg, contentUrl);
             FirebaseCrash.log(logMsg);
             UiUtils.showToast(mApplicationContext, R.string.warning_no_browser_app_available);
         }
-    }
-
-    @Override
-    public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
-                               RowPresenter.ViewHolder rowViewHolder, Row row) {
-        if (mRowsAdapter.indexOf(row) > 0) {
-            int backgroundColor = getResources().getColor(R.color.detail_view_related_background);
-            getView().setBackgroundColor(backgroundColor);
-        } else {
-            getView().setBackground(null);
-        }
-    }
-
-    @Override
-    public void updateScreenTitle(final String title) {
-        setTitle(title);
     }
 }

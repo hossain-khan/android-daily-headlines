@@ -27,6 +27,7 @@ package info.hossainkhan.android.core.headlines;
 
 import android.content.Context;
 
+import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
 
@@ -41,7 +42,21 @@ public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetail
         mCardItem = cardItem;
 
         attachView(view);
+
+        initView();
+    }
+
+    private void initView() {
+        getView().updateScreenTitle(mContext.getString(R.string.detail_view_title));
     }
 
 
+    @Override
+    public void onActionItemClicked(final int action) {
+        switch (action) {
+            case HeadlinesDetailsContract.ACTION_ID_OPEN_NEWS_URL:
+                getView().openArticleWebUrl(mCardItem.contentUrl());
+                break;
+        }
+    }
 }
