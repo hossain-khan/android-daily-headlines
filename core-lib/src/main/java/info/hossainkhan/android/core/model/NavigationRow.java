@@ -24,6 +24,9 @@
 
 package info.hossainkhan.android.core.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.google.auto.value.AutoValue;
 import com.google.gson.annotations.SerializedName;
 
@@ -53,12 +56,15 @@ public abstract class NavigationRow {
     @SerializedName("shadow")
     public abstract boolean useShadow();
 
+    @NonNull
     @SerializedName("title")
     public abstract String title();
 
+    @Nullable
     @SerializedName("category")
     public abstract ArticleCategory category();
 
+    @Nullable
     @SerializedName("cards")
     public abstract List<CardItem> cards();
 
@@ -73,8 +79,11 @@ public abstract class NavigationRow {
     @AutoValue.Builder
     public abstract static class Builder {
         public abstract Builder type(int type);
+        @NonNull
         public abstract Builder title(String title);
+        @Nullable
         public abstract Builder category(ArticleCategory category);
+        @Nullable
         public abstract Builder cards(List<CardItem> cards);
         /**
          * Used to determine whether the row shall use shadows when displaying its cards or not.
