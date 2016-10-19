@@ -24,7 +24,6 @@
 
 package info.hossainkhan.android.core.model;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
@@ -56,7 +55,7 @@ public abstract class NavigationRow {
     @SerializedName("shadow")
     public abstract boolean useShadow();
 
-    @NonNull
+    @Nullable
     @SerializedName("title")
     public abstract String title();
 
@@ -79,7 +78,7 @@ public abstract class NavigationRow {
     @AutoValue.Builder
     public abstract static class Builder {
         public abstract Builder type(int type);
-        @NonNull
+        @Nullable
         public abstract Builder title(String title);
         @Nullable
         public abstract Builder category(ArticleCategory category);
