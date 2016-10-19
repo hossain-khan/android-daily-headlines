@@ -24,6 +24,7 @@
 
 package info.hossainkhan.dailynewsheadlines.details;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -78,20 +79,38 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
     }
 
     @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+
+        Timber.d("onAttach() called with: Activity = [%s]", activity);
+
+        // Note, this callback is used in lower API, otherwise "onAttach(final Context)" is used
+        if (mAttachedHeadlinesActivity == null) {
+            mAttachedHeadlinesActivity = (HeadlinesDetailsActivity) activity;
+            mApplicationContext = activity.getApplicationContext();
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mCardItem = mAttachedHeadlinesActivity.getCardItem();
-        mPresenter = new HeadlinesDetailsViewPresenter(mApplicationContext, this,  mCardItem);
+        mPresenter = new HeadlinesDetailsViewPresenter(mApplicationContext, this, mCardItem);
         mPicassoBackgroundManager = new PicassoBackgroundManager(mAttachedHeadlinesActivity);
 
         setupUi();
         setupEventListeners();
     }
 
+    private void setupEventListeners() {
+        DetailsViewInteractionListener listener = new DetailsViewInteractionListener(mPresenter);
+        setOnItemViewSelectedListener(listener);
+        setOnItemViewClickedListener(listener);
+    }
+
 
     private void setupUi() {
-
 
 
         // Setup fragment
@@ -156,11 +175,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
         startEntranceTransition();
     }
 
-    private void setupEventListeners() {
-        DetailsViewInteractionListener listener = new DetailsViewInteractionListener(mPresenter);
-        setOnItemViewSelectedListener(listener);
-        setOnItemViewClickedListener(listener);
-    }
+
 
     @Override
     public void updateScreenTitle(final String title) {
