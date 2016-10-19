@@ -30,6 +30,7 @@ import android.content.Context;
 import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import timber.log.Timber;
 
 public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetailsContract.View>
         implements HeadlinesDetailsContract.Presenter {
@@ -42,7 +43,6 @@ public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetail
         mCardItem = cardItem;
 
         attachView(view);
-
         initView();
     }
 
@@ -57,6 +57,9 @@ public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetail
         switch (action) {
             case HeadlinesDetailsContract.ACTION_ID_OPEN_NEWS_URL:
                 getView().openArticleWebUrl(mCardItem.contentUrl());
+                break;
+            default:
+                Timber.d("onActionItemClicked() : Unsupported action id: %s", action);
                 break;
         }
     }

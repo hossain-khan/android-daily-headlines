@@ -68,6 +68,8 @@ public class DetailsViewInteractionListener implements OnItemViewClickedListener
             // DEV NOTE: If in future we support related headlines or news row, we would need to
             // implement this and notify our presenter.
             //presenter.onItemSelected(item);
+            Timber.d("onItemSelected() called with: itemViewHolder = [%s], item = [%s], rowViewHolder = [%s], row = [%s]",
+                    itemViewHolder, item, rowViewHolder, row);
         }
     }
 
