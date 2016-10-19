@@ -64,7 +64,6 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
     private ArrayObjectAdapter mRowsAdapter;
     private Context mApplicationContext;
     private HeadlinesDetailsActivity mAttachedHeadlinesActivity;
-    private CardItem mCardItem;
     private PicassoBackgroundManager mPicassoBackgroundManager;
     private PicassoImageTargetDetailsOverview mDetailsRowPicassoTarget;
     private HeadlinesDetailsViewPresenter mPresenter;
@@ -95,27 +94,21 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mCardItem = mAttachedHeadlinesActivity.getCardItem();
-        mPresenter = new HeadlinesDetailsViewPresenter(mApplicationContext, this, mCardItem);
+        CardItem cardItem = mAttachedHeadlinesActivity.getCardItem();
         mPicassoBackgroundManager = new PicassoBackgroundManager(mAttachedHeadlinesActivity);
-
-        setupUi();
-        setupEventListeners();
+        mPresenter = new HeadlinesDetailsViewPresenter(mApplicationContext, this, cardItem);
+        DetailsViewInteractionListener listener = new DetailsViewInteractionListener(mPresenter);
+        setupEventListeners(listener);
     }
 
-    private void setupEventListeners() {
-        DetailsViewInteractionListener listener = new DetailsViewInteractionListener(mPresenter);
+    private void setupEventListeners(final DetailsViewInteractionListener listener) {
         setOnItemViewSelectedListener(listener);
         setOnItemViewClickedListener(listener);
     }
 
 
-    private void setupUi() {
-
-
-        // Setup fragment
-        setTitle(getString(R.string.detail_view_title));
-
+    @Override
+    public void showHeadlineDetails(final CardItem cardItem) {
         FullWidthDetailsOverviewRowPresenter rowPresenter = new FullWidthDetailsOverviewRowPresenter(
                 new HeadlinesDetailsPresenter(getActivity())) {
 
@@ -137,7 +130,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
         };
 
         FullWidthDetailsOverviewSharedElementHelper mHelper = new FullWidthDetailsOverviewSharedElementHelper();
-        mHelper.setSharedElementEnterTransition(getActivity(), "adsaddadasdasdasdsad");
+        mHelper.setSharedElementEnterTransition(getActivity(), getString(R.string.shared_transition_key_item_thumbnail));
         rowPresenter.setListener(mHelper);
         rowPresenter.setParticipatingEntranceTransition(false);
         prepareEntranceTransition();
@@ -153,12 +146,12 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
         mRowsAdapter = new ArrayObjectAdapter(rowPresenterSelector);
 
         // Setup action and detail row.
-        DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mCardItem);
+        DetailsOverviewRow detailsOverview = new DetailsOverviewRow(cardItem);
         detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.stars_white));
 
         mDetailsRowPicassoTarget = new PicassoImageTargetDetailsOverview(mApplicationContext, detailsOverview);
         Picasso.with(mApplicationContext)
-                .load(mCardItem.imageUrl())
+                .load(cardItem.imageUrl())
                 .into(mDetailsRowPicassoTarget);
 
 
@@ -169,7 +162,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
 
 
         setAdapter(mRowsAdapter);
-        mPicassoBackgroundManager.updateBackgroundWithDelay(mCardItem.getImageURI(), PicassoBackgroundManager.TransformType.GREYSCALE);
+        mPicassoBackgroundManager.updateBackgroundWithDelay(cardItem.getImageURI(), PicassoBackgroundManager.TransformType.GREYSCALE);
 
         // NOTE: Move this when data is loaded
         startEntranceTransition();

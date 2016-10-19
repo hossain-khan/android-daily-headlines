@@ -48,6 +48,7 @@ public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetail
 
     private void initView() {
         getView().updateScreenTitle(mContext.getString(R.string.detail_view_title));
+        getView().showHeadlineDetails(mCardItem);
     }
 
 
