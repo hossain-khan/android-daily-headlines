@@ -29,7 +29,7 @@
                   android:summary="@string/prefs_screen_title_root_screen"
                   android:title="@string/prefs_screen_summary_root_screen">
     <PreferenceScreen
-        android:icon="@drawable/ic_action_name"
+        android:icon="@drawable/ic_all_done_white"
         android:key="@string/prefs_screen_key_content_category_top_headlines"
         android:title="@string/prefs_screen_title_category_selection"
         android:summary="@string/prefs_screen_summary_category_selection">
