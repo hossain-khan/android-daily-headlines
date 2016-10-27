@@ -155,9 +155,6 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
                 .into(mDetailsRowPicassoTarget);
 
 
-        ArrayObjectAdapter actionAdapter = new ArrayObjectAdapter();
-        actionAdapter.add(new Action(HeadlinesDetailsContract.ACTION_ID_OPEN_NEWS_URL, "Read More"));
-        detailsOverview.setActionsAdapter(actionAdapter);
         mRowsAdapter.add(detailsOverview);
 
 
@@ -184,7 +181,9 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
             String logMsg = "App does not have browser to show URL: %s.";
             Timber.w(logMsg, contentUrl);
             FirebaseCrash.log(logMsg);
-            UiUtils.showToast(mApplicationContext, R.string.warning_no_browser_app_available);
+
+            // NOTE: According to Google's guideline and test case "TV-WB", tv app
+            // should not assume browser availability.
         }
     }
 }
