@@ -24,6 +24,8 @@
 
 package info.hossainkhan.dailynewsheadlines.browser;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -41,11 +43,11 @@ import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsProvider;
 import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
-import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.details.HeadlinesDetailsActivity;
+import info.hossainkhan.dailynewsheadlines.dialog.ErrorFragment;
 import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
 import info.hossainkhan.dailynewsheadlines.utils.PicassoBackgroundManager;
 import timber.log.Timber;
@@ -136,7 +138,16 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
 
     @Override
     public void showDataLoadingError() {
-        UiUtils.showToast(getActivity(), "Unable to load headlines");
+        ErrorFragment errorFragment = ErrorFragment.newInstance(getString(R.string.oops),
+                getString(R.string.error_msg_unable_to_load_content));
+
+        // This shows the error dialog replacing the browse fragment
+        // Because we were not able to load content.
+        // FIXME: This is a BAD UX - but until better headline loading is implemented, leave it.
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container, errorFragment);
+        transaction.commit();
     }
 
     @Override
