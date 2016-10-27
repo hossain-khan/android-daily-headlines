@@ -32,7 +32,7 @@ import timber.log.Timber;
  * This class demonstrates how to extend ErrorFragment
  * <p>
  * <code>
- * ErrorFragment mErrorFragment = new ErrorFragment();
+ * ErrorFragment mErrorFragment = ErrorFragment.newInstance("Title", "The Message");
  * getFragmentManager().beginTransaction().add(R.id.container, mErrorFragment).commit();
  * </code>
  */
@@ -78,8 +78,10 @@ public class ErrorFragment extends android.support.v17.leanback.app.ErrorFragmen
         setButtonText(getResources().getString(R.string.dismiss_error));
 
         setButtonClickListener(view -> {
-            // Listener must be attached on activity attach.
+            // Listener must be attached on activity attach and callback should be set.
             getFragmentManager().beginTransaction().remove(ErrorFragment.this).commit();
+            // FIXME This is a temp code, listener callback must be propagated to parent activity to take action
+            getActivity().finish();
         });
     }
 }

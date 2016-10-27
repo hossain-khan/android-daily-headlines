@@ -18,7 +18,9 @@
 
 
     <!-- Error messages -->
-    <string name="error_fragment_message">An error occurred</string>
+    <string name="error_msg_unable_to_load_headlines">Sorry, something unexpectedly went wrong.\nWe are unable to load
+        your headlines.</string>
+    <string name="error_msg_unable_to_load_content">Sorry, could not load headlines.</string>
     <string name="dismiss_error">Dismiss</string>
     <string name="oops">Oops</string>
     <string name="general_item_enabled">Enabled</string>
