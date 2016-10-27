@@ -155,9 +155,6 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
                 .into(mDetailsRowPicassoTarget);
 
 
-        ArrayObjectAdapter actionAdapter = new ArrayObjectAdapter();
-        actionAdapter.add(new Action(HeadlinesDetailsContract.ACTION_ID_OPEN_NEWS_URL, "Read More"));
-        detailsOverview.setActionsAdapter(actionAdapter);
         mRowsAdapter.add(detailsOverview);
 
 
