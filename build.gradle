@@ -14,7 +14,7 @@ buildscript {
          *  - Stable: https://developer.android.com/studio/releases/gradle-plugin.html
          *  - Alpha: http://tools.android.com/tech-docs/new-build-system
          */
-        classpath 'com.android.tools.build:gradle:2.2.1'
+        classpath 'com.android.tools.build:gradle:2.2.2'
 
         // Google Services Plugin - Required for Firebase and related Google services
         // https://developers.google.com/android/guides/google-services-plugin
