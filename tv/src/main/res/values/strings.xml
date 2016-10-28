@@ -7,6 +7,8 @@
     <string name="no_content_found">No content was found</string>
     <string name="version">Version: %1$s</string>
 
+    <string name="headline_elapsed_time">%1$s ago</string>
+
     <!-- Preference screen -->
     <string name="prefs_screen_title_root_screen">Headlines Preference</string>
     <string name="prefs_screen_summary_root_screen">Update your preferences</string>

@@ -58,7 +58,8 @@ public class TextCardView extends BaseCardView {
 
         primaryHeadline.setText(cardItem.title());
         summaryText1.setText(cardItem.category());
-        summaryText2.setText(DateUtils.getElapsedTime(cardItem.dateCreated()));
+        summaryText2.setText(String.format(getContext().getString(R.string.headline_elapsed_time),
+                DateUtils.getElapsedTime(cardItem.dateCreated())));
 
         Context context = getContext();
         Picasso picasso = Picasso.with(context);
