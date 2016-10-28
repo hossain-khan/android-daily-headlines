@@ -64,8 +64,10 @@ public class CategoryNameResolver {
                 R.string.prefs_key_content_category_business));
         CATEGORY_SECTION_MAP.put(ArticleCategory.technology, new CategoryRes(R.string.category_name_technology, R
                 .string.prefs_key_content_category_technology));
+
+        /* // Disable movies for now - exceeds 5 items
         CATEGORY_SECTION_MAP.put(ArticleCategory.movies, new CategoryRes(R.string.category_name_movies, R.string
-                .prefs_key_content_category_movies));
+                .prefs_key_content_category_movies)); // */
         CATEGORY_SECTION_MAP.put(ArticleCategory.sports, new CategoryRes(R.string.category_name_sports, R.string
                 .prefs_key_content_category_sports));
     }

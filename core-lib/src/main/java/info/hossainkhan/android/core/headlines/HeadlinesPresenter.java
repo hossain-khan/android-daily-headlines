@@ -75,6 +75,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                 loadNyTimesHeadlines(newsProvider);
             }
             else {
+                // In future need to support RSS/ATOM based provider loading
                 Timber.w("Unsupported news provider: %s", newsProvider);
             }
         }
@@ -85,8 +86,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         ApiClient apiClient = CoreApplication.getAppComponent().getApiClient();
         StoriesApi service = apiClient.createService(StoriesApi.class);
 
-        // TODO Use preferred categories instead
-        final List<ArticleCategory> categories = new ArrayList<>(newsProvider.getSupportedCategories());
+        final List<ArticleCategory> categories = new ArrayList<>(CategoryNameResolver.getPreferredCategories(mContext));
 
         int sectionSize = categories.size();
         List<Observable<InlineResponse200>> observableList = new ArrayList<>(sectionSize);
