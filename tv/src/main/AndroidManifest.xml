@@ -9,6 +9,9 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
     <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="false" />
+    <uses-feature
         android:name="android.software.leanback"
         android:required="true" />
 
@@ -16,17 +19,13 @@
     <application
         android:name="info.hossainkhan.android.core.CoreApplication"
         android:allowBackup="true"
+        android:banner="@mipmap/headlines_banner"
+        android:logo="@mipmap/headlines_banner"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Leanback">
 
-        <!--
-        TODO: Create these
-            android:banner="@drawable/app_icon_your_company"
-            android:icon="@drawable/app_icon_your_company"
-            android:logo="@drawable/app_icon_your_company"
-        -->
         <activity
             android:name=".browser.MainActivity"
 
