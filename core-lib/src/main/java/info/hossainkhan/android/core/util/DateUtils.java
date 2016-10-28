@@ -26,6 +26,8 @@ package info.hossainkhan.android.core.util;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
@@ -33,14 +35,15 @@ public class DateUtils {
 
     /**
      * Provides period of time elapsed since now in human readable format.
+     *
      * @param dateTimeString ISO Format date time string.
      * @return Formatted text. Eg. "2h, 23m", "4m, 14d"
      */
     public static String getElapsedTime(String dateTimeString) {
         final int MAX_SEGMENT = 2; // Maximum time segment (use most significant units)
 
-        DateTime myBirthDate = new DateTime(dateTimeString);
-        Period period = new Period(myBirthDate, DateTime.now());
+        DateTime dateTime = new DateTime(dateTimeString);
+        Period period = new Period(dateTime, DateTime.now());
 
         int segmentCount = 0;
 
@@ -54,7 +57,7 @@ public class DateUtils {
 
         if (segmentCount < MAX_SEGMENT && period.getMonths() > 0) {
             formatterBuilder.appendMonths().appendSuffix("m")
-                .appendSeparator(", ");
+                    .appendSeparator(", ");
             segmentCount++;
         }
 
@@ -94,4 +97,16 @@ public class DateUtils {
     }
 
 
+    /**
+     * Provides fully formatted date time.
+     * See http://www.joda.org/joda-time/key_format.html
+     *
+     * @param dateTimeString ISO Format date time string.
+     * @return Formatted date time.
+     */
+    public static String getFormattedDateTime(String dateTimeString) {
+        DateTime dateTime = new DateTime(dateTimeString);
+        DateTimeFormatter fmt = DateTimeFormat.longDateTime();
+        return dateTime.toString(fmt);
+    }
 }

@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.util.DateUtils;
 import info.hossainkhan.android.core.util.ResourceCache;
 import info.hossainkhan.dailynewsheadlines.R;
 
@@ -62,7 +63,7 @@ public class HeadlinesDetailsPresenter extends Presenter {
         CardItem card = (CardItem) item;
         primaryText.setText(card.title());
         sndText1.setText(card.category());
-        sndText2.setText(card.dateCreated());
+        sndText2.setText(DateUtils.getFormattedDateTime(card.dateCreated()));
         extraText.setText(card.description());
     }
 
