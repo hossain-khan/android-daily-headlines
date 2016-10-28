@@ -147,7 +147,8 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
 
         // Setup action and detail row.
         DetailsOverviewRow detailsOverview = new DetailsOverviewRow(cardItem);
-        detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.stars_white));
+        // DEV NOTE: Without the image drawable, the details view occupies full width for texts.
+        detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.placeholder_loading_image));
 
         mDetailsRowPicassoTarget = new PicassoImageTargetDetailsOverview(mApplicationContext, detailsOverview);
         Picasso.with(mApplicationContext)
