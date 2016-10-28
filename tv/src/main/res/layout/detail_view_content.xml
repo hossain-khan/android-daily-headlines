@@ -33,10 +33,11 @@
         style="@style/Widget.Leanback.DetailsDescriptionTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="15dp"
         android:fontFamily="sans-serif-light"
-        android:text="Title Text"/>
+        android:text=""
+        tools:text="News Headline Title Text"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,18 +51,19 @@
             style="@style/Widget.Leanback.DetailsDescriptionSubtitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="20dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="Secondary Text Area"/>
+            android:text="Category Name"/>
 
         <TextView
             android:id="@+id/secondary_text_second"
             style="@style/Widget.Leanback.DetailsDescriptionSubtitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="20dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="With Icons"/>
+            android:text=""
+            tools:text="DateTime: July 17, 2017"/>
 
     </LinearLayout>
 
@@ -72,4 +74,18 @@
         android:fontFamily="sans-serif-regular"
         android:layout_height="wrap_content"
         tools:text="Filmmaker Guillermo del Toro teas up with Legendary Pictures to bring audiences a unique take on the monster film with this sci/fi production."/>
+
+    <!--
+        Placeholder for news source logo.
+    -->
+    <ImageView
+        android:id="@+id/headlines_source_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="right"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/content_description_news_source" />
 </LinearLayout>

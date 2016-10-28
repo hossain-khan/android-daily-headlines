@@ -69,13 +69,15 @@
             android:summaryOff="@string/general_item_disabled"
             android:summaryOn="@string/general_item_enabled"
             android:title="@string/category_name_world"/>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:disableDependentsState="true"
-            android:key="@string/prefs_key_content_category_movies"
-            android:summaryOff="@string/general_item_disabled"
-            android:summaryOn="@string/general_item_enabled"
-            android:title="@string/category_name_movies"/>
+
+        <!--Disabled item due to limit - See "CategoryNameResolver" for details-->
+        <!--<CheckBoxPreference-->
+            <!--android:defaultValue="true"-->
+            <!--android:disableDependentsState="true"-->
+            <!--android:key="@string/prefs_key_content_category_movies"-->
+            <!--android:summaryOff="@string/general_item_disabled"-->
+            <!--android:summaryOn="@string/general_item_enabled"-->
+            <!--android:title="@string/category_name_movies"/>-->
 
     </PreferenceScreen>
 </PreferenceScreen>
