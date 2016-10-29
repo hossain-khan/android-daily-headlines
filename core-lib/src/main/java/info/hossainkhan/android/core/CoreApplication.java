@@ -27,8 +27,10 @@ package info.hossainkhan.android.core;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.leakcanary.LeakCanary;
 
+import info.hossainkhan.android.core.analytics.AnalyticsReporter;
 import info.hossainkhan.android.core.dagger.components.AppComponent;
 import info.hossainkhan.android.core.dagger.components.DaggerAppComponent;
 import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
@@ -43,10 +45,15 @@ public class CoreApplication extends Application {
 
     private static AppComponent sAppComponent;
     private static final boolean ENABLE_LOGGING = true;
+    private static CoreApplication sContext;
+    private static AnalyticsReporter sAnalyticsReporter;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        sContext = this;
+        sAnalyticsReporter = new AnalyticsReporter(FirebaseAnalytics.getInstance(sContext));
 
         initLeakCanary();
         initAppComponent();
@@ -94,5 +101,13 @@ public class CoreApplication extends Application {
      */
     public static CoreApplication getCoreApplication(final Context context) {
         return (CoreApplication) context.getApplicationContext();
+    }
+
+    /**
+     * Provides application analytics reporter.
+     * @return analytics reporter instance.
+     */
+    public static AnalyticsReporter getAnalyticsReporter() {
+        return sAnalyticsReporter;
     }
 }

@@ -122,6 +122,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                         getView().toggleLoadingIndicator(false);
 
                         getView().showDataLoadingError();
+                        CoreApplication.getAnalyticsReporter().reportHeadlineLoadingError();
                         FirebaseCrash.report(e);
                     }
 
