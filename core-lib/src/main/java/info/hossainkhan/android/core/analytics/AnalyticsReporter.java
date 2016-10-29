@@ -33,6 +33,8 @@ import info.hossainkhan.android.core.model.CardItem;
 public class AnalyticsReporter {
 
     private static final String EVENT_NAME_HEADLINE_LOADING_ERROR = "headline_load_failed";
+    private static final String EVENT_NAME_HEADLINE_DETAILS_LOAD = "details_content";
+    private static final String EVENT_NAME_SETTINGS_LOAD = "application_settings";
 
     private FirebaseAnalytics mAnalytics;
 
@@ -55,5 +57,20 @@ public class AnalyticsReporter {
 
     public void reportHeadlineLoadingError() {
         mAnalytics.logEvent(EVENT_NAME_HEADLINE_LOADING_ERROR, null);
+    }
+
+    public void reportHeadlineDetailsLoadedEvent(CardItem card) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, card.contentUrl());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, card.title());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, card.category());
+        mAnalytics.logEvent(EVENT_NAME_HEADLINE_DETAILS_LOAD, bundle);
+    }
+
+    public void reportSettingsScreenLoadedEvent(String settingsName) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, settingsName);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "app_settings");
+        mAnalytics.logEvent(EVENT_NAME_SETTINGS_LOAD, bundle);
     }
 }

@@ -32,7 +32,6 @@ import android.support.v17.leanback.widget.RowPresenter;
 
 import java.lang.ref.WeakReference;
 
-import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.model.CardItem;
 import timber.log.Timber;
@@ -51,8 +50,6 @@ public class CardItemViewInteractionListener implements OnItemViewClickedListene
                               RowPresenter.ViewHolder rowViewHolder, Row row) {
         Timber.d("onItemClicked: %s", item);
         final CardItem card = (CardItem) item;
-
-        CoreApplication.getAnalyticsReporter().reportHeadlineSelectedEvent(card);
 
         HeadlinesContract.Presenter presenter = mHeadlinesPresenterRef.get();
         if(presenter != null) {
