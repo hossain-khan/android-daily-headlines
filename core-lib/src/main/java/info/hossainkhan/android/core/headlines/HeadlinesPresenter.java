@@ -122,6 +122,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                         getView().toggleLoadingIndicator(false);
 
                         getView().showDataLoadingError();
+                        CoreApplication.getAnalyticsReporter().reportHeadlineLoadingError();
                         FirebaseCrash.report(e);
                     }
 
@@ -181,6 +182,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
     @Override
     public void onHeadlineItemSelected(@NonNull final CardItem cardItem) {
+        CoreApplication.getAnalyticsReporter().reportHeadlineSelectedEvent(cardItem);
         if (cardItem.imageUrl() !=null) {
             getView().showHeadlineBackdropBackground(cardItem.getImageURI());
         } else {
@@ -194,11 +196,13 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         CardItem.Type type = cardItem.type();
         if (type == CardItem.Type.ICON) {
             if (id == R.string.settings_card_item_news_source_title) {
+                CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(R.string.settings_card_item_news_source_title));
                 getView().showAppSettingsScreen();
             } else {
                 Timber.w("Unable to handle settings item: %s", cardItem.title());
             }
         } else if(type == CardItem.Type.HEADLINES) {
+            CoreApplication.getAnalyticsReporter().reportHeadlineDetailsLoadedEvent(cardItem);
             getView().showHeadlineDetailsUi(cardItem);
         }
     }
