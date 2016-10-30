@@ -1,3 +1,6 @@
+<!--
+    Emoji can be copied from http://emojipedia.org/
+-->
 <resources>
     <string name="app_name">Daily Headlines</string>
     <string name="browse_title">Daily Headlines</string>
@@ -18,6 +21,16 @@
         that you don\'t want.</string>
     <string name="prefs_screen_title_category_selection">Select Headlines Category</string>
 
+    <!-- Onboarding experience screen -->
+    <string name="onboarding_title_welcome">Your Daily Headlines</string>
+    <string name="onboarding_description_welcome">Just simply news <b>\"headlines\"</b> on your 📺.
+        \nTake a quick 👀 while you sip through your ☕</string>
+    <string name="onboarding_title_contribute">Open Source</string>
+    <string name="onboarding_description_contribute">You are welcome to contribute 💻
+        \nhttps://github.com/amardeshbd/android-daily-headlines</string>
+    <string name="onboarding_title_relax">Thank You &amp; Enjoy! 👍</string>
+    <string name="onboarding_description_relax">This app is under development 🔨 and in BETA phase 🛠.
+        \nReport any 💡 or 🐞 at https://goo.gl/AiaCw8</string>
 
     <!-- Error messages -->
     <string name="error_msg_unable_to_load_headlines">Sorry, something unexpectedly went wrong.\nWe are unable to load
