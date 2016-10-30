@@ -13,6 +13,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 4
         versionName "1.0-tv"
+        versionNameSuffix ".${gitSha()}"
+
+        buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
 
         jackOptions {
             enabled true
@@ -44,6 +48,17 @@ jacocoAndroidUnitTestReport {
     excludes += ['**/AutoValue_*.*',
                  '**/*$ViewBinder*.*', /* Based on https://github.com/JakeWharton/butterknife/issues/289 */
                  '**/*JavascriptBridge.class']
+}
+
+
+def gitSha() {
+    return 'git rev-parse --short HEAD'.execute().text.trim()
+}
+
+def buildTime() {
+    def df = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+    return df.format(new Date())
 }
 
 dependencies {
