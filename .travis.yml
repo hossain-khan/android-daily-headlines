@@ -1,0 +1,48 @@
+language: android
+
+addons: 
+  code_climate:
+    # https://codeclimate.com/github/amardeshbd/android-daily-headlines 
+    repo_token: d930b549878b857fe0be9bf587bfd712c6bb93736e3a37b5fadc0f96185b5d3e
+
+android:
+  components:
+    - platform-tools
+    - tools
+
+    # The BuildTools version used by your project
+    - build-tools-24.0.2
+
+    # The SDK version used to compile your project
+    - android-24
+    
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    
+  licenses:
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+
+jdk:
+  - oraclejdk8
+
+# TODO - run `assembleAndroidTest` to test unit tests
+# See https://github.com/codecov/example-android/blob/master/.travis.yml for complete example
+script: ./gradlew assembleDebug jacocoTestReport
+
+#
+# Caching Artifacts & related items
+# Configs from https://raw.githubusercontent.com/googlesamples/android-architecture/todo-mvp/.travis.yml
+#
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.m2
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+# https://codecov.io
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

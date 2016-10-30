@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'jacoco-android'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    // https://developer.android.com/studio/releases/build-tools.html
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        applicationId "info.hossainkhan.dailynewsheadlines"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 3
+        versionName "1.0-mobile"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        jackOptions {
+            enabled true
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        /*
+         * `InvalidPackage` warning from dagger. Fixed issue using following sources:
+         * http://stackoverflow.com/questions/21827004/gradle-dagger-lint-ignore-by-package
+         * https://github.com/square/okio/issues/58
+         */
+        warning 'InvalidPackage'
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.javaSourceCompatibilityVersion
+        targetCompatibility rootProject.ext.javaTargetCompatibilityVersion
+    }
+}
+
+jacocoAndroidUnitTestReport {
+    excludes += ['**/AutoValue_*.*',
+                 '**/*$ViewBinder*.*', /* Based on https://github.com/JakeWharton/butterknife/issues/289 */
+                 '**/*JavascriptBridge.class']
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Core module for the app
+    compile project(':core-lib')
+
+    // Firebase CORE
+    // https://firebase.google.com/docs/android/setup
+    compile "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
+
+    // Firebase - Crash Reporting
+    // https://firebase.google.com/docs/crash/android
+    compile "com.google.firebase:firebase-crash:$rootProject.firebaseVersion"
+
+    // Butterknife - android-view injection
+    compile "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
+
+
+    // ----------------------------------------------------------------
+    // Android Unit and Instrumentation test
+    // ----------------------------------------------------------------
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile "junit:junit:$rootProject.junitVersion"
+}
+
+// **IMPORTANT** Add to the bottom of the file
+apply plugin: 'com.google.gms.google-services'

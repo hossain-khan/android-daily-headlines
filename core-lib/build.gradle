@@ -1,0 +1,102 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    // https://developer.android.com/studio/releases/build-tools.html
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+    compileOptions {
+        // NOTE: Despite java8 support, Unable to use java8 lambda using jack because of following error:
+        // Error: Library projects cannot enable Jack (Java 8).
+        // ASOP Issue # https://code.google.com/p/android/issues/detail?id=211386
+        sourceCompatibility rootProject.ext.javaSourceCompatibilityVersion
+        targetCompatibility rootProject.ext.javaTargetCompatibilityVersion
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Internal module dependency
+    compile project(':api-lib')
+
+    //dagger 2
+    //https://github.com/codepath/android_guides/wiki/Dependency-Injection-with-Dagger-2
+    compile "com.google.dagger:dagger:$rootProject.daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+
+    // RxAndroid (Note: RxJava is included in `api-lib` module)
+    // https://github.com/ReactiveX/RxAndroid
+    compile "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
+
+    // Firebase CORE
+    // https://firebase.google.com/docs/android/setup
+    compile "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
+
+    // Firebase - Crash Reporting
+    // https://firebase.google.com/docs/crash/android
+    compile "com.google.firebase:firebase-crash:$rootProject.firebaseVersion"
+
+
+    // Logging framework
+    // https://github.com/JakeWharton/timber
+    compile "com.jakewharton.timber:timber:$rootProject.timberLibraryVersion"
+
+    // Picasso - Fast and memory efficient image loading
+    // http://square.github.io/picasso/
+    compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+
+
+    // leakcanary - A memory leak detection library for Android and Java.
+    // https://github.com/square/leakcanary
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanaryLibraryVersion"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryLibraryVersion"
+
+
+    // AutoValue - Generated immutable value classes for Java 1.6+
+    // https://github.com/google/auto/tree/master/value
+    provided "com.google.auto.value:auto-value:$rootProject.autoValueLibraryVersion"
+    annotationProcessor "com.google.auto.value:auto-value:$rootProject.autoValueLibraryVersion"
+
+    // AutoValue extension for GSON
+    // https://github.com/rharter/auto-value-gson
+    provided "com.ryanharter.auto.value:auto-value-gson:$rootProject.autoValueExtentionGsonVersion"
+    annotationProcessor "com.ryanharter.auto.value:auto-value-gson:$rootProject.autoValueExtentionGsonVersion"
+
+    // ----------------------------------------------------------------
+    // Android Unit and Instrumentation test
+    // ----------------------------------------------------------------
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    testCompile "junit:junit:$rootProject.junitVersion"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryLibraryVersion"
+}
