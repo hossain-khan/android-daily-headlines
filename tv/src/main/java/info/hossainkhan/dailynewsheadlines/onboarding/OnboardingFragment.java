@@ -25,6 +25,9 @@
 package info.hossainkhan.dailynewsheadlines.onboarding;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,6 +35,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import java.util.ArrayList;
 
 import info.hossainkhan.android.core.util.PreferenceUtils;
 import info.hossainkhan.dailynewsheadlines.R;
@@ -48,6 +53,12 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
             R.string.onboarding_description_welcome,
             R.string.onboarding_description_contribute,
             R.string.onboarding_description_relax
+    };
+
+    private static final int[] pageIcons = {
+            R.drawable.icon_newspaper,
+            R.drawable.icon_github_circle,
+            R.drawable.icon_lab_flask_outline
     };
 
     private static final long ANIMATION_DURATION = 500;
@@ -99,8 +110,9 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
     @Override
     protected View onCreateContentView(LayoutInflater inflater, ViewGroup container) {
         mContentView = new ImageView(getActivity());
-        mContentView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        mContentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mContentView.setPadding(0, 32, 0, 32);
+        mContentView.setImageResource(R.drawable.icon_newspaper);
         return mContentView;
     }
 
@@ -108,6 +120,42 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
     @Override
     protected View onCreateForegroundView(LayoutInflater inflater, ViewGroup container) {
         return null;
+    }
+
+
+    @Override
+    protected void onPageChanged(final int newPage, int previousPage) {
+        if (mContentAnimator != null) {
+            mContentAnimator.end();
+        }
+        ArrayList<Animator> animators = new ArrayList<>();
+        Animator fadeOut = createFadeOutAnimator(mContentView);
+
+        fadeOut.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mContentView.setImageDrawable(getResources().getDrawable(pageIcons[newPage]));
+            }
+        });
+        animators.add(fadeOut);
+        animators.add(createFadeInAnimator(mContentView));
+        AnimatorSet set = new AnimatorSet();
+        set.playSequentially(animators);
+        set.start();
+        mContentAnimator = set;
+    }
+    @Override
+    protected Animator onCreateEnterAnimation() {
+        mContentView.setImageDrawable(getResources().getDrawable(pageIcons[0]));
+        mContentAnimator = createFadeInAnimator(mContentView);
+        return mContentAnimator;
+    }
+    private Animator createFadeInAnimator(View view) {
+        return ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f, 1.0f).setDuration(ANIMATION_DURATION);
+    }
+
+    private Animator createFadeOutAnimator(View view) {
+        return ObjectAnimator.ofFloat(view, View.ALPHA, 1.0f, 0.0f).setDuration(ANIMATION_DURATION);
     }
 
 }

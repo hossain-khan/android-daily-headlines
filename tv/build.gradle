@@ -11,8 +11,8 @@ android {
         applicationId "info.hossainkhan.dailynewsheadlines"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
-        versionName "1.0-tv"
+        versionCode 5
+        versionName "1.1-tv"
         versionNameSuffix ".${gitSha()}"
 
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
