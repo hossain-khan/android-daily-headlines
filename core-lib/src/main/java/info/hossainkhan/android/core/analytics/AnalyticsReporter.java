@@ -36,13 +36,13 @@ public class AnalyticsReporter {
     private static final String EVENT_NAME_HEADLINE_DETAILS_LOAD = "details_content";
     private static final String EVENT_NAME_SETTINGS_LOAD = "application_settings";
 
-    private FirebaseAnalytics mAnalytics;
+    private final FirebaseAnalytics mAnalytics;
 
     /**
      * Creates analytics reporter with firebase backend reporting.
      * @param analytics Firebase analytics instance.
      */
-    public AnalyticsReporter(FirebaseAnalytics analytics) {
+    public AnalyticsReporter(final FirebaseAnalytics analytics) {
         mAnalytics = analytics;
     }
 
