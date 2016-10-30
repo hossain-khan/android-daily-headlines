@@ -18,6 +18,13 @@
         that you don\'t want.</string>
     <string name="prefs_screen_title_category_selection">Select Headlines Category</string>
 
+    <!-- Onboarding experience screen -->
+    <string name="onboarding_title_welcome">Welcome</string>
+    <string name="onboarding_title_contribute">Contribute</string>
+    <string name="onboarding_title_relax">Relax</string>
+    <string name="onboarding_description_welcome">Description for Welcome</string>
+    <string name="onboarding_description_contribute">Description for Contribute</string>
+    <string name="onboarding_description_relax">Description for Relax</string>
 
     <!-- Error messages -->
     <string name="error_msg_unable_to_load_headlines">Sorry, something unexpectedly went wrong.\nWe are unable to load
