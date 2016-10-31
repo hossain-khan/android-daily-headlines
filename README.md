@@ -16,8 +16,11 @@ The 📱 version of the app will follow after 2.0 release of 📺 _(TV)_ app.
 ### Project Planning
 I am currently tracking issues and tasks using :octocat:'s kanban board
 
- * Release v1 - https://github.com/amardeshbd/android-daily-headlines/projects/1
+ * ~~Release v1 - https://github.com/amardeshbd/android-daily-headlines/projects/1~~ - 1.0 is out for open beta.
  * Release v2 - https://github.com/amardeshbd/android-daily-headlines/projects/2
+
+### Open Beta Release
+Sign up to test beta release from Google Play store https://play.google.com/apps/testing/info.hossainkhan.dailynewsheadlines
 
 ### Gradle Modues
 [![android-daily-headlines-module-overview](https://cloud.githubusercontent.com/assets/99822/19424108/8593d212-93f4-11e6-9caa-c3cc4d2e4481.png)](https://docs.google.com/drawings/d/1mbFW9Yq9r7h7DmFYhA6X1M26dBp7Uw-mX4aRaPm4GMg/edit?usp=sharing)
