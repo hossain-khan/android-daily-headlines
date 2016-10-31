@@ -28,15 +28,19 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import info.hossainkhan.android.core.util.PreferenceUtils;
 import info.hossainkhan.dailynewsheadlines.R;
@@ -49,11 +53,31 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
             R.string.onboarding_title_contribute,
             R.string.onboarding_title_relax
     };
+
+    /**
+     * String formatting arguments for the resource to avoid issue on older android. See {@link Emoji} for more information.
+     */
+    private static final SparseArray<List<String>> pageTitleFormatArgs = new SparseArray<>(pageTitles.length);
+    static {
+        pageTitleFormatArgs.put(R.string.onboarding_title_relax, Arrays.asList(Emoji.THUMBS_UP));
+    }
+
     private static final int[] pageDescriptions = {
             R.string.onboarding_description_welcome,
             R.string.onboarding_description_contribute,
             R.string.onboarding_description_relax
     };
+
+    /**
+     * String formatting arguments for the resource to avoid issue on older android. See {@link Emoji} for more information.
+     */
+    private static final SparseArray<List<String>> pageDescriptionsFormatArgs = new SparseArray<>(pageTitles.length);
+    static {
+        pageDescriptionsFormatArgs.put(R.string.onboarding_description_welcome, Arrays.asList(Emoji.TELEVISION, Emoji.EYE_GLASS, Emoji.COFFEE, Emoji.NEWS_PAPER));
+        pageDescriptionsFormatArgs.put(R.string.onboarding_description_contribute, Arrays.asList(Emoji.COMPUTER));
+        pageDescriptionsFormatArgs.put(R.string.onboarding_description_relax, Arrays.asList(Emoji.HAMMER, Emoji.WRENCH, Emoji.LIGHT, Emoji.BUG, Emoji.LADY_BUG));
+    }
+
 
     private static final int[] pageIcons = {
             R.drawable.icon_newspaper,
@@ -77,10 +101,13 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
     protected void onFinishFragment() {
         super.onFinishFragment();
         // Our onboarding is done, mark it as completed
-        PreferenceUtils.updateOnboardingAsCompleted(getActivity().getApplicationContext());
+        Activity parentActivity = getActivity();
+        PreferenceUtils.updateOnboardingAsCompleted(parentActivity.getApplicationContext());
 
-        // Let's go back to the MainActivity
-        startActivity(new Intent(getActivity(), MainActivity.class));
+        // Onboarding is completed, launch the
+        startActivity(new Intent(parentActivity, MainActivity.class));
+        // Also end the onboarding screen, so that user can't get back to it.
+        parentActivity.finish();
     }
 
     @Override
@@ -90,12 +117,25 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
 
     @Override
     protected String getPageTitle(int pageIndex) {
-        return getString(pageTitles[pageIndex]);
+        int pageTitleResId = pageTitles[pageIndex];
+
+        List<String> formatArgs = pageTitleFormatArgs.get(pageTitleResId);
+        if(formatArgs != null) {
+            return getString(pageTitleResId, formatArgs.toArray());
+        }
+        return getString(pageTitleResId);
     }
 
     @Override
     protected String getPageDescription(int pageIndex) {
-        return getString(pageDescriptions[pageIndex]);
+        int pageDescriptionResId = pageDescriptions[pageIndex];
+
+        List<String> formatArgs = pageDescriptionsFormatArgs.get(pageDescriptionResId);
+        if(formatArgs != null) {
+            return getString(pageDescriptionResId, formatArgs.toArray());
+        }
+        return getString(pageDescriptionResId);
+
     }
 
     @Nullable
@@ -112,7 +152,6 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
         mContentView = new ImageView(getActivity());
         mContentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mContentView.setPadding(0, 32, 0, 32);
-        mContentView.setImageResource(R.drawable.icon_newspaper);
         return mContentView;
     }
 
