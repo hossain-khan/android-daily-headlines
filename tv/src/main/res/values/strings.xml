@@ -23,14 +23,14 @@
 
     <!-- Onboarding experience screen -->
     <string name="onboarding_title_welcome">Your Daily Headlines</string>
-    <string name="onboarding_description_welcome">Just simply news <b>\"headlines\"</b> on your 📺.
-        \nTake a quick 👀 while you sip through your ☕</string>
+    <string name="onboarding_description_welcome">Just simply %4$s <b>\"headlines\"</b> on your %1$s.
+        \nTake a quick %2$s while you sip through your %3$s</string>
     <string name="onboarding_title_contribute">Open Source</string>
-    <string name="onboarding_description_contribute">You are welcome to contribute 💻
+    <string name="onboarding_description_contribute">You are welcome to contribute %1$s
         \nhttps://github.com/amardeshbd/android-daily-headlines</string>
-    <string name="onboarding_title_relax">Thank You &amp; Enjoy! 👍</string>
-    <string name="onboarding_description_relax">This app is under development 🔨 and in BETA phase 🛠.
-        \nReport any 💡 or 🐞 at https://goo.gl/AiaCw8</string>
+    <string name="onboarding_title_relax">Thank You &amp; Enjoy! %1$s</string>
+    <string name="onboarding_description_relax">This app is under development %1$s and in BETA phase %2$s.
+        \nReport any %3$s or %4$s%5$s at https://goo.gl/AiaCw8</string>
 
     <!-- Error messages -->
     <string name="error_msg_unable_to_load_headlines">Sorry, something unexpectedly went wrong.\nWe are unable to load
