@@ -39,7 +39,7 @@ import info.hossainkhan.dailynewsheadlines.R;
 /**
  * A dialog fragment with positive and negative options.
  */
-public class DialogExampleFragment extends GuidedStepFragment {
+public class ConfirmationDialogFragment extends GuidedStepFragment {
 
     private static final int ACTION_ID_POSITIVE = 1;
     private static final int ACTION_ID_NEGATIVE = ACTION_ID_POSITIVE + 1;
@@ -50,8 +50,8 @@ public class DialogExampleFragment extends GuidedStepFragment {
     private String mDialogTitle;
     private String mDialogMessage;
 
-    public static DialogExampleFragment newInstance(final String title, final String message) {
-        DialogExampleFragment fragment = new DialogExampleFragment();
+    public static ConfirmationDialogFragment newInstance(final String title, final String message) {
+        ConfirmationDialogFragment fragment = new ConfirmationDialogFragment();
 
         Bundle args = new Bundle();
         args.putString(BUNDLE_ARG_TITLE, title);

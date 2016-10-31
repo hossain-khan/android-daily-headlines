@@ -39,11 +39,13 @@
             android:label="@string/app_name"
             android:screenOrientation="landscape">
         </activity>
+
         <activity
             android:name=".settings.SettingsActivity"
             android:screenOrientation="landscape"
             android:exported="true"
             android:theme="@style/Theme.Example.LeanbackPreferences" />
+
         <activity
             android:name=".details.HeadlinesDetailsActivity"
             android:screenOrientation="landscape"
@@ -56,6 +58,13 @@
             android:enabled="true"
             android:exported="true"
             android:theme="@style/Theme.Leanback.Onboarding" />
+
+        <activity
+            android:name=".about.InformationActivity"
+            android:screenOrientation="landscape"
+            android:enabled="true"
+            android:exported="true"
+            android:theme="@style/Theme.Leanback.GuidedStep" />
 
     </application>
 

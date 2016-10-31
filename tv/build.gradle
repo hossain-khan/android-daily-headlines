@@ -23,8 +23,15 @@ android {
         }
     }
     buildTypes {
-        release {
+        debug {
+            // Turn off optimization for faster debug builds
+            shrinkResources false
             minifyEnabled false
+        }
+
+        release {
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -69,6 +76,8 @@ dependencies {
 
     compile "com.android.support:leanback-v17:$rootProject.supportLibraryVersion"
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
 
     // Needed for leanback preference
     compile "com.android.support:preference-v7:$rootProject.supportLibraryVersion"
