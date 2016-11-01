@@ -60,7 +60,7 @@
             android:theme="@style/Theme.Leanback.Onboarding" />
 
         <activity
-            android:name=".about.InformationActivity"
+            android:name=".about.DisplayInfoActivity"
             android:screenOrientation="landscape"
             android:enabled="true"
             android:exported="true"

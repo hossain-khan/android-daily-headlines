@@ -27,52 +27,58 @@ package info.hossainkhan.dailynewsheadlines.dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
-import android.support.v17.leanback.widget.GuidanceStylist.Guidance;
+import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
+
+import info.hossainkhan.dailynewsheadlines.BuildConfig;
+import info.hossainkhan.dailynewsheadlines.R;
 
 /**
  * Fragment that shows application information.
  */
 public class AboutAppFragment extends GuidedStepFragment {
 
-
-    private static final String BUNDLE_ARG_TITLE = "BUNDLE_KEY_TITLE";
-    private static final String BUNDLE_ARG_MESSAGE = "BUNDLE_KEY_MESSAGE";
-
-    private String mDialogTitle;
-    private String mDialogMessage;
-
-    public static AboutAppFragment newInstance(final String title, final String message) {
+    public static AboutAppFragment newInstance() {
         AboutAppFragment fragment = new AboutAppFragment();
-
-        Bundle args = new Bundle();
-        args.putString(BUNDLE_ARG_TITLE, title);
-        args.putString(BUNDLE_ARG_MESSAGE, message);
-        fragment.setArguments(args);
-
         return fragment;
     }
 
-    @NonNull
-    @Override
-    public Guidance onCreateGuidance(Bundle savedInstanceState) {
-        Bundle arguments = getArguments();
-        mDialogTitle = arguments.getString(BUNDLE_ARG_TITLE);
-        mDialogMessage = arguments.getString(BUNDLE_ARG_MESSAGE);
-
-        Guidance guidance = new Guidance(mDialogTitle,mDialogMessage,"", null);
-        return guidance;
-    }
 
     @Override
     public void onCreateActions(@NonNull List<GuidedAction> actions, Bundle savedInstanceState) {
+        // NOTE: Need to explore how to manipulate this.
+    }
 
+    @Override
+    public GuidanceStylist onCreateGuidanceStylist() {
+        return new AboutAppGuidanceStylist();
     }
 
     @Override
     public void onGuidedActionClicked(GuidedAction action) {
 
     }
+
+
+    /**
+     * Internal {@link GuidanceStylist} to render about app info on content area.
+     */
+    private static class AboutAppGuidanceStylist extends GuidanceStylist {
+        @Override
+        public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Guidance guidance) {
+            View view = inflater.inflate(R.layout.dialog_about_application, container, false);
+            TextView versionText = (TextView) view.findViewById(R.id.about_app_info_text_version);
+            versionText.setText(BuildConfig.VERSION_NAME);
+            TextView releaseDateText = (TextView) view.findViewById(R.id.about_app_info_text_release_date);
+            releaseDateText.setText(BuildConfig.BUILD_TIME);
+            return view;
+        }
+    }
+
 }

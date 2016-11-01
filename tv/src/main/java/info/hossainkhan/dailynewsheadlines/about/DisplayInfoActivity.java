@@ -44,7 +44,7 @@ import info.hossainkhan.dailynewsheadlines.dialog.AboutAppFragment;
  * <p>
  * See https://developer.android.com/reference/android/support/v17/leanback/app/GuidedStepFragment.html
  */
-public class InformationActivity extends Activity {
+public class DisplayInfoActivity extends Activity {
 
     private static final String INTENT_KEY_INFO_DIALOG_TYPE = "KEY_INFO_DIALOG_TYPE";
 
@@ -66,7 +66,7 @@ public class InformationActivity extends Activity {
      */
     public static Intent createStartIntent(@NonNull Context context, @NonNull InfoDialogType dialogType) {
         Validate.notNull(dialogType);
-        Intent intent = new Intent(context, InformationActivity.class);
+        Intent intent = new Intent(context, DisplayInfoActivity.class);
         intent.putExtra(INTENT_KEY_INFO_DIALOG_TYPE, dialogType);
         return intent;
     }
@@ -83,7 +83,7 @@ public class InformationActivity extends Activity {
 
         if (savedInstanceState == null) {
             GuidedStepFragment.addAsRoot(
-                    InformationActivity.this,
+                    DisplayInfoActivity.this,
                     getFragmentForType(InfoDialogType.ABOUT_APPLICATION),
                     android.R.id.content);
         }
@@ -104,7 +104,7 @@ public class InformationActivity extends Activity {
         GuidedStepFragment fragment = null;
         switch (type) {
             case ABOUT_APPLICATION:
-                fragment = AboutAppFragment.newInstance("Title", "Desc");
+                fragment = AboutAppFragment.newInstance();
                 break;
             default:
                 throw new UnsupportedInformationTypeException();

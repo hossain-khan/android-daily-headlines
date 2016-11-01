@@ -43,4 +43,9 @@
     <string name="dialog_button_positive">Yes</string>
     <string name="dialog_button_negative">No</string>
     <string name="content_description_news_source">News Source</string>
+
+    <!-- About App Screen -->
+    <string name="app_info_version_label">Version</string>
+    <string name="app_info_release_date_label">Release Date</string>
+    <string name="app_info_about_app_title">About App</string>
 </resources>
