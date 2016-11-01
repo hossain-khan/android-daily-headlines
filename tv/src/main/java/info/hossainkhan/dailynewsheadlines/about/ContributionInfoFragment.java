@@ -33,11 +33,9 @@ import android.support.v17.leanback.widget.GuidedAction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
-import info.hossainkhan.dailynewsheadlines.BuildConfig;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 

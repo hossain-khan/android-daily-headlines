@@ -32,14 +32,13 @@ import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
 
 import info.hossainkhan.android.core.util.Validate;
-import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 
 
 /**
  * Activity that is used to show different kind of information using
  * {@link android.support.v17.leanback.app.GuidedStepFragment}. Based on requirement this activity uses
- * {@link R.style#Theme_Leanback_GuidedStep}.
+ * {@link info.hossainkhan.dailynewsheadlines.R.style#Theme_Leanback_GuidedStep}.
  * <p>For list of supported info, see {@link InfoDialogType}</p>
  * <p>
  * See https://developer.android.com/reference/android/support/v17/leanback/app/GuidedStepFragment.html
