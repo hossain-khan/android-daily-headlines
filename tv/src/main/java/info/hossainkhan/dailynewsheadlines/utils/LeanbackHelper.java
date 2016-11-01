@@ -100,6 +100,24 @@ public final class LeanbackHelper {
         );
 
         settingsItems.add(item);
+        settingsItems.add(
+                CardItem.create(
+                        R.string.settings_card_item_about_app_title, // id,
+                        resources.getString(R.string.settings_card_item_about_app_title), // title,
+                        null, // description,
+                        null, //extraText,
+                        null, //category,
+                        null, // dateCreated,
+                        null, // imageUrl,
+                        null, // contentUrl,
+                        R.drawable.ic_settings_about_app_information, // localImageResourceId,
+                        null, // footerColor,
+                        null, // selectedColor,
+                        CardItem.Type.ICON, // type,
+                        0, // width,
+                        0 // height
+                )
+        );
 
         list.add(NavigationRow.builder()
                 .title(resources.getString(R.string.settings_navigation_row_news_source_title))
