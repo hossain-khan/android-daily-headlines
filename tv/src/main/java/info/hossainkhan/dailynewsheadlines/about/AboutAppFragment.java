@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines.dialog;
+package info.hossainkhan.dailynewsheadlines.about;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -33,7 +33,6 @@ import android.support.v17.leanback.app.GuidedStepFragment;
 
 import info.hossainkhan.android.core.util.Validate;
 import info.hossainkhan.dailynewsheadlines.R;
-import info.hossainkhan.dailynewsheadlines.dialog.AboutAppFragment;
 import timber.log.Timber;
 
 
