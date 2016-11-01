@@ -79,7 +79,7 @@ public class DisplayInfoActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Set content view is not required because we are adding fragment to "android.R.id.content"
-        // getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#21272A")));
+
         extractBundleData(getIntent());
 
         if (savedInstanceState == null) {

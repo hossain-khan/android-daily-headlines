@@ -35,8 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:text="@string/app_info_about_app_title"
         android:textAppearance="@style/TextAppearance.Leanback.Title"/>
 
@@ -45,10 +44,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="40dp"
-        android:padding="40dp"
-
-        card_view:cardCornerRadius="4dp">
+        android:layout_margin="50dp"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardBackgroundColor="@color/information_card_background_color"
+        card_view:cardElevation="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -61,6 +60,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:text="@string/app_info_version_label"
+                android:layout_marginTop="20dp"
                 android:textAppearance="@style/TextAppearance.Leanback.DetailsDescriptionTitle"/>
 
             <TextView
@@ -70,6 +70,7 @@
                 android:layout_below="@+id/about_app_info_text_version_label"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:textAppearance="@style/TextAppearance.Leanback.DetailsDescriptionSubtitle"
                 tools:text="1.2-tv-sjafa98as"/>
 
@@ -91,6 +92,8 @@
                 android:layout_below="@+id/about_app_info_text_release_date_label"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:textAppearance="@style/TextAppearance.Leanback.DetailsDescriptionSubtitle"
                 tools:text="July 28, 2017 EST"/>
 

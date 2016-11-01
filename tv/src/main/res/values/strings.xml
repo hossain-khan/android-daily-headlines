@@ -6,6 +6,9 @@
     <string name="browse_title">Daily Headlines</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
+    <string name="okay">Okay</string>
+    <string name="done">Done</string>
+    <string name="description_close_current_info_screen">Closes current information screen.</string>
     <string name="loading">Loading&#8230;</string>
     <string name="no_content_found">No content was found</string>
     <string name="version">Version: %1$s</string>

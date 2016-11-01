@@ -24,6 +24,7 @@
 
 package info.hossainkhan.dailynewsheadlines.dialog;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
@@ -38,11 +39,13 @@ import java.util.List;
 
 import info.hossainkhan.dailynewsheadlines.BuildConfig;
 import info.hossainkhan.dailynewsheadlines.R;
+import timber.log.Timber;
 
 /**
  * Fragment that shows application information.
  */
 public class AboutAppFragment extends GuidedStepFragment {
+    private static final int ACTION_ID_POSITIVE = 1;
 
     public static AboutAppFragment newInstance() {
         AboutAppFragment fragment = new AboutAppFragment();
@@ -53,6 +56,15 @@ public class AboutAppFragment extends GuidedStepFragment {
     @Override
     public void onCreateActions(@NonNull List<GuidedAction> actions, Bundle savedInstanceState) {
         // NOTE: Need to explore how to manipulate this.
+        Context applicationContext = getActivity().getApplicationContext();
+        GuidedAction action = new GuidedAction.Builder(applicationContext)
+                .id(ACTION_ID_POSITIVE)
+                .title(R.string.okay)
+                .description(R.string.description_close_current_info_screen)
+                .icon(R.drawable.vector_icon_checkbox_marked_circle_outline)
+                .build();
+        actions.add(action);
+
     }
 
     @Override
@@ -62,7 +74,11 @@ public class AboutAppFragment extends GuidedStepFragment {
 
     @Override
     public void onGuidedActionClicked(GuidedAction action) {
-
+        if (ACTION_ID_POSITIVE == action.getId()) {
+            getActivity().finish();
+        } else {
+            Timber.w("Action %s not supported.", action);
+        }
     }
 
 
