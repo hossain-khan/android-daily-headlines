@@ -30,7 +30,9 @@ android {
         }
 
         release {
-            shrinkResources true
+            // Disable shrink resource because of following known issue with gradle tools 2.2.2
+            // http://stackoverflow.com/questions/36540676/build-intermediates-res-resources-anzhi-debug-stripped-ap-specified-for-prope
+            shrinkResources false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
