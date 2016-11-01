@@ -52,7 +52,8 @@ public class DisplayInfoActivity extends Activity {
      * List of information dialog type supported by this activity.
      */
     public enum InfoDialogType {
-        ABOUT_APPLICATION
+        ABOUT_APPLICATION,
+        ABOUT_CONTRIBUTION
     }
 
     private InfoDialogType mDialogType;
@@ -84,7 +85,7 @@ public class DisplayInfoActivity extends Activity {
         if (savedInstanceState == null) {
             GuidedStepFragment.addAsRoot(
                     DisplayInfoActivity.this,
-                    getFragmentForType(InfoDialogType.ABOUT_APPLICATION),
+                    getFragmentForType(mDialogType),
                     android.R.id.content);
         }
     }
@@ -106,6 +107,9 @@ public class DisplayInfoActivity extends Activity {
         switch (type) {
             case ABOUT_APPLICATION:
                 fragment = AboutAppFragment.newInstance();
+                break;
+            case ABOUT_CONTRIBUTION:
+                fragment = ContributionInfoFragment.newInstance();
                 break;
             default:
                 throw new UnsupportedInformationTypeException();
