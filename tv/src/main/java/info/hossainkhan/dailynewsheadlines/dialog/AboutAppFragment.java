@@ -74,7 +74,8 @@ public class AboutAppFragment extends GuidedStepFragment {
         public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Guidance guidance) {
             View view = inflater.inflate(R.layout.dialog_about_application, container, false);
             TextView versionText = (TextView) view.findViewById(R.id.about_app_info_text_version);
-            versionText.setText(BuildConfig.VERSION_NAME);
+            versionText.setText(container.getResources().getString(R.string.app_info_version_number,
+                    BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
             TextView releaseDateText = (TextView) view.findViewById(R.id.about_app_info_text_release_date);
             releaseDateText.setText(BuildConfig.BUILD_TIME);
             return view;

@@ -63,7 +63,7 @@ def gitSha() {
 }
 
 def buildTime() {
-    def df = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
+    def df = new java.text.SimpleDateFormat("EEE, d MMM, yyyy hh:mm aaa z")
     df.setTimeZone(TimeZone.getTimeZone("UTC"))
     return df.format(new Date())
 }
