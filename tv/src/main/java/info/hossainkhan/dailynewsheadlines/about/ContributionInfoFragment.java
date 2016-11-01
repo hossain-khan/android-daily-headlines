@@ -25,11 +25,16 @@
 package info.hossainkhan.dailynewsheadlines.about;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
 import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,13 +60,32 @@ public class ContributionInfoFragment extends GuidedStepFragment {
         mContext = getActivity().getApplicationContext();
         GuidedAction action;
 
+        //
+        // Prepare the credits action item
+        //
+        String creditsTitle = "Credits";
+        String creditsDescription = "List of other amazing open-source libraries used in this project.";
+        final SpannableStringBuilder titleSpan = new SpannableStringBuilder(creditsTitle);
+        titleSpan.setSpan(new StyleSpan(Typeface.BOLD), 0, creditsTitle.length(), Spannable
+                .SPAN_INCLUSIVE_INCLUSIVE);
+        titleSpan.setSpan(new RelativeSizeSpan(1.2f), 0, creditsTitle.length(), Spannable
+                .SPAN_INCLUSIVE_INCLUSIVE);
+        final SpannableStringBuilder descriptionSpan = new SpannableStringBuilder(creditsDescription);
+        descriptionSpan.setSpan(new StyleSpan(Typeface.ITALIC), 0, creditsDescription.length(), Spannable
+                .SPAN_INCLUSIVE_INCLUSIVE);
+
         action = new GuidedAction.Builder(mContext)
-                .title("Credits")
+                .title(titleSpan)
+                .description(descriptionSpan)
+                .icon(R.drawable.vector_icon_human_handsup)
                 .focusable(false)
                 .build();
         actions.add(action);
 
 
+        //
+        // Prepare all the static info of the libraries used in the app. No need to convert them to string resource.
+        //
         actions.add(buildLibraryInfo("Firebase", "Firebase is a mobile and web application platform with tools and infrastructure designed to help developers build high-quality apps."));
         actions.add(buildLibraryInfo("Dagger", "Dagger ‡ A fast dependency injector for Android and Java."));
         actions.add(buildLibraryInfo("RxJava", "RxJava - Reactive Extensions for the JVM"));
