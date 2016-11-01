@@ -56,5 +56,6 @@
 
         <item name="guidedActionsBackground">@color/fastlane_background</item>
         <!--<item name="guidedActionsBackgroundDark">@color/background_gradient_end</item>-->
+        <item name="guidedActionDescriptionMinLines">@integer/info_dialog_guidedactions_item_description_min_lines</item>
     </style>
 </resources>

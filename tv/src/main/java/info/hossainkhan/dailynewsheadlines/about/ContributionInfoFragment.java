@@ -37,46 +37,55 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import info.hossainkhan.dailynewsheadlines.R;
-import timber.log.Timber;
 
 /**
  * Fragment that shows information on how to contribute.
  */
 public class ContributionInfoFragment extends GuidedStepFragment {
-    private static final int ACTION_ID_POSITIVE = 1;
+    private Context mContext;
 
     public static ContributionInfoFragment newInstance() {
-        ContributionInfoFragment fragment = new ContributionInfoFragment();
-        return fragment;
+        return new ContributionInfoFragment();
     }
 
 
     @Override
     public void onCreateActions(@NonNull List<GuidedAction> actions, Bundle savedInstanceState) {
         // NOTE: Need to explore how to manipulate this.
-        Context applicationContext = getActivity().getApplicationContext();
-        GuidedAction action = new GuidedAction.Builder(applicationContext)
-                .id(ACTION_ID_POSITIVE)
-                .title(R.string.okay)
-                .description(R.string.description_close_current_info_screen)
-                .icon(R.drawable.vector_icon_checkbox_marked_circle_outline)
+        mContext = getActivity().getApplicationContext();
+        GuidedAction action;
+
+        action = new GuidedAction.Builder(mContext)
+                .title("Credits")
+                .focusable(false)
                 .build();
         actions.add(action);
 
+
+        actions.add(buildLibraryInfo("Firebase", "Firebase is a mobile and web application platform with tools and infrastructure designed to help developers build high-quality apps."));
+        actions.add(buildLibraryInfo("Dagger", "Dagger ‡ A fast dependency injector for Android and Java."));
+        actions.add(buildLibraryInfo("RxJava", "RxJava - Reactive Extensions for the JVM"));
+        actions.add(buildLibraryInfo("RxAndroid", "Reactive Extensions for Android."));
+        actions.add(buildLibraryInfo("Picasso", "A powerful image downloading and caching library for Android" +
+                "Android\nhttp://square.github.io/picasso/\nApache License, Version 2.0, January 2004"));
+        actions.add(buildLibraryInfo("Leakcanary", "A memory leak detection library for Android and Java."));
+        actions.add(buildLibraryInfo("AutoValue", "Generated immutable value classes for Java 1.6+"));
+        actions.add(buildLibraryInfo("Butter Knife", "Bind Android views and callbacks to fields and methods."));
+        actions.add(buildLibraryInfo("Retrofit", "A type-safe HTTP client for Android and Java"));
+        actions.add(buildLibraryInfo("Joda-Time", "Joda-Time provides a quality replacement for the Java date and time classes."));
+    }
+
+    private GuidedAction buildLibraryInfo(final String title, final String description) {
+        return new GuidedAction.Builder(mContext)
+                .title(title)
+                .description(description)
+                .infoOnly(true)
+                .build();
     }
 
     @Override
     public GuidanceStylist onCreateGuidanceStylist() {
         return new AboutAppGuidanceStylist();
-    }
-
-    @Override
-    public void onGuidedActionClicked(GuidedAction action) {
-        if (ACTION_ID_POSITIVE == action.getId()) {
-            getActivity().finish();
-        } else {
-            Timber.w("Action %s not supported.", action);
-        }
     }
 
 
@@ -86,8 +95,7 @@ public class ContributionInfoFragment extends GuidedStepFragment {
     private static class AboutAppGuidanceStylist extends GuidanceStylist {
         @Override
         public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Guidance guidance) {
-            View view = inflater.inflate(R.layout.dialog_contribution_info, container, false);
-            return view;
+            return inflater.inflate(R.layout.dialog_contribution_info, container, false);
         }
     }
 

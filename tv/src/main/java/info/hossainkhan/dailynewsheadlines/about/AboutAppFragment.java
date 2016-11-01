@@ -48,8 +48,7 @@ public class AboutAppFragment extends GuidedStepFragment {
     private static final int ACTION_ID_POSITIVE = 1;
 
     public static AboutAppFragment newInstance() {
-        AboutAppFragment fragment = new AboutAppFragment();
-        return fragment;
+        return new AboutAppFragment();
     }
 
 

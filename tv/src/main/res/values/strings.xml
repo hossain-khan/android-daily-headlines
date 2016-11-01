@@ -58,4 +58,7 @@
     <string name="github_project_issues_url">https://goo.gl/AiaCw8</string>
     <string name="contribution_project_home_label">Project Home</string>
     <string name="contribution_project_issues_label">Issues</string>
+    <string name="how_to_contribute_title">Contribution</string>
+    <string name="how_to_contribute_description">This is an open-source project, where you can contribute by
+        providing your ideas, or reporting any issues you may have encountered.</string>
 </resources>
