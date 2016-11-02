@@ -40,12 +40,13 @@ import static android.content.Context.MODE_PRIVATE;
  * Data module for data persistence, caching and so on.
  */
 @Module
+@Singleton
 public class DataModule {
     private static final String PREF_NAME_DAILY_HEADLINES = "DAILY_HEADLINES_PREF";
 
     @Provides
     @Singleton
-    SharedPreferences provideSharedPreferences(@ApplicationContext Context context) {
+    public static SharedPreferences provideSharedPreferences(@ApplicationContext Context context) {
         return context.getSharedPreferences(PREF_NAME_DAILY_HEADLINES, MODE_PRIVATE);
     }
 }

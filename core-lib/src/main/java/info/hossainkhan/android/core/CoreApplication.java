@@ -34,6 +34,7 @@ import info.hossainkhan.android.core.analytics.AnalyticsReporter;
 import info.hossainkhan.android.core.dagger.components.AppComponent;
 import info.hossainkhan.android.core.dagger.components.DaggerAppComponent;
 import info.hossainkhan.android.core.dagger.modules.AppModule;
+import info.hossainkhan.android.core.dagger.modules.DataModule;
 import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
 import info.hossainkhan.android.core.dagger.modules.NetworkModule;
 import timber.log.Timber;
@@ -84,6 +85,7 @@ public class CoreApplication extends Application {
                 .appModule(new AppModule(this))
                 .interactorsModule(new InteractorsModule())
                 .networkModule(new NetworkModule())
+                .dataModule(new DataModule())
                 .build();
 
     }

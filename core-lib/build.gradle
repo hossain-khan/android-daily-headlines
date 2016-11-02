@@ -15,6 +15,12 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        jackOptions {
+            // Error:Library projects cannot enable Jack. Jack is enabled in default config.
+            // ASOP Issue # https://code.google.com/p/android/issues/detail?id=211386
+            enabled false
+        }
+
     }
     buildTypes {
         release {

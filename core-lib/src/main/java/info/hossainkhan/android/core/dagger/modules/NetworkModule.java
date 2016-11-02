@@ -50,13 +50,14 @@ public class NetworkModule {
     }
 
     @Provides
+    @Singleton
     public StoriesApi provideStoriesApi(ApiClient apiClient) {
         return apiClient.createService(StoriesApi.class);
     }
 
     @Provides
     @Singleton
-    Picasso providePicasso(@ApplicationContext Context context) {
+    public Picasso providePicasso(@ApplicationContext Context context) {
         return new Picasso.Builder(context)
                 .loggingEnabled(true) // Investigate why library's BuildConfig flag is not set properly.
                 .listener((picasso, uri, e) -> Timber.e(e, "Failed to load image: %s", uri))

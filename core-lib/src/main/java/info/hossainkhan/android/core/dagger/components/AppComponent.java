@@ -35,6 +35,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.dagger.ApplicationContext;
+import info.hossainkhan.android.core.dagger.modules.ActivityModule;
 import info.hossainkhan.android.core.dagger.modules.AppModule;
 import info.hossainkhan.android.core.dagger.modules.DataModule;
 import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
@@ -47,7 +48,8 @@ import io.swagger.client.ApiClient;
         modules = {
                 AppModule.class,
                 InteractorsModule.class,
-                NetworkModule.class
+                NetworkModule.class,
+                DataModule.class
         }
 )
 public interface AppComponent {
@@ -61,8 +63,10 @@ public interface AppComponent {
 
     @ApplicationContext
     Context getContext();
-//
-//    Picasso getPicasso();
-//
-//    SharedPreferences getSharedPreferences();
+
+    @Singleton
+    Picasso getPicasso();
+
+    @Singleton
+    SharedPreferences getSharedPreferences();
 }
