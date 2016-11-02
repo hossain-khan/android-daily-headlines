@@ -26,6 +26,7 @@ package info.hossainkhan.android.core.base;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
+import timber.log.Timber;
 
 /**
  * Base class that implements the Presenter interface and provides a base implementation for
@@ -40,29 +41,47 @@ public class BasePresenter<T extends MvpView> implements MvpPresenter<T> {
 
     @Override
     public void attachView(T mvpView) {
+        Timber.d("attachView() called with: mvpView = [" + mvpView + "]");
         view = mvpView;
     }
 
     @Override
     public void detachView() {
+        Timber.d("detachView() called - detaching view = [" + view + "]");
         view = null;
+
+        // Unsubscribes any subscriptions that are currently part of this CompositeSubscription.
         compositeSubscription.clear();
     }
 
     public T getView() {
+        Timber.d("getView() called - returning view = [" + view + "]");
         return view;
     }
 
+    /**
+     * Validation method which checks if view is attached, otherwise runtime exception is thrown.
+     */
     public void checkViewAttached() {
         if (!isViewAttached()) {
             throw new MvpViewNotAttachedException();
         }
     }
 
+    /**
+     * Checks if view is attached to the current presenter.
+     *
+     * @return {@code true} when attached, {@code false} otherwise.
+     */
     public boolean isViewAttached() {
         return view != null;
     }
 
+    /**
+     * Adds {@link Subscription} to {@link CompositeSubscription}. Unsubscribes this subscription when view is detached.
+     *
+     * @param subscription {@link Subscription} that may be used in the presenter.
+     */
     public void addSubscription(Subscription subscription) {
         this.compositeSubscription.add(subscription);
     }

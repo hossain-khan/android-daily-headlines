@@ -92,6 +92,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mHeadlinesPresenter.detachView();
         if (null != mPicassoBackgroundManager) {
             Timber.d("onDestroy: " + mPicassoBackgroundManager.toString());
             //mPicassoBackgroundManager.cancel();

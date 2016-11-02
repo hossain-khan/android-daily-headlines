@@ -95,6 +95,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                         getView().showHeadlines(navigationRows);
                     }
                 });
+        addSubscription(subscription);
     }
 
     @Override
