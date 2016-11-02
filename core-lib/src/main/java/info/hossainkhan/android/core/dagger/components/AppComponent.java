@@ -25,6 +25,7 @@
 package info.hossainkhan.android.core.dagger.components;
 
 import android.app.Activity;
+import android.content.Context;
 
 import javax.inject.Singleton;
 
@@ -52,4 +53,6 @@ public interface AppComponent {
     ExampleInteractor providesExampleInteractorImpl();
 
     ApiClient getApiClient();
+
+    Context getContext();
 }
