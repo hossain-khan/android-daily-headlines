@@ -29,29 +29,17 @@ import android.support.annotation.NonNull;
 
 import com.google.firebase.crash.FirebaseCrash;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
-import info.hossainkhan.android.core.data.CategoryNameResolver;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsProvider;
 import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
-import io.swagger.client.ApiClient;
-import io.swagger.client.api.ConsumptionFormat;
-import io.swagger.client.api.StoriesApi;
-import io.swagger.client.model.Article;
-import io.swagger.client.model.ArticleCategory;
-import io.swagger.client.model.InlineResponse200;
-import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 
@@ -83,33 +71,9 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     }
 
     private void loadNyTimesHeadlines(final NewsProvider newsProvider) {
-        ApiClient apiClient = CoreApplication.getAppComponent().getApiClient();
-        StoriesApi service = apiClient.createService(StoriesApi.class);
-
-        final List<ArticleCategory> categories = new ArrayList<>(CategoryNameResolver.getPreferredCategories(mContext));
-
-        int sectionSize = categories.size();
-        List<Observable<InlineResponse200>> observableList = new ArrayList<>(sectionSize);
-
-        Timber.i("Loading categories: %s", categories);
-
-        // NOTE: Unable to use java8 lambda using jack. Error: Library projects cannot enable Jack (Java 8).
-        // ASOP Issue # https://code.google.com/p/android/issues/detail?id=211386
-        Observable.from(categories).subscribe(new Action1<ArticleCategory>() {
-            @Override
-            public void call(ArticleCategory articleCategory) {
-                observableList.add(service.sectionFormatGet(articleCategory.name(), ConsumptionFormat.json.name(), null));
-            }
-        });
-
-
         getView().toggleLoadingIndicator(true);
-        Subscription subscription = Observable.merge(observableList)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .toList()
-                .single()
-                .subscribe(new Subscriber<List<InlineResponse200>>() {
+        Subscription subscription = newsProvider.getNewsObservable()
+                .subscribe(new Subscriber<List<NavigationRow>>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("onCompleted() called");
@@ -117,7 +81,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(final Throwable e) {
                         Timber.e(e, "Failed to load responses.");
                         getView().toggleLoadingIndicator(false);
 
@@ -127,52 +91,11 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                     }
 
                     @Override
-                    public void onNext(List<InlineResponse200> inlineResponse200s) {
-                        int totalResponseItemSize = inlineResponse200s.size();
-                        Timber.i("Got total responses: %d", totalResponseItemSize);
-
-                        if (totalResponseItemSize != sectionSize) {
-                            // Error
-                            FirebaseCrash.log("Unable to get all responses.");
-                        } else {
-                            List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
-                            navigationHeadlines.add(NavigationRow.builder()
-                                    .title(newsProvider.getNewsSource().name())
-                                    .type(NavigationRow.TYPE_SECTION_HEADER)
-                                    .build());
-
-                            for (int i = 0; i < totalResponseItemSize; i++) {
-                                ArticleCategory articleCategory = categories.get(i);
-                                navigationHeadlines.add(
-                                        NavigationRow.builder()
-                                                .title(mContext.getString(CategoryNameResolver
-                                                        .resolveCategoryResId(articleCategory)))
-                                                .category(articleCategory)
-                                                .cards(convertArticleToCardItems(inlineResponse200s.get(i).getResults()))
-                                                .build()
-                                );
-                            }
-                            getView().showHeadlines(navigationHeadlines);
-                        }
+                    public void onNext(final List<NavigationRow> navigationRows) {
+                        getView().showHeadlines(navigationRows);
                     }
                 });
-    }
-
-    /**
-     * Converts {@link Article} list into generic {@link CardItem} model.
-     * <p>
-     * <br/>
-     * Check if we can use "adapter" or "factory" pattern to standardize this.
-     *
-     * @param articles List of articles.
-     * @return List of converted {@link CardItem}.
-     */
-    private List<CardItem> convertArticleToCardItems(final List<Article> articles) {
-        List<CardItem> cardItems = new ArrayList<>(articles.size());
-        for (Article result : articles) {
-            cardItems.add(CardItem.create(result));
-        }
-        return cardItems;
+        addSubscription(subscription);
     }
 
     @Override
@@ -201,6 +124,9 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
             } else if(id == R.string.settings_card_item_about_app_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showAppAboutScreen();
+            } else if(id == R.string.settings_card_item_contribution_title) {
+                CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
+                getView().showAppContributionScreen();
             } else {
                 Timber.w("Unable to handle settings item: %s", cardItem.title());
             }

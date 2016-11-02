@@ -25,11 +25,13 @@
 package info.hossainkhan.android.core.dagger.components;
 
 import android.app.Activity;
+import android.content.Context;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
 import info.hossainkhan.android.core.CoreApplication;
+import info.hossainkhan.android.core.dagger.ApplicationContext;
 import info.hossainkhan.android.core.dagger.modules.AppModule;
 import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
 import info.hossainkhan.android.core.dagger.modules.NetworkModule;
@@ -52,4 +54,7 @@ public interface AppComponent {
     ExampleInteractor providesExampleInteractorImpl();
 
     ApiClient getApiClient();
+
+    @ApplicationContext
+    Context getContext();
 }

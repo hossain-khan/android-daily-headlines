@@ -92,6 +92,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mHeadlinesPresenter.detachView();
         if (null != mPicassoBackgroundManager) {
             Timber.d("onDestroy: " + mPicassoBackgroundManager.toString());
             //mPicassoBackgroundManager.cancel();
@@ -158,7 +159,14 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
 
     @Override
     public void showAppAboutScreen() {
-        startActivity(DisplayInfoActivity.createStartIntent(getActivity(), DisplayInfoActivity.InfoDialogType.ABOUT_APPLICATION));
+        startActivity(DisplayInfoActivity.createStartIntent(getActivity(),
+                DisplayInfoActivity.InfoDialogType.ABOUT_APPLICATION));
+    }
+
+    @Override
+    public void showAppContributionScreen() {
+        startActivity(DisplayInfoActivity.createStartIntent(getActivity(),
+                DisplayInfoActivity.InfoDialogType.ABOUT_CONTRIBUTION));
     }
 
     @Override

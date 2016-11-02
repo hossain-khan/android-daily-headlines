@@ -87,7 +87,7 @@ public class ContributionInfoFragment extends GuidedStepFragment {
         // Prepare all the static info of the libraries used in the app. No need to convert them to string resource.
         //
         actions.add(buildLibraryInfo("Firebase", "Firebase is a mobile and web application platform with tools and infrastructure designed to help developers build high-quality apps."));
-        actions.add(buildLibraryInfo("Dagger", "Dagger ‡ A fast dependency injector for Android and Java."));
+        actions.add(buildLibraryInfo("Dagger", "Dagger - A fast dependency injector for Android and Java."));
         actions.add(buildLibraryInfo("RxJava", "RxJava - Reactive Extensions for the JVM"));
         actions.add(buildLibraryInfo("RxAndroid", "Reactive Extensions for Android."));
         actions.add(buildLibraryInfo("Picasso", "A powerful image downloading and caching library for Android" +

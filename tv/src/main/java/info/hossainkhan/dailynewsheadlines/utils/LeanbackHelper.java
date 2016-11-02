@@ -100,7 +100,16 @@ public final class LeanbackHelper {
         );
 
         settingsItems.add(item);
-        settingsItems.add(
+        list.add(NavigationRow.builder()
+                .title(resources.getString(R.string.settings_navigation_row_news_source_title))
+                .type(NavigationRow.TYPE_DEFAULT)
+                .cards(settingsItems)
+                .useShadow(false)
+                .build());
+
+
+        List<CardItem> infoItems = new ArrayList<>(3);
+        infoItems.add(
                 CardItem.create(
                         R.string.settings_card_item_about_app_title, // id,
                         resources.getString(R.string.settings_card_item_about_app_title), // title,
@@ -119,12 +128,32 @@ public final class LeanbackHelper {
                 )
         );
 
+        infoItems.add(
+                CardItem.create(
+                        R.string.settings_card_item_contribution_title, // id,
+                        resources.getString(R.string.settings_card_item_contribution_title), // title,
+                        null, // description,
+                        null, //extraText,
+                        null, //category,
+                        null, // dateCreated,
+                        null, // imageUrl,
+                        null, // contentUrl,
+                        R.drawable.ic_settings_contribute_github_circle, // localImageResourceId,
+                        null, // footerColor,
+                        null, // selectedColor,
+                        CardItem.Type.ICON, // type,
+                        0, // width,
+                        0 // height
+                )
+        );
+
         list.add(NavigationRow.builder()
-                .title(resources.getString(R.string.settings_navigation_row_news_source_title))
+                .title(resources.getString(R.string.settings_navigation_row_information_title))
                 .type(NavigationRow.TYPE_DEFAULT)
-                .cards(settingsItems)
+                .cards(infoItems)
                 .useShadow(false)
                 .build());
+
 
         // Add end divider
         list.add(buildNavigationDivider());

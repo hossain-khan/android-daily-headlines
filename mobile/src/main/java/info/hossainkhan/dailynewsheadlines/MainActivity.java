@@ -48,6 +48,12 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     }
 
     @Override
+    protected void onStop() {
+        mHeadlinesPresenter.detachView();
+        super.onStop();
+    }
+
+    @Override
     public void toggleLoadingIndicator(final boolean active) {
         Timber.d("toggleLoadingIndicator() called with: active = [" + active + "]");
     }
@@ -77,6 +83,11 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     @Override
     public void showAppAboutScreen() {
         Timber.d("showAppAboutScreen() called");
+    }
+
+    @Override
+    public void showAppContributionScreen() {
+        Timber.d("showAppContributionScreen() called");
     }
 
     @Override
