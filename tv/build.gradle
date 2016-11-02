@@ -11,8 +11,8 @@ android {
         applicationId "info.hossainkhan.dailynewsheadlines"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
-        versionName "1.2-tv"
+        versionCode 7
+        versionName "1.3-tv"
         versionNameSuffix "-${gitSha()}"
 
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
@@ -33,7 +33,7 @@ android {
             // Disable shrink resource because of following known issue with gradle tools 2.2.2
             // http://stackoverflow.com/questions/36540676/build-intermediates-res-resources-anzhi-debug-stripped-ap-specified-for-prope
             shrinkResources false
-            minifyEnabled true
+            minifyEnabled false // Proguard config is not customized yet.
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
