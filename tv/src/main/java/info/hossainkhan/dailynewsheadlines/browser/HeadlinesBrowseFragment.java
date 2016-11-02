@@ -159,7 +159,14 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
 
     @Override
     public void showAppAboutScreen() {
-        startActivity(DisplayInfoActivity.createStartIntent(getActivity(), DisplayInfoActivity.InfoDialogType.ABOUT_APPLICATION));
+        startActivity(DisplayInfoActivity.createStartIntent(getActivity(),
+                DisplayInfoActivity.InfoDialogType.ABOUT_APPLICATION));
+    }
+
+    @Override
+    public void showAppContributionScreen() {
+        startActivity(DisplayInfoActivity.createStartIntent(getActivity(),
+                DisplayInfoActivity.InfoDialogType.ABOUT_CONTRIBUTION));
     }
 
     @Override

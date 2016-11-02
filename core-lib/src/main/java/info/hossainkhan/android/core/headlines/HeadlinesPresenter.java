@@ -124,6 +124,9 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
             } else if(id == R.string.settings_card_item_about_app_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showAppAboutScreen();
+            } else if(id == R.string.settings_card_item_contribution_title) {
+                CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
+                getView().showAppContributionScreen();
             } else {
                 Timber.w("Unable to handle settings item: %s", cardItem.title());
             }
