@@ -33,6 +33,7 @@ import com.squareup.leakcanary.LeakCanary;
 import info.hossainkhan.android.core.analytics.AnalyticsReporter;
 import info.hossainkhan.android.core.dagger.components.AppComponent;
 import info.hossainkhan.android.core.dagger.components.DaggerAppComponent;
+import info.hossainkhan.android.core.dagger.modules.AppModule;
 import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
 import info.hossainkhan.android.core.dagger.modules.NetworkModule;
 import timber.log.Timber;
@@ -80,6 +81,7 @@ public class CoreApplication extends Application {
 
     private void initAppComponent() {
         sAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
                 .interactorsModule(new InteractorsModule())
                 .networkModule(new NetworkModule())
                 .build();
