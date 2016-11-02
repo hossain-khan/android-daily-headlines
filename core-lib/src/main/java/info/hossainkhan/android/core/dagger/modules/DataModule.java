@@ -22,47 +22,30 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.dagger.components;
+package info.hossainkhan.android.core.dagger.modules;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.squareup.picasso.Picasso;
-
 import javax.inject.Singleton;
 
-import dagger.Component;
-import info.hossainkhan.android.core.CoreApplication;
+import dagger.Module;
+import dagger.Provides;
 import info.hossainkhan.android.core.dagger.ApplicationContext;
-import info.hossainkhan.android.core.dagger.modules.AppModule;
-import info.hossainkhan.android.core.dagger.modules.DataModule;
-import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
-import info.hossainkhan.android.core.dagger.modules.NetworkModule;
-import info.hossainkhan.android.core.data.ExampleInteractor;
-import io.swagger.client.ApiClient;
 
-@Singleton
-@Component(
-        modules = {
-                AppModule.class,
-                InteractorsModule.class,
-                NetworkModule.class
-        }
-)
-public interface AppComponent {
-    void inject(CoreApplication app);
+import static android.content.Context.MODE_PRIVATE;
 
-    void inject(Activity activity);
+/**
+ * Data module for data persistence, caching and so on.
+ */
+@Module
+public class DataModule {
+    private static final String PREF_NAME_DAILY_HEADLINES = "DAILY_HEADLINES_PREF";
 
-    ExampleInteractor providesExampleInteractorImpl();
-
-    ApiClient getApiClient();
-
-    @ApplicationContext
-    Context getContext();
-//
-//    Picasso getPicasso();
-//
-//    SharedPreferences getSharedPreferences();
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences(@ApplicationContext Context context) {
+        return context.getSharedPreferences(PREF_NAME_DAILY_HEADLINES, MODE_PRIVATE);
+    }
 }

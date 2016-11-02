@@ -56,7 +56,7 @@ ext {
     targetSdkVersion = 24
     compileSdkVersion = 24
     // Android SDK Build Tools - Versions: https://developer.android.com/studio/releases/build-tools.html
-    buildToolsVersion = '24.0.2'
+    buildToolsVersion = '25.0.0'
 
     // Java Version Compatibility
     javaSourceCompatibilityVersion = JavaVersion.VERSION_1_8

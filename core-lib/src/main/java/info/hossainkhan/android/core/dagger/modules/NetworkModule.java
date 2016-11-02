@@ -25,12 +25,18 @@
 package info.hossainkhan.android.core.dagger.modules;
 
 
+import android.content.Context;
+
+import com.squareup.picasso.Picasso;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import info.hossainkhan.android.core.dagger.ApplicationContext;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.StoriesApi;
+import timber.log.Timber;
 
 @Module
 public class NetworkModule {
@@ -46,5 +52,14 @@ public class NetworkModule {
     @Provides
     public StoriesApi provideStoriesApi(ApiClient apiClient) {
         return apiClient.createService(StoriesApi.class);
+    }
+
+    @Provides
+    @Singleton
+    Picasso providePicasso(@ApplicationContext Context context) {
+        return new Picasso.Builder(context)
+                .loggingEnabled(true) // Investigate why library's BuildConfig flag is not set properly.
+                .listener((picasso, uri, e) -> Timber.e(e, "Failed to load image: %s", uri))
+                .build();
     }
 }
