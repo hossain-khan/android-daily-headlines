@@ -44,6 +44,7 @@ import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsProvider;
 import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
 import info.hossainkhan.dailynewsheadlines.R;
+import info.hossainkhan.dailynewsheadlines.about.DisplayInfoActivity;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.details.HeadlinesDetailsActivity;
@@ -153,6 +154,11 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     @Override
     public void showDataNotAvailable() {
         Timber.d("showDataNotAvailable() called");
+    }
+
+    @Override
+    public void showAppAboutScreen() {
+        startActivity(DisplayInfoActivity.createStartIntent(getActivity(), DisplayInfoActivity.InfoDialogType.ABOUT_APPLICATION));
     }
 
     @Override

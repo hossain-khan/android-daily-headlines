@@ -75,6 +75,11 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     }
 
     @Override
+    public void showAppAboutScreen() {
+        Timber.d("showAppAboutScreen() called");
+    }
+
+    @Override
     public void showAppSettingsScreen() {
         Timber.d("showAppSettingsScreen() called");
     }

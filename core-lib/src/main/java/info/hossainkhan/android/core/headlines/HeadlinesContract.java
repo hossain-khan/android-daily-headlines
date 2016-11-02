@@ -62,6 +62,8 @@ public interface HeadlinesContract {
          * Show empty data state.
          */
         void showDataNotAvailable();
+
+        void showAppAboutScreen();
     }
 
     interface Presenter extends MvpPresenter<HeadlinesContract.View> {

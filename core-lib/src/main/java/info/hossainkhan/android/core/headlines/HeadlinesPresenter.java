@@ -196,8 +196,11 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         CardItem.Type type = cardItem.type();
         if (type == CardItem.Type.ICON) {
             if (id == R.string.settings_card_item_news_source_title) {
-                CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(R.string.settings_card_item_news_source_title));
+                CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showAppSettingsScreen();
+            } else if(id == R.string.settings_card_item_about_app_title) {
+                CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
+                getView().showAppAboutScreen();
             } else {
                 Timber.w("Unable to handle settings item: %s", cardItem.title());
             }

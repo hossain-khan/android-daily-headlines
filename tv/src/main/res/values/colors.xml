@@ -71,4 +71,9 @@
     <color name="default_card_background_color">#88263238</color>
     <color name="default_card_footer_background_color">#ee37474F</color>
     <color name="selected_card_footer_background_color">#00897B</color>
+
+    <!--
+        Information View
+    -->
+    <color name="information_card_background_color">#9937474F</color>
 </resources>
