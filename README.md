@@ -6,6 +6,10 @@ An app that provides daily headlines from popular news source.
 
 Initial planning stage, main goal is to create simple app with news source title '**only**' to keep it simple. This app is meant to take a glance through the headlines quickly with possible option to view details of the story _(future version)_.
 
+## Building and Contribution Guide
+App uses gradle, follow [firebase android](https://firebase.google.com/docs/android/setup) setup guide to get `google-services.json` and drop them in both **mobile** and **tv** module.
+
+Contribution is welcome via :octocat: pull-request. Checkout open issue to get pointer on what you can help us with :thumbsup:
 
 ## Goal and Status
 
