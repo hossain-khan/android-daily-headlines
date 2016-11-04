@@ -1,0 +1,43 @@
+{
+  "project_info": {
+	"WARNING": "THIS IS TEST FILE, YOU SHOULD GENERATE YOUR CONFIG FROM https://firebase.google.com/docs/android/setup",  
+    "project_number": "123456789",
+    "firebase_url": "https://YOUR-GENERATED-PATH.firebaseio.com",
+    "project_id": "YOUR-GENERATED-ID-FROM-services.json",
+    "storage_bucket": "YOUR-GENERATED-CONTENT-FROM-services.json"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738300055459:android:733b1b4c8f216cc7",
+        "android_client_info": {
+          "package_name": "info.hossainkhan.dailynewsheadlines"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "738300055459-f1he2moe6nohed9uk2lee703snqheo5d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "GENERATE-YOUR-OWN-google-services.json"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
