@@ -1,9 +1,10 @@
 {
   "project_info": {
-    "project_number": "738300055459",
-    "firebase_url": "https://daily-headlines-e7091.firebaseio.com",
-    "project_id": "daily-headlines-e7091",
-    "storage_bucket": "daily-headlines-e7091.appspot.com"
+	"WARNING": "THIS IS TEST FILE, YOU SHOULD GENERATE YOUR CONFIG FROM https://firebase.google.com/docs/android/setup",  
+    "project_number": "123456789",
+    "firebase_url": "https://YOUR-GENERATED-PATH.firebaseio.com",
+    "project_id": "YOUR-GENERATED-ID-FROM-services.json",
+    "storage_bucket": "YOUR-GENERATED-CONTENT-FROM-services.json"
   },
   "client": [
     {
@@ -21,7 +22,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC2HAlZyYo0qc-ZJ6TYyFz2AskypYxPLYQ"
+          "current_key": "GENERATE-YOUR-OWN-google-services.json"
         }
       ],
       "services": {
