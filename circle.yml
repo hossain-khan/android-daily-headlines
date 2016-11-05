@@ -18,4 +18,3 @@ dependencies:
 test:
     override:
         - ./gradlew assembleDebug
-        - cp -r android-daily-headlines/build/outputs $CIRCLE_ARTIFACTS
