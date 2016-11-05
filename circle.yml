@@ -14,3 +14,8 @@ dependencies:
         - echo y | android update sdk --no-ui --all --filter "extra-google-google_play_services"
         - echo y | android update sdk --no-ui --all --filter "extra-android-support"
         - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
+
+test:
+    override:
+        - ./gradlew assembleDebug
+        - cp -r android-daily-headlines/build/outputs $CIRCLE_ARTIFACTS
