@@ -93,4 +93,5 @@ ext {
     leakcanaryLibraryVersion = '1.5'
     autoValueLibraryVersion = '1.2'
     autoValueExtentionGsonVersion = '0.4.2'
+    pkrssLibraryVersion = '1.2' // NOTE: Use new version on https://github.com/Pkmmte/PkRSS/issues/31 is addressed.
 }
