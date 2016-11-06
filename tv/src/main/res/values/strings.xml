@@ -10,6 +10,7 @@
     <string name="done">Done</string>
     <string name="description_close_current_info_screen">Closes current information screen.</string>
     <string name="loading">Loading&#8230;</string>
+    <string name="processing">Processinig&#8230;</string>
     <string name="no_content_found">No content was found</string>
     <string name="version">Version: %1$s</string>
 
@@ -67,4 +68,6 @@
     <string name="add_news_source_feed_input_url">Enter RSS or Atom feed URL</string>
     <string name="add_news_source_feed_input_name_empty_error">Please provide a frienly name to this news source.</string>
     <string name="add_news_source_feed_input_invalid_url_error">A valid URL is required to get news from the source.</string>
+    <string name="add_news_source_feed_validating_progress_title">Validating news source</string>
+    <string name="add_news_source_feed_validating_progress_description">Please wait while we validate %s has news data.</string>
 </resources>

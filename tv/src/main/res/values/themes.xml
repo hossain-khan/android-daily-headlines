@@ -58,4 +58,8 @@
         <!--<item name="guidedActionsBackgroundDark">@color/background_gradient_end</item>-->
         <item name="guidedActionDescriptionMinLines">@integer/info_dialog_guidedactions_item_description_min_lines</item>
     </style>
+
+    <style name="Theme.Headlines.Leanback.GuidedStep.InformationDialog.NoSelector">
+        <item name="guidedActionsSelectorDrawable">@null</item>
+    </style>
 </resources>
