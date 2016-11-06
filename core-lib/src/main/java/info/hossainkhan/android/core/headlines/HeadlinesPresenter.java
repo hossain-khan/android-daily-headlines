@@ -65,12 +65,43 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
             else {
                 // In future need to support RSS/ATOM based provider loading
                 Timber.w("Unsupported news provider: %s", newsProvider);
+                loadRssFeedHeadlines(newsProvider);
             }
         }
 
     }
 
+    private void loadRssFeedHeadlines(final NewsProvider newsProvider) {
+        Timber.d("loadRssFeedHeadlines() called with: newsProvider = [" + newsProvider + "]");
+        getView().toggleLoadingIndicator(true);
+        Subscription subscription = newsProvider.getNewsObservable()
+                .subscribe(new Subscriber<List<NavigationRow>>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("onCompleted() called");
+                        getView().toggleLoadingIndicator(false);
+                    }
+
+                    @Override
+                    public void onError(final Throwable e) {
+                        Timber.e(e, "Failed to load responses.");
+                        getView().toggleLoadingIndicator(false);
+
+                        getView().showDataLoadingError();
+                        CoreApplication.getAnalyticsReporter().reportHeadlineLoadingError();
+                        FirebaseCrash.report(e);
+                    }
+
+                    @Override
+                    public void onNext(final List<NavigationRow> navigationRows) {
+                        getView().showHeadlines(navigationRows);
+                    }
+                });
+        addSubscription(subscription);
+    }
+
     private void loadNyTimesHeadlines(final NewsProvider newsProvider) {
+        Timber.d("loadNyTimesHeadlines() called with: newsProvider = [" + newsProvider + "]");
         getView().toggleLoadingIndicator(true);
         Subscription subscription = newsProvider.getNewsObservable()
                 .subscribe(new Subscriber<List<NavigationRow>>() {
