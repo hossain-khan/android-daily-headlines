@@ -6,7 +6,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -16,10 +15,7 @@ import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
-import info.hossainkhan.android.core.model.NewsProvider;
-import info.hossainkhan.android.core.newsprovider.AndroidPoliceFeedNewsProvider;
-import info.hossainkhan.android.core.newsprovider.Nine2FiveFeedNewsProvider;
-import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
+import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements HeadlinesContract.View {
@@ -39,12 +35,9 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
         ButterKnife.bind(this);
 
         // TODO use DI to inject
-        List<NewsProvider> providers = new ArrayList<>(5);
-        providers.add(new NyTimesNewsProvider());
         Context context = getApplicationContext();
-        providers.add(new AndroidPoliceFeedNewsProvider(context));
-        providers.add(new Nine2FiveFeedNewsProvider(context));
-        mHeadlinesPresenter = new HeadlinesPresenter(context, this, providers);
+        NewsProviderManager newsProviderManager = new NewsProviderManager(context);
+        mHeadlinesPresenter = new HeadlinesPresenter(context, this, newsProviderManager);
     }
 
     @Override

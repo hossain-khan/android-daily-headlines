@@ -34,17 +34,13 @@ import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
-import info.hossainkhan.android.core.model.NewsProvider;
-import info.hossainkhan.android.core.newsprovider.AndroidPoliceFeedNewsProvider;
-import info.hossainkhan.android.core.newsprovider.Nine2FiveFeedNewsProvider;
-import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
+import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.about.DisplayInfoActivity;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
@@ -86,11 +82,8 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         setupUIElements();
 
 
-        List<NewsProvider> providers = new ArrayList<>(5);
-        providers.add(new NyTimesNewsProvider());
-        providers.add(new AndroidPoliceFeedNewsProvider(mApplicationContext));
-        providers.add(new Nine2FiveFeedNewsProvider(mApplicationContext));
-        mHeadlinesPresenter = new HeadlinesPresenter(mApplicationContext, this, providers);
+        NewsProviderManager newsProviderManager = new NewsProviderManager(mApplicationContext);
+        mHeadlinesPresenter = new HeadlinesPresenter(mApplicationContext, this, newsProviderManager);
     }
 
     @Override
