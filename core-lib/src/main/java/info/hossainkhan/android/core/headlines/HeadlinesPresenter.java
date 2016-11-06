@@ -37,7 +37,7 @@ import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
-import info.hossainkhan.android.core.model.NewsProvider;
+import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -48,31 +48,24 @@ import timber.log.Timber;
 
 public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
 
-    private final List<NewsProvider> mNewsProviders;
+    private final NewsProviderManager mNewsProviderManager;
     private final Context mContext;
 
-    public HeadlinesPresenter(final Context context, final HeadlinesContract.View view, final List<NewsProvider>
-            newsProviders) {
+    public HeadlinesPresenter(final Context context, final HeadlinesContract.View view,
+                              final NewsProviderManager newsProviderManager) {
         attachView(view);
         mContext = context;
-        mNewsProviders = newsProviders;
+        mNewsProviderManager = newsProviderManager;
         loadHeadlines(false);
     }
 
     @Override
     public void loadHeadlines(final boolean forceUpdate) {
-
-        // Prepares list of observables to merge them together.
-        List<Observable<List<NavigationRow>>> list = new ArrayList<>();
-        for (final NewsProvider newsProvider : mNewsProviders) {
-            list.add(newsProvider.getNewsObservable());
-        }
-
         // List that is finally returned to UI
         final List<NavigationRow> navigationRowList = new ArrayList<>();
 
         Subscription subscription = Observable
-                .mergeDelayError(list)
+                .mergeDelayError(mNewsProviderManager.getProviderObservable())
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<NavigationRow>>() {
