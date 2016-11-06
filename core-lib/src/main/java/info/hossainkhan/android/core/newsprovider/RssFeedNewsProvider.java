@@ -58,7 +58,7 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
     /**
      * @return The RSS/Atom feed URL for the news provider.
      */
-    abstract String getFeedUrl();
+    public abstract String getFeedUrl();
 
     public RssFeedNewsProvider(final Context context) {
         this.mContext = context;

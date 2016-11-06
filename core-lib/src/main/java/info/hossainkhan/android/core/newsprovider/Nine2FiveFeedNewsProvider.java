@@ -35,7 +35,7 @@ import info.hossainkhan.android.core.model.NewsSource;
  * News source for 9to5mac.
  */
 public class Nine2FiveFeedNewsProvider extends RssFeedNewsProvider {
-    public static final String FEED_URL = "https://9to5mac.com/feed/";
+    private static final String FEED_URL = "https://9to5mac.com/feed/";
     private NewsSource mNewsSource = NewsSource.create(
             "9to5mac",
             "9to5 Mac",
@@ -49,7 +49,7 @@ public class Nine2FiveFeedNewsProvider extends RssFeedNewsProvider {
     }
 
     @Override
-    String getFeedUrl() {
+    public String getFeedUrl() {
         return FEED_URL;
     }
 

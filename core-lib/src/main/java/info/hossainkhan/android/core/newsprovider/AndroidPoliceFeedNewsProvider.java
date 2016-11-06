@@ -48,7 +48,7 @@ public class AndroidPoliceFeedNewsProvider extends RssFeedNewsProvider {
     }
 
     @Override
-    String getFeedUrl() {
+    public String getFeedUrl() {
         return FEED_URL;
     }
 
