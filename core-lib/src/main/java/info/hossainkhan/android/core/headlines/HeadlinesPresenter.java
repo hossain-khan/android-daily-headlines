@@ -29,6 +29,7 @@ import android.support.annotation.NonNull;
 
 import com.google.firebase.crash.FirebaseCrash;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
@@ -37,9 +38,11 @@ import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsProvider;
-import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 
@@ -58,26 +61,26 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
     @Override
     public void loadHeadlines(final boolean forceUpdate) {
+
+        // Prepares list of observables to merge them together.
+        List<Observable<List<NavigationRow>>> list = new ArrayList<>();
         for (final NewsProvider newsProvider : mNewsProviders) {
-            if(NyTimesNewsProvider.PROVIDER_ID_NYTIMES.equals(newsProvider.getNewsSource().id())) {
-                loadNyTimesHeadlines(newsProvider);
-            }
-            else {
-                // In future need to support RSS/ATOM based provider loading
-                Timber.w("Unsupported news provider: %s", newsProvider);
-            }
+            list.add(newsProvider.getNewsObservable());
         }
 
-    }
+        // List that is finally returned to UI
+        final List<NavigationRow> navigationRowList = new ArrayList<>();
 
-    private void loadNyTimesHeadlines(final NewsProvider newsProvider) {
-        getView().toggleLoadingIndicator(true);
-        Subscription subscription = newsProvider.getNewsObservable()
+        Subscription subscription = Observable
+                .mergeDelayError(list)
+                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<NavigationRow>>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("onCompleted() called");
                         getView().toggleLoadingIndicator(false);
+                        getView().showHeadlines(navigationRowList);
                     }
 
                     @Override
@@ -92,7 +95,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
                     @Override
                     public void onNext(final List<NavigationRow> navigationRows) {
-                        getView().showHeadlines(navigationRows);
+                        navigationRowList.addAll(navigationRows);
                     }
                 });
         addSubscription(subscription);

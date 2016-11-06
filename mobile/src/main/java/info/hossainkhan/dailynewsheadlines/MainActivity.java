@@ -1,5 +1,6 @@
 package info.hossainkhan.dailynewsheadlines;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,8 @@ import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsProvider;
+import info.hossainkhan.android.core.newsprovider.AndroidPoliceFeedNewsProvider;
+import info.hossainkhan.android.core.newsprovider.Nine2FiveFeedNewsProvider;
 import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
 import timber.log.Timber;
 
@@ -36,9 +39,12 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
         ButterKnife.bind(this);
 
         // TODO use DI to inject
-        List<NewsProvider> providers = new ArrayList<>(2);
+        List<NewsProvider> providers = new ArrayList<>(5);
         providers.add(new NyTimesNewsProvider());
-        mHeadlinesPresenter = new HeadlinesPresenter(getApplicationContext(), this, providers);
+        Context context = getApplicationContext();
+        providers.add(new AndroidPoliceFeedNewsProvider(context));
+        providers.add(new Nine2FiveFeedNewsProvider(context));
+        mHeadlinesPresenter = new HeadlinesPresenter(context, this, providers);
     }
 
     @Override
