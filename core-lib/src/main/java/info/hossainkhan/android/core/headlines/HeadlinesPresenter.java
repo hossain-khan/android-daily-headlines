@@ -117,6 +117,9 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
             if (id == R.string.settings_card_item_news_source_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showAppSettingsScreen();
+            } else if (id == R.string.settings_card_item_add_news_source_feed_title) {
+                CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
+                getView().showAddNewsSourceScreen();
             } else if(id == R.string.settings_card_item_about_app_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showAppAboutScreen();

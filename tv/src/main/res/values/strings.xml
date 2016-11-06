@@ -61,4 +61,10 @@
     <string name="how_to_contribute_title">Contribution</string>
     <string name="how_to_contribute_description">This is an open-source project, where you can contribute by
         providing your ideas, or reporting any issues you may have encountered.</string>
+    <string name="add_news_source_feed_guidance_title">Add News Feed</string>
+    <string name="add_news_source_feed_guidance_description">Enter news source RSS or ATOM feed URL.</string>
+    <string name="add_news_source_feed_input_name">News Source Name</string>
+    <string name="add_news_source_feed_input_url">Enter RSS or Atom feed URL</string>
+    <string name="add_news_source_feed_input_name_empty_error">Please provide a frienly name to this news source.</string>
+    <string name="add_news_source_feed_input_invalid_url_error">A valid URL is required to get news from the source.</string>
 </resources>

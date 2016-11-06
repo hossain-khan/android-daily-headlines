@@ -25,6 +25,7 @@
 package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.pkmmte.pkrss.Article;
@@ -125,6 +126,9 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
             int tagsSize = tags.size();
             tags = tags.subList(0, (tagsSize > MAX_TAGS) ? MAX_TAGS : tagsSize);
 
+            Uri image = article.getImage();
+            Uri source = article.getSource();
+
             cardItems.add(
                     CardItem.create(
                             article.getId(), // id,
@@ -133,8 +137,8 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
                             article.getContent(), //extraText,
                             TextUtils.join(", ", tags), //category,
                             ISODateTimeFormat.dateTime().print(article.getDate()), // dateCreated,
-                            article.getImage().toString(), // imageUrl,
-                            article.getSource().toString(), // contentUrl,
+                            (image != null) ? image.toString() : null, // imageUrl,
+                            (source != null) ? source.toString() : null, // contentUrl,
                             0, // localImageResourceId,
                             null, // footerColor,
                             null, // selectedColor,
