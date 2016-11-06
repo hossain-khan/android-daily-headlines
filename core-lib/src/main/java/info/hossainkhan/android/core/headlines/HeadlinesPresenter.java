@@ -41,6 +41,8 @@ import info.hossainkhan.android.core.model.NewsProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 
@@ -60,21 +62,25 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     @Override
     public void loadHeadlines(final boolean forceUpdate) {
 
+        // Prepares list of observables to merge them together.
         List<Observable<List<NavigationRow>>> list = new ArrayList<>();
-
-        final List<NavigationRow> allNavs = new ArrayList<>();
-
         for (final NewsProvider newsProvider : mNewsProviders) {
             list.add(newsProvider.getNewsObservable());
         }
 
-        Subscription subscription = Observable.mergeDelayError(list)
+        // List that is finally returned to UI
+        final List<NavigationRow> navigationRowList = new ArrayList<>();
+
+        Subscription subscription = Observable
+                .mergeDelayError(list)
+                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<NavigationRow>>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("onCompleted() called");
                         getView().toggleLoadingIndicator(false);
-                        getView().showHeadlines(allNavs);
+                        getView().showHeadlines(navigationRowList);
                     }
 
                     @Override
@@ -89,65 +95,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
                     @Override
                     public void onNext(final List<NavigationRow> navigationRows) {
-                        allNavs.addAll(navigationRows);
-                    }
-                });
-        addSubscription(subscription);
-    }
-
-    private void loadRssFeedHeadlines(final NewsProvider newsProvider) {
-        Timber.d("loadRssFeedHeadlines() called with: newsProvider = [" + newsProvider + "]");
-        getView().toggleLoadingIndicator(true);
-        Subscription subscription = newsProvider.getNewsObservable()
-                .subscribe(new Subscriber<List<NavigationRow>>() {
-                    @Override
-                    public void onCompleted() {
-                        Timber.d("onCompleted() called");
-                        getView().toggleLoadingIndicator(false);
-                    }
-
-                    @Override
-                    public void onError(final Throwable e) {
-                        Timber.e(e, "Failed to load responses.");
-                        getView().toggleLoadingIndicator(false);
-
-                        getView().showDataLoadingError();
-                        CoreApplication.getAnalyticsReporter().reportHeadlineLoadingError();
-                        FirebaseCrash.report(e);
-                    }
-
-                    @Override
-                    public void onNext(final List<NavigationRow> navigationRows) {
-                        getView().showHeadlines(navigationRows);
-                    }
-                });
-        addSubscription(subscription);
-    }
-
-    private void loadNyTimesHeadlines(final NewsProvider newsProvider) {
-        Timber.d("loadNyTimesHeadlines() called with: newsProvider = [" + newsProvider + "]");
-        getView().toggleLoadingIndicator(true);
-        Subscription subscription = newsProvider.getNewsObservable()
-                .subscribe(new Subscriber<List<NavigationRow>>() {
-                    @Override
-                    public void onCompleted() {
-                        Timber.d("onCompleted() called");
-                        getView().toggleLoadingIndicator(false);
-                    }
-
-                    @Override
-                    public void onError(final Throwable e) {
-                        Timber.e(e, "Failed to load responses.");
-                        getView().toggleLoadingIndicator(false);
-
-                        getView().showDataLoadingError();
-                        CoreApplication.getAnalyticsReporter().reportHeadlineLoadingError();
-                        FirebaseCrash.report(e);
-                    }
-
-                    @Override
-                    public void onNext(final List<NavigationRow> navigationRows) {
-                        getView().showHeadlines(navigationRows);
+                        navigationRowList.addAll(navigationRows);
                     }
                 });
         addSubscription(subscription);

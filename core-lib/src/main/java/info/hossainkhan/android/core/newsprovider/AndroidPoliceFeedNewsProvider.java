@@ -34,8 +34,12 @@ import info.hossainkhan.android.core.model.NewsSource;
  * Android Police news provider using RSS feed.
  */
 public class AndroidPoliceFeedNewsProvider extends RssFeedNewsProvider {
-    private static final String ANDROID_POLICE_FEED_URL = "http://feeds.feedburner.com/AndroidPolice";
-    private NewsSource mNewsSource = NewsSource.create("android_police", "Android Police", "Desc", "http://www.androidpolice.com/",
+    private static final String FEED_URL = "http://feeds.feedburner.com/AndroidPolice";
+    private NewsSource mNewsSource = NewsSource.create(
+            "android_police",
+            "Android Police",
+            "Android Police is a blog dedicated to everything related to Android. We hope you enjoy our writing and subscribe to updates using the buttons on the right.",
+            "http://www.androidpolice.com/",
             "http://www.androidpolice.com/wp-content/themes/ap2/images/android-police-logo-ns.png?nocache=1",
             TimeUnit.HOURS.toSeconds(24));
 
@@ -45,7 +49,7 @@ public class AndroidPoliceFeedNewsProvider extends RssFeedNewsProvider {
 
     @Override
     String getFeedUrl() {
-        return ANDROID_POLICE_FEED_URL;
+        return FEED_URL;
     }
 
     @Override
