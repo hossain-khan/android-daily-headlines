@@ -41,7 +41,10 @@
         your headlines.</string>
     <string name="error_msg_unable_to_load_content">Sorry, could not load headlines.</string>
     <string name="error_msg_feed_url_failed_loading">Unable to load RSS/Atom URL provided.\nPlease double check and try again.</string>
-    <string name="error_msg_feed_url_not_enough_items">Successfully loaded URL contents, but unfortuantly it does not provide any news items.\nCurrently received total %d items.</string>
+    <string name="error_msg_feed_url_not_enough_items">Successfully loaded URL contents, but unfortunately it does not
+        provide any news items.\nCurrently received total %d items.
+        \n\nPlease try updating URL with correct data.
+    </string>
     <string name="dismiss_error">Dismiss</string>
     <string name="oops">Oops</string>
     <string name="general_item_enabled">Enabled</string>

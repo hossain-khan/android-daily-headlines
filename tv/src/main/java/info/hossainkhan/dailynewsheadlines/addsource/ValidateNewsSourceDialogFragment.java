@@ -30,6 +30,7 @@ import android.support.v17.leanback.app.GuidedStepFragment;
 import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
 import android.support.v17.leanback.widget.GuidedActionsStylist;
+import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
 import com.pkmmte.pkrss.Article;
@@ -39,6 +40,7 @@ import com.pkmmte.pkrss.PkRSS;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreConfig;
+import info.hossainkhan.android.core.util.PreferenceUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 
 /**
@@ -129,7 +131,7 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
     private void onValidationFailed(final String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 
-        finishGuidedStepFragments();
+        popBackStackToGuidedStepFragment(ValidateNewsSourceDialogFragment.class, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     //
@@ -148,6 +150,8 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
         if(totalFeedItems < CoreConfig.MINIMUM_FEED_ITEM_REQUIRED) {
             onValidationFailed(getString(R.string.error_msg_feed_url_not_enough_items, totalFeedItems));
         } else {
+            PreferenceUtils.saveFeedUrl(getActivity(), mNewsSourceUrl);
+
             // Save it and finish
             finishGuidedStepFragments();
         }

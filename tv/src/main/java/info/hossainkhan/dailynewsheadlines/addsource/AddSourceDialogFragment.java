@@ -107,7 +107,6 @@ public class AddSourceDialogFragment extends GuidedStepFragment {
     @Override
     public void onGuidedActionClicked(GuidedAction action) {
         if (GuidedAction.ACTION_ID_OK == action.getId()) {
-            Toast.makeText(getActivity(), "OKAY", Toast.LENGTH_SHORT).show();
             String name = findActionById(ACTION_ID_SOURCE_NAME).getEditTitle().toString();
             String url = findActionById(ACTION_ID_SOURCE_FEED_URL).getEditTitle().toString();
             GuidedStepFragment fragment = ValidateNewsSourceDialogFragment.newInstance(name, url);

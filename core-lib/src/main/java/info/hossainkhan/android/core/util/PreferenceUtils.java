@@ -37,6 +37,7 @@ import timber.log.Timber;
  * Util for dealing to application preference.
  */
 public class PreferenceUtils {
+    private static final String PREF_KEY_FEED_URL = "KEY_app_feed_url";
     private static final String PREF_KEY_ONBOARDING_COMPLETED = "KEY_app_onboarding_completed";
     private static final String PREF_KEY_ONBOARDING_COMPLETE_TIMESTAMP = "KEY_app_onboarding_complete_timestamp";
     /**
@@ -44,6 +45,18 @@ public class PreferenceUtils {
      * re-launch the onboarding based on major feature.
      */
     private static final String PREF_KEY_ONBOARDING_COMPLETE_VERSION = "KEY_app_onboarding_complete_version_code";
+
+    public static String getFeedUrl(final Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(PREF_KEY_FEED_URL, null);
+    }
+
+    public static void saveFeedUrl(final Context context, String url) {
+        SharedPreferences.Editor preferencesEditor =
+                PreferenceManager.getDefaultSharedPreferences(context).edit();
+        preferencesEditor.putString(PREF_KEY_FEED_URL, url);
+        preferencesEditor.apply();
+    }
 
     public static boolean isOnBoardingCompleted(final Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
