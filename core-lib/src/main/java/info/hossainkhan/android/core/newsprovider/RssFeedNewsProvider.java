@@ -25,6 +25,7 @@
 package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.pkmmte.pkrss.Article;
 import com.pkmmte.pkrss.PkRSS;
@@ -33,7 +34,6 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -117,14 +117,21 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
     private List<CardItem> convertArticleToCardItems(final List<Article> articleList) {
         List<CardItem> cardItems = new ArrayList<>(articleList.size());
 
+        int MAX_TAGS = 3;
         for (final Article article : articleList) {
+
+            // Reduce tags for UI space limitation
+            List<String> tags = article.getTags();
+            int tagsSize = tags.size();
+            tags = tags.subList(0, (tagsSize > MAX_TAGS) ? MAX_TAGS : tagsSize);
+
             cardItems.add(
                     CardItem.create(
                             article.getId(), // id,
                             article.getTitle(), // title,
                             article.getDescription(), // description,
                             article.getContent(), //extraText,
-                            Arrays.toString(article.getTags().toArray()), //category,
+                            TextUtils.join(", ", tags), //category,
                             ISODateTimeFormat.dateTime().print(article.getDate()), // dateCreated,
                             article.getImage().toString(), // imageUrl,
                             article.getSource().toString(), // contentUrl,
