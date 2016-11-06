@@ -25,15 +25,20 @@
 package info.hossainkhan.dailynewsheadlines.addsource;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
 import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
 import android.support.v17.leanback.widget.GuidedActionsStylist;
+import android.widget.Toast;
+
+import com.pkmmte.pkrss.Article;
+import com.pkmmte.pkrss.Callback;
+import com.pkmmte.pkrss.PkRSS;
 
 import java.util.List;
 
+import info.hossainkhan.android.core.CoreConfig;
 import info.hossainkhan.dailynewsheadlines.R;
 
 /**
@@ -41,13 +46,14 @@ import info.hossainkhan.dailynewsheadlines.R;
  * the server to process the rental. The server communication is faked for the sake of this example
  * by waiting four seconds until continuing.
  */
-public class ValidateNewsSourceDialogFragment extends GuidedStepFragment {
+public class ValidateNewsSourceDialogFragment extends GuidedStepFragment implements Callback {
 
     private static final int ACTION_ID_PROCESSING = 1;
-    private final Handler mFakeHttpHandler = new Handler();
 
     private static final String BUNDLE_ARG_SOURCE_TITLE = "BUNDLE_KEY_TITLE";
     private static final String BUNDLE_ARG_SOURCE_URL = "BUNDLE_KEY_NEWS_SOURCE_URL";
+    private String mNewsSourceUrl;
+    private String mNewsSourceTitle;
 
 
     /**
@@ -72,8 +78,10 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment {
     public void onStart() {
         super.onStart();
 
-        // Fake Http call by creating some sort of delay.
-        mFakeHttpHandler.postDelayed(fakeHttpRequestRunnable, 4000L);
+        PkRSS.with(getActivity().getApplicationContext())
+                .load(mNewsSourceUrl)
+                .callback(this)
+                .async();
     }
 
     @Override
@@ -93,25 +101,18 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment {
         return R.style.Theme_Headlines_Leanback_GuidedStep_InformationDialog_NoSelector;
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // Make sure to cancel the execution of the Runnable in case the fragment is stopped.
-        mFakeHttpHandler.removeCallbacks(fakeHttpRequestRunnable);
-    }
 
     @NonNull
     @Override
     public GuidanceStylist.Guidance onCreateGuidance(Bundle savedInstanceState) {
         Bundle arguments = getArguments();
-        String newsSourceTitle = arguments.getString(BUNDLE_ARG_SOURCE_TITLE);
-        String newsSourceUrl = arguments.getString(BUNDLE_ARG_SOURCE_URL);
+        mNewsSourceTitle = arguments.getString(BUNDLE_ARG_SOURCE_TITLE);
+        mNewsSourceUrl = arguments.getString(BUNDLE_ARG_SOURCE_URL);
 
         GuidanceStylist.Guidance guidance = new GuidanceStylist.Guidance(
                 getString(R.string.add_news_source_feed_validating_progress_title),
-                getString(R.string.add_news_source_feed_validating_progress_description, newsSourceUrl),
-                newsSourceTitle, null);
+                getString(R.string.add_news_source_feed_validating_progress_description, mNewsSourceUrl),
+                mNewsSourceTitle, null);
         return guidance;
     }
 
@@ -125,11 +126,35 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment {
         actions.add(action);
     }
 
-    private final Runnable fakeHttpRequestRunnable = new Runnable() {
-        @Override
-        public void run() {
-            // DO SOMETHING ON VALIDATIOn
-        }
-    };
+    private void onValidationFailed(final String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 
+        finishGuidedStepFragments();
+    }
+
+    //
+    // com.pkmmte.pkrss.Callback
+    //
+
+    @Override
+    public void onPreload() {
+        // do nothing, already showing progress dialog
+    }
+
+    @Override
+    public void onLoaded(final List<Article> list) {
+        // Show loaded x items and add to news source list.
+        int totalFeedItems = list.size();
+        if(totalFeedItems < CoreConfig.MINIMUM_FEED_ITEM_REQUIRED) {
+            onValidationFailed(getString(R.string.error_msg_feed_url_not_enough_items, totalFeedItems));
+        } else {
+            // Save it and finish
+            finishGuidedStepFragments();
+        }
+    }
+
+    @Override
+    public void onLoadFailed() {
+        onValidationFailed(getString(R.string.error_msg_feed_url_failed_loading));
+    }
 }

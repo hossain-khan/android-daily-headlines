@@ -41,6 +41,7 @@
     <color name="orange_transparent">#AAFADCA7</color>
     <color name="orange">#FADCA7</color>
     <color name="yellow">#EEFF41</color>
+    <color name="progress_indicator_tint">#00796B</color>
 
     <!-- Navigation Sidebar on Headline Browser -->
     <color name="fastlane_background">#37474F</color>
