@@ -29,6 +29,7 @@ import android.support.annotation.NonNull;
 
 import com.google.firebase.crash.FirebaseCrash;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
@@ -37,7 +38,7 @@ import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsProvider;
-import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import timber.log.Timber;
@@ -58,17 +59,40 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
     @Override
     public void loadHeadlines(final boolean forceUpdate) {
+
+        List<Observable<List<NavigationRow>>> list = new ArrayList<>();
+
+        final List<NavigationRow> allNavs = new ArrayList<>();
+
         for (final NewsProvider newsProvider : mNewsProviders) {
-            if(NyTimesNewsProvider.PROVIDER_ID_NYTIMES.equals(newsProvider.getNewsSource().id())) {
-                loadNyTimesHeadlines(newsProvider);
-            }
-            else {
-                // In future need to support RSS/ATOM based provider loading
-                Timber.w("Unsupported news provider: %s", newsProvider);
-                loadRssFeedHeadlines(newsProvider);
-            }
+            list.add(newsProvider.getNewsObservable());
         }
 
+        Subscription subscription = Observable.mergeDelayError(list)
+                .subscribe(new Subscriber<List<NavigationRow>>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("onCompleted() called");
+                        getView().toggleLoadingIndicator(false);
+                        getView().showHeadlines(allNavs);
+                    }
+
+                    @Override
+                    public void onError(final Throwable e) {
+                        Timber.e(e, "Failed to load responses.");
+                        getView().toggleLoadingIndicator(false);
+
+                        getView().showDataLoadingError();
+                        CoreApplication.getAnalyticsReporter().reportHeadlineLoadingError();
+                        FirebaseCrash.report(e);
+                    }
+
+                    @Override
+                    public void onNext(final List<NavigationRow> navigationRows) {
+                        allNavs.addAll(navigationRows);
+                    }
+                });
+        addSubscription(subscription);
     }
 
     private void loadRssFeedHeadlines(final NewsProvider newsProvider) {

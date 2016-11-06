@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
         ButterKnife.bind(this);
 
         // TODO use DI to inject
-        List<NewsProvider> providers = new ArrayList<>(2);
+        List<NewsProvider> providers = new ArrayList<>(5);
         providers.add(new NyTimesNewsProvider());
         Context context = getApplicationContext();
         providers.add(new AndroidPoliceFeedNewsProvider(context));
