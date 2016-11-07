@@ -54,8 +54,12 @@
         <!-- background applied to each GuidedStepFragment by default-->
         <item name="guidedStepBackground">@drawable/default_background</item>
 
-        <item name="guidedActionsBackground">@color/fastlane_background</item>
-        <!--<item name="guidedActionsBackgroundDark">@color/background_gradient_end</item>-->
+        <item name="guidedActionsBackground">@color/headlines_dialog_main_actions_background</item>
+        <item name="guidedActionsBackgroundDark">@color/headlines_dialog_subactions_background</item>
         <item name="guidedActionDescriptionMinLines">@integer/info_dialog_guidedactions_item_description_min_lines</item>
+    </style>
+
+    <style name="Theme.Headlines.Leanback.GuidedStep.InformationDialog.NoSelector">
+        <item name="guidedActionsSelectorDrawable">@null</item>
     </style>
 </resources>

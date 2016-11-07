@@ -8,6 +8,7 @@
 
     <!-- Settings Items -->
     <string name="settings_card_item_news_source_title">Categories</string>
+    <string name="settings_card_item_add_news_source_feed_title">Add Source</string>
     <string name="settings_card_item_contribution_title">Contribute</string>
     <string name="settings_card_item_about_app_title">About</string>
 

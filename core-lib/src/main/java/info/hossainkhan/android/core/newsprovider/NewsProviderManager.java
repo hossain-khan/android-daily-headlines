@@ -32,30 +32,53 @@ import java.util.List;
 
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsProvider;
+import info.hossainkhan.android.core.util.PreferenceUtils;
+import info.hossainkhan.android.core.util.StringUtils;
 import rx.Observable;
+import timber.log.Timber;
 
 /**
  * News provider manager that help provide supported news providers and related data.
  */
 public class NewsProviderManager {
 
-    private final List<NewsProvider> newsProviders;
+    private final List<NewsProvider> mNewsProviders;
     private final List<Observable<List<NavigationRow>>> mProviderObservableList;
 
     public NewsProviderManager(final Context context) {
-        newsProviders = new ArrayList<>(5);
+        mNewsProviders = new ArrayList<>(5);
         mProviderObservableList = new ArrayList<>(5); // Prepares list of observables for each news providers.
 
         NyTimesNewsProvider nyTimesProvider = new NyTimesNewsProvider();
         mProviderObservableList.add(nyTimesProvider.getNewsObservable());
-        newsProviders.add(nyTimesProvider);
+        mNewsProviders.add(nyTimesProvider);
         AndroidPoliceFeedNewsProvider androidPoliceProvider = new AndroidPoliceFeedNewsProvider(context);
         mProviderObservableList.add(androidPoliceProvider.getNewsObservable());
-        newsProviders.add(androidPoliceProvider);
+        mNewsProviders.add(androidPoliceProvider);
         Nine2FiveFeedNewsProvider nine2FiveProvider = new Nine2FiveFeedNewsProvider(context);
         mProviderObservableList.add(nine2FiveProvider.getNewsObservable());
-        newsProviders.add(nine2FiveProvider);
+        mNewsProviders.add(nine2FiveProvider);
 
+        loadUerProviderFeeds(context);
+    }
+
+    /**
+     * Loads user provided feed.
+     *
+     * NOTE: In future release, this will eventually support multiple feed from user.
+     *
+     * @param context Application context.
+     */
+    private void loadUerProviderFeeds(final Context context) {
+        String title = PreferenceUtils.getFeedTitle(context);
+        String url = PreferenceUtils.getFeedUrl(context);
+
+        if(StringUtils.isNotEmpty(title) && StringUtils.isNotEmpty(url)) {
+            Timber.d("Loading user provided source `%s` with url `%s`", title, url);
+            UrlFeedNewsProvider urlFeedNewsProvider = new UrlFeedNewsProvider(context, title, url);
+            mProviderObservableList.add(urlFeedNewsProvider.getNewsObservable());
+            mNewsProviders.add(urlFeedNewsProvider);
+        }
     }
 
 
@@ -65,7 +88,7 @@ public class NewsProviderManager {
      * @return News provider list.
      */
     public List<NewsProvider> getProviders() {
-        return newsProviders;
+        return mNewsProviders;
     }
 
 

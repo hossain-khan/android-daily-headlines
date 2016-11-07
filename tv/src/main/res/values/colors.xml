@@ -41,6 +41,7 @@
     <color name="orange_transparent">#AAFADCA7</color>
     <color name="orange">#FADCA7</color>
     <color name="yellow">#EEFF41</color>
+    <color name="progress_indicator_tint">#00796B</color>
 
     <!-- Navigation Sidebar on Headline Browser -->
     <color name="fastlane_background">#37474F</color>
@@ -52,6 +53,8 @@
     <color name="detail_background">#0096a6</color>
 
     <color name="default_background">#3d3d3d</color>
+    <color name="headlines_dialog_main_actions_background">@color/fastlane_background</color>
+    <color name="headlines_dialog_subactions_background">#263238</color>
 
     <!--
         Settings

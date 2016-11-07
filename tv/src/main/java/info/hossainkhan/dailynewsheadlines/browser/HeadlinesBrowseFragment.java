@@ -43,6 +43,7 @@ import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.about.DisplayInfoActivity;
+import info.hossainkhan.dailynewsheadlines.addsource.AddNewsSourceActivity;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.details.HeadlinesDetailsActivity;
@@ -164,6 +165,11 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     public void showAppContributionScreen() {
         startActivity(DisplayInfoActivity.createStartIntent(getActivity(),
                 DisplayInfoActivity.InfoDialogType.ABOUT_CONTRIBUTION));
+    }
+
+    @Override
+    public void showAddNewsSourceScreen() {
+        startActivity(AddNewsSourceActivity.createStartIntent(getActivity(), "TV-App"));
     }
 
     @Override

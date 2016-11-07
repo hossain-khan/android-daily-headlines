@@ -66,6 +66,8 @@ public interface HeadlinesContract {
         void showAppAboutScreen();
 
         void showAppContributionScreen();
+
+        void showAddNewsSourceScreen();
     }
 
     interface Presenter extends MvpPresenter<HeadlinesContract.View> {
