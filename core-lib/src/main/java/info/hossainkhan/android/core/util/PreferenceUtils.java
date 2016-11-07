@@ -38,6 +38,7 @@ import timber.log.Timber;
  */
 public class PreferenceUtils {
     private static final String PREF_KEY_FEED_URL = "KEY_app_feed_url";
+    private static final String PREF_KEY_FEED_NAME = "KEY_app_feed_name";
     private static final String PREF_KEY_ONBOARDING_COMPLETED = "KEY_app_onboarding_completed";
     private static final String PREF_KEY_ONBOARDING_COMPLETE_TIMESTAMP = "KEY_app_onboarding_complete_timestamp";
     /**
@@ -46,15 +47,39 @@ public class PreferenceUtils {
      */
     private static final String PREF_KEY_ONBOARDING_COMPLETE_VERSION = "KEY_app_onboarding_complete_version_code";
 
+    /**
+     * NOTE: Both save feed title and URL has to refactored to save in pair.
+     */
     public static String getFeedUrl(final Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(PREF_KEY_FEED_URL, null);
     }
 
+    /**
+     * NOTE: Both save feed title and URL has to refactored to save in pair.
+     */
     public static void saveFeedUrl(final Context context, String url) {
         SharedPreferences.Editor preferencesEditor =
                 PreferenceManager.getDefaultSharedPreferences(context).edit();
         preferencesEditor.putString(PREF_KEY_FEED_URL, url);
+        preferencesEditor.apply();
+    }
+
+    /**
+     * NOTE: Both save feed title and URL has to refactored to save in pair.
+     */
+    public static String getFeedTitle(final Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(PREF_KEY_FEED_NAME, null);
+    }
+
+    /**
+     * NOTE: Both save feed title and URL has to refactored to save in pair.
+     */
+    public static void saveFeedTitle(final Context context, String name) {
+        SharedPreferences.Editor preferencesEditor =
+                PreferenceManager.getDefaultSharedPreferences(context).edit();
+        preferencesEditor.putString(PREF_KEY_FEED_NAME, name);
         preferencesEditor.apply();
     }
 

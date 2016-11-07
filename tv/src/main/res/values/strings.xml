@@ -10,7 +10,7 @@
     <string name="done">Done</string>
     <string name="description_close_current_info_screen">Closes current information screen.</string>
     <string name="loading">Loading&#8230;</string>
-    <string name="processing">Processinig&#8230;</string>
+    <string name="processing">Processing&#8230;</string>
     <string name="no_content_found">No content was found</string>
     <string name="version">Version: %1$s</string>
 
@@ -43,7 +43,7 @@
     <string name="error_msg_feed_url_failed_loading">Unable to load RSS/Atom URL provided.\nPlease double check and try again.</string>
     <string name="error_msg_feed_url_not_enough_items">Successfully loaded URL contents, but unfortunately it does not
         provide any news items.\nCurrently received total %d items.
-        \n\nPlease try updating URL with correct data.
+        \n\nPlease try updating URL which provides RSS/Atom feed.
     </string>
     <string name="dismiss_error">Dismiss</string>
     <string name="oops">Oops</string>
@@ -73,8 +73,8 @@
     <string name="add_news_source_feed_guidance_description">Enter news source RSS or ATOM feed URL.</string>
     <string name="add_news_source_feed_input_name">News Source Name</string>
     <string name="add_news_source_feed_input_url">Enter RSS or Atom feed URL</string>
-    <string name="add_news_source_feed_input_name_empty_error">Please provide a frienly name to this news source.</string>
-    <string name="add_news_source_feed_input_invalid_url_error">A valid URL is required to get news from the source.</string>
+    <string name="add_news_source_feed_input_name_empty_error">Please provide a friendly name to this news source.</string>
+    <string name="add_news_source_feed_input_invalid_url_error">ERROR: A valid RSS/Atom based feed URL is required to get news from the source.</string>
     <string name="add_news_source_feed_validating_progress_title">Validating news source</string>
     <string name="add_news_source_feed_validating_progress_description">Please wait while we validate %s has news data.</string>
 </resources>

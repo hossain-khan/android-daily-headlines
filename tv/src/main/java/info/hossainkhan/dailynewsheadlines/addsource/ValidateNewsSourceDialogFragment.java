@@ -150,6 +150,7 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
         if(totalFeedItems < CoreConfig.MINIMUM_FEED_ITEM_REQUIRED) {
             onValidationFailed(getString(R.string.error_msg_feed_url_not_enough_items, totalFeedItems));
         } else {
+            PreferenceUtils.saveFeedTitle(getActivity(), mNewsSourceTitle);
             PreferenceUtils.saveFeedUrl(getActivity(), mNewsSourceUrl);
 
             // Save it and finish

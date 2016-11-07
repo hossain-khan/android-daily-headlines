@@ -82,7 +82,7 @@ public class AddSourceDialogFragment extends GuidedStepFragment {
         actions.add(new GuidedAction.Builder(getActivity())
                 .id(ACTION_ID_SOURCE_FEED_URL)
                 .title(R.string.add_news_source_feed_input_url)
-                .editTitle("")
+                .editTitle("http://www.")
                 .description(R.string.add_news_source_feed_input_url)
                 .editDescription(R.string.add_news_source_feed_input_url)
                 .editable(true)
