@@ -36,7 +36,9 @@
     <string name="onboarding_description_relax">This app is under development %1$s and in BETA phase %2$s.
         \nReport any %3$s or %4$s%5$s at https://goo.gl/AiaCw8</string>
 
-    <!-- Error messages -->
+    <!-- Error and Success messages -->
+    <string name="success_news_source_feed_added">Successfully added \'%1$s\' to your catalog.
+        \n\nWill be available when you launch your app next time Enjoy %2$s</string>
     <string name="error_msg_unable_to_load_headlines">Sorry, something unexpectedly went wrong.\nWe are unable to load
         your headlines.</string>
     <string name="error_msg_unable_to_load_content">Sorry, could not load headlines.</string>

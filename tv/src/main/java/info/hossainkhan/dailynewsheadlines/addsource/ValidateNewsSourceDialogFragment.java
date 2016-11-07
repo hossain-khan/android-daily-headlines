@@ -43,8 +43,8 @@ import java.util.List;
 import info.hossainkhan.android.core.CoreConfig;
 import info.hossainkhan.android.core.usersource.UserSourceManager;
 import info.hossainkhan.android.core.usersource.UserSourceProvider;
-import info.hossainkhan.android.core.util.PreferenceUtils;
 import info.hossainkhan.dailynewsheadlines.R;
+import info.hossainkhan.dailynewsheadlines.onboarding.Emoji;
 
 /**
  * This is the third screen of the rental wizard which will display a progressbar while waiting for
@@ -140,6 +140,18 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
         popBackStackToGuidedStepFragment(ValidateNewsSourceDialogFragment.class, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
+    private void onValidationSucceeded() {
+        mUserSourceProvider.addSource(mNewsSourceTitle, mNewsSourceUrl);
+
+        /// success_news_source_feed_added
+        Toast.makeText(getActivity(),
+                getString(R.string.success_news_source_feed_added, mNewsSourceTitle, Emoji.SMILEY),
+                Toast.LENGTH_LONG).show();
+
+        // Save it and finish
+        finishGuidedStepFragments();
+    }
+
     //
     // com.pkmmte.pkrss.Callback
     //
@@ -156,10 +168,7 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
         if(totalFeedItems < CoreConfig.MINIMUM_FEED_ITEM_REQUIRED) {
             onValidationFailed(getString(R.string.error_msg_feed_url_not_enough_items, totalFeedItems));
         } else {
-            mUserSourceProvider.addSource(mNewsSourceTitle, mNewsSourceUrl);
-
-            // Save it and finish
-            finishGuidedStepFragments();
+            onValidationSucceeded();
         }
     }
 
