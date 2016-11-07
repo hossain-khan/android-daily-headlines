@@ -29,9 +29,12 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsProvider;
+import info.hossainkhan.android.core.usersource.UserSourceManager;
+import info.hossainkhan.android.core.usersource.UserSourceProvider;
 import info.hossainkhan.android.core.util.PreferenceUtils;
 import info.hossainkhan.android.core.util.StringUtils;
 import rx.Observable;
@@ -44,8 +47,10 @@ public class NewsProviderManager {
 
     private final List<NewsProvider> mNewsProviders;
     private final List<Observable<List<NavigationRow>>> mProviderObservableList;
+    private final UserSourceProvider mUserSourceProvider;
 
     public NewsProviderManager(final Context context) {
+        mUserSourceProvider = new UserSourceManager(context);
         mNewsProviders = new ArrayList<>(5);
         mProviderObservableList = new ArrayList<>(5); // Prepares list of observables for each news providers.
 
@@ -64,20 +69,24 @@ public class NewsProviderManager {
 
     /**
      * Loads user provided feed.
-     *
+     * <p>
      * NOTE: In future release, this will eventually support multiple feed from user.
      *
      * @param context Application context.
      */
     private void loadUerProviderFeeds(final Context context) {
-        String title = PreferenceUtils.getFeedTitle(context);
-        String url = PreferenceUtils.getFeedUrl(context);
 
-        if(StringUtils.isNotEmpty(title) && StringUtils.isNotEmpty(url)) {
-            Timber.d("Loading user provided source `%s` with url `%s`", title, url);
-            UrlFeedNewsProvider urlFeedNewsProvider = new UrlFeedNewsProvider(context, title, url);
-            mProviderObservableList.add(urlFeedNewsProvider.getNewsObservable());
-            mNewsProviders.add(urlFeedNewsProvider);
+        Map<String, String> map = mUserSourceProvider.getSources();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String title = entry.getValue();
+            String url = entry.getKey();
+
+            if (StringUtils.isNotEmpty(title) && StringUtils.isNotEmpty(url)) {
+                Timber.d("Loading user provided source `%s` with url `%s`", title, url);
+                UrlFeedNewsProvider urlFeedNewsProvider = new UrlFeedNewsProvider(context, title, url);
+                mProviderObservableList.add(urlFeedNewsProvider.getNewsObservable());
+                mNewsProviders.add(urlFeedNewsProvider);
+            }
         }
     }
 

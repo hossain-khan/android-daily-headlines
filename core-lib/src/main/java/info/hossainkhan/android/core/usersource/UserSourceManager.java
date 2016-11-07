@@ -33,14 +33,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.Map;
 
 import info.hossainkhan.android.core.util.Validate;
 import timber.log.Timber;
 
 /**
- * Persistant user's {@link UserSourceProvider} using simple shared preferences.
+ * Persistent user's {@link UserSourceProvider} using simple shared preferences.
  */
 public class UserSourceManager implements UserSourceProvider {
 
@@ -85,6 +84,7 @@ public class UserSourceManager implements UserSourceProvider {
     private void updateSources() {
         Gson gson = new GsonBuilder().create();
         String serializedJson = gson.toJson(mNewsMap);
+        Timber.d("Saving news sources: %s", serializedJson);
 
         SharedPreferences.Editor preferencesEditor = mSharedPreferences.edit();
         preferencesEditor.putString(PREF_KEY_NEWS_SOURCES, serializedJson);
@@ -92,11 +92,11 @@ public class UserSourceManager implements UserSourceProvider {
     }
 
     private void loadSources() {
-        String string = mSharedPreferences.getString(PREF_KEY_NEWS_SOURCES, "{}");
-        Timber.d("Saving news sources: ");
+        String newsSources = mSharedPreferences.getString(PREF_KEY_NEWS_SOURCES, "{}");
+        Timber.d("Loading news sources: %s", newsSources);
 
         Gson gson = new GsonBuilder().create();
         Type hasMapTypeToken = new TypeToken<Map<String, String>>() { }.getType();
-        mNewsMap = gson.fromJson(string, hasMapTypeToken); // This type must match TypeToken
+        mNewsMap = gson.fromJson(newsSources, hasMapTypeToken); // This type must match TypeToken
     }
 }

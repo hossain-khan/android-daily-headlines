@@ -34,13 +34,15 @@ public interface UserSourceProvider {
 
     /**
      * Adds a news source to the system.
+     *
      * @param title News source title.
-     * @param url News source feed URL.
+     * @param url   News source feed URL.
      */
     void addSource(String title, String url);
 
     /**
      * Removes a news source by URL.
+     *
      * @param url Feed URL for news source.
      * @return The title of URL remove, or {@code null} if URL was never there.
      */
@@ -48,6 +50,7 @@ public interface UserSourceProvider {
 
     /**
      * Returns a map of news source paired by URL & Title
+     *
      * @return Map of news sources. URL is key, and Title is value.
      */
     Map<String, String> getSources();
