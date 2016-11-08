@@ -24,6 +24,7 @@
 
 package info.hossainkhan.dailynewsheadlines.addsource;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
@@ -40,8 +41,10 @@ import com.pkmmte.pkrss.PkRSS;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreConfig;
-import info.hossainkhan.android.core.util.PreferenceUtils;
+import info.hossainkhan.android.core.usersource.UserSourceManager;
+import info.hossainkhan.android.core.usersource.UserSourceProvider;
 import info.hossainkhan.dailynewsheadlines.R;
+import info.hossainkhan.dailynewsheadlines.onboarding.Emoji;
 
 /**
  * This is the third screen of the rental wizard which will display a progressbar while waiting for
@@ -56,6 +59,7 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
     private static final String BUNDLE_ARG_SOURCE_URL = "BUNDLE_KEY_NEWS_SOURCE_URL";
     private String mNewsSourceUrl;
     private String mNewsSourceTitle;
+    private UserSourceProvider mUserSourceProvider;
 
 
     /**
@@ -80,7 +84,9 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
     public void onStart() {
         super.onStart();
 
-        PkRSS.with(getActivity().getApplicationContext())
+        Context context = getActivity().getApplicationContext();
+        mUserSourceProvider = new UserSourceManager(context);
+        PkRSS.with(context)
                 .load(mNewsSourceUrl)
                 .callback(this)
                 .async();
@@ -134,6 +140,18 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
         popBackStackToGuidedStepFragment(ValidateNewsSourceDialogFragment.class, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
+    private void onValidationSucceeded() {
+        mUserSourceProvider.addSource(mNewsSourceTitle, mNewsSourceUrl);
+
+        /// success_news_source_feed_added
+        Toast.makeText(getActivity(),
+                getString(R.string.success_news_source_feed_added, mNewsSourceTitle, Emoji.SMILEY),
+                Toast.LENGTH_LONG).show();
+
+        // Save it and finish
+        finishGuidedStepFragments();
+    }
+
     //
     // com.pkmmte.pkrss.Callback
     //
@@ -150,11 +168,7 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
         if(totalFeedItems < CoreConfig.MINIMUM_FEED_ITEM_REQUIRED) {
             onValidationFailed(getString(R.string.error_msg_feed_url_not_enough_items, totalFeedItems));
         } else {
-            PreferenceUtils.saveFeedTitle(getActivity(), mNewsSourceTitle);
-            PreferenceUtils.saveFeedUrl(getActivity(), mNewsSourceUrl);
-
-            // Save it and finish
-            finishGuidedStepFragments();
+            onValidationSucceeded();
         }
     }
 

@@ -31,7 +31,6 @@ import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
 import android.text.TextUtils;
 import android.webkit.URLUtil;
-import android.widget.Toast;
 
 import java.util.List;
 
