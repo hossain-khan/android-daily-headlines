@@ -167,6 +167,7 @@ public class AddSourceDialogFragment extends GuidedStepFragment {
                 return GuidedAction.ACTION_ID_CURRENT;
             } else {
                 action.setDescription(feedUrl);
+                action.setEditTitle(feedUrl);  // Updates with valid URL
                 return GuidedAction.ACTION_ID_NEXT;
             }
         }
