@@ -36,6 +36,7 @@ import info.hossainkhan.android.core.dagger.components.DaggerAppComponent;
 import info.hossainkhan.android.core.dagger.modules.AppModule;
 import info.hossainkhan.android.core.dagger.modules.InteractorsModule;
 import info.hossainkhan.android.core.dagger.modules.NetworkModule;
+import info.hossainkhan.android.core.logging.FirebaseCrashLogTree;
 import timber.log.Timber;
 
 /**
@@ -45,7 +46,7 @@ public class CoreApplication extends Application {
     private static final String TAG = "CoreApplication";
 
     private static AppComponent sAppComponent;
-    private static final boolean ENABLE_LOGGING = true;
+    private static final boolean ENABLE_LOGGING = true; // BuildConfig.DEBUG for library project not working.
     private static CoreApplication sContext;
     private static AnalyticsReporter sAnalyticsReporter;
 
@@ -70,12 +71,21 @@ public class CoreApplication extends Application {
         LeakCanary.install(this);
     }
 
+    /**
+     * Initializes application wide logging.
+     * <p>
+     * Quote from Timber "There are no Tree implementations installed by default because every time you log in
+     * production, a puppy dies."
+     *
+     * So, need to be responsible about it ^_^
+     */
     private void initLogger() {
         if (ENABLE_LOGGING) {
-            android.util.Log.i(TAG, "Planting tree for timber logger.");
-            Timber.plant(new Timber.DebugTree());
+            android.util.Log.i(TAG, "Planting tree for timber debug logger.");
+            Timber.plant(new Timber.DebugTree(), new FirebaseCrashLogTree());
         } else {
-            android.util.Log.w(TAG, "Not planting tree for timber logger.");
+            android.util.Log.i(TAG, "Planting tree for production logger.");
+            Timber.plant(new FirebaseCrashLogTree());
         }
     }
 
