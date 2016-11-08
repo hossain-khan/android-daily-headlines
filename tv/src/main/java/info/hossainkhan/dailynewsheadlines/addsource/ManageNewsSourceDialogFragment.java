@@ -30,8 +30,10 @@ import android.support.v17.leanback.app.GuidedStepFragment;
 import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.usersource.UserSourceManager;
@@ -46,6 +48,8 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment {
      * Unique screen name used for reporting and analytics.
      */
     private static final String ANALYTICS_SCREEN_NAME = "news_source_manage";
+
+    private Set<String> mRemovedSourcesQueue = new HashSet<>();
 
     /**
      * Creates new add news source dialog fragment.
@@ -78,14 +82,16 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment {
         UserSourceProvider userSourceProvider = new UserSourceManager(getActivity().getApplicationContext());
         Map<String, String> newsSources = userSourceProvider.getSources();
 
-
         for (Map.Entry<String, String> entry : newsSources.entrySet()) {
             actions.add(getSourceAction(entry));
         }
-
-
     }
 
+    /**
+     * Builds a GuidedAction item from news source set.
+     * @param newsSourceEntry News source map entry.
+     * @return Checkbox GuidedAction
+     */
     private GuidedAction getSourceAction(final Map.Entry<String, String> newsSourceEntry) {
         return new GuidedAction.Builder(getActivity())
                 .id(newsSourceEntry.getKey().hashCode())
@@ -112,12 +118,27 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment {
     @Override
     public void onGuidedActionClicked(GuidedAction action) {
         if (GuidedAction.ACTION_ID_OK == action.getId()) {
-
+            Timber.d("Going to remove all URLs from queue: %s", mRemovedSourcesQueue);
         } else if (GuidedAction.ACTION_ID_CANCEL == action.getId()) {
             getActivity().finish();
         } else {
-            Timber.w("Action %s not supported.", action);
+            Timber.i("Processing news source: %s.", action);
+            String url = action.getDescription().toString();
+            if (action.isChecked()) {
+                Timber.d("Adding URL for removal: %s", url);
+                mRemovedSourcesQueue.add(url);
+            } else {
+                Timber.d("Removing URL from removal queue: %s", url);
+                mRemovedSourcesQueue.remove(url);
+            }
+
+            updateOkButton(!mRemovedSourcesQueue.isEmpty());
         }
     }
 
+
+    private void updateOkButton(boolean enabled) {
+        findButtonActionById(GuidedAction.ACTION_ID_OK).setEnabled(enabled);
+        notifyButtonActionChanged(findButtonActionPositionById(GuidedAction.ACTION_ID_OK));
+    }
 }
