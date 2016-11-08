@@ -29,14 +29,13 @@ import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
 import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
-import android.text.InputType;
-import android.text.TextUtils;
-import android.webkit.URLUtil;
 
 import java.util.List;
+import java.util.Map;
 
 import info.hossainkhan.android.core.CoreApplication;
-import info.hossainkhan.dailynewsheadlines.R;
+import info.hossainkhan.android.core.usersource.UserSourceManager;
+import info.hossainkhan.android.core.usersource.UserSourceProvider;
 import timber.log.Timber;
 
 /**
@@ -46,18 +45,15 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment {
     /**
      * Unique screen name used for reporting and analytics.
      */
-    private static final String ANALYTICS_SCREEN_NAME = "news_source_new";
-
-    private static final int ACTION_ID_SOURCE_NAME = 1;
-    private static final int ACTION_ID_SOURCE_FEED_URL = ACTION_ID_SOURCE_NAME + 1;
+    private static final String ANALYTICS_SCREEN_NAME = "news_source_manage";
 
     /**
      * Creates new add news source dialog fragment.
      *
      * @return Creates and instance of this fragment.
      */
-    public static AddSourceDialogFragment newInstance() {
-        return new AddSourceDialogFragment();
+    public static ManageNewsSourceDialogFragment newInstance() {
+        return new ManageNewsSourceDialogFragment();
     }
 
     @Override
@@ -69,8 +65,8 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment {
     @NonNull
     @Override
     public GuidanceStylist.Guidance onCreateGuidance(Bundle savedInstanceState) {
-        String title = getString(R.string.add_news_source_feed_guidance_title);
-        String description = getString(R.string.add_news_source_feed_guidance_description);
+        String title = "Manage your news sources";
+        String description = "Enable or disable them, you know what to do ;-)";
 
         GuidanceStylist.Guidance guidance = new GuidanceStylist.Guidance(title, description,
                 null, null);
@@ -79,29 +75,24 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment {
 
     @Override
     public void onCreateActions(List<GuidedAction> actions, Bundle savedInstanceState) {
-        actions.add(new GuidedAction.Builder(getActivity())
-                .id(ACTION_ID_SOURCE_NAME)
-                .title(R.string.add_news_source_feed_input_name)
-                .icon(R.drawable.vector_icon_format_title)
-                .editTitle("")
-                .description(R.string.add_news_source_feed_input_name)
-                .editDescription(R.string.add_news_source_feed_input_name)
-                .editable(true)
-                .editInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
-                .build()
-        );
+        UserSourceProvider userSourceProvider = new UserSourceManager(getActivity().getApplicationContext());
+        Map<String, String> newsSources = userSourceProvider.getSources();
 
-        actions.add(new GuidedAction.Builder(getActivity())
-                .id(ACTION_ID_SOURCE_FEED_URL)
-                .title(R.string.add_news_source_feed_input_url)
-                .icon(R.drawable.vector_icon_rss)
-                .editTitle("http://www.")
-                .description(R.string.add_news_source_feed_input_url)
-                .editDescription(R.string.add_news_source_feed_input_url)
-                .editable(true)
-                .editInputType(InputType.TYPE_TEXT_VARIATION_URI)
-                .build()
-        );
+
+        for (Map.Entry<String, String> entry : newsSources.entrySet()) {
+            actions.add(getSourceAction(entry));
+        }
+
+
+    }
+
+    private GuidedAction getSourceAction(final Map.Entry<String, String> newsSourceEntry) {
+        return new GuidedAction.Builder(getActivity())
+                .id(newsSourceEntry.getKey().hashCode())
+                .title(newsSourceEntry.getValue())
+                .description(newsSourceEntry.getKey())
+                .checkSetId(GuidedAction.CHECKBOX_CHECK_SET_ID)
+                .build();
     }
 
     @Override
@@ -121,70 +112,12 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment {
     @Override
     public void onGuidedActionClicked(GuidedAction action) {
         if (GuidedAction.ACTION_ID_OK == action.getId()) {
-            String name = findActionById(ACTION_ID_SOURCE_NAME).getEditTitle().toString();
-            String url = findActionById(ACTION_ID_SOURCE_FEED_URL).getEditTitle().toString();
-            GuidedStepFragment fragment = ValidateNewsSourceDialogFragment.newInstance(name, url);
-            add(getFragmentManager(), fragment);
+
         } else if (GuidedAction.ACTION_ID_CANCEL == action.getId()) {
             getActivity().finish();
         } else {
             Timber.w("Action %s not supported.", action);
         }
-    }
-
-    @Override
-    public long onGuidedActionEditedAndProceed(GuidedAction action) {
-
-        boolean validSourceName;
-        boolean validSourceUrl;
-
-        if (action.getId() == ACTION_ID_SOURCE_NAME) {
-            CharSequence newsSourceName = action.getEditTitle();
-            validSourceName = isValidNewsSourceName(newsSourceName);
-            validSourceUrl = isValidUrl(findActionById(ACTION_ID_SOURCE_FEED_URL).getEditTitle().toString());
-
-            updateOkButton(validSourceName && validSourceUrl);
-
-            if (!validSourceName) {
-                action.setDescription(getString(R.string.add_news_source_feed_input_name_empty_error));
-                return GuidedAction.ACTION_ID_CURRENT;
-            } else {
-                action.setDescription(newsSourceName);
-                return GuidedAction.ACTION_ID_NEXT;
-            }
-
-        } else if (action.getId() == ACTION_ID_SOURCE_FEED_URL) {
-            String feedUrl = action.getEditTitle().toString();
-            // When entering URL, sometimes there is unintended spaces, clean those
-            feedUrl = feedUrl.replaceAll("\\s+", "");
-            validSourceUrl = isValidUrl(feedUrl);
-            validSourceName = isValidNewsSourceName(findActionById(ACTION_ID_SOURCE_NAME)
-                    .getEditTitle());
-            updateOkButton(validSourceName && validSourceUrl);
-
-            if (!validSourceUrl) {
-                action.setDescription(getString(R.string.add_news_source_feed_input_invalid_url_error));
-                return GuidedAction.ACTION_ID_CURRENT;
-            } else {
-                action.setDescription(feedUrl);
-                action.setEditTitle(feedUrl);  // Updates with valid URL
-                return GuidedAction.ACTION_ID_NEXT;
-            }
-        }
-        return GuidedAction.ACTION_ID_CURRENT;
-    }
-
-    private void updateOkButton(boolean enabled) {
-        findButtonActionById(GuidedAction.ACTION_ID_OK).setEnabled(enabled);
-        notifyButtonActionChanged(findButtonActionPositionById(GuidedAction.ACTION_ID_OK));
-    }
-
-    private static boolean isValidUrl(String input) {
-        return URLUtil.isValidUrl(input);
-    }
-
-    private static boolean isValidNewsSourceName(CharSequence input) {
-        return !TextUtils.isEmpty(input) && input.length() > 1;
     }
 
 }
