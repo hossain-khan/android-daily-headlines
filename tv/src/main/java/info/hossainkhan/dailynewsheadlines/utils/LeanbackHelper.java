@@ -81,7 +81,7 @@ public final class LeanbackHelper {
 
         // Build settings items
 
-        List<CardItem> settingsItems = new ArrayList<>(2);
+        List<CardItem> settingsItems = new ArrayList<>(5);
         settingsItems.add(
                 CardItem.create(
                         R.string.settings_card_item_news_source_title, // id,
@@ -103,6 +103,19 @@ public final class LeanbackHelper {
                 )
         );
 
+        settingsItems.add(
+                CardItem.create(
+                        R.string.settings_card_item_manage_news_source_feed_title, // id,
+                        resources.getString(R.string.settings_card_item_manage_news_source_feed_title), // title,
+                        null /* description */, null /*extraText */, null /*category */,
+                        null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
+                        R.drawable.ic_settings_manage_news_source, // localImageResourceId,
+                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ICON, 0 /* width */, 0 /* height */
+                )
+        );
+
+
+
         list.add(NavigationRow.builder()
                 .title(resources.getString(R.string.settings_navigation_row_news_source_title))
                 .type(NavigationRow.TYPE_DEFAULT)
@@ -111,7 +124,7 @@ public final class LeanbackHelper {
                 .build());
 
 
-        List<CardItem> infoItems = new ArrayList<>(3);
+        List<CardItem> infoItems = new ArrayList<>(5);
         infoItems.add(
                 CardItem.create(
                         R.string.settings_card_item_about_app_title, // id,

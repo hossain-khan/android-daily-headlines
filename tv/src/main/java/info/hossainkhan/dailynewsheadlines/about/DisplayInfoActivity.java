@@ -31,7 +31,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
 
+import info.hossainkhan.android.core.model.InfoDialogType;
 import info.hossainkhan.android.core.util.Validate;
+import info.hossainkhan.dailynewsheadlines.addsource.ManageNewsSourceDialogFragment;
 import timber.log.Timber;
 
 
@@ -47,13 +49,7 @@ public class DisplayInfoActivity extends Activity {
 
     private static final String INTENT_KEY_INFO_DIALOG_TYPE = "KEY_INFO_DIALOG_TYPE";
 
-    /**
-     * List of information dialog type supported by this activity.
-     */
-    public enum InfoDialogType {
-        ABOUT_APPLICATION,
-        ABOUT_CONTRIBUTION
-    }
+
 
     private InfoDialogType mDialogType;
 
@@ -109,6 +105,9 @@ public class DisplayInfoActivity extends Activity {
                 break;
             case ABOUT_CONTRIBUTION:
                 fragment = ContributionInfoFragment.newInstance();
+                break;
+            case MANAGE_NEWS_SOURCE:
+                fragment = ManageNewsSourceDialogFragment.newInstance();
                 break;
             default:
                 throw new UnsupportedInformationTypeException();
