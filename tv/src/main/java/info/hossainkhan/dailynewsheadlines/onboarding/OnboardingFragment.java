@@ -42,11 +42,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.util.PreferenceUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.browser.MainActivity;
 
 public class OnboardingFragment extends android.support.v17.leanback.app.OnboardingFragment {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "onboarding";
 
     private static final int[] pageTitles = {
             R.string.onboarding_title_welcome,
@@ -98,11 +103,19 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        CoreApplication.getAnalyticsReporter().reportOnBoardingTutorialBeingEvent();
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
+    }
+
+    @Override
     protected void onFinishFragment() {
         super.onFinishFragment();
         // Our onboarding is done, mark it as completed
         Activity parentActivity = getActivity();
         PreferenceUtils.updateOnboardingAsCompleted(parentActivity.getApplicationContext());
+        CoreApplication.getAnalyticsReporter().reportOnBoardingTutorialCompleteEvent();
 
         // Onboarding is completed, launch the
         startActivity(new Intent(parentActivity, MainActivity.class));

@@ -25,6 +25,7 @@ package info.hossainkhan.dailynewsheadlines.dialog;
 
 import android.os.Bundle;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 
@@ -37,6 +38,11 @@ import timber.log.Timber;
  * </code>
  */
 public class ErrorFragment extends android.support.v17.leanback.app.ErrorFragment {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "error";
+
     private static final boolean TRANSLUCENT = true;
     private static final String BUNDLE_ARG_TITLE = "BUNDLE_KEY_TITLE";
     private static final String BUNDLE_ARG_MESSAGE = "BUNDLE_KEY_MESSAGE";
@@ -68,6 +74,12 @@ public class ErrorFragment extends android.support.v17.leanback.app.ErrorFragmen
 
         setTitle(mDialogTitle);
         setErrorContent(mDialogMessage);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
     }
 
     void setErrorContent(final String dialogMessage) {

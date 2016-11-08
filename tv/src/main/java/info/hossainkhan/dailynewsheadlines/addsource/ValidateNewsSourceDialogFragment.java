@@ -40,6 +40,7 @@ import com.pkmmte.pkrss.PkRSS;
 
 import java.util.List;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.CoreConfig;
 import info.hossainkhan.android.core.usersource.UserSourceManager;
 import info.hossainkhan.android.core.usersource.UserSourceProvider;
@@ -52,6 +53,10 @@ import info.hossainkhan.dailynewsheadlines.onboarding.Emoji;
  * by waiting four seconds until continuing.
  */
 public class ValidateNewsSourceDialogFragment extends GuidedStepFragment implements Callback {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "news_source_validate";
 
     private static final int ACTION_ID_PROCESSING = 1;
 
@@ -83,6 +88,8 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
     @Override
     public void onStart() {
         super.onStart();
+
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
 
         Context context = getActivity().getApplicationContext();
         mUserSourceProvider = new UserSourceManager(context);
@@ -135,12 +142,16 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
     }
 
     private void onValidationFailed(final String message) {
+        CoreApplication.getAnalyticsReporter().reportAddNewsSourceEvent(mNewsSourceTitle, false);
+
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 
         popBackStackToGuidedStepFragment(ValidateNewsSourceDialogFragment.class, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     private void onValidationSucceeded() {
+        CoreApplication.getAnalyticsReporter().reportAddNewsSourceEvent(mNewsSourceTitle, true);
+
         mUserSourceProvider.addSource(mNewsSourceTitle, mNewsSourceUrl);
 
         /// success_news_source_feed_added

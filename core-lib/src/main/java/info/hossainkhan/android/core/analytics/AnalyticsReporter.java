@@ -32,14 +32,32 @@ import info.hossainkhan.android.core.model.CardItem;
 
 public class AnalyticsReporter {
 
+    //
+    // Custom event names
+    //
     private static final String EVENT_NAME_HEADLINE_LOADING_ERROR = "headline_load_failed";
     private static final String EVENT_NAME_HEADLINE_DETAILS_LOAD = "details_content";
     private static final String EVENT_NAME_SETTINGS_LOAD = "application_settings";
+    private static final String EVENT_NAME_NEWS_SOURCE_ADD = "news_source_add";
 
+    //
+    // Event custom param name
+    //
+    private static final String EVENT_PARAM_NAME_ACTION_SUCCESS = "is_success";
+
+    //
+    // Event param values
+    //
+    private static final String EVENT_PARAM_VALUE_CATEGORY_SCREEN = "ui_screen";
+
+    /**
+     * Analytics instance that is used for reporting.
+     */
     private final FirebaseAnalytics mAnalytics;
 
     /**
      * Creates analytics reporter with firebase backend reporting.
+     *
      * @param analytics Firebase analytics instance.
      */
     public AnalyticsReporter(final FirebaseAnalytics analytics) {
@@ -72,5 +90,31 @@ public class AnalyticsReporter {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, settingsName);
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "app_settings");
         mAnalytics.logEvent(EVENT_NAME_SETTINGS_LOAD, bundle);
+    }
+
+    /**
+     * Reports a UI screen or component being loaded. Similar to page-view with page name.
+     *
+     * @param screenName Name of the screen or page.
+     */
+    public void reportScreenLoadedEvent(final String screenName) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, screenName);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, EVENT_PARAM_VALUE_CATEGORY_SCREEN);
+        mAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
+    }
+
+    public void reportOnBoardingTutorialBeingEvent() {
+        mAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_BEGIN, null);
+    }
+
+    public void reportOnBoardingTutorialCompleteEvent() {
+        mAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, null);
+    }
+
+    public void reportAddNewsSourceEvent(String sourceName, boolean isSuccess) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(EVENT_PARAM_NAME_ACTION_SUCCESS, isSuccess);
+        mAnalytics.logEvent(EVENT_NAME_NEWS_SOURCE_ADD, bundle);
     }
 }
