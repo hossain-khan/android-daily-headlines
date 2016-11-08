@@ -32,7 +32,7 @@ import java.util.List;
 import info.hossainkhan.android.core.base.MvpPresenter;
 import info.hossainkhan.android.core.base.MvpView;
 import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.InfoDialogType;
+import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
 
 public interface HeadlinesContract {
@@ -66,7 +66,7 @@ public interface HeadlinesContract {
 
         void showAddNewsSourceScreen();
 
-        void showUiScreen(InfoDialogType type);
+        void showUiScreen(ScreenType type);
     }
 
     interface Presenter extends MvpPresenter<HeadlinesContract.View> {

@@ -27,7 +27,7 @@ package info.hossainkhan.android.core.model;
 /**
  * List of information dialog type supported by this activity.
  */
-public enum InfoDialogType {
+public enum ScreenType {
     ABOUT_APPLICATION,
     ABOUT_CONTRIBUTION,
     MANAGE_NEWS_SOURCE

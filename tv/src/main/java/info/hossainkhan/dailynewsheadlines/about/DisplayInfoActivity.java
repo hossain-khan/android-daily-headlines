@@ -31,7 +31,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
 
-import info.hossainkhan.android.core.model.InfoDialogType;
+import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.util.Validate;
 import info.hossainkhan.dailynewsheadlines.addsource.ManageNewsSourceDialogFragment;
 import timber.log.Timber;
@@ -41,7 +41,7 @@ import timber.log.Timber;
  * Activity that is used to show different kind of information using
  * {@link android.support.v17.leanback.app.GuidedStepFragment}. Based on requirement this activity uses
  * {@link info.hossainkhan.dailynewsheadlines.R.style#Theme_Leanback_GuidedStep}.
- * <p>For list of supported info, see {@link InfoDialogType}</p>
+ * <p>For list of supported info, see {@link ScreenType}</p>
  * <p>
  * See https://developer.android.com/reference/android/support/v17/leanback/app/GuidedStepFragment.html
  */
@@ -51,19 +51,19 @@ public class DisplayInfoActivity extends Activity {
 
 
 
-    private InfoDialogType mDialogType;
+    private ScreenType mDialogType;
 
     /**
      * Creates a start intent for this activity.
      *
      * @param context    App context.
-     * @param dialogType {@link InfoDialogType}
+     * @param type {@link ScreenType}
      * @return Intent
      */
-    public static Intent createStartIntent(@NonNull Context context, @NonNull InfoDialogType dialogType) {
-        Validate.notNull(dialogType);
+    public static Intent createStartIntent(@NonNull Context context, @NonNull ScreenType type) {
+        Validate.notNull(type);
         Intent intent = new Intent(context, DisplayInfoActivity.class);
-        intent.putExtra(INTENT_KEY_INFO_DIALOG_TYPE, dialogType);
+        intent.putExtra(INTENT_KEY_INFO_DIALOG_TYPE, type);
         return intent;
     }
 
@@ -89,7 +89,7 @@ public class DisplayInfoActivity extends Activity {
      * Internal method to extract bundle data and prepare required local instances.
      */
     private void extractBundleData(final Intent intent) {
-        mDialogType = (InfoDialogType) intent.getSerializableExtra(INTENT_KEY_INFO_DIALOG_TYPE);
+        mDialogType = (ScreenType) intent.getSerializableExtra(INTENT_KEY_INFO_DIALOG_TYPE);
 
         // Intent data must be available to continue
         Validate.notNull(mDialogType);
@@ -97,7 +97,7 @@ public class DisplayInfoActivity extends Activity {
     }
 
 
-    private GuidedStepFragment getFragmentForType(final InfoDialogType type) {
+    private GuidedStepFragment getFragmentForType(final ScreenType type) {
         GuidedStepFragment fragment = null;
         switch (type) {
             case ABOUT_APPLICATION:

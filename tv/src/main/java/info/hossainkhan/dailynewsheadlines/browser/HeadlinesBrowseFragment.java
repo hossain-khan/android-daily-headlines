@@ -40,7 +40,7 @@ import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.InfoDialogType;
+import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import info.hossainkhan.dailynewsheadlines.R;
@@ -174,7 +174,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     @Override
-    public void showUiScreen(final InfoDialogType type) {
+    public void showUiScreen(final ScreenType type) {
         startActivity(DisplayInfoActivity.createStartIntent(getActivity(), type));
     }
 

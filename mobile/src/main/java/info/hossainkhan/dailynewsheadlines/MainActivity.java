@@ -14,7 +14,7 @@ import info.hossainkhan.android.core.base.BaseActivity;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.InfoDialogType;
+import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import timber.log.Timber;
@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     }
 
     @Override
-    public void showUiScreen(final InfoDialogType type) {
+    public void showUiScreen(final ScreenType type) {
         Timber.d("showUiScreen() called with: type = [" + type + "]");
     }
 
