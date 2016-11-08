@@ -34,6 +34,7 @@ import android.webkit.URLUtil;
 
 import java.util.List;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 
@@ -41,6 +42,10 @@ import timber.log.Timber;
  * A dialog fragment with positive and negative options.
  */
 public class AddSourceDialogFragment extends GuidedStepFragment {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "news_source_new";
 
     private static final int ACTION_ID_SOURCE_NAME = 1;
     private static final int ACTION_ID_SOURCE_FEED_URL = ACTION_ID_SOURCE_NAME + 1;
@@ -54,6 +59,11 @@ public class AddSourceDialogFragment extends GuidedStepFragment {
         return new AddSourceDialogFragment();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
+    }
 
     @NonNull
     @Override

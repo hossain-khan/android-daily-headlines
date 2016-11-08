@@ -44,6 +44,7 @@ import android.view.ViewGroup;
 import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.headlines.HeadlinesDetailsContract;
 import info.hossainkhan.android.core.headlines.HeadlinesDetailsViewPresenter;
 import info.hossainkhan.android.core.model.CardItem;
@@ -60,6 +61,10 @@ import timber.log.Timber;
  * Displays a card with more details using a {@link DetailsFragment}.
  */
 public class HeadlinesDetailsFragment extends DetailsFragment implements HeadlinesDetailsContract.View {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "headline_details";
 
     private ArrayObjectAdapter mRowsAdapter;
     private Context mApplicationContext;
@@ -99,6 +104,12 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
         mPresenter = new HeadlinesDetailsViewPresenter(mApplicationContext, this, cardItem);
         DetailsViewInteractionListener listener = new DetailsViewInteractionListener(mPresenter);
         setupEventListeners(listener);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
     }
 
     private void setupEventListeners(final DetailsViewInteractionListener listener) {

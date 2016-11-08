@@ -41,18 +41,29 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.dailynewsheadlines.R;
 
 /**
  * Fragment that shows information on how to contribute.
  */
 public class ContributionInfoFragment extends GuidedStepFragment {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "contribute";
+
     private Context mContext;
 
     public static ContributionInfoFragment newInstance() {
         return new ContributionInfoFragment();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
+    }
 
     @Override
     public void onCreateActions(@NonNull List<GuidedAction> actions, Bundle savedInstanceState) {

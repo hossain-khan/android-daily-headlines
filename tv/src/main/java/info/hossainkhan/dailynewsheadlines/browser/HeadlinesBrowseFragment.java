@@ -36,6 +36,7 @@ import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import java.net.URI;
 import java.util.List;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
@@ -59,6 +60,11 @@ import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.addSettin
  * Leanback browser fragment that is responsible for showing all the headlines.
  */
 public class HeadlinesBrowseFragment extends BrowseFragment implements HeadlinesContract.View {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "headlines_browse";
+
     private ArrayObjectAdapter mRowsAdapter;
     private HeadlinesPresenter mHeadlinesPresenter;
     private Resources mResources;
@@ -85,6 +91,12 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
 
         NewsProviderManager newsProviderManager = new NewsProviderManager(mApplicationContext);
         mHeadlinesPresenter = new HeadlinesPresenter(mApplicationContext, this, newsProviderManager);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
     }
 
     @Override

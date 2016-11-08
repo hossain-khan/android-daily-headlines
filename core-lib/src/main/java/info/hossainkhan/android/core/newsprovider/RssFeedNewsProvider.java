@@ -28,6 +28,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.pkmmte.pkrss.Article;
 import com.pkmmte.pkrss.PkRSS;
 
@@ -98,6 +99,7 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
                     );
                     subscriber.onNext(navigationHeadlines);
                 } catch (IOException e) {
+                    FirebaseCrash.report(e);
                     subscriber.onError(e);
                 }
 

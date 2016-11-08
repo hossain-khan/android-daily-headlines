@@ -39,6 +39,7 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.Stack;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 
@@ -46,6 +47,10 @@ import timber.log.Timber;
  * Application's settings fragment with possible preference options. See preference XML for supported options.
  */
 public class SettingsFragment extends LeanbackSettingsFragment implements DialogPreference.TargetFragment {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "app_settings";
 
     public static final String BUNDLE_KEY_ROOT_SCREEN_ID = "root";
     public static final String BUNDLE_KEY_PREFERENCE_RESOURCE_ID = "preferenceResource";
@@ -65,6 +70,8 @@ public class SettingsFragment extends LeanbackSettingsFragment implements Dialog
     @Override
     public boolean onPreferenceStartScreen(PreferenceFragment preferenceFragment,
                                            PreferenceScreen preferenceScreen) {
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
+
         PreferenceFragment frag = buildPreferenceFragment(R.xml.preferences_screen, preferenceScreen.getKey());
         startPreferenceFragment(frag);
         return true;
