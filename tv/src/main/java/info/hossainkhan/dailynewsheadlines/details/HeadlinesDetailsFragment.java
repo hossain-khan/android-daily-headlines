@@ -29,7 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v17.leanback.app.DetailsFragment;
-import android.support.v17.leanback.widget.Action;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ClassPresenterSelector;
 import android.support.v17.leanback.widget.DetailsOverviewRow;
@@ -41,7 +40,6 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 
 import info.hossainkhan.android.core.CoreApplication;
@@ -49,7 +47,6 @@ import info.hossainkhan.android.core.headlines.HeadlinesDetailsContract;
 import info.hossainkhan.android.core.headlines.HeadlinesDetailsViewPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.util.ActivityUtils;
-import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.details.listeners.DetailsViewInteractionListener;
@@ -192,7 +189,6 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
         } else {
             String logMsg = "App does not have browser to show URL: %s.";
             Timber.w(logMsg, contentUrl);
-            FirebaseCrash.log(logMsg);
 
             // NOTE: According to Google's guideline and test case "TV-WB", tv app
             // should not assume browser availability.

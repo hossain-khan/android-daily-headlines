@@ -46,6 +46,7 @@ import info.hossainkhan.android.core.usersource.UserSourceManager;
 import info.hossainkhan.android.core.usersource.UserSourceProvider;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.onboarding.Emoji;
+import timber.log.Timber;
 
 /**
  * This is the third screen of the rental wizard which will display a progressbar while waiting for
@@ -123,6 +124,7 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
         Bundle arguments = getArguments();
         mNewsSourceTitle = arguments.getString(BUNDLE_ARG_SOURCE_TITLE);
         mNewsSourceUrl = arguments.getString(BUNDLE_ARG_SOURCE_URL);
+        Timber.d("Validating news source '%s' with URL: %s", mNewsSourceTitle, mNewsSourceUrl);
 
         GuidanceStylist.Guidance guidance = new GuidanceStylist.Guidance(
                 getString(R.string.add_news_source_feed_validating_progress_title),

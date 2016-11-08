@@ -29,6 +29,7 @@ import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
 import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.webkit.URLUtil;
 
@@ -81,20 +82,24 @@ public class AddSourceDialogFragment extends GuidedStepFragment {
         actions.add(new GuidedAction.Builder(getActivity())
                 .id(ACTION_ID_SOURCE_NAME)
                 .title(R.string.add_news_source_feed_input_name)
+                .icon(R.drawable.vector_icon_format_title)
                 .editTitle("")
                 .description(R.string.add_news_source_feed_input_name)
                 .editDescription(R.string.add_news_source_feed_input_name)
                 .editable(true)
+                .editInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
                 .build()
         );
 
         actions.add(new GuidedAction.Builder(getActivity())
                 .id(ACTION_ID_SOURCE_FEED_URL)
                 .title(R.string.add_news_source_feed_input_url)
+                .icon(R.drawable.vector_icon_rss)
                 .editTitle("http://www.")
                 .description(R.string.add_news_source_feed_input_url)
                 .editDescription(R.string.add_news_source_feed_input_url)
                 .editable(true)
+                .editInputType(InputType.TYPE_TEXT_VARIATION_URI)
                 .build()
         );
     }
@@ -136,7 +141,7 @@ public class AddSourceDialogFragment extends GuidedStepFragment {
         if (action.getId() == ACTION_ID_SOURCE_NAME) {
             CharSequence newsSourceName = action.getEditTitle();
             validSourceName = isValidNewsSourceName(newsSourceName);
-            validSourceUrl = isValidUrl(findActionById(ACTION_ID_SOURCE_FEED_URL).getEditTitle());
+            validSourceUrl = isValidUrl(findActionById(ACTION_ID_SOURCE_FEED_URL).getEditTitle().toString());
 
             updateOkButton(validSourceName && validSourceUrl);
 
@@ -149,7 +154,9 @@ public class AddSourceDialogFragment extends GuidedStepFragment {
             }
 
         } else if (action.getId() == ACTION_ID_SOURCE_FEED_URL) {
-            CharSequence feedUrl = action.getEditTitle();
+            String feedUrl = action.getEditTitle().toString();
+            // When entering URL, sometimes there is unintended spaces, clean those
+            feedUrl = feedUrl.replaceAll("\\s+", "");
             validSourceUrl = isValidUrl(feedUrl);
             validSourceName = isValidNewsSourceName(findActionById(ACTION_ID_SOURCE_NAME)
                     .getEditTitle());
@@ -160,6 +167,7 @@ public class AddSourceDialogFragment extends GuidedStepFragment {
                 return GuidedAction.ACTION_ID_CURRENT;
             } else {
                 action.setDescription(feedUrl);
+                action.setEditTitle(feedUrl);  // Updates with valid URL
                 return GuidedAction.ACTION_ID_NEXT;
             }
         }
@@ -171,8 +179,8 @@ public class AddSourceDialogFragment extends GuidedStepFragment {
         notifyButtonActionChanged(findButtonActionPositionById(GuidedAction.ACTION_ID_OK));
     }
 
-    private static boolean isValidUrl(CharSequence input) {
-        return URLUtil.isValidUrl(input.toString());
+    private static boolean isValidUrl(String input) {
+        return URLUtil.isValidUrl(input);
     }
 
     private static boolean isValidNewsSourceName(CharSequence input) {

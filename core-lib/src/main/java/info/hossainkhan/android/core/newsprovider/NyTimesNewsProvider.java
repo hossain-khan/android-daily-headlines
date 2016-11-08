@@ -26,8 +26,6 @@ package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
 
-import com.google.firebase.crash.FirebaseCrash;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -162,7 +160,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
 
                         if (totalResponseItemSize != sectionSize) {
                             // Error
-                            FirebaseCrash.log("Unable to get all responses.");
+                            Timber.d("Unable to get all responses.");
                         } else {
                             List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
                             navigationHeadlines.add(NavigationRow.builder()

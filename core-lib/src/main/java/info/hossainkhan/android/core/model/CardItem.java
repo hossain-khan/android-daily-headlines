@@ -29,7 +29,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
-import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.annotations.SerializedName;
 
 import java.net.URI;
@@ -150,7 +149,6 @@ public abstract class CardItem {
         } else {
             String NO_IMAGE_MSG = "Article does not have image.";
             Timber.w("%s Total items: %d", NO_IMAGE_MSG, size);
-            FirebaseCrash.log(NO_IMAGE_MSG);
         }
 
         return new AutoValue_CardItem(
@@ -178,7 +176,7 @@ public abstract class CardItem {
         try {
             return new URI(imageUrl());
         } catch (URISyntaxException e) {
-            FirebaseCrash.report(e);
+            Timber.e(e);
             Timber.w("URI exception: ", imageUrl());
             return null;
         }

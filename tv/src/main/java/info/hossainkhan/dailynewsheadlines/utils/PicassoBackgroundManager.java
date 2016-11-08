@@ -41,6 +41,7 @@ import java.util.TimerTask;
 
 import info.hossainkhan.android.core.picasso.BlurTransformation;
 import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
+import info.hossainkhan.android.core.util.StringUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 
@@ -101,7 +102,7 @@ public class PicassoBackgroundManager {
                 @Override
                 public void run() {
                      /* Here is main (UI) thread */
-                    if (mBackgroundURI != null) {
+                    if (mBackgroundURI != null && StringUtils.isNotEmpty(mBackgroundURI.toString())) {
                         updateBackground(mBackgroundURI);
                     } else {
                         updateBackground();
