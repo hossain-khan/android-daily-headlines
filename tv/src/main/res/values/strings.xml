@@ -62,16 +62,19 @@
     <string name="app_info_version_label">Version</string>
     <string name="app_info_version_number">%1$s (Build #%2$d)</string>
     <string name="app_info_release_date_label">Release Date</string>
-    <string name="app_info_about_app_title">About App</string>
+    <string name="app_info_about_app_title">Daily Headlines</string>
+    <string name="app_info_about_app_sub_title">Your daily doze of just news \"headlines\". Nothing more.</string>
 
     <!-- Contribution Screen -->
     <string name="github_project_home_url">https://github.com/amardeshbd/android-daily-headlines</string>
     <string name="github_project_issues_url">https://goo.gl/AiaCw8</string>
     <string name="contribution_project_home_label">Project Home</string>
-    <string name="contribution_project_issues_label">Issues</string>
+    <string name="contribution_project_issues_label">Features or Issues</string>
     <string name="how_to_contribute_title">Contribution</string>
     <string name="how_to_contribute_description">This is an open-source project, where you can contribute by
         providing your ideas, or reporting any issues you may have encountered.</string>
+    <string name="contribution_credits_project_contributors_list_title">Contributor List</string>
+    <string name="contribution_credits_author_amardeshbd">* Hossain Khan</string>
 
     <!-- Add news source -->
     <string name="add_news_source_feed_guidance_title">Add News Feed</string>
