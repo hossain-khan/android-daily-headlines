@@ -26,14 +26,13 @@ package info.hossainkhan.android.core.headlines;
 
 import android.support.annotation.NonNull;
 
-import java.net.URI;
 import java.util.List;
 
 import info.hossainkhan.android.core.base.MvpPresenter;
 import info.hossainkhan.android.core.base.MvpView;
 import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.ScreenType;
 
 public interface HeadlinesContract {
 
@@ -45,7 +44,7 @@ public interface HeadlinesContract {
 
         void showAppSettingsScreen();
 
-        void showHeadlineBackdropBackground(URI imageURI);
+        void showHeadlineBackdropBackground(String imageUrl);
 
         /**
          * Toggles loading indicator based on boolean flag.

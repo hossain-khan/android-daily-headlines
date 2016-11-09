@@ -24,20 +24,34 @@
 
 package info.hossainkhan.android.core.util;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import timber.log.Timber;
+
 public class StringUtils {
 
     public static boolean isNotEmpty(String s) {
-        return s != null && s.isEmpty() == false;
+        return s != null && !s.isEmpty();
     }
 
     public static boolean isEmpty(String s) {
-        return isNotEmpty(s) == false;
+        return !isNotEmpty(s);
     }
 
-    public static boolean isEquals(String a, String b) {
-        if(a == null || b == null) {
-            return false;
+    public static boolean isValidUri(String s) {
+        if (isEmpty(s)) return false;
+
+        boolean isValid;
+
+        try {
+            new URI(s);
+            isValid = true;
+        } catch (URISyntaxException e) {
+            Timber.e(e);
+            Timber.w("URI exception for: %s", s);
+            isValid = false;
         }
-        return a.equals(b);
+        return isValid;
     }
 }

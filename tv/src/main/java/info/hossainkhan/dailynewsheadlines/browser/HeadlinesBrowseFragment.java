@@ -33,7 +33,6 @@ import android.os.Bundle;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 
-import java.net.URI;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
@@ -186,9 +185,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     @Override
-    public void showHeadlineBackdropBackground(final URI imageURI) {
-        Timber.d("Loading HD background URL: %s", imageURI);
-        mPicassoBackgroundManager.updateBackgroundWithDelay(imageURI);
+    public void showHeadlineBackdropBackground(final String imageUrl) {
+        Timber.d("Loading HD background URL: %s", imageUrl);
+        mPicassoBackgroundManager.updateBackgroundWithDelay(imageUrl);
     }
 
 
