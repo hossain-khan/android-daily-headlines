@@ -74,7 +74,7 @@
     <string name="how_to_contribute_description">This is an open-source project, where you can contribute by
         providing your ideas, or reporting any issues you may have encountered.</string>
     <string name="contribution_credits_project_contributors_list_title">Contributor List</string>
-    <string name="contribution_credits_author_amardeshbd">* Hossain Khan</string>
+    <string name="contribution_credits_author_amardeshbd">&#8226; Hossain Khan</string>
 
     <!-- Add news source -->
     <string name="add_news_source_feed_guidance_title">Add News Feed</string>
