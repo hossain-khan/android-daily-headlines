@@ -114,7 +114,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     public void onHeadlineItemClicked(@NonNull final CardItem cardItem) {
         int id = cardItem.id();
         CardItem.Type type = cardItem.type();
-        if (type == CardItem.Type.ICON) {
+        if (type == CardItem.Type.ACTION) {
             if (id == R.string.settings_card_item_news_source_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showAppSettingsScreen();
