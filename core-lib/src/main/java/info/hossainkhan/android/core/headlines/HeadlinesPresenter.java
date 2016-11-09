@@ -36,6 +36,7 @@ import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import rx.Observable;
@@ -120,12 +121,15 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
             } else if (id == R.string.settings_card_item_add_news_source_feed_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showAddNewsSourceScreen();
+            } else if (id == R.string.settings_card_item_manage_news_source_feed_title) {
+                CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
+                getView().showUiScreen(ScreenType.MANAGE_NEWS_SOURCE);
             } else if(id == R.string.settings_card_item_about_app_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
-                getView().showAppAboutScreen();
+                getView().showUiScreen(ScreenType.ABOUT_APPLICATION);
             } else if(id == R.string.settings_card_item_contribution_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
-                getView().showAppContributionScreen();
+                getView().showUiScreen(ScreenType.ABOUT_CONTRIBUTION);
             } else {
                 Timber.w("Unable to handle settings item: %s", cardItem.title());
             }

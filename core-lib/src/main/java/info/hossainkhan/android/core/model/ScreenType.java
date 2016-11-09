@@ -22,44 +22,13 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.usersource;
-
-
-import java.util.Map;
-import java.util.Set;
+package info.hossainkhan.android.core.model;
 
 /**
- * Manages RSS/Atom based news sources that is added by user.
+ * List of information dialog type supported by this activity.
  */
-public interface UserSourceProvider {
-
-    /**
-     * Adds a news source to the system.
-     *
-     * @param title News source title.
-     * @param url   News source feed URL.
-     */
-    void addSource(String title, String url);
-
-    /**
-     * Removes a news source by URL.
-     *
-     * @param url Feed URL for news source.
-     * @return The title of URL remove, or {@code null} if URL was never there.
-     */
-    String removeSource(String url);
-
-    /**
-     * Removes multiple news sources by URL.
-     *
-     * @param urls Unique urls to remove.
-     */
-    void removeSources(Set<String> urls);
-
-    /**
-     * Returns a map of news source paired by URL & Title
-     *
-     * @return Map of news sources. URL is key, and Title is value.
-     */
-    Map<String, String> getSources();
+public enum ScreenType {
+    ABOUT_APPLICATION,
+    ABOUT_CONTRIBUTION,
+    MANAGE_NEWS_SOURCE
 }

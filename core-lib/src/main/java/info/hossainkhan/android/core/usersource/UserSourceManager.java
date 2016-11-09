@@ -34,6 +34,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.Map;
+import java.util.Set;
 
 import info.hossainkhan.android.core.util.Validate;
 import timber.log.Timber;
@@ -69,6 +70,12 @@ public class UserSourceManager implements UserSourceProvider {
         String removedSourceTitle = mNewsMap.remove(url);
         updateSources();
         return removedSourceTitle;
+    }
+
+    @Override
+    public void removeSources(final Set<String> urls) {
+        mNewsMap.keySet().removeAll(urls);
+        updateSources();
     }
 
     @Override

@@ -14,6 +14,7 @@ import info.hossainkhan.android.core.base.BaseActivity;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import timber.log.Timber;
@@ -80,18 +81,13 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     }
 
     @Override
-    public void showAppAboutScreen() {
-        Timber.d("showAppAboutScreen() called");
-    }
-
-    @Override
-    public void showAppContributionScreen() {
-        Timber.d("showAppContributionScreen() called");
-    }
-
-    @Override
     public void showAddNewsSourceScreen() {
         Timber.d("showAddNewsSourceScreen() called");
+    }
+
+    @Override
+    public void showUiScreen(final ScreenType type) {
+        Timber.d("showUiScreen() called with: type = [" + type + "]");
     }
 
     @Override
