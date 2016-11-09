@@ -70,6 +70,7 @@ public class AnalyticsReporter {
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, card.contentUrl());
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, card.title());
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, card.category());
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, card.type().name());
         mAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 

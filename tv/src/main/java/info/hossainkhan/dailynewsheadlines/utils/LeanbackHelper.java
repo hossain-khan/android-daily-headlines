@@ -89,7 +89,7 @@ public final class LeanbackHelper {
                         null /* description */, null /*extraText */, null /*category */,
                         null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
                         R.drawable.ic_settings_settings, // localImageResourceId,
-                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ICON, 0 /* width */, 0 /* height */
+                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION, 0 /* width */, 0 /* height */
                 )
         );
         settingsItems.add(
@@ -99,7 +99,7 @@ public final class LeanbackHelper {
                         null /* description */, null /*extraText */, null /*category */,
                         null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
                         R.drawable.ic_settings_add_news_source, // localImageResourceId,
-                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ICON, 0 /* width */, 0 /* height */
+                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION, 0 /* width */, 0 /* height */
                 )
         );
 
@@ -110,7 +110,7 @@ public final class LeanbackHelper {
                         null /* description */, null /*extraText */, null /*category */,
                         null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
                         R.drawable.ic_settings_manage_news_source, // localImageResourceId,
-                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ICON, 0 /* width */, 0 /* height */
+                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION, 0 /* width */, 0 /* height */
                 )
         );
 
@@ -132,7 +132,7 @@ public final class LeanbackHelper {
                         null /* description */, null /*extraText */, null /*category */,
                         null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
                         R.drawable.ic_settings_about_app_information, // localImageResourceId,
-                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ICON,
+                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION,
                         0 /* width */, 0 /* height */
                 )
         );
@@ -144,7 +144,7 @@ public final class LeanbackHelper {
                         null /* description */, null /*extraText */, null /*category */,
                         null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
                         R.drawable.ic_settings_contribute_github_circle, // localImageResourceId,
-                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ICON,
+                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION,
                         0 /* width */, 0 /* height */
                 )
         );

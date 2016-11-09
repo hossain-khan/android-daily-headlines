@@ -50,9 +50,18 @@ public abstract class CardItem {
      * Type of the cards supported by the TV browser.
      */
     public enum Type {
+        /**
+         * News headlines or article item.
+         */
         HEADLINES,
+        /**
+         * Details for item. Not used yet.
+         */
         DETAILS,
-        ICON
+        /**
+         * Action item, ususally icon based item for user action.
+         */
+        ACTION
     }
 
     @SerializedName("id")
