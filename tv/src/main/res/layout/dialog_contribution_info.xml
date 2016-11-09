@@ -90,4 +90,17 @@
     </android.support.v7.widget.CardView>
 
 
+    <!-- Contributors List - people will be added as they contribute -->
+    <TextView
+        style="@style/InformationTitleText"
+        android:drawableLeft="@drawable/vector_icon_human_greeting"
+        android:drawablePadding="5dp"
+        android:text="@string/contribution_credits_project_contributors_list_title"/>
+
+    <TextView
+        style="@style/InformationSubtitleText"
+        android:text="@string/contribution_credits_author_amardeshbd"/>
+
+
+
 </LinearLayout>
