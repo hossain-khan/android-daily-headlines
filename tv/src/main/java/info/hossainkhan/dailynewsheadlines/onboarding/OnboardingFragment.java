@@ -85,9 +85,9 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
 
 
     private static final int[] pageIcons = {
-            R.drawable.icon_newspaper,
-            R.drawable.icon_github_circle,
-            R.drawable.icon_lab_flask_outline
+            R.drawable.vector_icon_newspaper,
+            R.drawable.vector_icon_github_circle,
+            R.drawable.vector_icon_lab_flask_outline
     };
 
     private static final long ANIMATION_DURATION = 500;
