@@ -39,6 +39,8 @@ import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.usersource.UserSourceContract;
 import info.hossainkhan.android.core.usersource.UserSourceManager;
 import info.hossainkhan.android.core.usersource.UserSourcePresenter;
+import info.hossainkhan.dailynewsheadlines.R;
+import info.hossainkhan.dailynewsheadlines.onboarding.Emoji;
 import timber.log.Timber;
 
 /**
@@ -75,8 +77,8 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment implement
     @NonNull
     @Override
     public GuidanceStylist.Guidance onCreateGuidance(Bundle savedInstanceState) {
-        String title = "Manage your news sources";
-        String description = "Enable or disable them, you know what to do ;-)";
+        String title = getString(R.string.manage_news_source_feed_guidance_title);
+        String description = getString(R.string.manage_news_source_feed_guidance_description);
 
         GuidanceStylist.Guidance guidance = new GuidanceStylist.Guidance(title, description,
                 null, null);
@@ -85,7 +87,19 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment implement
 
     @Override
     public void onCreateActions(List<GuidedAction> actions, Bundle savedInstanceState) {
-        for (Map.Entry<String, String> entry : mPresenter.getUserNewsSources().entrySet()) {
+        Map<String, String> userNewsSources = mPresenter.getUserNewsSources();
+
+        if(userNewsSources.isEmpty()) {
+            // Show empty info only action
+            actions.add(new GuidedAction.Builder(getActivity())
+                    .infoOnly(true)
+                    .title(getString(R.string.manage_news_source_feed_no_items_action_title, Emoji.NEWS_PAPER))
+                    .description(R.string.manage_news_source_feed_no_items_action_description)
+                    .build());
+            return;
+        }
+
+        for (Map.Entry<String, String> entry : userNewsSources.entrySet()) {
             actions.add(getSourceAction(entry));
         }
     }
@@ -110,6 +124,7 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment implement
                                       Bundle savedInstanceState) {
         actions.add(new GuidedAction.Builder(getActivity())
                 .clickAction(GuidedAction.ACTION_ID_OK)
+                .title(R.string.remove)
                 .build()
         );
         actions.get(actions.size() - 1).setEnabled(false); // Disable OK, can't be enabled without validation
@@ -146,6 +161,11 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment implement
 
     @Override
     public void showRemoveSourceSuccess() {
-        Toast.makeText(getActivity(), "Removed sources.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),
+                getString(R.string.success_news_source_feed_removed, Emoji.NEWS_PAPER, Emoji.SMILEY),
+                Toast.LENGTH_LONG).show();
+
+        // Also end this scree.
+        closeScreen();
     }
 }

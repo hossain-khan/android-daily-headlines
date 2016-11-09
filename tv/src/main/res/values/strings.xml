@@ -8,6 +8,7 @@
     <string name="ok">OK</string>
     <string name="okay">Okay</string>
     <string name="done">Done</string>
+    <string name="remove">Remove</string>
     <string name="description_close_current_info_screen">Closes current information screen.</string>
     <string name="loading">Loading&#8230;</string>
     <string name="processing">Processing&#8230;</string>
@@ -38,7 +39,9 @@
 
     <!-- Error and Success messages -->
     <string name="success_news_source_feed_added">Successfully added \'%1$s\' to your catalog.
-        \n\nWill be available when you launch your app next time Enjoy %2$s</string>
+        \n\nWill be available when you launch your app next time. Enjoy %2$s</string>
+    <string name="success_news_source_feed_removed">Successfully removed selected %1$s sources from your catalog.
+        \n\nWill be disabled when you launch your app next time. Enjoy %2$s</string>
     <string name="error_msg_unable_to_load_headlines">Sorry, something unexpectedly went wrong.\nWe are unable to load
         your headlines.</string>
     <string name="error_msg_unable_to_load_content">Sorry, could not load headlines.</string>
@@ -79,4 +82,12 @@
     <string name="add_news_source_feed_input_invalid_url_error">ERROR: A valid RSS/Atom based feed URL is required to get news from the source.</string>
     <string name="add_news_source_feed_validating_progress_title">Validating news source</string>
     <string name="add_news_source_feed_validating_progress_description">Please wait while we validate %s has news data.</string>
+
+    <!-- Manage News Source -->
+    <!-- Add news source -->
+    <string name="manage_news_source_feed_guidance_title">Manage Your Source</string>
+    <string name="manage_news_source_feed_guidance_description">Select the news sources that you want to remove.</string>
+    <string name="manage_news_source_feed_no_items_action_title">You have not added any %1$s sources.</string>
+    <string name="manage_news_source_feed_no_items_action_description">Please add news source to be able to manage them from this screen.</string>
+
 </resources>
