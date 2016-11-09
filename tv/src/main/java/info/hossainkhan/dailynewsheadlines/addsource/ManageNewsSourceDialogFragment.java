@@ -24,32 +24,31 @@
 
 package info.hossainkhan.dailynewsheadlines.addsource;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
 import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import info.hossainkhan.android.core.CoreApplication;
+import info.hossainkhan.android.core.usersource.UserSourceContract;
 import info.hossainkhan.android.core.usersource.UserSourceManager;
-import info.hossainkhan.android.core.usersource.UserSourceProvider;
+import info.hossainkhan.android.core.usersource.UserSourcePresenter;
 import timber.log.Timber;
 
 /**
  * Enables user to enable/disable added news sources.
  */
-public class ManageNewsSourceDialogFragment extends GuidedStepFragment {
+public class ManageNewsSourceDialogFragment extends GuidedStepFragment implements UserSourceContract.View {
     /**
      * Unique screen name used for reporting and analytics.
      */
     private static final String ANALYTICS_SCREEN_NAME = "news_source_manage";
-
-    private Set<String> mRemovedSourcesQueue = new HashSet<>();
+    private UserSourcePresenter mPresenter;
 
     /**
      * Creates new add news source dialog fragment.
@@ -58,6 +57,12 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment {
      */
     public static ManageNewsSourceDialogFragment newInstance() {
         return new ManageNewsSourceDialogFragment();
+    }
+
+    @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+        mPresenter = new UserSourcePresenter(this, new UserSourceManager(activity.getApplicationContext()));
     }
 
     @Override
@@ -79,16 +84,14 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment {
 
     @Override
     public void onCreateActions(List<GuidedAction> actions, Bundle savedInstanceState) {
-        UserSourceProvider userSourceProvider = new UserSourceManager(getActivity().getApplicationContext());
-        Map<String, String> newsSources = userSourceProvider.getSources();
-
-        for (Map.Entry<String, String> entry : newsSources.entrySet()) {
+        for (Map.Entry<String, String> entry : mPresenter.getUserNewsSources().entrySet()) {
             actions.add(getSourceAction(entry));
         }
     }
 
     /**
      * Builds a GuidedAction item from news source set.
+     *
      * @param newsSourceEntry News source map entry.
      * @return Checkbox GuidedAction
      */
@@ -118,27 +121,25 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment {
     @Override
     public void onGuidedActionClicked(GuidedAction action) {
         if (GuidedAction.ACTION_ID_OK == action.getId()) {
-            Timber.d("Going to remove all URLs from queue: %s", mRemovedSourcesQueue);
+            mPresenter.onRemoveConfirm();
         } else if (GuidedAction.ACTION_ID_CANCEL == action.getId()) {
-            getActivity().finish();
+            mPresenter.onCancelRemoval();
         } else {
             Timber.i("Processing news source: %s.", action);
             String url = action.getDescription().toString();
-            if (action.isChecked()) {
-                Timber.d("Adding URL for removal: %s", url);
-                mRemovedSourcesQueue.add(url);
-            } else {
-                Timber.d("Removing URL from removal queue: %s", url);
-                mRemovedSourcesQueue.remove(url);
-            }
-
-            updateOkButton(!mRemovedSourcesQueue.isEmpty());
+            mPresenter.onSourceSelected(url, action.isChecked());
         }
     }
 
 
-    private void updateOkButton(boolean enabled) {
-        findButtonActionById(GuidedAction.ACTION_ID_OK).setEnabled(enabled);
+    @Override
+    public void toggleRemoveAction(final boolean isActive) {
+        findButtonActionById(GuidedAction.ACTION_ID_OK).setEnabled(isActive);
         notifyButtonActionChanged(findButtonActionPositionById(GuidedAction.ACTION_ID_OK));
+    }
+
+    @Override
+    public void closeScreen() {
+        getActivity().finish();
     }
 }
