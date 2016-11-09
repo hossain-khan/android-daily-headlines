@@ -186,9 +186,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     @Override
-    public void showHeadlineBackdropBackground(final URI imageURI) {
-        Timber.d("Loading HD background URL: %s", imageURI);
-        mPicassoBackgroundManager.updateBackgroundWithDelay(imageURI);
+    public void showHeadlineBackdropBackground(final String imageUrl) {
+        Timber.d("Loading HD background URL: %s", imageUrl);
+        mPicassoBackgroundManager.updateBackgroundWithDelay(imageUrl);
     }
 
 

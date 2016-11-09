@@ -39,6 +39,7 @@ import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
+import info.hossainkhan.android.core.util.StringUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -103,8 +104,9 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     @Override
     public void onHeadlineItemSelected(@NonNull final CardItem cardItem) {
         CoreApplication.getAnalyticsReporter().reportHeadlineSelectedEvent(cardItem);
-        if (cardItem.imageUrl() !=null) {
-            getView().showHeadlineBackdropBackground(cardItem.getImageURI());
+        String imageUrl = cardItem.imageUrl();
+        if (StringUtils.isValidUri(imageUrl)) {
+            getView().showHeadlineBackdropBackground(imageUrl);
         } else {
             Timber.i("Card object does not have HD background.");
         }

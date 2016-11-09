@@ -45,7 +45,7 @@ public interface HeadlinesContract {
 
         void showAppSettingsScreen();
 
-        void showHeadlineBackdropBackground(URI imageURI);
+        void showHeadlineBackdropBackground(String imageUrl);
 
         /**
          * Toggles loading indicator based on boolean flag.
