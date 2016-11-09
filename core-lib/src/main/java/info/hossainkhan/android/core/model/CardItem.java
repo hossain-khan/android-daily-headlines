@@ -31,8 +31,6 @@ import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
 import com.google.gson.annotations.SerializedName;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import info.hossainkhan.android.core.gson.AutoGson;
@@ -177,18 +175,4 @@ public abstract class CardItem {
                 height);
 
     }
-
-
-
-    public URI getImageURI() {
-        if (imageUrl() == null) return null;
-        try {
-            return new URI(imageUrl());
-        } catch (URISyntaxException e) {
-            Timber.e(e);
-            Timber.w("URI exception: ", imageUrl());
-            return null;
-        }
-    }
-
 }

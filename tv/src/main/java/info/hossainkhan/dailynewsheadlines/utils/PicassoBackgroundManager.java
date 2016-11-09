@@ -34,8 +34,6 @@ import android.util.DisplayMetrics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -59,7 +57,7 @@ public class PicassoBackgroundManager {
     private Activity mActivity;
     private BackgroundManager mBackgroundManager = null;
     private DisplayMetrics mMetrics;
-    private URI mBackgroundURI;
+    private String mBackgroundUrl;
     private PicassoImageTarget mBackgroundTarget;
 
     private Timer mBackgroundTimer; // null when no UpdateBackgroundTask is running.
@@ -102,8 +100,8 @@ public class PicassoBackgroundManager {
                 @Override
                 public void run() {
                      /* Here is main (UI) thread */
-                    if (mBackgroundURI != null && StringUtils.isNotEmpty(mBackgroundURI.toString())) {
-                        updateBackground(mBackgroundURI);
+                    if (mBackgroundUrl != null && StringUtils.isNotEmpty(mBackgroundUrl.toString())) {
+                        updateBackground(mBackgroundUrl);
                     } else {
                         updateBackground();
                     }
@@ -116,41 +114,31 @@ public class PicassoBackgroundManager {
      * update backgroud to default
      */
     public void updateBackgroundWithDelay() {
-        mBackgroundURI = null;
+        mBackgroundUrl = null;
         startBackgroundTimer();
     }
 
-
-    public void updateBackgroundWithDelay(String url) {
-        try {
-            URI uri = new URI(url);
-            updateBackgroundWithDelay(uri);
-        } catch (URISyntaxException e) {
-            /* skip updating background */
-            Timber.e(e);
-        }
-    }
 
     /**
      * updateBackground with delay
      * delay time is measured in other Timer task thread.
-     * @param uri Image URI to load
+     * @param imageUrl Image URI to load
      */
-    public void updateBackgroundWithDelay(URI uri) {
-        updateBackgroundWithDelay(uri, null);
+    public void updateBackgroundWithDelay(String imageUrl) {
+        updateBackgroundWithDelay(imageUrl, null);
     }
 
-    public void updateBackgroundWithDelay(URI uri, TransformType transformType) {
-        mBackgroundURI = uri;
+    public void updateBackgroundWithDelay(String imageUrl, TransformType transformType) {
+        mBackgroundUrl = imageUrl;
         mTransformType = transformType;
         startBackgroundTimer();
     }
 
-    private void updateBackground(URI uri) {
+    private void updateBackground(String imageUrl) {
         try {
             Picasso picasso = Picasso.with(mActivity);
             RequestCreator requestCreator = picasso
-                    .load(uri.toString())
+                    .load(imageUrl)
                     .resize(mMetrics.widthPixels, mMetrics.heightPixels)
                     .centerCrop()
                     .error(mDefaultBackground);

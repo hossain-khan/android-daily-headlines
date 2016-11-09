@@ -40,6 +40,8 @@ public interface HeadlinesDetailsContract {
         void openArticleWebUrl(String contentUrl);
 
         void showHeadlineDetails(CardItem cardItem);
+
+        void loadDetailsImage(String imageUrl);
     }
 
     interface Presenter extends MvpPresenter<HeadlinesDetailsContract.View> {

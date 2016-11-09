@@ -69,6 +69,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
     private PicassoBackgroundManager mPicassoBackgroundManager;
     private PicassoImageTargetDetailsOverview mDetailsRowPicassoTarget;
     private HeadlinesDetailsViewPresenter mPresenter;
+    private DetailsOverviewRow mDetailsOverview;
 
 
     @Override
@@ -154,26 +155,30 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
         mRowsAdapter = new ArrayObjectAdapter(rowPresenterSelector);
 
         // Setup action and detail row.
-        DetailsOverviewRow detailsOverview = new DetailsOverviewRow(cardItem);
+        mDetailsOverview = new DetailsOverviewRow(cardItem);
         // DEV NOTE: Without the image drawable, the details view occupies full width for texts.
-        detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.placeholder_loading_image));
+        mDetailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.placeholder_loading_image));
 
-        mDetailsRowPicassoTarget = new PicassoImageTargetDetailsOverview(mApplicationContext, detailsOverview);
-        Picasso.with(mApplicationContext)
-                .load(cardItem.imageUrl())
-                .into(mDetailsRowPicassoTarget);
-
-
-        mRowsAdapter.add(detailsOverview);
-
-
+        mRowsAdapter.add(mDetailsOverview);
         setAdapter(mRowsAdapter);
-        mPicassoBackgroundManager.updateBackgroundWithDelay(cardItem.getImageURI(), PicassoBackgroundManager.TransformType.GREYSCALE);
+
 
         // NOTE: Move this when data is loaded
         startEntranceTransition();
     }
 
+    @Override
+    public void loadDetailsImage(final String imageUrl) {
+        mDetailsRowPicassoTarget = new PicassoImageTargetDetailsOverview(mApplicationContext, mDetailsOverview);
+        Picasso.with(mApplicationContext)
+                .load(imageUrl)
+                .into(mDetailsRowPicassoTarget);
+
+        mPicassoBackgroundManager.updateBackgroundWithDelay(
+                imageUrl,
+                PicassoBackgroundManager.TransformType.GREYSCALE);
+
+    }
 
 
     @Override
