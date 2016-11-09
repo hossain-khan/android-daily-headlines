@@ -63,6 +63,8 @@ public class UserSourcePresenter
     @Override
     public void onRemoveConfirm() {
         Timber.d("Going to remove all URLs from queue: %s", mRemovedSourcesQueue);
+        mUserSourceProvider.removeSources(mRemovedSourcesQueue);
+        getView().showRemoveSourceSuccess();
     }
 
     @Override

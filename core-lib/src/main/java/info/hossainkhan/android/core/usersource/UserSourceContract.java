@@ -39,6 +39,8 @@ public interface UserSourceContract {
         void toggleRemoveAction(boolean isActive);
 
         void closeScreen();
+
+        void showRemoveSourceSuccess();
     }
 
     interface Presenter extends MvpPresenter<UserSourceContract.View> {

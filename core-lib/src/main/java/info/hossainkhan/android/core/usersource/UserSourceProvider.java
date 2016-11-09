@@ -26,6 +26,7 @@ package info.hossainkhan.android.core.usersource;
 
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Manages RSS/Atom based news sources that is added by user.
@@ -47,6 +48,13 @@ public interface UserSourceProvider {
      * @return The title of URL remove, or {@code null} if URL was never there.
      */
     String removeSource(String url);
+
+    /**
+     * Removes multiple news sources by URL.
+     *
+     * @param urls Unique urls to remove.
+     */
+    void removeSources(Set<String> urls);
 
     /**
      * Returns a map of news source paired by URL & Title

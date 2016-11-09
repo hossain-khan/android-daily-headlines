@@ -30,6 +30,7 @@ import android.support.annotation.NonNull;
 import android.support.v17.leanback.app.GuidedStepFragment;
 import android.support.v17.leanback.widget.GuidanceStylist;
 import android.support.v17.leanback.widget.GuidedAction;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Map;
@@ -141,5 +142,10 @@ public class ManageNewsSourceDialogFragment extends GuidedStepFragment implement
     @Override
     public void closeScreen() {
         getActivity().finish();
+    }
+
+    @Override
+    public void showRemoveSourceSuccess() {
+        Toast.makeText(getActivity(), "Removed sources.", Toast.LENGTH_SHORT).show();
     }
 }
