@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.URI;
 import java.util.List;
 
 import butterknife.BindView;
@@ -14,8 +13,8 @@ import info.hossainkhan.android.core.base.BaseActivity;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import timber.log.Timber;
 
