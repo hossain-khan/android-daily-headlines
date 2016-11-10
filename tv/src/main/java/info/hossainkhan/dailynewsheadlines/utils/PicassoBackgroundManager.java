@@ -100,7 +100,7 @@ public class PicassoBackgroundManager {
                 @Override
                 public void run() {
                      /* Here is main (UI) thread */
-                    if (mBackgroundUrl != null && StringUtils.isNotEmpty(mBackgroundUrl.toString())) {
+                    if (mBackgroundUrl != null && StringUtils.isNotEmpty(mBackgroundUrl)) {
                         updateBackground(mBackgroundUrl);
                     } else {
                         updateBackground();
