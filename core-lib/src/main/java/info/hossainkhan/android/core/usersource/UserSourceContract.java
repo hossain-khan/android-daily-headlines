@@ -36,21 +36,49 @@ public interface UserSourceContract {
 
     interface View extends MvpView {
 
+        /**
+         * Callback to enable or disable remove action button.
+         *
+         * @param isActive Flag to activate or deactivate remove action.
+         */
         void toggleRemoveAction(boolean isActive);
 
+        /**
+         * Close current screen.
+         */
         void closeScreen();
 
+        /**
+         * Show remove source success feedback.
+         */
         void showRemoveSourceSuccess();
     }
 
     interface Presenter extends MvpPresenter<UserSourceContract.View> {
 
+        /**
+         * Adds provided URL to list to remove.
+         *
+         * @param url      URL to remove.
+         * @param isRemove Flag, to indicate if should be removed or not.
+         */
         void onSourceSelected(String url, boolean isRemove);
 
+        /**
+         * Removes all the URLs that was added via {@link #onSourceSelected(String, boolean)}.
+         */
         void onRemoveConfirm();
 
+        /**
+         * Cancels removal process.
+         */
         void onCancelRemoval();
 
+        /**
+         * Get list of existing URLs saved by user.
+         *
+         * @return A map of &lt;URL, TITLE&gt; containing all the news source feed and title.
+         */
         Map<String, String> getUserNewsSources();
     }
 }

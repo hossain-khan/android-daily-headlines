@@ -36,21 +36,39 @@ import info.hossainkhan.android.core.base.MvpView;
 public interface UserSourceAddContract {
 
     interface View extends MvpView {
+        /**
+         * Show or hide progress indicator base on provided boolean value.
+         *
+         * @param isVisible Flag to indicate network validation in progress or finished.
+         */
         void toggleValidationProgressIndicator(boolean isVisible);
 
+        /**
+         * Callback when news source is successfully added.
+         */
         void showSourceAddedMessage();
 
+        /**
+         * Callback when source source failed due to lack of news items from source.
+         *
+         * @param totalFeedItems Total items found in the feed.
+         */
         void showSourceValidationFailed(final int totalFeedItems);
 
+        /**
+         * Callback when provided feed URL can't be loaded.
+         */
         void showUrlLoadFailedMessage();
     }
 
     interface Presenter extends MvpPresenter<UserSourceAddContract.View> {
 
         /**
-         * Request to add new news source.
-         * @param newsSourceTitle
-         * @param newsSourceUrl
+         * Request to add new news source. News source should be validated by making actual network request.
+         * When network request in progress listen for {@link View#toggleValidationProgressIndicator(boolean)}.
+         *
+         * @param newsSourceTitle Title of news source.
+         * @param newsSourceUrl   The RSS feed URL for news source.
          */
         void addNewSource(String newsSourceTitle, String newsSourceUrl);
 
