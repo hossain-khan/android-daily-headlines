@@ -108,7 +108,8 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
         })
                 // By default network call must be done on non-ui thread.
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(Observable.empty());
     }
 
     /**
