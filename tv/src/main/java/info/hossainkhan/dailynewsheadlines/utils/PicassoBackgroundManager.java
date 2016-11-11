@@ -91,6 +91,20 @@ public class PicassoBackgroundManager {
         mBackgroundTimer.schedule(new UpdateBackgroundTask(), BACKGROUND_UPDATE_DELAY);
     }
 
+    /**
+     * Should be called to stop and cleanup resources
+     */
+    public void destroy() {
+        Timber.d("Stopping background manager.");
+        if (mBackgroundTimer != null) {
+            mBackgroundTimer.cancel();
+        }
+        mBackgroundManager.release();
+        mBackgroundManager = null;
+        mBackgroundTarget = null;
+        mActivity = null;
+    }
+
 
     private class UpdateBackgroundTask extends TimerTask {
         @Override

@@ -110,6 +110,17 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
         CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detachView();
+        if (null != mPicassoBackgroundManager) {
+            Timber.d("onDestroy: " + mPicassoBackgroundManager.toString());
+            mPicassoBackgroundManager.destroy();
+        }
+    }
+
     private void setupEventListeners(final DetailsViewInteractionListener listener) {
         setOnItemViewSelectedListener(listener);
         setOnItemViewClickedListener(listener);
