@@ -80,13 +80,16 @@
                 android:id="@+id/summary_text_1"
                 style="@style/Widget.Leanback.ImageCardView.ContentStyle.InfoText"
                 android:layout_gravity="left"
-                tools:text="Info Left" />
+                android:ellipsize="end"
+                android:maxWidth="@dimen/card_subtext_container_left_max_width"
+                tools:text="Info and tags on the left side of the card" />
 
             <TextView
                 android:id="@+id/summary_text_2"
                 style="@style/Widget.Leanback.ImageCardView.ContentStyle.InfoText"
+                android:maxWidth="@dimen/card_subtext_container_right_max_width"
                 android:layout_gravity="right"
-                tools:text="Info Right" />
+                tools:text="Info or time elapsed on the Right" />
         </FrameLayout>
     </RelativeLayout>
 
