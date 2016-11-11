@@ -183,7 +183,8 @@ public final class NyTimesNewsProvider implements NewsProvider {
                         }
                         return null;
                     }
-                });
+                })
+                .onErrorResumeNext(Observable.empty());
     }
 
 
