@@ -106,9 +106,11 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         CoreApplication.getAnalyticsReporter().reportHeadlineSelectedEvent(cardItem);
         String imageUrl = cardItem.imageUrl();
         if (StringUtils.isValidUri(imageUrl)) {
+            Timber.d("Loading background image from URL: %s", imageUrl);
             getView().showHeadlineBackdropBackground(imageUrl);
         } else {
-            Timber.i("Card object does not have HD background.");
+            Timber.i("Card object does not have HD background. Current URL: %s", imageUrl);
+            getView().showDefaultBackground();
         }
     }
 

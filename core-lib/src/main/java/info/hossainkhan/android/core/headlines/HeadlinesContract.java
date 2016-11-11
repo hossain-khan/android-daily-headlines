@@ -47,6 +47,11 @@ public interface HeadlinesContract {
         void showHeadlineBackdropBackground(String imageUrl);
 
         /**
+         * Called when headline has no background image associated with it.
+         */
+        void showDefaultBackground();
+
+        /**
          * Toggles loading indicator based on boolean flag.
          *
          * @param active Flag to show or hide data loading indicator.

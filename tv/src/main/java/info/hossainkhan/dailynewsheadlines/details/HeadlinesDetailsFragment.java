@@ -191,6 +191,11 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
 
     }
 
+    @Override
+    public void loadDefaultImage() {
+        mPicassoBackgroundManager.updateBackgroundWithDelay();
+    }
+
 
     @Override
     public void updateScreenTitle(final String title) {

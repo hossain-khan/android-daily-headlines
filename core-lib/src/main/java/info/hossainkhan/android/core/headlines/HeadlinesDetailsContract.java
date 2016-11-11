@@ -42,6 +42,8 @@ public interface HeadlinesDetailsContract {
         void showHeadlineDetails(CardItem cardItem);
 
         void loadDetailsImage(String imageUrl);
+
+        void loadDefaultImage();
     }
 
     interface Presenter extends MvpPresenter<HeadlinesDetailsContract.View> {

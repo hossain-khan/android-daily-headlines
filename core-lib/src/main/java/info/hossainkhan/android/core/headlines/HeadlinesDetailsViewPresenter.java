@@ -53,7 +53,11 @@ public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetail
 
         String imageUrl = mCardItem.imageUrl();
         if(StringUtils.isValidUri(imageUrl)) {
+            Timber.d("Loading image URL: %s", imageUrl);
             getView().loadDetailsImage(imageUrl);
+        } else {
+            Timber.d("Invalid image URL: %s, loading default background instead", imageUrl);
+            getView().loadDefaultImage();
         }
     }
 

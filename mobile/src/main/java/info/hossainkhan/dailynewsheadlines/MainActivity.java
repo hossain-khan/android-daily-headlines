@@ -98,4 +98,9 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     public void showHeadlineBackdropBackground(final String imageUrl) {
         Timber.d("showHeadlineBackdropBackground() called with: imageUrl = [" + imageUrl + "]");
     }
+
+    @Override
+    public void showDefaultBackground() {
+        Timber.d("showDefaultBackground() called");
+    }
 }
