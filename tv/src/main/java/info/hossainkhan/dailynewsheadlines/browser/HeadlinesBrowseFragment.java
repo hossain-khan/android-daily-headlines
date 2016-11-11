@@ -190,6 +190,11 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         mPicassoBackgroundManager.updateBackgroundWithDelay(imageUrl);
     }
 
+    @Override
+    public void showDefaultBackground() {
+        mPicassoBackgroundManager.updateBackgroundWithDelay();
+    }
+
 
     private void loadRows(final List<NavigationRow> list) {
         applyStaticNavigationItems(list);

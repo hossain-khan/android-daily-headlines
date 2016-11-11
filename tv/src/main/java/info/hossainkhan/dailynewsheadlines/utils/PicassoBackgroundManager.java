@@ -125,7 +125,7 @@ public class PicassoBackgroundManager {
     }
 
     /**
-     * update backgroud to default
+     * update background to default image
      */
     public void updateBackgroundWithDelay() {
         mBackgroundUrl = null;
