@@ -36,7 +36,7 @@ import info.hossainkhan.android.core.dagger.ApplicationContext;
 @Module
 public class AppModule {
 
-    private CoreApplication mApp;
+    private final CoreApplication mApp;
 
     public AppModule(CoreApplication app) {
         mApp = app;

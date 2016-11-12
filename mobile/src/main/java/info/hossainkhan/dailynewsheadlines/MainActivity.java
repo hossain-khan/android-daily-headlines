@@ -1,11 +1,10 @@
 package info.hossainkhan.dailynewsheadlines;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -15,8 +14,8 @@ import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
-import info.hossainkhan.android.core.model.NewsProvider;
-import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
+import info.hossainkhan.android.core.model.ScreenType;
+import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements HeadlinesContract.View {
@@ -36,15 +35,21 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
         ButterKnife.bind(this);
 
         // TODO use DI to inject
-        List<NewsProvider> providers = new ArrayList<>(2);
-        providers.add(new NyTimesNewsProvider());
-        mHeadlinesPresenter = new HeadlinesPresenter(getApplicationContext(), this, providers);
+        Context context = getApplicationContext();
+        NewsProviderManager newsProviderManager = new NewsProviderManager(context);
+        mHeadlinesPresenter = new HeadlinesPresenter(context, this, newsProviderManager);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Timber.d("onStart() called");
+    }
+
+    @Override
+    protected void onStop() {
+        mHeadlinesPresenter.detachView();
+        super.onStop();
     }
 
     @Override
@@ -75,12 +80,27 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     }
 
     @Override
+    public void showAddNewsSourceScreen() {
+        Timber.d("showAddNewsSourceScreen() called");
+    }
+
+    @Override
+    public void showUiScreen(final ScreenType type) {
+        Timber.d("showUiScreen() called with: type = [" + type + "]");
+    }
+
+    @Override
     public void showAppSettingsScreen() {
         Timber.d("showAppSettingsScreen() called");
     }
 
     @Override
-    public void showHeadlineBackdropBackground(final URI imageURI) {
-        Timber.d("showHeadlineBackdropBackground() called with: imageURI = [" + imageURI + "]");
+    public void showHeadlineBackdropBackground(final String imageUrl) {
+        Timber.d("showHeadlineBackdropBackground() called with: imageUrl = [" + imageUrl + "]");
+    }
+
+    @Override
+    public void showDefaultBackground() {
+        Timber.d("showDefaultBackground() called");
     }
 }

@@ -22,26 +22,13 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines.dialog;
-
-import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.support.v17.leanback.app.GuidedStepFragment;
+package info.hossainkhan.android.core.model;
 
 /**
- * TODO: Javadoc
+ * List of information dialog type supported by this activity.
  */
-public class DialogExampleActivity extends Activity {
-
-    @Override public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#21272A")));
-
-        if (savedInstanceState == null) {
-            GuidedStepFragment fragment = new DialogExampleFragment();
-            GuidedStepFragment.addAsRoot(this, fragment, android.R.id.content);
-        }
-    }
+public enum ScreenType {
+    ABOUT_APPLICATION,
+    ABOUT_CONTRIBUTION,
+    MANAGE_NEWS_SOURCE
 }

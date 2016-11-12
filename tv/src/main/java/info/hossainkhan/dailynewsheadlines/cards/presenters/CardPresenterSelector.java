@@ -57,7 +57,7 @@ public class CardPresenterSelector extends PresenterSelector {
                 case HEADLINES:
                     presenter = new TextCardPresenter(mContext);
                     break;
-                case ICON:
+                case ACTION:
                     presenter = new IconCardPresenter(mContext);
                     break;
                 default:

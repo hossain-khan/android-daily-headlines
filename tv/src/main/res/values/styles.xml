@@ -70,4 +70,22 @@
         <item name="android:maxLines">1</item>
         <item name="android:textSize">16sp</item>
     </style>
+
+
+    <style name="InformationTextCentered">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="InformationSubtitleText" parent="InformationTextCentered">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Leanback.DetailsDescriptionBody</item>
+    </style>
+
+    <style name="InformationTitleText" parent="InformationTextCentered">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Leanback.DetailsDescriptionSubtitle</item>
+    </style>
 </resources>

@@ -29,11 +29,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
-import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.annotations.SerializedName;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import info.hossainkhan.android.core.gson.AutoGson;
@@ -51,9 +48,18 @@ public abstract class CardItem {
      * Type of the cards supported by the TV browser.
      */
     public enum Type {
+        /**
+         * News headlines or article item.
+         */
         HEADLINES,
+        /**
+         * Details for item. Not used yet.
+         */
         DETAILS,
-        ICON
+        /**
+         * Action item, ususally icon based item for user action.
+         */
+        ACTION
     }
 
     @SerializedName("id")
@@ -148,9 +154,7 @@ public abstract class CardItem {
             width = articleMultimedia.getWidth();
             height = articleMultimedia.getHeight();
         } else {
-            String NO_IMAGE_MSG = "Article does not have image.";
-            Timber.w("%s Total items: %d", NO_IMAGE_MSG, size);
-            FirebaseCrash.log(NO_IMAGE_MSG);
+            Timber.w("NYTimes article '%s' does not have image.", article.getTitle());
         }
 
         return new AutoValue_CardItem(
@@ -170,18 +174,4 @@ public abstract class CardItem {
                 height);
 
     }
-
-
-
-    public URI getImageURI() {
-        if (imageUrl() == null) return null;
-        try {
-            return new URI(imageUrl());
-        } catch (URISyntaxException e) {
-            FirebaseCrash.report(e);
-            Timber.w("URI exception: ", imageUrl());
-            return null;
-        }
-    }
-
 }

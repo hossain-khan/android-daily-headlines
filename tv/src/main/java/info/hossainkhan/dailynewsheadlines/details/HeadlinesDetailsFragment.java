@@ -29,7 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v17.leanback.app.DetailsFragment;
-import android.support.v17.leanback.widget.Action;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ClassPresenterSelector;
 import android.support.v17.leanback.widget.DetailsOverviewRow;
@@ -41,14 +40,13 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.headlines.HeadlinesDetailsContract;
 import info.hossainkhan.android.core.headlines.HeadlinesDetailsViewPresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.util.ActivityUtils;
-import info.hossainkhan.android.core.util.UiUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.details.listeners.DetailsViewInteractionListener;
@@ -60,6 +58,10 @@ import timber.log.Timber;
  * Displays a card with more details using a {@link DetailsFragment}.
  */
 public class HeadlinesDetailsFragment extends DetailsFragment implements HeadlinesDetailsContract.View {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "headline_details";
 
     private ArrayObjectAdapter mRowsAdapter;
     private Context mApplicationContext;
@@ -67,6 +69,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
     private PicassoBackgroundManager mPicassoBackgroundManager;
     private PicassoImageTargetDetailsOverview mDetailsRowPicassoTarget;
     private HeadlinesDetailsViewPresenter mPresenter;
+    private DetailsOverviewRow mDetailsOverview;
 
 
     @Override
@@ -99,6 +102,23 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
         mPresenter = new HeadlinesDetailsViewPresenter(mApplicationContext, this, cardItem);
         DetailsViewInteractionListener listener = new DetailsViewInteractionListener(mPresenter);
         setupEventListeners(listener);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detachView();
+        if (null != mPicassoBackgroundManager) {
+            Timber.d("onDestroy: " + mPicassoBackgroundManager.toString());
+            mPicassoBackgroundManager.destroy();
+        }
     }
 
     private void setupEventListeners(final DetailsViewInteractionListener listener) {
@@ -146,26 +166,35 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
         mRowsAdapter = new ArrayObjectAdapter(rowPresenterSelector);
 
         // Setup action and detail row.
-        DetailsOverviewRow detailsOverview = new DetailsOverviewRow(cardItem);
+        mDetailsOverview = new DetailsOverviewRow(cardItem);
         // DEV NOTE: Without the image drawable, the details view occupies full width for texts.
-        detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.placeholder_loading_image));
+        mDetailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.placeholder_loading_image));
 
-        mDetailsRowPicassoTarget = new PicassoImageTargetDetailsOverview(mApplicationContext, detailsOverview);
-        Picasso.with(mApplicationContext)
-                .load(cardItem.imageUrl())
-                .into(mDetailsRowPicassoTarget);
-
-
-        mRowsAdapter.add(detailsOverview);
-
-
+        mRowsAdapter.add(mDetailsOverview);
         setAdapter(mRowsAdapter);
-        mPicassoBackgroundManager.updateBackgroundWithDelay(cardItem.getImageURI(), PicassoBackgroundManager.TransformType.GREYSCALE);
+
 
         // NOTE: Move this when data is loaded
         startEntranceTransition();
     }
 
+    @Override
+    public void loadDetailsImage(final String imageUrl) {
+        mDetailsRowPicassoTarget = new PicassoImageTargetDetailsOverview(mApplicationContext, mDetailsOverview);
+        Picasso.with(mApplicationContext)
+                .load(imageUrl)
+                .into(mDetailsRowPicassoTarget);
+
+        mPicassoBackgroundManager.updateBackgroundWithDelay(
+                imageUrl,
+                PicassoBackgroundManager.TransformType.GREYSCALE);
+
+    }
+
+    @Override
+    public void loadDefaultImage() {
+        mPicassoBackgroundManager.updateBackgroundWithDelay();
+    }
 
 
     @Override
@@ -181,7 +210,6 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
         } else {
             String logMsg = "App does not have browser to show URL: %s.";
             Timber.w(logMsg, contentUrl);
-            FirebaseCrash.log(logMsg);
 
             // NOTE: According to Google's guideline and test case "TV-WB", tv app
             // should not assume browser availability.

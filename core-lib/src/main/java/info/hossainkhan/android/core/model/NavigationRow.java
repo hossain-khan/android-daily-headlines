@@ -60,6 +60,10 @@ public abstract class NavigationRow {
     public abstract String title();
 
     @Nullable
+    @SerializedName("news_source_id")
+    public abstract String sourceId();
+
+    @Nullable
     @SerializedName("category")
     public abstract ArticleCategory category();
 
@@ -77,15 +81,37 @@ public abstract class NavigationRow {
 
     @AutoValue.Builder
     public abstract static class Builder {
+        /**
+         * Type of navigation item.
+         *
+         * @param type Allowed values are {@link NavigationRow#TYPE_DEFAULT},
+         *             {@link NavigationRow#TYPE_DIVIDER}, {@link NavigationRow#TYPE_DIVIDER}
+         * @return The builder instance.
+         */
         public abstract Builder type(int type);
+
         @Nullable
         public abstract Builder title(String title);
+
+        /**
+         * {@link NewsSource#id()} for current navigation row, when {@link #type()} is
+         * {@link NavigationRow#TYPE_SECTION_HEADER} or {@link NavigationRow#TYPE_DEFAULT}.
+         *
+         * @param newsSourceId News source ID from {@link NewsSource#id()}
+         * @return The builder instance.
+         */
+        @Nullable
+        public abstract Builder sourceId(String newsSourceId);
+
         @Nullable
         public abstract Builder category(ArticleCategory category);
+
         @Nullable
         public abstract Builder cards(List<CardItem> cards);
+
         /**
          * Used to determine whether the row shall use shadows when displaying its cards or not.
+         *
          * @param useShadow flag for card shadow
          * @return Builder
          */

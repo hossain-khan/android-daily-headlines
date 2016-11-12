@@ -90,6 +90,13 @@ dependencies {
     provided "com.ryanharter.auto.value:auto-value-gson:$rootProject.autoValueExtentionGsonVersion"
     annotationProcessor "com.ryanharter.auto.value:auto-value-gson:$rootProject.autoValueExtentionGsonVersion"
 
+    // A fluent and flexible RSS feed manager for Android
+    // https://github.com/Pkmmte/PkRSS
+    // NOTE: Can not use it due to issue https://github.com/Pkmmte/PkRSS/issues/31
+    // Created PR https://github.com/Pkmmte/PkRSS/pull/33
+    // Using local snapshot build `pkrss-v.1.2.x-snapshot.jar`
+    //compile "com.pkmmte.pkrss:pkrss:$rootProject.pkrssLibraryVersion"
+
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
     // ----------------------------------------------------------------

@@ -2,9 +2,18 @@
     <string name="app_name">core-lib</string>
 
 
-    <string name="settings_navigation_row_news_source_title">News Source</string>
+    <!-- Settings Categories -->
+    <string name="settings_navigation_row_news_source_title">Settings</string>
+    <string name="settings_navigation_row_information_title">Information</string>
+
+    <!-- Settings Items -->
     <string name="settings_card_item_news_source_title">Categories</string>
-    <string name="navigation_header_item_settings_title">Settings</string>
+    <string name="settings_card_item_add_news_source_feed_title">Add Source</string>
+    <string name="settings_card_item_manage_news_source_feed_title">Manage Sources</string>
+    <string name="settings_card_item_contribution_title">Contribute</string>
+    <string name="settings_card_item_about_app_title">About</string>
+
+    <string name="navigation_header_item_settings_title">Manage</string>
     <string name="navigation_header_item_news_source_nytimes_title">The New York Times</string>
     <string name="detail_view_title">Details</string>
 </resources>

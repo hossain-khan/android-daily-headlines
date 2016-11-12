@@ -30,6 +30,14 @@
     <dimen name="card_text_container_width">420dp</dimen>
     <dimen name="card_text_container_height">305dp</dimen>
 
+    <!--
+        Info sub text containers on the bottom of the card.
+        LEFT+RIGHT must not exceed "card_text_container_width"
+    -->
+    <dimen name="card_subtext_container_left_max_width">240dp</dimen>
+    <dimen name="card_subtext_container_right_max_width">160dp</dimen>
+
     <dimen name="default_image_card_width">224dp</dimen>
     <dimen name="default_image_card_height">126dp</dimen>
+    <integer name="info_dialog_guidedactions_item_description_min_lines">4</integer>
 </resources>

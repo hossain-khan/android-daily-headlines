@@ -30,6 +30,7 @@ import android.content.Context;
 import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.util.StringUtils;
 import timber.log.Timber;
 
 public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetailsContract.View>
@@ -49,7 +50,18 @@ public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetail
     private void initView() {
         getView().updateScreenTitle(mContext.getString(R.string.detail_view_title));
         getView().showHeadlineDetails(mCardItem);
+
+        String imageUrl = mCardItem.imageUrl();
+        if(StringUtils.isValidUri(imageUrl)) {
+            Timber.d("Loading image URL: %s", imageUrl);
+            getView().loadDetailsImage(imageUrl);
+        } else {
+            Timber.d("Invalid image URL: %s, loading default background instead", imageUrl);
+            getView().loadDefaultImage();
+        }
     }
+
+
 
 
     @Override
