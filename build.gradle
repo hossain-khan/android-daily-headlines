@@ -14,7 +14,7 @@ buildscript {
          *  - Stable: https://developer.android.com/studio/releases/gradle-plugin.html
          *  - Alpha: http://tools.android.com/tech-docs/new-build-system
          */
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.3.0-alpha1'
 
         // Google Services Plugin - Required for Firebase and related Google services
         // https://developers.google.com/android/guides/google-services-plugin
@@ -53,8 +53,8 @@ ext {
     // Sdk and tools
     // --------------------------------------------------
     minSdkVersion = 21 // Lollipop 5.0
-    targetSdkVersion = 24
-    compileSdkVersion = 24
+    targetSdkVersion = 25 // Nougat MR1
+    compileSdkVersion = 25
     // Android SDK Build Tools - Versions: https://developer.android.com/studio/releases/build-tools.html
     buildToolsVersion = '25.0.0'
 
@@ -64,7 +64,7 @@ ext {
 
     // Google Products & Support library dependencies
     // --------------------------------------------------
-    supportLibraryVersion = '24.2.1' // https://developer.android.com/topic/libraries/support-library/revisions.html
+    supportLibraryVersion = '25.0.0' // https://developer.android.com/topic/libraries/support-library/revisions.html
     firebaseVersion = '9.4.0' // https://firebase.google.com/docs/android/setup
 
     // Unit test dependencies
