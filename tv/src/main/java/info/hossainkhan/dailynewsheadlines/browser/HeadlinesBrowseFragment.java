@@ -33,18 +33,18 @@ import android.os.Bundle;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
-import info.hossainkhan.android.core.model.NewsProvider;
-import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
+import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.about.DisplayInfoActivity;
+import info.hossainkhan.dailynewsheadlines.addsource.AddNewsSourceActivity;
 import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInteractionListener;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.details.HeadlinesDetailsActivity;
@@ -60,6 +60,11 @@ import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.addSettin
  * Leanback browser fragment that is responsible for showing all the headlines.
  */
 public class HeadlinesBrowseFragment extends BrowseFragment implements HeadlinesContract.View {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "headlines_browse";
+
     private ArrayObjectAdapter mRowsAdapter;
     private HeadlinesPresenter mHeadlinesPresenter;
     private Resources mResources;
@@ -84,9 +89,14 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         setupUIElements();
 
 
-        List<NewsProvider> providers = new ArrayList<>(2);
-        providers.add(new NyTimesNewsProvider());
-        mHeadlinesPresenter = new HeadlinesPresenter(mApplicationContext, this, providers);
+        NewsProviderManager newsProviderManager = new NewsProviderManager(mApplicationContext);
+        mHeadlinesPresenter = new HeadlinesPresenter(mApplicationContext, this, newsProviderManager);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
     }
 
     @Override
@@ -95,7 +105,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         mHeadlinesPresenter.detachView();
         if (null != mPicassoBackgroundManager) {
             Timber.d("onDestroy: " + mPicassoBackgroundManager.toString());
-            //mPicassoBackgroundManager.cancel();
+            mPicassoBackgroundManager.destroy();
         }
     }
 
@@ -158,15 +168,13 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     @Override
-    public void showAppAboutScreen() {
-        startActivity(DisplayInfoActivity.createStartIntent(getActivity(),
-                DisplayInfoActivity.InfoDialogType.ABOUT_APPLICATION));
+    public void showAddNewsSourceScreen() {
+        startActivity(AddNewsSourceActivity.createStartIntent(getActivity(), "TV-App"));
     }
 
     @Override
-    public void showAppContributionScreen() {
-        startActivity(DisplayInfoActivity.createStartIntent(getActivity(),
-                DisplayInfoActivity.InfoDialogType.ABOUT_CONTRIBUTION));
+    public void showUiScreen(final ScreenType type) {
+        startActivity(DisplayInfoActivity.createStartIntent(getActivity(), type));
     }
 
     @Override
@@ -177,9 +185,14 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     @Override
-    public void showHeadlineBackdropBackground(final URI imageURI) {
-        Timber.d("Loading HD background URL: %s", imageURI);
-        mPicassoBackgroundManager.updateBackgroundWithDelay(imageURI);
+    public void showHeadlineBackdropBackground(final String imageUrl) {
+        Timber.d("Loading HD background URL: %s", imageUrl);
+        mPicassoBackgroundManager.updateBackgroundWithDelay(imageUrl);
+    }
+
+    @Override
+    public void showDefaultBackground() {
+        mPicassoBackgroundManager.updateBackgroundWithDelay();
     }
 
 

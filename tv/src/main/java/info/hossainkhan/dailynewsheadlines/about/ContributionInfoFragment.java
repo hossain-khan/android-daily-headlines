@@ -41,18 +41,29 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.dailynewsheadlines.R;
 
 /**
  * Fragment that shows information on how to contribute.
  */
 public class ContributionInfoFragment extends GuidedStepFragment {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "contribute";
+
     private Context mContext;
 
     public static ContributionInfoFragment newInstance() {
         return new ContributionInfoFragment();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
+    }
 
     @Override
     public void onCreateActions(@NonNull List<GuidedAction> actions, Bundle savedInstanceState) {
@@ -86,16 +97,24 @@ public class ContributionInfoFragment extends GuidedStepFragment {
         //
         // Prepare all the static info of the libraries used in the app. No need to convert them to string resource.
         //
-        actions.add(buildLibraryInfo("Firebase", "Firebase is a mobile and web application platform with tools and infrastructure designed to help developers build high-quality apps."));
+        actions.add(buildLibraryInfo("Android Support Library", "Provide backward-compatible versions of Android " +
+                "framework APIs as well as features " +
+                "that are only available through the library APIs."));
+        actions.add(buildLibraryInfo("Google Firebase", "Firebase is a mobile and web application platform with tools" +
+                " and infrastructure designed to help developers build high-quality apps."));
         actions.add(buildLibraryInfo("Dagger", "Dagger - A fast dependency injector for Android and Java."));
         actions.add(buildLibraryInfo("RxJava", "RxJava - Reactive Extensions for the JVM"));
         actions.add(buildLibraryInfo("RxAndroid", "Reactive Extensions for Android."));
-        actions.add(buildLibraryInfo("Picasso", "A powerful image downloading and caching library for Android" +
+        actions.add(buildLibraryInfo("Picasso", "A powerful image downloading and caching library for Android." +
                 "Android\nhttp://square.github.io/picasso/\nApache License, Version 2.0, January 2004"));
         actions.add(buildLibraryInfo("Leakcanary", "A memory leak detection library for Android and Java."));
         actions.add(buildLibraryInfo("AutoValue", "Generated immutable value classes for Java 1.6+"));
         actions.add(buildLibraryInfo("Butter Knife", "Bind Android views and callbacks to fields and methods."));
-        actions.add(buildLibraryInfo("Retrofit", "A type-safe HTTP client for Android and Java"));
+        actions.add(buildLibraryInfo("Retrofit", "A type-safe HTTP client for Android and Java."));
+        actions.add(buildLibraryInfo("Timber", "A logger with a small, extensible API which provides utility on top " +
+                "of Android's normal Log class."));
+        actions.add(buildLibraryInfo("Swagger CLI", "Code generator for OpenAPI specification."));
+        actions.add(buildLibraryInfo("PkRss", "A fluent and flexible RSS feed manager for Android."));
         actions.add(buildLibraryInfo("Joda-Time", "Joda-Time provides a quality replacement for the Java date and time classes."));
     }
 

@@ -81,25 +81,41 @@ public final class LeanbackHelper {
 
         // Build settings items
 
-        List<CardItem> settingsItems = new ArrayList<>();
-        CardItem item = CardItem.create(
-                R.string.settings_card_item_news_source_title, // id,
-                resources.getString(R.string.settings_card_item_news_source_title), // title,
-                null, // description,
-                null, //extraText,
-                null, //category,
-                null, // dateCreated,
-                null, // imageUrl,
-                null, // contentUrl,
-                R.drawable.ic_settings_settings, // localImageResourceId,
-                null, // footerColor,
-                null, // selectedColor,
-                CardItem.Type.ICON, // type,
-                0, // width,
-                0 // height
+        List<CardItem> settingsItems = new ArrayList<>(5);
+        settingsItems.add(
+                CardItem.create(
+                        R.string.settings_card_item_news_source_title, // id,
+                        resources.getString(R.string.settings_card_item_news_source_title), // title,
+                        null /* description */, null /*extraText */, null /*category */,
+                        null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
+                        R.drawable.ic_settings_settings, // localImageResourceId,
+                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION, 0 /* width */, 0 /* height */
+                )
+        );
+        settingsItems.add(
+                CardItem.create(
+                        R.string.settings_card_item_add_news_source_feed_title, // id,
+                        resources.getString(R.string.settings_card_item_add_news_source_feed_title), // title,
+                        null /* description */, null /*extraText */, null /*category */,
+                        null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
+                        R.drawable.ic_settings_add_news_source, // localImageResourceId,
+                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION, 0 /* width */, 0 /* height */
+                )
         );
 
-        settingsItems.add(item);
+        settingsItems.add(
+                CardItem.create(
+                        R.string.settings_card_item_manage_news_source_feed_title, // id,
+                        resources.getString(R.string.settings_card_item_manage_news_source_feed_title), // title,
+                        null /* description */, null /*extraText */, null /*category */,
+                        null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
+                        R.drawable.ic_settings_manage_news_source, // localImageResourceId,
+                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION, 0 /* width */, 0 /* height */
+                )
+        );
+
+
+
         list.add(NavigationRow.builder()
                 .title(resources.getString(R.string.settings_navigation_row_news_source_title))
                 .type(NavigationRow.TYPE_DEFAULT)
@@ -108,23 +124,16 @@ public final class LeanbackHelper {
                 .build());
 
 
-        List<CardItem> infoItems = new ArrayList<>(3);
+        List<CardItem> infoItems = new ArrayList<>(5);
         infoItems.add(
                 CardItem.create(
                         R.string.settings_card_item_about_app_title, // id,
                         resources.getString(R.string.settings_card_item_about_app_title), // title,
-                        null, // description,
-                        null, //extraText,
-                        null, //category,
-                        null, // dateCreated,
-                        null, // imageUrl,
-                        null, // contentUrl,
+                        null /* description */, null /*extraText */, null /*category */,
+                        null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
                         R.drawable.ic_settings_about_app_information, // localImageResourceId,
-                        null, // footerColor,
-                        null, // selectedColor,
-                        CardItem.Type.ICON, // type,
-                        0, // width,
-                        0 // height
+                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION,
+                        0 /* width */, 0 /* height */
                 )
         );
 
@@ -132,18 +141,11 @@ public final class LeanbackHelper {
                 CardItem.create(
                         R.string.settings_card_item_contribution_title, // id,
                         resources.getString(R.string.settings_card_item_contribution_title), // title,
-                        null, // description,
-                        null, //extraText,
-                        null, //category,
-                        null, // dateCreated,
-                        null, // imageUrl,
-                        null, // contentUrl,
+                        null /* description */, null /*extraText */, null /*category */,
+                        null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
                         R.drawable.ic_settings_contribute_github_circle, // localImageResourceId,
-                        null, // footerColor,
-                        null, // selectedColor,
-                        CardItem.Type.ICON, // type,
-                        0, // width,
-                        0 // height
+                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION,
+                        0 /* width */, 0 /* height */
                 )
         );
 

@@ -86,8 +86,22 @@
                 android:text="@string/github_project_issues_url"
                 style="@style/InformationSubtitleText"/>
 
+            <!-- Contributors List - people will be added as they contribute -->
+            <TextView
+                android:id="@+id/contribution_info_text_contributors_list_label"
+                style="@style/InformationTitleText"
+                android:layout_below="@+id/contribution_info_text_release_date"
+                android:drawableLeft="@drawable/vector_icon_human_greeting"
+                android:drawablePadding="5dp"
+                android:text="@string/contribution_credits_project_contributors_list_title"/>
+
+            <TextView
+                style="@style/InformationSubtitleText"
+                android:layout_below="@+id/contribution_info_text_contributors_list_label"
+                android:layout_marginBottom="20dp"
+                android:text="@string/contribution_credits_author_amardeshbd"/>
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-
 
 </LinearLayout>

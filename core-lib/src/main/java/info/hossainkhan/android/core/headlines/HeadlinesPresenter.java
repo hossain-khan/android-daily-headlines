@@ -29,55 +29,53 @@ import android.support.annotation.NonNull;
 
 import com.google.firebase.crash.FirebaseCrash;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
-import info.hossainkhan.android.core.model.NewsProvider;
-import info.hossainkhan.android.core.newsprovider.NyTimesNewsProvider;
+import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
+import info.hossainkhan.android.core.util.StringUtils;
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 
 public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
 
-    private final List<NewsProvider> mNewsProviders;
+    private final NewsProviderManager mNewsProviderManager;
     private final Context mContext;
 
-    public HeadlinesPresenter(final Context context, final HeadlinesContract.View view, final List<NewsProvider>
-            newsProviders) {
+    public HeadlinesPresenter(final Context context, final HeadlinesContract.View view,
+                              final NewsProviderManager newsProviderManager) {
         attachView(view);
         mContext = context;
-        mNewsProviders = newsProviders;
+        mNewsProviderManager = newsProviderManager;
         loadHeadlines(false);
     }
 
     @Override
     public void loadHeadlines(final boolean forceUpdate) {
-        for (final NewsProvider newsProvider : mNewsProviders) {
-            if(NyTimesNewsProvider.PROVIDER_ID_NYTIMES.equals(newsProvider.getNewsSource().id())) {
-                loadNyTimesHeadlines(newsProvider);
-            }
-            else {
-                // In future need to support RSS/ATOM based provider loading
-                Timber.w("Unsupported news provider: %s", newsProvider);
-            }
-        }
+        // List that is finally returned to UI
+        final List<NavigationRow> navigationRowList = new ArrayList<>();
 
-    }
-
-    private void loadNyTimesHeadlines(final NewsProvider newsProvider) {
-        getView().toggleLoadingIndicator(true);
-        Subscription subscription = newsProvider.getNewsObservable()
+        Subscription subscription = Observable
+                .mergeDelayError(mNewsProviderManager.getProviderObservable())
+                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<NavigationRow>>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("onCompleted() called");
                         getView().toggleLoadingIndicator(false);
+                        getView().showHeadlines(navigationRowList);
                     }
 
                     @Override
@@ -92,7 +90,15 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
                     @Override
                     public void onNext(final List<NavigationRow> navigationRows) {
-                        getView().showHeadlines(navigationRows);
+                        int navRowSize = 0;
+                        String sourceId = "UNKNOWN";
+                        if (navigationRows != null && !navigationRows.isEmpty()) {
+                            navRowSize = navigationRows.size();
+                            sourceId = navigationRows.get(0).sourceId();
+                        }
+
+                        Timber.i("onNext() returned - Loaded %d items from %s.", navRowSize, sourceId);
+                        navigationRowList.addAll(navigationRows);
                     }
                 });
         addSubscription(subscription);
@@ -106,10 +112,13 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     @Override
     public void onHeadlineItemSelected(@NonNull final CardItem cardItem) {
         CoreApplication.getAnalyticsReporter().reportHeadlineSelectedEvent(cardItem);
-        if (cardItem.imageUrl() !=null) {
-            getView().showHeadlineBackdropBackground(cardItem.getImageURI());
+        String imageUrl = cardItem.imageUrl();
+        if (StringUtils.isValidUri(imageUrl)) {
+            Timber.d("Loading background image from URL: %s", imageUrl);
+            getView().showHeadlineBackdropBackground(imageUrl);
         } else {
-            Timber.i("Card object does not have HD background.");
+            Timber.i("Card object does not have HD background. Current URL: %s", imageUrl);
+            getView().showDefaultBackground();
         }
     }
 
@@ -117,16 +126,22 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     public void onHeadlineItemClicked(@NonNull final CardItem cardItem) {
         int id = cardItem.id();
         CardItem.Type type = cardItem.type();
-        if (type == CardItem.Type.ICON) {
+        if (type == CardItem.Type.ACTION) {
             if (id == R.string.settings_card_item_news_source_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showAppSettingsScreen();
+            } else if (id == R.string.settings_card_item_add_news_source_feed_title) {
+                CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
+                getView().showAddNewsSourceScreen();
+            } else if (id == R.string.settings_card_item_manage_news_source_feed_title) {
+                CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
+                getView().showUiScreen(ScreenType.MANAGE_NEWS_SOURCE);
             } else if(id == R.string.settings_card_item_about_app_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
-                getView().showAppAboutScreen();
+                getView().showUiScreen(ScreenType.ABOUT_APPLICATION);
             } else if(id == R.string.settings_card_item_contribution_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
-                getView().showAppContributionScreen();
+                getView().showUiScreen(ScreenType.ABOUT_CONTRIBUTION);
             } else {
                 Timber.w("Unable to handle settings item: %s", cardItem.title());
             }

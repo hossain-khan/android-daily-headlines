@@ -26,8 +26,6 @@ package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
 
-import com.google.firebase.crash.FirebaseCrash;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -162,12 +160,13 @@ public final class NyTimesNewsProvider implements NewsProvider {
 
                         if (totalResponseItemSize != sectionSize) {
                             // Error
-                            FirebaseCrash.log("Unable to get all responses.");
+                            Timber.d("Unable to get all responses.");
                         } else {
                             List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
                             navigationHeadlines.add(NavigationRow.builder()
                                     .title(mNewsSource.name())
                                     .type(NavigationRow.TYPE_SECTION_HEADER)
+                                    .sourceId(mNewsSource.id())
                                     .build());
 
                             for (int i = 0; i < totalResponseItemSize; i++) {
@@ -177,6 +176,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
                                                 .title(mContext.getString(CategoryNameResolver
                                                         .resolveCategoryResId(articleCategory)))
                                                 .category(articleCategory)
+                                                .sourceId(mNewsSource.id())
                                                 .cards(convertArticleToCardItems(inlineResponse200s.get(i).getResults()))
                                                 .build()
                                 );
@@ -185,7 +185,8 @@ public final class NyTimesNewsProvider implements NewsProvider {
                         }
                         return null;
                     }
-                });
+                })
+                .onErrorResumeNext(Observable.empty());
     }
 
 

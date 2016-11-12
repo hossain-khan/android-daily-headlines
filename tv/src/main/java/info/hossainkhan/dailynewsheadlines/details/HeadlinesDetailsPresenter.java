@@ -29,7 +29,6 @@ import android.support.v17.leanback.widget.Presenter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import info.hossainkhan.android.core.model.CardItem;
@@ -60,17 +59,13 @@ public class HeadlinesDetailsPresenter extends Presenter {
         TextView sndText1 = mResourceCache.getViewById(viewHolder.view, R.id.secondary_text_first);
         TextView sndText2 = mResourceCache.getViewById(viewHolder.view, R.id.secondary_text_second);
         TextView extraText = mResourceCache.getViewById(viewHolder.view, R.id.extra_text);
-        ImageView newsSourceImage = mResourceCache.getViewById(viewHolder.view, R.id.headlines_source_image);
+        // ImageView newsSourceImage = mResourceCache.getViewById(viewHolder.view, R.id.headlines_source_image);
 
         CardItem card = (CardItem) item;
         primaryText.setText(card.title());
         sndText1.setText(card.category());
         sndText2.setText(DateUtils.getFormattedDateTime(card.dateCreated()));
         extraText.setText(card.description());
-
-        // Since currently we only support NY Times as news source, apply their branding according to guidelines.
-        newsSourceImage.setImageResource(R.drawable.poweredby_nytimes_200a);
-        newsSourceImage.setVisibility(View.VISIBLE);
     }
 
     @Override public void onUnbindViewHolder(ViewHolder viewHolder) {

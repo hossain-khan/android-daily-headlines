@@ -34,12 +34,17 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.dailynewsheadlines.R;
 
 /**
  * A dialog fragment with positive and negative options.
  */
 public class ConfirmationDialogFragment extends GuidedStepFragment {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "confirm";
 
     private static final int ACTION_ID_POSITIVE = 1;
     private static final int ACTION_ID_NEGATIVE = ACTION_ID_POSITIVE + 1;
@@ -59,6 +64,12 @@ public class ConfirmationDialogFragment extends GuidedStepFragment {
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
     }
 
     @NonNull

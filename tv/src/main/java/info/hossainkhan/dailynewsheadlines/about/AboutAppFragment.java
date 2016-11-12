@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.dailynewsheadlines.BuildConfig;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
@@ -45,12 +46,22 @@ import timber.log.Timber;
  * Fragment that shows application information.
  */
 public class AboutAppFragment extends GuidedStepFragment {
+    /**
+     * Unique screen name used for reporting and analytics.
+     */
+    private static final String ANALYTICS_SCREEN_NAME = "about_app";
+
     private static final int ACTION_ID_POSITIVE = 1;
 
     public static AboutAppFragment newInstance() {
         return new AboutAppFragment();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
+    }
 
     @Override
     public void onCreateActions(@NonNull List<GuidedAction> actions, Bundle savedInstanceState) {

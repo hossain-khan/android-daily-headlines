@@ -15,3 +15,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# https://github.com/Pkmmte/PkRSS#proguard
+-keep class com.pkmmte.pkrss.Callback{ *; }
+-dontwarn com.squareup.okhttp.**

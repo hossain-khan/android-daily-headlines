@@ -66,6 +66,13 @@
             android:exported="true"
             android:theme="@style/Theme.Headlines.Leanback.GuidedStep.InformationDialog" />
 
+        <activity
+            android:name=".addsource.AddNewsSourceActivity"
+            android:screenOrientation="landscape"
+            android:enabled="true"
+            android:exported="true"
+            android:theme="@style/Theme.Headlines.Leanback.GuidedStep.InformationDialog" />
+
     </application>
 
 </manifest>
