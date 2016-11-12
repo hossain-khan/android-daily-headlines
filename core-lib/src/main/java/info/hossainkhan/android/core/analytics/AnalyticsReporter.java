@@ -39,6 +39,7 @@ public class AnalyticsReporter {
     private static final String EVENT_NAME_HEADLINE_DETAILS_LOAD = "details_content";
     private static final String EVENT_NAME_SETTINGS_LOAD = "application_settings";
     private static final String EVENT_NAME_NEWS_SOURCE_ADD = "news_source_add";
+    private static final String EVENT_NAME_NEWS_SOURCE_REMOVE = "news_source_remove";
 
     //
     // Event custom param name
@@ -113,9 +114,28 @@ public class AnalyticsReporter {
         mAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, null);
     }
 
+    /**
+     * Reported when news an news source is added to the system.
+     *
+     * @param sourceName Name of news source being added.
+     * @param isSuccess  is request success or failed due to validation reason.
+     */
     public void reportAddNewsSourceEvent(String sourceName, boolean isSuccess) {
         Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, sourceName);
         bundle.putBoolean(EVENT_PARAM_NAME_ACTION_SUCCESS, isSuccess);
         mAnalytics.logEvent(EVENT_NAME_NEWS_SOURCE_ADD, bundle);
+    }
+
+
+    /**
+     * Reported when news an news source is deleted from the system.
+     *
+     * @param sourceName Name of news source being deleted.
+     */
+    public void reportRemoveNewsSourceEvent(String sourceName) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, sourceName);
+        mAnalytics.logEvent(EVENT_NAME_NEWS_SOURCE_REMOVE, bundle);
     }
 }
