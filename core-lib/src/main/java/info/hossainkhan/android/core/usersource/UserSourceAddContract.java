@@ -24,61 +24,53 @@
 
 package info.hossainkhan.android.core.usersource;
 
-import java.util.Map;
-
 import info.hossainkhan.android.core.base.MvpPresenter;
 import info.hossainkhan.android.core.base.MvpView;
 
+
 /**
- * MVP contract for user source.
+ * MVP contract for adding user source.
+ *
+ * @see UserSourceContract
  */
-public interface UserSourceContract {
+public interface UserSourceAddContract {
 
     interface View extends MvpView {
-
         /**
-         * Callback to enable or disable remove action button.
+         * Show or hide progress indicator base on provided boolean value.
          *
-         * @param isActive Flag to activate or deactivate remove action.
+         * @param isVisible Flag to indicate network validation in progress or finished.
          */
-        void toggleRemoveAction(boolean isActive);
+        void toggleValidationProgressIndicator(boolean isVisible);
 
         /**
-         * Close current screen.
+         * Callback when news source is successfully added.
          */
-        void closeScreen();
+        void showSourceAddedMessage();
 
         /**
-         * Show remove source success feedback.
+         * Callback when source source failed due to lack of news items from source.
+         *
+         * @param totalFeedItems Total items found in the feed.
          */
-        void showRemoveSourceSuccess();
+        void showSourceValidationFailed(final int totalFeedItems);
+
+        /**
+         * Callback when provided feed URL can't be loaded.
+         */
+        void showUrlLoadFailedMessage();
     }
 
-    interface Presenter extends MvpPresenter<UserSourceContract.View> {
+    interface Presenter extends MvpPresenter<UserSourceAddContract.View> {
 
         /**
-         * Adds provided URL to list to remove.
+         * Request to add new news source. News source should be validated by making actual network request.
+         * When network request in progress listen for {@link View#toggleValidationProgressIndicator(boolean)}.
          *
-         * @param url      URL to remove.
-         * @param isRemove Flag, to indicate if should be removed or not.
+         * @param newsSourceTitle Title of news source.
+         * @param newsSourceUrl   The RSS feed URL for news source.
          */
-        void onSourceSelected(String url, boolean isRemove);
+        void addNewSource(String newsSourceTitle, String newsSourceUrl);
 
-        /**
-         * Removes all the URLs that was added via {@link #onSourceSelected(String, boolean)}.
-         */
-        void onRemoveConfirm();
-
-        /**
-         * Cancels removal process.
-         */
-        void onCancelRemoval();
-
-        /**
-         * Get list of existing URLs saved by user.
-         *
-         * @return A map of &lt;URL, TITLE&gt; containing all the news source feed and title.
-         */
-        Map<String, String> getUserNewsSources();
     }
 }
