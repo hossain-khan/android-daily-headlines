@@ -24,6 +24,7 @@
 
 package info.hossainkhan.dailynewsheadlines.addsource;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,16 +35,12 @@ import android.support.v17.leanback.widget.GuidedActionsStylist;
 import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
-import com.pkmmte.pkrss.Article;
-import com.pkmmte.pkrss.Callback;
-import com.pkmmte.pkrss.PkRSS;
-
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
-import info.hossainkhan.android.core.CoreConfig;
+import info.hossainkhan.android.core.usersource.UserSourceAddContract;
+import info.hossainkhan.android.core.usersource.UserSourceAddPresenter;
 import info.hossainkhan.android.core.usersource.UserSourceManager;
-import info.hossainkhan.android.core.usersource.UserSourceProvider;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.onboarding.Emoji;
 import timber.log.Timber;
@@ -53,7 +50,7 @@ import timber.log.Timber;
  * the server to process the rental. The server communication is faked for the sake of this example
  * by waiting four seconds until continuing.
  */
-public class ValidateNewsSourceDialogFragment extends GuidedStepFragment implements Callback {
+public class ValidateNewsSourceDialogFragment extends GuidedStepFragment implements UserSourceAddContract.View {
     /**
      * Unique screen name used for reporting and analytics.
      */
@@ -65,7 +62,7 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
     private static final String BUNDLE_ARG_SOURCE_URL = "BUNDLE_KEY_NEWS_SOURCE_URL";
     private String mNewsSourceUrl;
     private String mNewsSourceTitle;
-    private UserSourceProvider mUserSourceProvider;
+    private UserSourceAddPresenter mPresenter;
 
 
     /**
@@ -86,18 +83,18 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
         return fragment;
     }
 
+
+    @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+        Context context = activity.getApplicationContext();
+        mPresenter = new UserSourceAddPresenter(context, this, new UserSourceManager(context));
+    }
+
     @Override
     public void onStart() {
         super.onStart();
-
         CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
-
-        Context context = getActivity().getApplicationContext();
-        mUserSourceProvider = new UserSourceManager(context);
-        PkRSS.with(context)
-                .load(mNewsSourceUrl)
-                .callback(this)
-                .async();
     }
 
     @Override
@@ -125,6 +122,7 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
         mNewsSourceTitle = arguments.getString(BUNDLE_ARG_SOURCE_TITLE);
         mNewsSourceUrl = arguments.getString(BUNDLE_ARG_SOURCE_URL);
         Timber.d("Validating news source '%s' with URL: %s", mNewsSourceTitle, mNewsSourceUrl);
+        mPresenter.addNewSource(mNewsSourceTitle, mNewsSourceUrl);
 
         GuidanceStylist.Guidance guidance = new GuidanceStylist.Guidance(
                 getString(R.string.add_news_source_feed_validating_progress_title),
@@ -144,19 +142,13 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
     }
 
     private void onValidationFailed(final String message) {
-        CoreApplication.getAnalyticsReporter().reportAddNewsSourceEvent(mNewsSourceTitle, false);
-
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 
         popBackStackToGuidedStepFragment(ValidateNewsSourceDialogFragment.class, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
-    private void onValidationSucceeded() {
-        CoreApplication.getAnalyticsReporter().reportAddNewsSourceEvent(mNewsSourceTitle, true);
-
-        mUserSourceProvider.addSource(mNewsSourceTitle, mNewsSourceUrl);
-
-        /// success_news_source_feed_added
+    @Override
+    public void showSourceAddedMessage() {
         Toast.makeText(getActivity(),
                 getString(R.string.success_news_source_feed_added, mNewsSourceTitle, Emoji.SMILEY),
                 Toast.LENGTH_LONG).show();
@@ -165,28 +157,19 @@ public class ValidateNewsSourceDialogFragment extends GuidedStepFragment impleme
         finishGuidedStepFragments();
     }
 
-    //
-    // com.pkmmte.pkrss.Callback
-    //
-
     @Override
-    public void onPreload() {
-        // do nothing, already showing progress dialog
+    public void toggleValidationProgressIndicator(final boolean isVisible) {
+        // Nothing to do, since progress is shown by default.
+        Timber.d("toggleValidationProgressIndicator() called with: isVisible = [" + isVisible + "]");
     }
 
     @Override
-    public void onLoaded(final List<Article> list) {
-        // Show loaded x items and add to news source list.
-        int totalFeedItems = list.size();
-        if(totalFeedItems < CoreConfig.MINIMUM_FEED_ITEM_REQUIRED) {
-            onValidationFailed(getString(R.string.error_msg_feed_url_not_enough_items, totalFeedItems));
-        } else {
-            onValidationSucceeded();
-        }
+    public void showSourceValidationFailed(final int totalFeedItems) {
+        onValidationFailed(getString(R.string.error_msg_feed_url_not_enough_items, totalFeedItems));
     }
 
     @Override
-    public void onLoadFailed() {
+    public void showUrlLoadFailedMessage() {
         onValidationFailed(getString(R.string.error_msg_feed_url_failed_loading));
     }
 }
