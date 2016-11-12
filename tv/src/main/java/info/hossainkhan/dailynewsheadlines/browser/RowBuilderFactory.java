@@ -52,8 +52,6 @@ class RowBuilderFactory {
      */
     static Row buildCardRow(final Context context, final NavigationRow navigationRow) {
         int navigationRowType = navigationRow.type();
-        Timber.d("buildCardRow() - Row type: %d", navigationRowType);
-
         switch (navigationRowType) {
             case NavigationRow.TYPE_SECTION_HEADER:
                 return new SectionRow(new HeaderItem(navigationRow.title()));
