@@ -38,6 +38,8 @@ public class FirebaseCrashLogTree extends Timber.Tree {
         if (t != null) {
             FirebaseCrash.report(t);
         }
-        FirebaseCrash.log(message);
+        if (message != null) {
+            FirebaseCrash.log(message);
+        }
     }
 }

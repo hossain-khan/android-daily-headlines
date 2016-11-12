@@ -154,8 +154,7 @@ public abstract class CardItem {
             width = articleMultimedia.getWidth();
             height = articleMultimedia.getHeight();
         } else {
-            String NO_IMAGE_MSG = "Article does not have image.";
-            Timber.w("%s Total items: %d", NO_IMAGE_MSG, size);
+            Timber.w("NYTimes article '%s' does not have image.", article.getTitle());
         }
 
         return new AutoValue_CardItem(

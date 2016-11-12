@@ -90,6 +90,14 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
                     @Override
                     public void onNext(final List<NavigationRow> navigationRows) {
+                        int navRowSize = 0;
+                        String sourceId = "UNKNOWN";
+                        if (navigationRows != null && !navigationRows.isEmpty()) {
+                            navRowSize = navigationRows.size();
+                            sourceId = navigationRows.get(0).sourceId();
+                        }
+
+                        Timber.i("onNext() returned - Loaded %d items from %s.", navRowSize, sourceId);
                         navigationRowList.addAll(navigationRows);
                     }
                 });

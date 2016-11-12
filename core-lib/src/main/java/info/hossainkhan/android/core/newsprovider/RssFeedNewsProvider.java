@@ -87,6 +87,7 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
                     navigationHeadlines.add(NavigationRow.builder()
                             .title(getNewsSource().name())
                             .type(NavigationRow.TYPE_SECTION_HEADER)
+                            .sourceId(getNewsSource().id())
                             .build());
 
 
@@ -95,6 +96,7 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
                                     .title("Headlines")
                                     .category(ArticleCategory.technology)
                                     .cards(convertArticleToCardItems(articleList))
+                                    .sourceId(getNewsSource().id())
                                     .build()
                     );
                     subscriber.onNext(navigationHeadlines);
