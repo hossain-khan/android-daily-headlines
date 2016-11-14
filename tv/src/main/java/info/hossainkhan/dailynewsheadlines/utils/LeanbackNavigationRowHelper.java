@@ -67,15 +67,16 @@ public final class LeanbackNavigationRowHelper {
 
     /**
      * Builds an action card item.
-     * @param resources Resources.
-     * @param titleRes String resource ID for item title.
+     *
+     * @param resources     Resources.
+     * @param titleRes      String resource ID for item title.
      * @param actionIconRes Drawable icon for action.
      * @return CardItem.
      */
     public static CardItem buildNavigationActionItem(final Resources resources,
-                                              @StringRes int titleRes, @DrawableRes int actionIconRes) {
+                                                     @StringRes int titleRes, @DrawableRes int actionIconRes) {
         return CardItem.create(
-                titleRes /* id */,  resources.getString(titleRes) /* title */,
+                titleRes /* id */, resources.getString(titleRes) /* title */,
                 null /* description */, null /*extraText */, null /*category */,
                 null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
                 actionIconRes, // localImageResourceId,
@@ -107,6 +108,12 @@ public final class LeanbackNavigationRowHelper {
         list.add(buildNavigationDivider());
     }
 
+    /**
+     * Add application settings related navigation items to navigation row list.
+     *
+     * @param resources {@link Resources}
+     * @param list      List of navigation row where settings navigation item will be added.
+     */
     private static void addSettingsNavigationRows(final Resources resources, final List<NavigationRow> list) {
         // Build settings items
 
@@ -134,6 +141,12 @@ public final class LeanbackNavigationRowHelper {
                 .build());
     }
 
+    /**
+     * Adds application information related navigation items to navigation row list.
+     *
+     * @param resources {@link Resources}
+     * @param list      List of navigation row where application info navigation item will be added.
+     */
     private static void addInformationNavigationRows(final Resources resources, final List<NavigationRow> list) {
         List<CardItem> infoItems = new ArrayList<>(5);
         infoItems.add(
