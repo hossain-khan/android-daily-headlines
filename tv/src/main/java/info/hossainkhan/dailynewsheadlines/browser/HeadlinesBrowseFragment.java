@@ -54,7 +54,7 @@ import info.hossainkhan.dailynewsheadlines.utils.PicassoBackgroundManager;
 import timber.log.Timber;
 
 import static info.hossainkhan.dailynewsheadlines.browser.RowBuilderFactory.buildCardRow;
-import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.addSettingsNavigation;
+import static info.hossainkhan.dailynewsheadlines.utils.LeanbackNavigationRowHelper.addSettingsNavigation;
 
 /**
  * Leanback browser fragment that is responsible for showing all the headlines.
