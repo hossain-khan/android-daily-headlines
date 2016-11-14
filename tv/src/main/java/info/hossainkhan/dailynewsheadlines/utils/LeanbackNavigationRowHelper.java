@@ -25,6 +25,7 @@
 package info.hossainkhan.dailynewsheadlines.utils;
 
 import android.content.res.Resources;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
@@ -64,6 +65,23 @@ public final class LeanbackNavigationRowHelper {
         return NavigationRow.builder().type(NavigationRow.TYPE_DIVIDER).build();
     }
 
+    /**
+     * Builds an action card item.
+     * @param resources Resources.
+     * @param titleRes String resource ID for item title.
+     * @param actionIconRes Drawable icon for action.
+     * @return CardItem.
+     */
+    public static CardItem buildNavigationActionItem(final Resources resources,
+                                              @StringRes int titleRes, @DrawableRes int actionIconRes) {
+        return CardItem.create(
+                titleRes /* id */,  resources.getString(titleRes) /* title */,
+                null /* description */, null /*extraText */, null /*category */,
+                null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
+                actionIconRes, // localImageResourceId,
+                null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION, 0 /* width */, 0 /* height */
+        );
+    }
 
     /**
      * Adds leanback app's navigation {@link android.support.v17.leanback.widget.Row} for sidebar.
@@ -94,35 +112,17 @@ public final class LeanbackNavigationRowHelper {
 
         List<CardItem> settingsItems = new ArrayList<>(5);
         settingsItems.add(
-                CardItem.create(
-                        R.string.settings_card_item_news_source_title, // id,
-                        resources.getString(R.string.settings_card_item_news_source_title), // title,
-                        null /* description */, null /*extraText */, null /*category */,
-                        null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
-                        R.drawable.ic_settings_settings, // localImageResourceId,
-                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION, 0 /* width */, 0 /* height */
-                )
+                buildNavigationActionItem(resources,
+                        R.string.settings_card_item_news_source_title, R.drawable.ic_settings_settings)
         );
         settingsItems.add(
-                CardItem.create(
-                        R.string.settings_card_item_add_news_source_feed_title, // id,
-                        resources.getString(R.string.settings_card_item_add_news_source_feed_title), // title,
-                        null /* description */, null /*extraText */, null /*category */,
-                        null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
-                        R.drawable.ic_settings_add_news_source, // localImageResourceId,
-                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION, 0 /* width */, 0 /* height */
-                )
+                buildNavigationActionItem(resources,
+                        R.string.settings_card_item_add_news_source_feed_title, R.drawable.ic_settings_add_news_source)
         );
 
         settingsItems.add(
-                CardItem.create(
-                        R.string.settings_card_item_manage_news_source_feed_title, // id,
-                        resources.getString(R.string.settings_card_item_manage_news_source_feed_title), // title,
-                        null /* description */, null /*extraText */, null /*category */,
-                        null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
-                        R.drawable.ic_settings_manage_news_source, // localImageResourceId,
-                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION, 0 /* width */, 0 /* height */
-                )
+                buildNavigationActionItem(resources,
+                        R.string.settings_card_item_manage_news_source_feed_title, R.drawable.ic_settings_manage_news_source)
         );
 
 
@@ -137,27 +137,13 @@ public final class LeanbackNavigationRowHelper {
     private static void addInformationNavigationRows(final Resources resources, final List<NavigationRow> list) {
         List<CardItem> infoItems = new ArrayList<>(5);
         infoItems.add(
-                CardItem.create(
-                        R.string.settings_card_item_about_app_title, // id,
-                        resources.getString(R.string.settings_card_item_about_app_title), // title,
-                        null /* description */, null /*extraText */, null /*category */,
-                        null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
-                        R.drawable.ic_settings_about_app_information, // localImageResourceId,
-                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION,
-                        0 /* width */, 0 /* height */
-                )
+                buildNavigationActionItem(resources,
+                        R.string.settings_card_item_about_app_title, R.drawable.ic_settings_about_app_information)
         );
 
         infoItems.add(
-                CardItem.create(
-                        R.string.settings_card_item_contribution_title, // id,
-                        resources.getString(R.string.settings_card_item_contribution_title), // title,
-                        null /* description */, null /*extraText */, null /*category */,
-                        null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
-                        R.drawable.ic_settings_contribute_github_circle, // localImageResourceId,
-                        null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION,
-                        0 /* width */, 0 /* height */
-                )
+                buildNavigationActionItem(resources,
+                        R.string.settings_card_item_contribution_title, R.drawable.ic_settings_contribute_github_circle)
         );
 
         list.add(NavigationRow.builder()
