@@ -19,7 +19,6 @@ import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements HeadlinesContract.View {
-    private static final String TAG = "MainActivity";
 
     HeadlinesPresenter mHeadlinesPresenter;
 
