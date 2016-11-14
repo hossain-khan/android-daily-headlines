@@ -37,7 +37,7 @@ import info.hossainkhan.android.core.util.Validate;
 import info.hossainkhan.dailynewsheadlines.R;
 
 /**
- * Util classes related to leanback and application.
+ * Util classes related to leanback navigation items and application.
  */
 public final class LeanbackNavigationRowHelper {
 
@@ -79,6 +79,17 @@ public final class LeanbackNavigationRowHelper {
         list.add(buildNavigationDivider());
         list.add(buildNavigationHeader(resources, R.string.navigation_header_item_settings_title));
 
+        // Adds row for application settings
+        addSettingsNavigationRows(resources, list);
+
+        // Adds row for application information
+        addInformationNavigationRows(resources, list);
+
+        // Add end divider
+        list.add(buildNavigationDivider());
+    }
+
+    private static void addSettingsNavigationRows(final Resources resources, final List<NavigationRow> list) {
         // Build settings items
 
         List<CardItem> settingsItems = new ArrayList<>(5);
@@ -115,15 +126,15 @@ public final class LeanbackNavigationRowHelper {
         );
 
 
-
         list.add(NavigationRow.builder()
                 .title(resources.getString(R.string.settings_navigation_row_news_source_title))
                 .type(NavigationRow.TYPE_DEFAULT)
                 .cards(settingsItems)
                 .useShadow(false)
                 .build());
+    }
 
-
+    private static void addInformationNavigationRows(final Resources resources, final List<NavigationRow> list) {
         List<CardItem> infoItems = new ArrayList<>(5);
         infoItems.add(
                 CardItem.create(
@@ -155,9 +166,5 @@ public final class LeanbackNavigationRowHelper {
                 .cards(infoItems)
                 .useShadow(false)
                 .build());
-
-
-        // Add end divider
-        list.add(buildNavigationDivider());
     }
 }
