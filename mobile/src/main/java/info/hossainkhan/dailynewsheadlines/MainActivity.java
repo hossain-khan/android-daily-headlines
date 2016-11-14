@@ -20,7 +20,7 @@ import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements HeadlinesContract.View {
 
-    HeadlinesPresenter mHeadlinesPresenter;
+    private HeadlinesPresenter mHeadlinesPresenter;
 
     @BindView(R.id.test_textview)
     TextView demoTextview;
