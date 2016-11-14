@@ -39,7 +39,7 @@ import info.hossainkhan.dailynewsheadlines.R;
 /**
  * Util classes related to leanback and application.
  */
-public final class LeanbackHelper {
+public final class LeanbackNavigationRowHelper {
 
     /**
      * Builds a navigation header item.
