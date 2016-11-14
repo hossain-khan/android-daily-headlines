@@ -43,12 +43,13 @@ import info.hossainkhan.android.core.util.StringUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
 
+import static info.hossainkhan.android.core.CoreConfig.BACKGROUND_UPDATE_DELAY;
+
 /**
  * Modified source taken from https://github.com/corochann/AndroidTVappTutorial
  */
 public class PicassoBackgroundManager {
 
-    private static int BACKGROUND_UPDATE_DELAY = 500;
     private final int DEFAULT_BACKGROUND_RES_ID = R.drawable.default_background;
     private static Drawable mDefaultBackground;
     // Handler attached with main thread
