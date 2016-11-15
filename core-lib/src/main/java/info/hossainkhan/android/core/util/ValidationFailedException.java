@@ -24,50 +24,23 @@
 
 package info.hossainkhan.android.core.util;
 
-import android.content.Context;
-import android.graphics.Point;
-import android.view.Display;
-import android.view.WindowManager;
-import android.widget.Toast;
-
 /**
- * A collection of utility methods, all static.
+ * Exception when certain validation fails.
  */
-public class UiUtils {
+public class ValidationFailedException extends RuntimeException {
 
-    /*
-     * Making sure public utility methods remain static
+    /**
+     * @param message Validation error message.
      */
-    private UiUtils() {
+    public ValidationFailedException(String message) {
+        super(message);
     }
 
     /**
-     * Returns the screen/display size
+     * @param message   Validation error message.
+     * @param throwable Exception related to validation.
      */
-    public static Point getDisplaySize(Context context) {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size;
-    }
-
-    /**
-     * Shows a (long) toast
-     */
-    public static void showToast(Context context, String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * Shows a (long) toast.
-     */
-    public static void showToast(Context context, int resourceId) {
-        Toast.makeText(context, context.getString(resourceId), Toast.LENGTH_LONG).show();
-    }
-
-    public static int convertDpToPixel(Context ctx, int dp) {
-        float density = ctx.getResources().getDisplayMetrics().density;
-        return Math.round((float) dp * density);
+    public ValidationFailedException(final String message, final Throwable throwable) {
+        super(message, throwable);
     }
 }

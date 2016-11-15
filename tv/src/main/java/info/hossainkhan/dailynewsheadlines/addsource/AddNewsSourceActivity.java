@@ -66,21 +66,12 @@ public class AddNewsSourceActivity extends Activity {
         super.onCreate(savedInstanceState);
         // Set content view is not required because we are adding fragment to "android.R.id.content"
 
-        extractBundleData(getIntent());
-
         if (savedInstanceState == null) {
             GuidedStepFragment.addAsRoot(
                     AddNewsSourceActivity.this,
                     AddSourceDialogFragment.newInstance(),
                     android.R.id.content);
         }
-    }
-
-    /**
-     * Internal method to extract bundle data and prepare required local instances.
-     */
-    private void extractBundleData(final Intent intent) {
-
     }
 
 }

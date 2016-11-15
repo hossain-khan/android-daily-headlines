@@ -36,7 +36,6 @@ import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
-import timber.log.Timber;
 
 
 /**
@@ -50,7 +49,7 @@ class RowBuilderFactory {
      * @param navigationRow Navigation row
      * @return {@link Row}
      */
-    static Row buildCardRow(final Context context, final NavigationRow navigationRow) {
+    public static Row buildCardRow(final Context context, final NavigationRow navigationRow) {
         int navigationRowType = navigationRow.type();
         switch (navigationRowType) {
             case NavigationRow.TYPE_SECTION_HEADER:

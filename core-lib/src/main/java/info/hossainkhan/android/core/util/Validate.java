@@ -31,35 +31,35 @@ public class Validate {
 
     public static void notNull(Object... objects){
         if(objects == null) {
-            throw new RuntimeException("Given objects should not be null");
+            throw new ValidationFailedException("Given objects should not be null");
         }
         for(Object o : objects) {
             if(o == null) {
-                throw new RuntimeException("Given objects should not be null");
+                throw new ValidationFailedException("Given objects should not be null");
             }
         }
     }
 
     public static void notEmpty(String value){
         if(StringUtils.isEmpty(value)) {
-            throw new RuntimeException("String should not be empty or null");
+            throw new ValidationFailedException("String should not be empty or null");
         }
     }
 
     public static void notEmpty(List list) {
         if(list == null || list.isEmpty()) {
-            throw new RuntimeException("list should not be empty or null");
+            throw new ValidationFailedException("list should not be empty or null");
         }
     }
     public static void notEmpty(Map map) {
         if(map == null || map.isEmpty()) {
-            throw new RuntimeException("map should not be empty or null");
+            throw new ValidationFailedException("map should not be empty or null");
         }
     }
 
     public static void notEmpty(String... values){
         if(values == null) {
-            throw new RuntimeException("Given objects should not be null");
+            throw new ValidationFailedException("Given objects should not be null");
         }
         for(String s : values) {
             notEmpty(s);

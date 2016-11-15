@@ -31,6 +31,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.annotation.Retention;
 
+import info.hossainkhan.android.core.util.ValidationFailedException;
+
 // Source: https://gist.github.com/JakeWharton/0d67d01badcee0ae7bc9
 /**
  * {@link TypeAdapterFactory} used for deserialization of classes Marked with an {@link AutoGson @AutoGson}-annotation.
@@ -55,7 +57,7 @@ public final class AutoValueAdapterFactory implements TypeAdapterFactory {
             Class<?> autoValueType = Class.forName(autoValueName);
             return (TypeAdapter<T>) gson.getAdapter(autoValueType);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Could not load AutoValue type " + autoValueName, e);
+            throw new ValidationFailedException("Could not load AutoValue type " + autoValueName, e);
         }
     }
 }

@@ -36,6 +36,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Set;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.util.Validate;
 import timber.log.Timber;
 
@@ -69,11 +70,13 @@ public class UserSourceManager implements UserSourceProvider {
     public String removeSource(final String url) {
         String removedSourceTitle = mNewsMap.remove(url);
         updateSources();
+        CoreApplication.getAnalyticsReporter().reportRemoveNewsSourceEvent(removedSourceTitle);
         return removedSourceTitle;
     }
 
     @Override
     public void removeSources(final Set<String> urls) {
+        reportRemoveSource(urls);
         mNewsMap.keySet().removeAll(urls);
         updateSources();
     }
@@ -106,4 +109,18 @@ public class UserSourceManager implements UserSourceProvider {
         Type hasMapTypeToken = new TypeToken<Map<String, String>>() { }.getType();
         mNewsMap = gson.fromJson(newsSources, hasMapTypeToken); // This type must match TypeToken
     }
+
+    /**
+     * Convenient method to report removal of multiple URLs.
+     *
+     * @param urls List of URL.
+     */
+    private void reportRemoveSource(final Set<String> urls) {
+        for (String url : urls) {
+            if (mNewsMap.containsKey(url)) {
+                CoreApplication.getAnalyticsReporter().reportRemoveNewsSourceEvent(mNewsMap.get(url));
+            }
+        }
+    }
+
 }
