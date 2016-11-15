@@ -79,7 +79,12 @@ public class ErrorFragment extends android.support.v17.leanback.app.ErrorFragmen
         CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
     }
 
-    void setErrorContent(final String dialogMessage) {
+    /**
+     * Sets error content view with provided message.
+     *
+     * @param dialogMessage The message text for the error.
+     */
+    public void setErrorContent(final String dialogMessage) {
         setImageDrawable(getResources().getDrawable(R.drawable.lb_ic_sad_cloud));
         setMessage(dialogMessage);
         setDefaultBackground(TRANSLUCENT);

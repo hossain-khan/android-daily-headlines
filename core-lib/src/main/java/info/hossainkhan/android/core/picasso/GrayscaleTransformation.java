@@ -37,6 +37,8 @@ import com.squareup.picasso.Transformation;
 import java.io.IOException;
 
 import info.hossainkhan.android.core.R;
+import info.hossainkhan.android.core.util.ValidationFailedException;
+import timber.log.Timber;
 
 import static android.graphics.Bitmap.createBitmap;
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
@@ -75,7 +77,8 @@ public class GrayscaleTransformation implements Transformation {
         try {
             noise = picasso.load(R.drawable.noise).get();
         } catch (IOException e) {
-            throw new RuntimeException("Failed to apply transformation! Missing resource.");
+            Timber.d(e, "Missing noise resource.");
+            throw new ValidationFailedException("Failed to apply transformation! Missing resource.", e);
         }
 
         BitmapShader shader = new BitmapShader(noise, REPEAT, REPEAT);
