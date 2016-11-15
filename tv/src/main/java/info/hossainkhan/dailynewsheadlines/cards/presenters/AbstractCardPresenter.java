@@ -40,7 +40,6 @@ import info.hossainkhan.android.core.model.CardItem;
  */
 public abstract class AbstractCardPresenter<T extends BaseCardView> extends Presenter {
 
-    private static final String TAG = "AbstractCardPresenter";
     private final Context mContext;
 
     /**

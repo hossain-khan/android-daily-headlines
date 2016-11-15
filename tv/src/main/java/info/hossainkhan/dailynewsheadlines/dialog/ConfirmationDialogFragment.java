@@ -52,9 +52,6 @@ public class ConfirmationDialogFragment extends GuidedStepFragment {
     private static final String BUNDLE_ARG_TITLE = "BUNDLE_KEY_TITLE";
     private static final String BUNDLE_ARG_MESSAGE = "BUNDLE_KEY_MESSAGE";
 
-    private String mDialogTitle;
-    private String mDialogMessage;
-
     public static ConfirmationDialogFragment newInstance(final String title, final String message) {
         ConfirmationDialogFragment fragment = new ConfirmationDialogFragment();
 
@@ -76,10 +73,10 @@ public class ConfirmationDialogFragment extends GuidedStepFragment {
     @Override
     public Guidance onCreateGuidance(Bundle savedInstanceState) {
         Bundle arguments = getArguments();
-        mDialogTitle = arguments.getString(BUNDLE_ARG_TITLE);
-        mDialogMessage = arguments.getString(BUNDLE_ARG_MESSAGE);
+        final String dialogTitle = arguments.getString(BUNDLE_ARG_TITLE);
+        final String dialogMessage = arguments.getString(BUNDLE_ARG_MESSAGE);
 
-        Guidance guidance = new Guidance(mDialogTitle,mDialogMessage,"", null);
+        Guidance guidance = new Guidance(dialogTitle, dialogMessage,"", null);
         return guidance;
     }
 

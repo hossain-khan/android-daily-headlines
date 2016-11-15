@@ -50,6 +50,7 @@ public class AnalyticsReporter {
     // Event param values
     //
     private static final String EVENT_PARAM_VALUE_CATEGORY_SCREEN = "ui_screen";
+    private static final String EVENT_PARAM_VALUE_CATEGORY_SETTINGS = "app_settings";
 
     /**
      * Analytics instance that is used for reporting.
@@ -90,7 +91,7 @@ public class AnalyticsReporter {
     public void reportSettingsScreenLoadedEvent(String settingsName) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, settingsName);
-        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "app_settings");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, EVENT_PARAM_VALUE_CATEGORY_SETTINGS);
         mAnalytics.logEvent(EVENT_NAME_SETTINGS_LOAD, bundle);
     }
 
