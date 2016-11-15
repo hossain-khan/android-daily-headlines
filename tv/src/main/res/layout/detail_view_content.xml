@@ -23,21 +23,14 @@
   ~ SOFTWARE.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical">
 
     <TextView
         android:id="@+id/primary_text"
-        style="@style/Widget.Leanback.DetailsDescriptionTitleStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="15dp"
-        android:maxLines="3"
-        android:fontFamily="sans-serif-light"
-        android:text=""
+        style="@style/DetailsContentTitle"
         tools:text="News Headline Title Text"/>
 
     <LinearLayout
@@ -49,30 +42,20 @@
 
         <TextView
             android:id="@+id/secondary_text_first"
-            style="@style/Widget.Leanback.DetailsDescriptionSubtitleStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="Category Name"/>
+            style="@style/DetailsContentDescriptionSubtitle"
+            tools:text="Category Name"/>
 
         <TextView
             android:id="@+id/secondary_text_second"
-            style="@style/Widget.Leanback.DetailsDescriptionSubtitleStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:fontFamily="sans-serif-condensed"
-            android:text=""
+            style="@style/DetailsContentDescriptionSubtitle"
             tools:text="DateTime: July 17, 2017"/>
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/extra_text"
-        style="@style/Widget.Leanback.DetailsDescriptionBodyStyle"
+        style="@style/DetailsContentDescription"
         android:layout_width="match_parent"
-        android:fontFamily="sans-serif-regular"
         android:layout_height="wrap_content"
         tools:text="Filmmaker Guillermo del Toro teas up with Legendary Pictures to bring audiences a unique take on the monster film with this sci/fi production."/>
 
@@ -83,10 +66,11 @@
         android:id="@+id/headlines_source_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_gravity="right"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/content_description_news_source"
         android:visibility="gone"
-        tools:visibility="visible"
         tools:src="@mipmap/ic_launcher"
-        android:contentDescription="@string/content_description_news_source" />
+        tools:visibility="visible"
+        tools:ignore="RtlHardcoded"/>
 </LinearLayout>

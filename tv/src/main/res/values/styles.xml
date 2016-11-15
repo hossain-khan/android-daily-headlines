@@ -88,4 +88,28 @@
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:textAppearance">@style/TextAppearance.Leanback.DetailsDescriptionSubtitle</item>
     </style>
+
+    <!--
+        Leanback details screen styles
+        ==============================================
+    -->
+    <style name="DetailsContentDescription" parent="Widget.Leanback.DetailsDescriptionBodyStyle">
+        <item name="android:fontFamily">sans-serif-regular</item>
+    </style>
+
+    <style name="DetailsContentDescriptionSubtitle" parent="Widget.Leanback.DetailsDescriptionSubtitleStyle">
+        <item name="android:layout_marginRight">25dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="DetailsContentTitle" parent="Widget.Leanback.DetailsDescriptionTitleStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
 </resources>
