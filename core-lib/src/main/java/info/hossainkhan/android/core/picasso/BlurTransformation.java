@@ -38,7 +38,7 @@ import com.squareup.picasso.Transformation;
  */
 public class BlurTransformation implements Transformation {
 
-    RenderScript rs;
+    private final RenderScript rs;
 
     public BlurTransformation(Context context) {
         super();
@@ -51,7 +51,8 @@ public class BlurTransformation implements Transformation {
         Bitmap blurredBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
 
         // Allocate memory for Renderscript to work with
-        Allocation input = Allocation.createFromBitmap(rs, blurredBitmap, Allocation.MipmapControl.MIPMAP_FULL, Allocation.USAGE_SHARED);
+        Allocation input = Allocation.createFromBitmap(rs, blurredBitmap,
+                Allocation.MipmapControl.MIPMAP_FULL, Allocation.USAGE_SHARED);
         Allocation output = Allocation.createTyped(rs, input.getType());
 
         // Load up an instance of the specific script that we want to use.

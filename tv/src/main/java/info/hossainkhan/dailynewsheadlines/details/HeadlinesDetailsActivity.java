@@ -47,9 +47,10 @@ public class HeadlinesDetailsActivity extends Activity {
 
     /**
      * Creates launch intent with required information.
+     *
      * @param activityContext Activity context.
-     * @param cardItem The card item data.
-     * @return
+     * @param cardItem        The card item data.
+     * @return Intent that launches this activity with provided data.
      */
     public static Intent createLaunchIntent(Context activityContext, CardItem cardItem) {
         Intent intent = new Intent(activityContext, HeadlinesDetailsActivity.class);
@@ -74,7 +75,12 @@ public class HeadlinesDetailsActivity extends Activity {
         setContentView(R.layout.activity_headlines_details);
     }
 
-    /* package private */ CardItem getCardItem() {
+    /**
+     * Provides {@link CardItem} instance that was sent via {@link #createLaunchIntent(Context, CardItem)}.
+     *
+     * @return The {@link CardItem} from intent data.
+     */
+    public CardItem getCardItem() {
         return mCardItem;
     }
 

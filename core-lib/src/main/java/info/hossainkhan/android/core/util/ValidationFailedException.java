@@ -29,7 +29,18 @@ package info.hossainkhan.android.core.util;
  */
 public class ValidationFailedException extends RuntimeException {
 
+    /**
+     * @param message Validation error message.
+     */
     public ValidationFailedException(String message) {
         super(message);
+    }
+
+    /**
+     * @param message   Validation error message.
+     * @param throwable Exception related to validation.
+     */
+    public ValidationFailedException(final String message, final Throwable throwable) {
+        super(message, throwable);
     }
 }

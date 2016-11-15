@@ -51,7 +51,7 @@ import static info.hossainkhan.android.core.CoreConfig.BACKGROUND_UPDATE_DELAY;
 public class PicassoBackgroundManager {
 
     private final int DEFAULT_BACKGROUND_RES_ID = R.drawable.default_background;
-    private static Drawable mDefaultBackground;
+    private final Drawable mDefaultBackground;
     // Handler attached with main thread
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
