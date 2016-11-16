@@ -1,77 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Picking right font family - see details on "fonts.xml"
+    Also see: http://stackoverflow.com/questions/12128331/how-to-change-fontfamily-of-textview-in-android
+-->
 <resources>
 
-    <style name="TvAppTheme" parent="@style/Theme.Leanback">
-    </style>
-
-    <!-- TextCardView. used in cards example -->
-    <style name="TextCardStyle" parent="Widget.Leanback.BaseCardViewStyle">
-        <item name="cardBackground">@null</item>
-    </style>
-
-    <style name="DefaultCardTheme" parent="Theme.Leanback">
-        <item name="imageCardViewStyle">@style/DefaultCardStyle</item>
-        <item name="imageCardViewImageStyle">@style/DefaultCardImageStyle</item>
-    </style>
-
-    <style name="DefaultCardStyle" parent="Widget.Leanback.ImageCardViewStyle">
-        <item name="cardBackground">@null</item>
-    </style>
-
-    <!-- A default card style. Used in cards example. -->
-    <style name="DefaultCardImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
-        <item name="android:layout_width">@dimen/default_image_card_width</item>
-        <item name="android:layout_height">@dimen/default_image_card_height</item>
-    </style>
-
-    <!-- Theme corresponding to the IconCardStyle -->
-    <style name="IconCardTheme" parent="Theme.Leanback">
-        <item name="imageCardViewStyle">@style/IconCardViewStyle</item>
-        <item name="imageCardViewTitleStyle">@style/IconCardTitleStyle</item>
-        <item name="imageCardViewImageStyle">@style/IconCardImageStyle</item>
-        <item name="imageCardViewInfoAreaStyle">@style/IconCardInfoAreaStyle</item>
-    </style>
-
-    <!-- Icon card style with custom focus handler. Used in cards example. -->
-    <style name="IconCardViewStyle" parent="DefaultCardStyle">
-        <item name="lbImageCardViewType">Title</item>
-    </style>
-
-    <style name="IconCardImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
-        <item name="android:layout_width">96dp</item>
-        <item name="android:layout_height">96dp</item>
-        <item name="android:padding">16dp</item>
-    </style>
-
-    <style name="IconCardTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
-        <item name="android:maxLines">2</item>
-        <item name="android:minLines">2</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textAlignment">center</item>
-    </style>
-
-    <style name="IconCardInfoAreaStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
-        <item name="android:layout_width">96dp</item>
-        <item name="android:background">@null</item>
-        <item name="layout_viewType">main</item>
-    </style>
-
-
     <!--
-
         Other styles for the UI elements
         ==============================================
     -->
 
     <style name="Widget.Leanback.ImageCardView.ContentStyle.InfoText">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">@string/font_family_light</item>
         <item name="android:lines">1</item>
         <item name="android:maxLines">1</item>
         <item name="android:textSize">16sp</item>
     </style>
 
 
+    <!--
+        Styles for information based screens. Eg. About, Contribution etc.
+        ===================================================================
+    -->
     <style name="InformationTextCentered">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -101,7 +52,7 @@
         <item name="android:layout_marginRight">25dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:fontFamily">@string/font_family_condensed</item>
     </style>
 
     <style name="DetailsContentTitle" parent="Widget.Leanback.DetailsDescriptionTitleStyle">
@@ -110,6 +61,52 @@
         <item name="android:layout_marginBottom">5dp</item>
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:maxLines">3</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">@string/font_family_light</item>
     </style>
+
+    <!--
+        Headlines Card Item Styles
+        ==============================================
+    -->
+
+    <style name="CardHeadlineTitle" parent="Widget.Leanback.ImageCardView.ContentStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/default_card_background_color</item>
+        <item name="android:fontFamily">@string/font_family_black</item>
+        <item name="android:lines">6</item>
+        <item name="android:maxLines">6</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:textColor">@color/card_headline_text</item>
+    </style>
+
+    <style name="CardHeadlineInfoText" parent="Widget.Leanback.ImageCardView.ContentStyle.InfoText">
+
+    </style>
+
+    <style name="CardHeadlineInfoText.Left"><!-- Info text on left - Usually category -->
+        <item name="android:layout_gravity">left</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxWidth">@dimen/card_subtext_container_left_max_width</item>
+    </style>
+
+    <style name="CardHeadlineInfoText.Right"><!-- Info text on right - elapsed time since publish date -->
+        <item name="android:maxWidth">@dimen/card_subtext_container_right_max_width</item>
+        <item name="android:layout_gravity">right</item>
+    </style>
+
+    <style name="CardHeadlineInfoBar"><!-- Container bar for "CardHeadlineInfoText" -->
+        <item name="android:background">@color/default_card_footer_background_color</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingBottom">7dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingTop">7dp</item>
+    </style>
+
+
 </resources>
