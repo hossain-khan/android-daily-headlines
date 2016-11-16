@@ -46,6 +46,7 @@
 
     <!-- Navigation Sidebar on Headline Browser -->
     <color name="fastlane_background">#37474F</color>
+    <color name="app_title_color">#90A4AE</color>
 
     <color name="background_gradient_start">#263238</color>
     <color name="background_gradient_end">#D7E7DF</color>

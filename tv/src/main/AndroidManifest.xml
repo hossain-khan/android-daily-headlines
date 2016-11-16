@@ -23,7 +23,7 @@
         android:label="@string/app_name"
         android:logo="@mipmap/headlines_banner"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Leanback">
+        android:theme="@style/Theme.Headlines.Leanback">
         <activity
             android:name=".launcher.LauncherActivity"
             android:label="@string/app_name"
