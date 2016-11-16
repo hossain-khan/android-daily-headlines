@@ -9,6 +9,15 @@
         Other styles for the UI elements
         ==============================================
     -->
+    <style name="Widget.Leanback.Title.Text.Headlines">
+        <item name="android:textAppearance">@style/TextAppearance.Leanback.Title.Headlines</item>
+    </style>
+
+    <!-- Custom style for the title on top -->
+    <style name="TextAppearance.Leanback.Title.Headlines">
+        <item name="android:fontFamily">@string/font_family_medium</item>
+        <item name="android:textColor">@color/app_title_color</item>
+    </style>
 
     <style name="Widget.Leanback.ImageCardView.ContentStyle.InfoText">
         <item name="android:layout_width">wrap_content</item>

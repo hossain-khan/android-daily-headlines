@@ -33,7 +33,7 @@
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:colorPrimary">@color/search_opaque</item>
-
+        <item name="browseTitleTextStyle">@style/Widget.Leanback.Title.Text.Headlines</item>
     </style>
 
     <style name="Theme.Headlines.LeanbackPreferences" parent="Theme.Leanback">
