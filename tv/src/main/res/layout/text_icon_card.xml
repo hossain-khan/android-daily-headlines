@@ -28,8 +28,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-
-    <!-- Picking right font family - http://stackoverflow.com/questions/12128331/how-to-change-fontfamily-of-textview-in-android -->
     <RelativeLayout
         android:id="@+id/headline_card_root_container"
         android:layout_width="@dimen/card_text_container_width"
@@ -40,56 +38,35 @@
             android:id="@+id/main_content_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"/>
 
 
         <TextView
             android:id="@+id/primary_headline_text"
-            style="@style/Widget.Leanback.ImageCardView.ContentStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/CardHeadlineTitle"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:background="@color/default_card_background_color"
-            android:fontFamily="sans-serif-black"
-            android:lines="6"
-            android:maxLines="6"
-            android:paddingBottom="14dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="12dp"
-            android:textSize="34sp"
             lb:layout_viewType="main"
-            android:textColor="@color/card_headline_text"
-            tools:text="This is a headline title that can be long. It may be truncated if the text is too long." />
+            tools:text="This is a headline title that can be long. It may be truncated if the text is too long."/>
 
 
         <FrameLayout
+            style="@style/CardHeadlineInfoBar"
             android:layout_width="@dimen/card_text_container_width"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:background="@color/default_card_footer_background_color"
-            android:orientation="horizontal"
-            android:paddingBottom="7dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:paddingTop="7dp">
+            tools:ignore="RtlHardcoded">
 
             <TextView
                 android:id="@+id/summary_text_1"
-                style="@style/Widget.Leanback.ImageCardView.ContentStyle.InfoText"
-                android:layout_gravity="left"
-                android:ellipsize="end"
-                android:maxWidth="@dimen/card_subtext_container_left_max_width"
-                tools:text="Info and tags on the left side of the card" />
+                style="@style/CardHeadlineInfoText.Left"
+                tools:text="Info and tags on the left side of the card"/>
 
             <TextView
                 android:id="@+id/summary_text_2"
-                style="@style/Widget.Leanback.ImageCardView.ContentStyle.InfoText"
-                android:maxWidth="@dimen/card_subtext_container_right_max_width"
-                android:layout_gravity="right"
-                tools:text="Info or time elapsed on the Right" />
+                style="@style/CardHeadlineInfoText.Right"
+                tools:text="Info or time elapsed on the Right"/>
         </FrameLayout>
     </RelativeLayout>
 

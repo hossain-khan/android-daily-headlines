@@ -3,7 +3,7 @@
 -->
 <resources>
     <string name="app_name">Daily Headlines</string>
-    <string name="browse_title">Daily Headlines</string>
+    <string name="browse_title">Today\&apos;s Headlines</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
     <string name="okay">Okay</string>
