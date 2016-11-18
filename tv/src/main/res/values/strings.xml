@@ -92,5 +92,6 @@
     <string name="manage_news_source_feed_guidance_description">Select the news sources that you want to remove.</string>
     <string name="manage_news_source_feed_no_items_action_title">You have not added any %1$s sources.</string>
     <string name="manage_news_source_feed_no_items_action_description">Please add news source to be able to manage them from this screen.</string>
+    <string name="title_activity_search">Search</string>
 
 </resources>

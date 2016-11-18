@@ -32,6 +32,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.view.View;
 
 import java.util.List;
 
@@ -49,6 +50,7 @@ import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInterac
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.details.HeadlinesDetailsActivity;
 import info.hossainkhan.dailynewsheadlines.dialog.ErrorFragment;
+import info.hossainkhan.dailynewsheadlines.search.SearchActivity;
 import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
 import info.hossainkhan.dailynewsheadlines.utils.PicassoBackgroundManager;
 import timber.log.Timber;
@@ -118,6 +120,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);
 
+        // set search icon color
+        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
+
         // set fastLane (or headers) background color
         setBrandColor(getResources().getColor(R.color.fastlane_background));
     }
@@ -126,6 +131,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         CardItemViewInteractionListener listener = new CardItemViewInteractionListener(mHeadlinesPresenter);
         setOnItemViewClickedListener(listener);
         setOnItemViewSelectedListener(listener);
+
+        // Setting callback listener makes In-app search icon to be visible
+        setOnSearchClickedListener(view -> startActivity(new Intent(getActivity(), SearchActivity.class)));
     }
 
     @Override

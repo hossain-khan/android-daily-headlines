@@ -73,6 +73,13 @@
             android:exported="true"
             android:theme="@style/Theme.Headlines.Leanback.GuidedStep.InformationDialog" />
 
+        <activity
+            android:name=".search.SearchActivity"
+            android:screenOrientation="landscape"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/title_activity_search"/>
+
     </application>
 
 </manifest>
