@@ -40,6 +40,7 @@ import java.util.List;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.search.SearchContract;
 import info.hossainkhan.android.core.search.SearchPresenter;
+import info.hossainkhan.dailynewsheadlines.browser.RowBuilderFactory;
 import timber.log.Timber;
 
 public class FeedSearchFragment extends SearchFragment implements SearchFragment.SearchResultProvider, SearchContract.View {
@@ -126,7 +127,8 @@ public class FeedSearchFragment extends SearchFragment implements SearchFragment
     @Override
     public void showSearchResults(final List<CardItem> cardItems) {
         Timber.d("Found search items. Total: %d", cardItems.size());
-        mRowsAdapter.addAll(0, cardItems);
+        mRowsAdapter.add(RowBuilderFactory.buildSearchResultCardRow(getActivity().getApplicationContext(),
+                cardItems));
         mRowsAdapter.notifyArrayItemRangeChanged(0, cardItems.size());
     }
 }
