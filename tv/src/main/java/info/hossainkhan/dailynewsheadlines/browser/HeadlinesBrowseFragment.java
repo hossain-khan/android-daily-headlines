@@ -32,7 +32,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
-import android.view.View;
 
 import java.util.List;
 

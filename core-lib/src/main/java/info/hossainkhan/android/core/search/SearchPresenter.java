@@ -62,11 +62,10 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
     /**
      * Creates the presenter for search.
      *
-     * @param context          Application context.
      * @param view             The view for search.
      * @param searchObservable Observable which provides search query.
      */
-    public SearchPresenter(Context context, SearchContract.View view, final Observable<String> searchObservable) {
+    public SearchPresenter(SearchContract.View view, final Observable<String> searchObservable) {
         attachView(view);
 
         FeedlyApiClient feedlyApiClient = new FeedlyApiClient();

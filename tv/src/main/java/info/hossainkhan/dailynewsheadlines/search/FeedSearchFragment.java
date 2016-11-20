@@ -51,7 +51,6 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
 
     private ArrayObjectAdapter mRowsAdapter;
     private SearchPresenter mPresenter;
-    private SearchQueryObserver mSearchQueryObserver;
 
     /**
      * Creates new instance of this fragment.
@@ -74,7 +73,7 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
         super.onCreate(savedInstanceState);
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-        mSearchQueryObserver = new SearchQueryObserver(this, mRowsAdapter);
+        final SearchQueryObserver searchQueryObserver = new SearchQueryObserver(this, mRowsAdapter);
         setOnItemViewClickedListener(new OnItemViewClickedListener() {
             @Override
             public void onItemClicked(final Presenter.ViewHolder itemViewHolder, final Object item,
@@ -83,7 +82,7 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
                         "], rowViewHolder = [" + rowViewHolder + "], row = [" + row + "]");
             }
         });
-        mPresenter = new SearchPresenter(getActivity().getApplicationContext(), this, mSearchQueryObserver.getSearchQueryObservable());
+        mPresenter = new SearchPresenter(this, searchQueryObserver.getSearchQueryObservable());
     }
 
 
