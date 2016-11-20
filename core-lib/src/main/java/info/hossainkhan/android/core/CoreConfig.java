@@ -10,4 +10,14 @@ public class CoreConfig {
      * Background image update delay in milliseconds.
      */
     public static final int BACKGROUND_UPDATE_DELAY = 500;
+
+    /**
+     * Search query delay before making network request.
+     */
+    public static final int SEARCH_DELAY_MS = 400;
+
+    /**
+     * Minimum character required before searching for feeds.
+     */
+    public static final int SEARCH_TEXT_MIN_LENGTH = 3;
 }

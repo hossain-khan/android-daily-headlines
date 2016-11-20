@@ -43,6 +43,7 @@ dependencies {
     provided "org.glassfish:javax.annotation:$rootProject.glassfishJavaxAnnotationVersion"
 
     // Retrofit
+    // https://github.com/square/retrofit
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
     compile "com.squareup.retrofit2:converter-scalars:$rootProject.retrofitVersion"
@@ -53,9 +54,11 @@ dependencies {
         exclude group: 'stax', module: 'stax-api'
         exclude group: 'stax', module: 'stax'
     }
+    // http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22adapter-rxjava%22
     compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofitVersion"
 
     // RxJava
+    // https://github.com/ReactiveX/RxJava
     compile "io.reactivex:rxjava:$rootProject.rxJavaVersion"
 
     // OkHttp - logging

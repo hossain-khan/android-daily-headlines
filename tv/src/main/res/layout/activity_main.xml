@@ -22,6 +22,13 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   ~ SOFTWARE.
   -->
+
+<!--
+    DEV NOTE:
+    ===================
+    This is very generic layout with fragment container.
+    This layout might be used in multiple activities, search for usage before changing properties.
+-->
 <RelativeLayout
     android:id="@+id/fragment_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
