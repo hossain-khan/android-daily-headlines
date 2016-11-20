@@ -58,11 +58,5 @@ public interface SearchContract {
 
     interface Presenter extends MvpPresenter<SearchContract.View> {
 
-        /**
-         * Called when user enters a search query.
-         *
-         * @param searchQuery The search query text.
-         */
-        void onSearchTermEntered(String searchQuery);
     }
 }

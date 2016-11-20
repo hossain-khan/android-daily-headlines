@@ -33,20 +33,25 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.text.TextUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.search.SearchContract;
 import info.hossainkhan.android.core.search.SearchPresenter;
 import info.hossainkhan.dailynewsheadlines.browser.RowBuilderFactory;
+import rx.Emitter;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Cancellable;
 import timber.log.Timber;
 
-public class FeedSearchFragment extends SearchFragment implements SearchFragment.SearchResultProvider, SearchContract.View {
+public class FeedSearchFragment extends SearchFragment implements SearchContract.View {
 
     private ArrayObjectAdapter mRowsAdapter;
     private SearchPresenter mPresenter;
+    private SearchQueryObserver mSearchQueryObserver;
 
     /**
      * Creates new instance of this fragment.
@@ -69,7 +74,7 @@ public class FeedSearchFragment extends SearchFragment implements SearchFragment
         super.onCreate(savedInstanceState);
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-        setSearchResultProvider(this);
+        mSearchQueryObserver = new SearchQueryObserver(this, mRowsAdapter);
         setOnItemViewClickedListener(new OnItemViewClickedListener() {
             @Override
             public void onItemClicked(final Presenter.ViewHolder itemViewHolder, final Object item,
@@ -78,7 +83,7 @@ public class FeedSearchFragment extends SearchFragment implements SearchFragment
                         "], rowViewHolder = [" + rowViewHolder + "], row = [" + row + "]");
             }
         });
-        mPresenter = new SearchPresenter(getActivity().getApplicationContext(), this);
+        mPresenter = new SearchPresenter(getActivity().getApplicationContext(), this, mSearchQueryObserver.getSearchQueryObservable());
     }
 
 
@@ -88,31 +93,6 @@ public class FeedSearchFragment extends SearchFragment implements SearchFragment
         mPresenter.detachView();
     }
 
-    @Override
-    public ObjectAdapter getResultsAdapter() {
-        return mRowsAdapter;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newQuery) {
-        Timber.d("onQueryTextChange() called with: newQuery = [%s]", newQuery);
-        mRowsAdapter.clear();
-        if (!TextUtils.isEmpty(newQuery)) {
-            mPresenter.onSearchTermEntered(newQuery);
-
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        Timber.d("onQueryTextSubmit() called with: query = [%s]", query);
-        mRowsAdapter.clear();
-        if (!TextUtils.isEmpty(query)) {
-            mPresenter.onSearchTermEntered(query);
-        }
-        return true;
-    }
 
     @Override
     public void toggleLoadingIndicator(final boolean shouldShow) {
@@ -127,9 +107,76 @@ public class FeedSearchFragment extends SearchFragment implements SearchFragment
     @Override
     public void showSearchResults(final List<CardItem> cardItems) {
         Timber.d("Found search items. Total: %d", cardItems.size());
+        mRowsAdapter.clear();
         mRowsAdapter.add(RowBuilderFactory.buildSearchResultCardRow(getActivity().getApplicationContext(),
                 cardItems));
         mRowsAdapter.notifyArrayItemRangeChanged(0, cardItems.size());
     }
+
+    public static class SearchQueryObserver {
+        private final WeakReference<FeedSearchFragment> mSearchFragmentWeakRef;
+        private final ArrayObjectAdapter mRowsAdapter;
+
+        public SearchQueryObserver(FeedSearchFragment searchFragment, ArrayObjectAdapter rowsAdapter) {
+            mSearchFragmentWeakRef = new WeakReference<FeedSearchFragment>(searchFragment);
+            mRowsAdapter = rowsAdapter;
+        }
+
+        /**
+         * Converts {@link SearchFragment.SearchResultProvider} to {@link Observable<String>} of search query.
+         * <p>
+         * References: <br>
+         * https://medium.com/yammer-engineering/converting-callback-async-calls-to-rxjava-ebc68bde5831#.mr6g4k5gz
+         * http://www.pacoworks.com/2016/08/21/this-is-not-an-rxjava-tutorial/
+         *
+         * @return Observable that provides stream of search query from user.
+         */
+        public Observable<String> getSearchQueryObservable() {
+            return Observable.fromEmitter(new Action1<Emitter<String>>() {
+                @Override
+                public void call(final Emitter<String> emitter) {
+
+                    SearchFragment.SearchResultProvider searchListener = new SearchResultProvider() {
+                        @Override
+                        public ObjectAdapter getResultsAdapter() {
+                            return mRowsAdapter;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(final String newQuery) {
+                            Timber.d("onQueryTextChange() called with: newQuery = [%s]", newQuery);
+                            emitter.onNext(newQuery);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onQueryTextSubmit(final String query) {
+                            Timber.d("onQueryTextSubmit() called with: query = [%s]", query);
+                            emitter.onNext(query);
+                            return true;
+                        }
+                    };
+
+                    FeedSearchFragment feedSearchFragment = mSearchFragmentWeakRef.get();
+                    if (feedSearchFragment != null) {
+                        feedSearchFragment.setSearchResultProvider(searchListener);
+                    }
+
+                    // (Rx Contract # 1) - unregistering listener when unsubscribed
+                    emitter.setCancellation(new Cancellable() {
+                        @Override
+                        public void cancel() throws Exception {
+                            FeedSearchFragment feedSearchFragment = mSearchFragmentWeakRef.get();
+                            if (feedSearchFragment != null) {
+                                feedSearchFragment.setSearchResultProvider(null);
+                            }
+                        }
+                    });
+                }
+                // (Rx Contract # 4) - specifying the backpressure strategy to use
+            }, Emitter.BackpressureMode.BUFFER);
+        }
+    }
+
 }
 

@@ -14,5 +14,10 @@ public class CoreConfig {
     /**
      * Search query delay before making network request.
      */
-    public static final int SEARCH_DELAY_MS = 300;
+    public static final int SEARCH_DELAY_MS = 400;
+
+    /**
+     * Minimum character required before searching for feeds.
+     */
+    public static final int SEARCH_TEXT_MIN_LENGTH = 3;
 }

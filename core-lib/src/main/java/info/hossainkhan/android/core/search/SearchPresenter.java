@@ -37,13 +37,18 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import info.hossainkhan.android.core.CoreConfig;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.util.StringUtils;
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -54,25 +59,55 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
 
     private final SearchApi mSearchApi;
 
-    public SearchPresenter(Context context, SearchContract.View view) {
+    /**
+     * Creates the presenter for search.
+     *
+     * @param context          Application context.
+     * @param view             The view for search.
+     * @param searchObservable Observable which provides search query.
+     */
+    public SearchPresenter(Context context, SearchContract.View view, final Observable<String> searchObservable) {
         attachView(view);
 
         FeedlyApiClient feedlyApiClient = new FeedlyApiClient();
         mSearchApi = feedlyApiClient.createService(SearchApi.class);
 
 
+        listenForSearchTesting(searchObservable);
+
     }
 
-    @Override
-    public void onSearchTermEntered(final String searchQuery) {
+    private void listenForSearchTesting(final Observable<String> searchObservable) {
+        Subscription subscription = searchObservable
+                .debounce(CoreConfig.SEARCH_DELAY_MS, TimeUnit.MILLISECONDS)
+                .filter(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(final String searchQueryText) {
+                        return (searchQueryText != null) &&
+                                (searchQueryText.length() > CoreConfig.SEARCH_TEXT_MIN_LENGTH);
+                    }
+                })
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(final String searchQuery) {
+                        Timber.d("Observable search query: %s", searchQuery);
+                        onSearchTermEntered(searchQuery);
+                    }
+                });
+
+        // Adds the subscription to presenter so that it can be un-subscribed on view is destroyed.
+        addSubscription(subscription);
+    }
+
+
+    private void onSearchTermEntered(final String searchQuery) {
         Timber.d("onSearchTermEntered() called with: searchQuery = [%s]", searchQuery);
-        if (searchQuery.length() < 4) return; // TODO: Remove this, use Rx debounce - with "SEARCH_DELAY_MS"
 
         final List<CardItem> cardItems = new ArrayList<>();
 
         getView().toggleLoadingIndicator(true); // Show the loading indicator before making the request
         Observable<SearchResponse> searchResponseObservable = mSearchApi.searchFeedsGet(searchQuery, null, null);
-        searchResponseObservable
+        Subscription subscription = searchResponseObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SearchResponse>() {
@@ -108,6 +143,9 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                         cardItems.addAll(convertArticleToCardItems(searchResponse.getResults()));
                     }
                 });
+
+        // Adds the subscription to presenter so that it can be un-subscribed on view is destroyed.
+        addSubscription(subscription);
     }
 
 
