@@ -25,6 +25,7 @@
 package info.hossainkhan.dailynewsheadlines.search;
 
 import android.os.Bundle;
+import android.support.v17.leanback.app.GuidedStepFragment;
 import android.support.v17.leanback.app.SearchFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ListRowPresenter;
@@ -33,6 +34,7 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -40,6 +42,9 @@ import java.util.List;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.search.SearchContract;
 import info.hossainkhan.android.core.search.SearchPresenter;
+import info.hossainkhan.android.core.util.StringUtils;
+import info.hossainkhan.dailynewsheadlines.R;
+import info.hossainkhan.dailynewsheadlines.addsource.ValidateNewsSourceDialogFragment;
 import info.hossainkhan.dailynewsheadlines.browser.RowBuilderFactory;
 import rx.Emitter;
 import rx.Observable;
@@ -80,6 +85,20 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
                                       final RowPresenter.ViewHolder rowViewHolder, final Row row) {
                 Timber.d("onItemClicked() called with: itemViewHolder = [" + itemViewHolder + "], item = [" + item +
                         "], rowViewHolder = [" + rowViewHolder + "], row = [" + row + "]");
+
+                if(item instanceof CardItem) {
+                    CardItem cardItem = (CardItem) item;
+                    if(StringUtils.isNotEmpty(cardItem.contentUrl())) {
+                        GuidedStepFragment fragment = ValidateNewsSourceDialogFragment
+                                .newInstance(cardItem.title(), cardItem.contentUrl());
+                        GuidedStepFragment.add(getFragmentManager(), fragment);
+                    } else {
+                        Toast.makeText(getActivity(), R.string.search_result_no_feed_url, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Timber.w("Unable to process item. Type unknown: %s", item);
+                }
+
             }
         });
         mPresenter = new SearchPresenter(this, searchQueryObserver.getSearchQueryObservable());
