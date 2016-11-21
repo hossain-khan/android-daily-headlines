@@ -104,7 +104,8 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
         final List<CardItem> cardItems = new ArrayList<>();
 
         getView().toggleLoadingIndicator(true); // Show the loading indicator before making the request
-        Observable<SearchResponse> searchResponseObservable = mSearchApi.searchFeedsGet(searchQuery, null, null);
+        Observable<SearchResponse> searchResponseObservable = mSearchApi
+                .searchFeedsGet(searchQuery, CoreConfig.SEARCH_RESULT_LIMIT, null);
         Subscription subscription = searchResponseObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -163,7 +164,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                             feedItem.getTitle(), // title,
                             feedItem.getDescription(), // description,
                             null, //extraText,
-                            null, //category,
+                            feedItem.getDescription(), //category,
                             ISODateTimeFormat.dateTime().print(feedItem.getLastUpdated()), // dateCreated,
                             getImageUrl(feedItem), // imageUrl,
                             getFeedUrl(feedItem.getFeedId()), // contentUrl,

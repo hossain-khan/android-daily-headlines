@@ -65,6 +65,9 @@
     <string name="app_info_about_app_title">Daily Headlines</string>
     <string name="app_info_about_app_sub_title">Your daily doze of just news \"headlines\". Nothing more.</string>
 
+    <!-- Search screen -->
+    <string name="search_result_title">News feed search result. Found %d item(s).</string>
+
     <!-- Contribution Screen -->
     <string name="github_project_home_url">https://github.com/amardeshbd/android-daily-headlines</string>
     <string name="github_project_issues_url">https://goo.gl/AiaCw8</string>

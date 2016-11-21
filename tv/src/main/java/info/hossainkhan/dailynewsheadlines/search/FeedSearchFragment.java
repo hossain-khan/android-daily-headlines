@@ -167,7 +167,11 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
                         public void cancel() throws Exception {
                             FeedSearchFragment feedSearchFragment = mSearchFragmentWeakRef.get();
                             if (feedSearchFragment != null) {
-                                feedSearchFragment.setSearchResultProvider(null);
+                                Timber.d("cancel() SearchResultProvider callback listener");
+                                // NOTE: Setting litener to null crashes on SearchFragment$3.run(SearchFragment.java:165)
+                                //feedSearchFragment.setSearchResultProvider(null);
+                            } else {
+                                Timber.w("FeedSearchFragment is already destroyed.");
                             }
                         }
                     });

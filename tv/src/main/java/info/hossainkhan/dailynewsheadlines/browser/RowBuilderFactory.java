@@ -37,6 +37,7 @@ import java.util.List;
 
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.TextCardPresenter;
@@ -82,7 +83,7 @@ public class RowBuilderFactory {
             listRowAdapter.add(card);
         }
 
-        HeaderItem header = new HeaderItem("Search Results");
+        HeaderItem header = new HeaderItem(context.getString(R.string.search_result_title, cardItems.size()));
 
         return new ListRow(header, listRowAdapter);
     }
