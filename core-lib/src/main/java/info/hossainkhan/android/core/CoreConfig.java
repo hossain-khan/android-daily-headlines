@@ -20,4 +20,9 @@ public class CoreConfig {
      * Minimum character required before searching for feeds.
      */
     public static final int SEARCH_TEXT_MIN_LENGTH = 3;
+
+    /**
+     * Maximum number of search result per query.
+     */
+    public static final int SEARCH_RESULT_LIMIT = 10;
 }
