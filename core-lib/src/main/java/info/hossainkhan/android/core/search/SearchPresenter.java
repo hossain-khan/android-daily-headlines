@@ -26,6 +26,7 @@ package info.hossainkhan.android.core.search;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.webkit.URLUtil;
 
 import com.feedly.FeedlyApiClient;
 import com.feedly.cloud.FeedItem;
@@ -56,6 +57,11 @@ import timber.log.Timber;
  */
 public class SearchPresenter extends BasePresenter<SearchContract.View> implements SearchContract.Presenter {
 
+    /**
+     * Feed ID prefix from feedly.
+     * @see FeedItem
+     */
+    private static final String FEED_RESOURCE_ID_PREFIX = "feed/";
     private final SearchApi mSearchApi;
 
     /**
@@ -206,8 +212,13 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
      */
     @Nullable
     private String getFeedUrl(@NonNull final String feedId) {
-        if (feedId.startsWith("feed/")) {
-            return feedId.replace("feed/", "");
+        if (feedId.startsWith(FEED_RESOURCE_ID_PREFIX)) {
+            String feedUrl = feedId.substring(FEED_RESOURCE_ID_PREFIX.length(), feedId.length());
+            if (URLUtil.isValidUrl(feedUrl)) {
+                return feedUrl;
+            } else {
+                Timber.w("Provided feed ID does not contain valid URL: %s", feedId);
+            }
         }
         return null;
     }

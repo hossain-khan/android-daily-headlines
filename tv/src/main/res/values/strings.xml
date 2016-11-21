@@ -67,6 +67,7 @@
 
     <!-- Search screen -->
     <string name="search_result_title">News feed search result. Found %d item(s).</string>
+    <string name="search_result_no_feed_url">Sorry, this feed does not have valid feed URL.</string>
 
     <!-- Contribution Screen -->
     <string name="github_project_home_url">https://github.com/amardeshbd/android-daily-headlines</string>
