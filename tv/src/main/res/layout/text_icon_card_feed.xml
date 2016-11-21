@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2016 Hossain Khan
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<!--
+    Card UI for the RSS feed item. Usually available via search.
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:lb="http://schemas.android.com/apk/res-auto"
+       xmlns:tools="http://schemas.android.com/tools"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/headline_card_root_container"
+        android:layout_width="@dimen/card_text_container_width"
+        android:layout_height="@dimen/card_text_container_height">
+
+
+        <ImageView
+            android:id="@+id/main_content_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            tools:background="@color/palette_secondary_composite2"/>
+
+        <ImageView
+            android:id="@+id/feed_subscribed_marker_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/vector_icon_bookmark_check"
+            android:tint="@color/white"
+            tools:ignore="RtlHardcoded"/>
+
+
+        <TextView
+            android:id="@+id/primary_headline_text"
+            style="@style/CardHeadlineTitle.Feed"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            lb:layout_viewType="main"
+            tools:text="This is a title of a RSS/Atom Feed item. Title is not too long."/>
+
+        <TextView
+            android:id="@+id/summary_text_1"
+            style="@style/CardFeedInfoText.Description"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/primary_headline_text"
+            tools:text="This is the description of the RSS/Atom feed. Since this is description. It will be long text and will span multiple lines."
+            />
+
+        <TextView
+            android:id="@+id/summary_text_2"
+            style="@style/CardFeedInfoText"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/summary_text_1"
+            tools:text="Info or on subscribers. Total: 13,233,23"/>
+
+        <ImageView
+            android:id="@+id/feed_provider_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            tools:src="@mipmap/ic_launcher"/>
+
+    </RelativeLayout>
+
+</merge>
