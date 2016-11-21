@@ -28,20 +28,25 @@ import android.content.Context;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.DividerRow;
 import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.PresenterSelector;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.SectionRow;
 
+import java.util.List;
+
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
+import info.hossainkhan.dailynewsheadlines.cards.presenters.TextCardPresenter;
 
 
 /**
  * Leanback {@link Row} UI builder factory.
  */
-class RowBuilderFactory {
+public class RowBuilderFactory {
 
     /**
      * Creates appropriate {@link Row} item based on {@link NavigationRow} type.
@@ -69,5 +74,17 @@ class RowBuilderFactory {
 
                 return new CardListRow(header, listRowAdapter, navigationRow);
         }
+    }
+
+    public static Row buildSearchResultCardRow(final Context context, final List<CardItem> cardItems) {
+        // Build rows using different presenter defined in "CardPresenterSelector"
+        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new TextCardPresenter(context));
+        for (CardItem card : cardItems) {
+            listRowAdapter.add(card);
+        }
+
+        HeaderItem header = new HeaderItem(context.getString(R.string.search_result_title, cardItems.size()));
+
+        return new ListRow(header, listRowAdapter);
     }
 }

@@ -78,9 +78,9 @@ ext {
     // --------------------------------------------------
     daggerVersion = '2.2'
     gsonVersion = '2.7'
-    retrofitVersion = '2.1.0'
-    rxJavaVersion = '1.1.6'
-    rxAndroidVersion = '1.2.1'
+    retrofitVersion = '2.1.0' // https://github.com/square/retrofit/releases
+    rxJavaVersion = '1.2.2' // https://github.com/ReactiveX/RxJava/releases
+    rxAndroidVersion = '1.2.1' // https://github.com/ReactiveX/RxAndroid/releases
     okHttpVersion = '3.3.1'
     swaggerVersion = '1.5.9'
     picassoVersion = '2.5.2'

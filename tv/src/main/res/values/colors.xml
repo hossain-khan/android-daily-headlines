@@ -28,6 +28,28 @@
     https://material.google.com/style/color.html#color-color-palette
 -->
 <resources>
+
+    <!--
+        Palette color from http://paletton.com/
+    -->
+    <color name="palette_primary1">#37474F</color>
+    <color name="palette_primary2">#6B7B83</color>
+    <color name="palette_primary3">#4E6068</color>
+    <color name="palette_primary4">#202F36</color>
+    <color name="palette_primary5">#132731</color>
+
+    <color name="palette_secondary1">#3E4156</color>
+    <color name="palette_secondary2">#777A8E</color>
+    <color name="palette_secondary3">#575A71</color>
+    <color name="palette_secondary4">#25273B</color>
+    <color name="palette_secondary5">#181B36</color>
+
+    <color name="palette_secondary_composite1">#3D5949</color>
+    <color name="palette_secondary_composite2">#789384</color>
+    <color name="palette_secondary_composite3">#567564</color>
+    <color name="palette_secondary_composite4">#223D2E</color>
+    <color name="palette_secondary_composite5">#143723</color>
+
     <!--
         Generic colors
     -->
@@ -39,8 +61,6 @@
     <color name="white">#FFFFFF</color>
     <color name="card_headline_text">#DDFFFFFF</color>
     <color name="orange_transparent">#AAFADCA7</color>
-    <color name="orange">#FADCA7</color>
-    <color name="yellow">#EEFF41</color>
     <color name="progress_indicator_tint">#00796B</color>
     <color name="vector_icon_fill_color">#AAE0E0E0</color>
 
@@ -50,8 +70,8 @@
 
     <color name="background_gradient_start">#263238</color>
     <color name="background_gradient_end">#D7E7DF</color>
-    <color name="search_opaque">#ffaa3f</color>
-    <color name="selected_background">#ffaa3f</color>
+    <color name="search_opaque">@color/palette_secondary2</color>
+    <color name="selected_background">@color/palette_secondary4</color>
     <color name="detail_background">#0096a6</color>
 
     <color name="default_background">#3d3d3d</color>
