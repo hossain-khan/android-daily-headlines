@@ -66,8 +66,16 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
         // List that is finally returned to UI
         final List<NavigationRow> navigationRowList = new ArrayList<>();
 
+        // Add the heading for user added news headlines at the top of the navigation
+        // Only issue might be not being able to synchronize NYTimes headlines loading in sequence
+        navigationRowList.add(NavigationRow.builder()
+                .title(mContext.getString(R.string.headline_users_feed_navigation_heading))
+                .type(NavigationRow.TYPE_SECTION_HEADER)
+                .sourceId(mContext.getString(R.string.headline_users_feed_navigation_heading))
+                .build());
+
         Subscription subscription = Observable
-                .mergeDelayError(mNewsProviderManager.getProviderObservable())
+                .mergeDelayError(mNewsProviderManager.getProviderObservable()) /* On error skip source */
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<NavigationRow>>() {
@@ -90,15 +98,15 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
                     @Override
                     public void onNext(final List<NavigationRow> navigationRows) {
-                        int navRowSize = 0;
-                        String sourceId = "UNKNOWN";
                         if (navigationRows != null && !navigationRows.isEmpty()) {
-                            navRowSize = navigationRows.size();
-                            sourceId = navigationRows.get(0).sourceId();
-                        }
+                            int navRowSize = navigationRows.size();
+                            String sourceId = navigationRows.get(0).sourceId();
 
-                        Timber.i("onNext() returned - Loaded %d items from %s.", navRowSize, sourceId);
-                        navigationRowList.addAll(navigationRows);
+                            Timber.i("onNext() returned - Loaded %d items from %s.", navRowSize, sourceId);
+                            navigationRowList.addAll(navigationRows);
+                        } else {
+                            Timber.w("Navigation row does not contain data.");
+                        }
                     }
                 });
         addSubscription(subscription);

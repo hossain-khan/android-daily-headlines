@@ -8,6 +8,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_manage_feeds">Manage Feed</string>
 
+    <string name="headline_users_feed_navigation_heading">Your Headlines</string>
 
     <!-- Settings Categories -->
     <string name="settings_navigation_row_news_source_title">Settings</string>

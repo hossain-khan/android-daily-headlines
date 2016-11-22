@@ -73,6 +73,7 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
 
     @Override
     public Observable<List<NavigationRow>> getNewsObservable() {
+        // FIXME Convert using "Observable.fromCallable()"
         return Observable.create(new Observable.OnSubscribe<List<NavigationRow>>() {
             @Override
             public void call(final Subscriber<? super List<NavigationRow>> subscriber) {
@@ -84,16 +85,10 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
 
                     int totalResponseItemSize = articleList.size();
                     List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize + 1);
-                    navigationHeadlines.add(NavigationRow.builder()
-                            .title(getNewsSource().name())
-                            .type(NavigationRow.TYPE_SECTION_HEADER)
-                            .sourceId(getNewsSource().id())
-                            .build());
-
 
                     navigationHeadlines.add(
                             NavigationRow.builder()
-                                    .title("Headlines")
+                                    .title(getNewsSource().name())
                                     .category(ArticleCategory.technology)
                                     .cards(convertArticleToCardItems(articleList))
                                     .sourceId(getNewsSource().id())

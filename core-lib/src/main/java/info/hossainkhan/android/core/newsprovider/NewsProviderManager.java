@@ -53,9 +53,12 @@ public class NewsProviderManager {
         mNewsProviders = new ArrayList<>(5);
         mProviderObservableList = new ArrayList<>(5); // Prepares list of observables for each news providers.
 
-        NyTimesNewsProvider nyTimesProvider = new NyTimesNewsProvider();
-        mProviderObservableList.add(nyTimesProvider.getNewsObservable());
-        mNewsProviders.add(nyTimesProvider);
+        /*
+         * Loads the user feed first, because the navigation header is pre-added for user feeds
+         * See {@link HeadlinesPresenter#loadHeadlines()} for more information
+         */
+        loadUerProviderFeeds(context);
+
         AndroidPoliceFeedNewsProvider androidPoliceProvider = new AndroidPoliceFeedNewsProvider(context);
         mProviderObservableList.add(androidPoliceProvider.getNewsObservable());
         mNewsProviders.add(androidPoliceProvider);
@@ -63,7 +66,11 @@ public class NewsProviderManager {
         mProviderObservableList.add(nine2FiveProvider.getNewsObservable());
         mNewsProviders.add(nine2FiveProvider);
 
-        loadUerProviderFeeds(context);
+        // Load the NYTimes as last news source feed.
+        NyTimesNewsProvider nyTimesProvider = new NyTimesNewsProvider();
+        mProviderObservableList.add(nyTimesProvider.getNewsObservable());
+        mNewsProviders.add(nyTimesProvider);
+
     }
 
     /**
