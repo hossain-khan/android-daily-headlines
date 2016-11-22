@@ -33,6 +33,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
+
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.picasso.BlurTransformation;
 import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
@@ -60,9 +62,11 @@ public class TextFeedCardView extends BaseCardView {
 
 
         primaryHeadline.setText(cardItem.title());
-        summaryText1.setText(cardItem.category());
+        summaryText1.setText(cardItem.description());
+
+        // Reusing the "CardItem.width" to get total subscriber stats
         summaryText2.setText(String.format(getContext().getString(R.string.feed_stats_overview),
-                cardItem.width()));
+                NumberFormat.getInstance().format(cardItem.width())));
 
         Context context = getContext();
         Picasso picasso = Picasso.with(context);
@@ -80,6 +84,7 @@ public class TextFeedCardView extends BaseCardView {
             Timber.w("Unable to load thumb image.");
         }
 
+        // Reusing the "CardItem.extraText" to get the icon image URL
         if (StringUtils.isNotEmpty(cardItem.extraText())) {
             picasso
                     .load(cardItem.extraText())

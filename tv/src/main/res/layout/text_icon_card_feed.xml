@@ -84,6 +84,8 @@
             android:id="@+id/feed_provider_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="100dp"
+            android:maxHeight="80dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             tools:src="@mipmap/ic_launcher"/>
