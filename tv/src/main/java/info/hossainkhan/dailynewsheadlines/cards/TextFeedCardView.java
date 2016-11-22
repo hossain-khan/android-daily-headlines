@@ -38,6 +38,7 @@ import java.text.NumberFormat;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.picasso.BlurTransformation;
 import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
+import info.hossainkhan.android.core.usersource.UserSourceManager;
 import info.hossainkhan.android.core.util.StringUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
@@ -47,10 +48,20 @@ import timber.log.Timber;
  * Text based card view for feed.
  */
 public class TextFeedCardView extends BaseCardView {
+
+    /**
+     * User source manager used to check if source is already added.
+     */
+    private static UserSourceManager sUserSourceManager;
+
     public TextFeedCardView(final Context context) {
         super(context, null, R.style.TextCardStyle);
         LayoutInflater.from(getContext()).inflate(R.layout.text_icon_card_feed, this);
         setFocusable(true);
+
+        if (sUserSourceManager == null) {
+            sUserSourceManager = new UserSourceManager(context);
+        }
     }
 
     public void updateUi(CardItem cardItem) {
@@ -59,6 +70,11 @@ public class TextFeedCardView extends BaseCardView {
         final TextView summaryText2 = (TextView) findViewById(R.id.summary_text_2);
         final ImageView mainContentBackground = (ImageView) findViewById(R.id.main_content_background);
         final ImageView iconImage = (ImageView) findViewById(R.id.feed_provider_icon);
+        final ImageView bookmarkedBadge = (ImageView) findViewById(R.id.feed_subscribed_marker_badge);
+
+        if (sUserSourceManager.isAdded(cardItem.contentUrl())) {
+            bookmarkedBadge.setVisibility(VISIBLE);
+        }
 
 
         primaryHeadline.setText(cardItem.title());

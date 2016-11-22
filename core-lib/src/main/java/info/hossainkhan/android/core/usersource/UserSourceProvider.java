@@ -62,4 +62,12 @@ public interface UserSourceProvider {
      * @return Map of news sources. URL is key, and Title is value.
      */
     Map<String, String> getSources();
+
+    /**
+     * Check if a news source is already added.
+     *
+     * @param url URL to check.
+     * @return {@code true} if exist, {@code false} otherwise.
+     */
+    boolean isAdded(String url);
 }

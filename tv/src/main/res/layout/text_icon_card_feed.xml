@@ -46,15 +46,17 @@
 
         <ImageView
             android:id="@+id/feed_subscribed_marker_badge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="0dp"
             android:src="@drawable/vector_icon_bookmark_check"
-            android:tint="@color/white"
-            tools:ignore="RtlHardcoded"/>
+            android:tint="@color/feed_bookmark_tint"
+            android:visibility="invisible"
+            tools:ignore="RtlHardcoded"
+            tools:visibility="visible"/>
 
 
         <TextView
