@@ -46,6 +46,9 @@ import timber.log.Timber;
 public class UserSourceManager implements UserSourceProvider {
 
     private static final String PREF_KEY_NEWS_SOURCES = "PREF_KEY_user_news_source_feeds_map";
+    /**
+     * A hash map containing [URL => Title] for news source.
+     */
     private Map<String, String> mNewsMap;
     private final SharedPreferences mSharedPreferences;
 
@@ -84,6 +87,13 @@ public class UserSourceManager implements UserSourceProvider {
     @Override
     public Map<String, String> getSources() {
         return mNewsMap;
+    }
+
+    @Override
+    public boolean isAdded(final String url) {
+        boolean isAlreadyAdded = mNewsMap.containsKey(url);
+        Timber.d("isAdded('%s') - returning %s", url, isAlreadyAdded);
+        return isAlreadyAdded;
     }
 
 

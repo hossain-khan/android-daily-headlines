@@ -40,7 +40,7 @@ import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
-import info.hossainkhan.dailynewsheadlines.cards.presenters.TextCardPresenter;
+import info.hossainkhan.dailynewsheadlines.cards.presenters.TextFeedCardPresenter;
 
 
 /**
@@ -78,7 +78,7 @@ public class RowBuilderFactory {
 
     public static Row buildSearchResultCardRow(final Context context, final List<CardItem> cardItems) {
         // Build rows using different presenter defined in "CardPresenterSelector"
-        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new TextCardPresenter(context));
+        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new TextFeedCardPresenter(context));
         for (CardItem card : cardItems) {
             listRowAdapter.add(card);
         }
