@@ -89,7 +89,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                     @Override
                     public Boolean call(final String searchQueryText) {
                         return (searchQueryText != null) &&
-                                (searchQueryText.length() > CoreConfig.SEARCH_TEXT_MIN_LENGTH);
+                                (searchQueryText.length() >= CoreConfig.SEARCH_TEXT_MIN_LENGTH);
                     }
                 })
                 .subscribe(new Action1<String>() {
@@ -170,7 +170,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                             feedItem.getFeedId().hashCode(), // id,
                             feedItem.getTitle(), // title,
                             feedItem.getDescription(), // description,
-                            feedItem.getIconUrl(), //extraText, (Re-using for icon)
+                            feedItem.getVisualUrl(), //extraText, (Re-using for icon)
                             feedItem.getDescription(), //category,
                             ISODateTimeFormat.dateTime().print(feedItem.getLastUpdated()), // dateCreated,
                             getImageUrl(feedItem), // imageUrl,

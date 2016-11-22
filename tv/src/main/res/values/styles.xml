@@ -122,8 +122,8 @@
         Feed search result.
     -->
     <style name="CardHeadlineTitle.Feed">
-        <item name="android:lines">4</item>
-        <item name="android:maxLines">4</item>
+        <item name="android:lines">3</item>
+        <item name="android:maxLines">3</item>
     </style>
 
     <style name="CardFeedInfoText">

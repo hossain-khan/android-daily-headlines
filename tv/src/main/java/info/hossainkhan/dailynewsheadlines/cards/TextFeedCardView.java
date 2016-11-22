@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.v17.leanback.widget.BaseCardView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,16 +53,14 @@ public class TextFeedCardView extends BaseCardView {
     /**
      * User source manager used to check if source is already added.
      */
-    private static UserSourceManager sUserSourceManager;
+    private final UserSourceManager mUserSourceManager;
 
     public TextFeedCardView(final Context context) {
         super(context, null, R.style.TextCardStyle);
         LayoutInflater.from(getContext()).inflate(R.layout.text_icon_card_feed, this);
         setFocusable(true);
 
-        if (sUserSourceManager == null) {
-            sUserSourceManager = new UserSourceManager(context);
-        }
+        mUserSourceManager = new UserSourceManager(context);
     }
 
     public void updateUi(CardItem cardItem) {
@@ -72,8 +71,10 @@ public class TextFeedCardView extends BaseCardView {
         final ImageView iconImage = (ImageView) findViewById(R.id.feed_provider_icon);
         final ImageView bookmarkedBadge = (ImageView) findViewById(R.id.feed_subscribed_marker_badge);
 
-        if (sUserSourceManager.isAdded(cardItem.contentUrl())) {
-            bookmarkedBadge.setVisibility(VISIBLE);
+        if (mUserSourceManager.isAdded(cardItem.contentUrl())) {
+            bookmarkedBadge.setVisibility(View.VISIBLE);
+        } else {
+            bookmarkedBadge.setVisibility(View.INVISIBLE);
         }
 
 

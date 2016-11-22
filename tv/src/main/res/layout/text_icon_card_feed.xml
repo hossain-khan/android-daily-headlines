@@ -88,6 +88,8 @@
             android:layout_height="wrap_content"
             android:maxWidth="100dp"
             android:maxHeight="80dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             tools:src="@mipmap/ic_launcher"/>

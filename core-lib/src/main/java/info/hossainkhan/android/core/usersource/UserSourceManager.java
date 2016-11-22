@@ -91,7 +91,9 @@ public class UserSourceManager implements UserSourceProvider {
 
     @Override
     public boolean isAdded(final String url) {
-        return mNewsMap.containsKey(url);
+        boolean isAlreadyAdded = mNewsMap.containsKey(url);
+        Timber.d("isAdded('%s') - returning %s", url, isAlreadyAdded);
+        return isAlreadyAdded;
     }
 
 
