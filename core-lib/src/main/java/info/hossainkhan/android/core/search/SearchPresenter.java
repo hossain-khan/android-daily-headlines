@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 import info.hossainkhan.android.core.CoreConfig;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.util.ObjectUtils;
 import info.hossainkhan.android.core.util.StringUtils;
 import rx.Observable;
 import rx.Subscriber;
@@ -88,7 +89,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                     @Override
                     public Boolean call(final String searchQueryText) {
                         return (searchQueryText != null) &&
-                                (searchQueryText.length() > CoreConfig.SEARCH_TEXT_MIN_LENGTH);
+                                (searchQueryText.length() >= CoreConfig.SEARCH_TEXT_MIN_LENGTH);
                     }
                 })
                 .subscribe(new Action1<String>() {
@@ -169,7 +170,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                             feedItem.getFeedId().hashCode(), // id,
                             feedItem.getTitle(), // title,
                             feedItem.getDescription(), // description,
-                            null, //extraText,
+                            ObjectUtils.defaultIfNull(feedItem.getVisualUrl(), feedItem.getIconUrl()), //extraText, (Re-using for icon)
                             feedItem.getDescription(), //category,
                             ISODateTimeFormat.dateTime().print(feedItem.getLastUpdated()), // dateCreated,
                             getImageUrl(feedItem), // imageUrl,
@@ -178,7 +179,9 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                             null, // footerColor,
                             null, // selectedColor,
                             CardItem.Type.HEADLINES, // type,
-                            0, // width,
+
+                            /* Re-using width and height for other purpose */
+                            ObjectUtils.defaultIfNull(feedItem.getSubscribers(), 0L).intValue(), // width,
                             0 // height
                     )
             );

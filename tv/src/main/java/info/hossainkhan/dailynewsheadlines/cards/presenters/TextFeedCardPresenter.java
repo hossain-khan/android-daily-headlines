@@ -22,52 +22,30 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.usersource;
+package info.hossainkhan.dailynewsheadlines.cards.presenters;
 
+import android.content.Context;
 
-import java.util.Map;
-import java.util.Set;
+import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.dailynewsheadlines.cards.TextFeedCardView;
 
 /**
- * Manages RSS/Atom based news sources that is added by user.
+ * The Presenter displays feed item.
  */
-public interface UserSourceProvider {
+public class TextFeedCardPresenter extends AbstractCardPresenter<TextFeedCardView> {
 
-    /**
-     * Adds a news source to the system.
-     *
-     * @param title News source title.
-     * @param url   News source feed URL.
-     */
-    void addSource(String title, String url);
+    public TextFeedCardPresenter(Context context) {
+        super(context);
+    }
 
-    /**
-     * Removes a news source by URL.
-     *
-     * @param url Feed URL for news source.
-     * @return The title of URL remove, or {@code null} if URL was never there.
-     */
-    String removeSource(String url);
+    @Override
+    protected TextFeedCardView onCreateView() {
+        return new TextFeedCardView(getContext());
+    }
 
-    /**
-     * Removes multiple news sources by URL.
-     *
-     * @param urls Unique urls to remove.
-     */
-    void removeSources(Set<String> urls);
+    @Override
+    public void onBindViewHolder(CardItem cardItem, TextFeedCardView cardView) {
+        cardView.updateUi(cardItem);
+    }
 
-    /**
-     * Returns a map of news source paired by URL & Title
-     *
-     * @return Map of news sources. URL is key, and Title is value.
-     */
-    Map<String, String> getSources();
-
-    /**
-     * Check if a news source is already added.
-     *
-     * @param url URL to check.
-     * @return {@code true} if exist, {@code false} otherwise.
-     */
-    boolean isAdded(String url);
 }
