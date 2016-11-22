@@ -30,10 +30,6 @@ import android.support.v17.leanback.app.SearchFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.ObjectAdapter;
-import android.support.v17.leanback.widget.OnItemViewClickedListener;
-import android.support.v17.leanback.widget.Presenter;
-import android.support.v17.leanback.widget.Row;
-import android.support.v17.leanback.widget.RowPresenter;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -48,14 +44,13 @@ import info.hossainkhan.dailynewsheadlines.addsource.ValidateNewsSourceDialogFra
 import info.hossainkhan.dailynewsheadlines.browser.RowBuilderFactory;
 import rx.Emitter;
 import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Cancellable;
 import timber.log.Timber;
 
 public class FeedSearchFragment extends SearchFragment implements SearchContract.View {
 
     private ArrayObjectAdapter mRowsAdapter;
     private SearchPresenter mPresenter;
+    private CardItem mSelectedCardItem;
 
     /**
      * Creates new instance of this fragment.
@@ -79,31 +74,38 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         final SearchQueryObserver searchQueryObserver = new SearchQueryObserver(this, mRowsAdapter);
-        setOnItemViewClickedListener(new OnItemViewClickedListener() {
-            @Override
-            public void onItemClicked(final Presenter.ViewHolder itemViewHolder, final Object item,
-                                      final RowPresenter.ViewHolder rowViewHolder, final Row row) {
-                Timber.d("onItemClicked() called with: itemViewHolder = [" + itemViewHolder + "], item = [" + item +
-                        "], rowViewHolder = [" + rowViewHolder + "], row = [" + row + "]");
+        setOnItemViewClickedListener((itemViewHolder, item, rowViewHolder, row) -> {
+            Timber.d("onItemClicked() called with: itemViewHolder = [" + itemViewHolder + "], item = [" + item +
+                    "], rowViewHolder = [" + rowViewHolder + "], row = [" + row + "]");
 
-                if(item instanceof CardItem) {
-                    CardItem cardItem = (CardItem) item;
-                    if(StringUtils.isNotEmpty(cardItem.contentUrl())) {
-                        GuidedStepFragment fragment = ValidateNewsSourceDialogFragment
-                                .newInstance(cardItem.title(), cardItem.contentUrl());
-                        GuidedStepFragment.add(getFragmentManager(), fragment);
-                    } else {
-                        Toast.makeText(getActivity(), R.string.search_result_no_feed_url, Toast.LENGTH_SHORT).show();
-                    }
+            if(item instanceof CardItem) {
+                mSelectedCardItem = (CardItem) item;
+                if(StringUtils.isNotEmpty(mSelectedCardItem.contentUrl())) {
+                    GuidedStepFragment fragment = ValidateNewsSourceDialogFragment
+                            .newInstance(mSelectedCardItem.title(), mSelectedCardItem.contentUrl());
+                    GuidedStepFragment.add(getFragmentManager(), fragment);
                 } else {
-                    Timber.w("Unable to process item. Type unknown: %s", item);
+                    Toast.makeText(getActivity(), R.string.search_result_no_feed_url, Toast.LENGTH_SHORT).show();
                 }
-
+            } else {
+                Timber.w("Unable to process item. Type unknown: %s", item);
             }
+
         });
         mPresenter = new SearchPresenter(this, searchQueryObserver.getSearchQueryObservable());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Timber.d("onResume() - past items selected: %s", mSelectedCardItem);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Timber.d("setUserVisibleHint() called with %s", isVisibleToUser);
+    }
 
     @Override
     public void onDestroy() {
@@ -150,52 +152,44 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
          * @return Observable that provides stream of search query from user.
          */
         public Observable<String> getSearchQueryObservable() {
-            return Observable.fromEmitter(new Action1<Emitter<String>>() {
-                @Override
-                public void call(final Emitter<String> emitter) {
-
-                    SearchFragment.SearchResultProvider searchListener = new SearchResultProvider() {
-                        @Override
-                        public ObjectAdapter getResultsAdapter() {
-                            return mRowsAdapter;
-                        }
-
-                        @Override
-                        public boolean onQueryTextChange(final String newQuery) {
-                            Timber.d("onQueryTextChange() called with: newQuery = [%s]", newQuery);
-                            emitter.onNext(newQuery);
-                            return true;
-                        }
-
-                        @Override
-                        public boolean onQueryTextSubmit(final String query) {
-                            Timber.d("onQueryTextSubmit() called with: query = [%s]", query);
-                            emitter.onNext(query);
-                            return true;
-                        }
-                    };
-
-                    FeedSearchFragment feedSearchFragment = mSearchFragmentWeakRef.get();
-                    if (feedSearchFragment != null) {
-                        feedSearchFragment.setSearchResultProvider(searchListener);
+            return Observable.fromEmitter(emitter -> {
+                SearchResultProvider searchListener = new SearchResultProvider() {
+                    @Override
+                    public ObjectAdapter getResultsAdapter() {
+                        return mRowsAdapter;
                     }
 
-                    // (Rx Contract # 1) - unregistering listener when unsubscribed
-                    emitter.setCancellation(new Cancellable() {
-                        @Override
-                        public void cancel() throws Exception {
-                            FeedSearchFragment feedSearchFragment = mSearchFragmentWeakRef.get();
-                            if (feedSearchFragment != null) {
-                                Timber.d("cancel() SearchResultProvider callback listener");
-                                // NOTE: Setting litener to null crashes on SearchFragment$3.run(SearchFragment.java:165)
-                                //feedSearchFragment.setSearchResultProvider(null);
-                            } else {
-                                Timber.w("FeedSearchFragment is already destroyed.");
-                            }
-                        }
-                    });
+                    @Override
+                    public boolean onQueryTextChange(final String newQuery) {
+                        Timber.d("onQueryTextChange() called with: newQuery = [%s]", newQuery);
+                        emitter.onNext(newQuery);
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextSubmit(final String query) {
+                        Timber.d("onQueryTextSubmit() called with: query = [%s]", query);
+                        emitter.onNext(query);
+                        return true;
+                    }
+                };
+
+                FeedSearchFragment feedSearchFragment = mSearchFragmentWeakRef.get();
+                if (feedSearchFragment != null) {
+                    feedSearchFragment.setSearchResultProvider(searchListener);
                 }
-                // (Rx Contract # 4) - specifying the backpressure strategy to use
+
+                // (Rx Contract # 1) - unregistering listener when unsubscribed
+                emitter.setCancellation(() -> {
+                    FeedSearchFragment feedSearchFragment1 = mSearchFragmentWeakRef.get();
+                    if (feedSearchFragment1 != null) {
+                        Timber.d("cancel() SearchResultProvider callback listener");
+                        // NOTE: Setting litener to null crashes on SearchFragment$3.run(SearchFragment.java:165)
+                        //feedSearchFragment.setSearchResultProvider(null);
+                    } else {
+                        Timber.w("FeedSearchFragment is already destroyed.");
+                    }
+                });
             }, Emitter.BackpressureMode.BUFFER);
         }
     }

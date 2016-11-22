@@ -170,7 +170,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                             feedItem.getFeedId().hashCode(), // id,
                             feedItem.getTitle(), // title,
                             feedItem.getDescription(), // description,
-                            feedItem.getVisualUrl(), //extraText, (Re-using for icon)
+                            ObjectUtils.defaultIfNull(feedItem.getVisualUrl(), feedItem.getIconUrl()), //extraText, (Re-using for icon)
                             feedItem.getDescription(), //category,
                             ISODateTimeFormat.dateTime().print(feedItem.getLastUpdated()), // dateCreated,
                             getImageUrl(feedItem), // imageUrl,
@@ -179,8 +179,9 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                             null, // footerColor,
                             null, // selectedColor,
                             CardItem.Type.HEADLINES, // type,
+
                             /* Re-using width and height for other purpose */
-                            ObjectUtils.defaultIfNull(feedItem.getSubscribers(), Long.valueOf(0)).intValue(), // width,
+                            ObjectUtils.defaultIfNull(feedItem.getSubscribers(), 0L).intValue(), // width,
                             0 // height
                     )
             );
