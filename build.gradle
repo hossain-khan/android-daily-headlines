@@ -14,7 +14,7 @@ buildscript {
          *  - Stable: https://developer.android.com/studio/releases/gradle-plugin.html
          *  - Alpha: http://tools.android.com/tech-docs/new-build-system
          */
-        classpath 'com.android.tools.build:gradle:2.3.0-alpha1'
+        classpath 'com.android.tools.build:gradle:2.3.0-beta1'
 
         // Google Services Plugin - Required for Firebase and related Google services
         // https://developers.google.com/android/guides/google-services-plugin
@@ -23,7 +23,7 @@ buildscript {
 
         // Generates dex count report - use `./gradlew assembleDebug`, reports @ ${buildDir}/outputs/dexcount/${variant}
         // https://github.com/KeepSafe/dexcount-gradle-plugin
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.5'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
 
 
         // Android plugin to support JacocoReport gradle task
