@@ -3,7 +3,7 @@
 -->
 <resources>
     <string name="app_name">Daily Headlines</string>
-    <string name="browse_title">Daily Headlines</string>
+    <string name="browse_title">Today\&apos;s Headlines</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
     <string name="okay">Okay</string>
@@ -64,6 +64,11 @@
     <string name="app_info_release_date_label">Release Date</string>
     <string name="app_info_about_app_title">Daily Headlines</string>
     <string name="app_info_about_app_sub_title">Your daily doze of just news \"headlines\". Nothing more.</string>
+
+    <!-- Search screen -->
+    <string name="search_result_title">News feed search result. Found %d item(s).</string>
+    <string name="search_result_no_feed_url">Sorry, this feed does not have valid feed URL.</string>
+    <string name="feed_stats_overview">Total Subscribers: %s</string>
 
     <!-- Contribution Screen -->
     <string name="github_project_home_url">https://github.com/amardeshbd/android-daily-headlines</string>

@@ -47,9 +47,6 @@ public class ErrorFragment extends android.support.v17.leanback.app.ErrorFragmen
     private static final String BUNDLE_ARG_TITLE = "BUNDLE_KEY_TITLE";
     private static final String BUNDLE_ARG_MESSAGE = "BUNDLE_KEY_MESSAGE";
 
-    private String mDialogTitle;
-    private String mDialogMessage;
-
     public static ErrorFragment newInstance(final String title, final String message) {
         ErrorFragment fragment = new ErrorFragment();
 
@@ -67,13 +64,13 @@ public class ErrorFragment extends android.support.v17.leanback.app.ErrorFragmen
         super.onCreate(savedInstanceState);
 
         Bundle arguments = getArguments();
-        mDialogTitle = arguments.getString(BUNDLE_ARG_TITLE);
-        mDialogMessage = arguments.getString(BUNDLE_ARG_MESSAGE);
+        final String dialogTitle = arguments.getString(BUNDLE_ARG_TITLE);
+        final String dialogMessage = arguments.getString(BUNDLE_ARG_MESSAGE);
 
-        Timber.d("onCreate() called with: title = [%s], message = [%s]", mDialogTitle, mDialogMessage);
+        Timber.d("onCreate() called with: title = [%s], message = [%s]", dialogTitle, dialogMessage);
 
-        setTitle(mDialogTitle);
-        setErrorContent(mDialogMessage);
+        setTitle(dialogTitle);
+        setErrorContent(dialogMessage);
     }
 
     @Override
@@ -82,7 +79,12 @@ public class ErrorFragment extends android.support.v17.leanback.app.ErrorFragmen
         CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
     }
 
-    void setErrorContent(final String dialogMessage) {
+    /**
+     * Sets error content view with provided message.
+     *
+     * @param dialogMessage The message text for the error.
+     */
+    public void setErrorContent(final String dialogMessage) {
         setImageDrawable(getResources().getDrawable(R.drawable.lb_ic_sad_cloud));
         setMessage(dialogMessage);
         setDefaultBackground(TRANSLUCENT);

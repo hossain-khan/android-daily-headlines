@@ -36,6 +36,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Set;
 
+import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.util.Validate;
 import timber.log.Timber;
 
@@ -45,6 +46,9 @@ import timber.log.Timber;
 public class UserSourceManager implements UserSourceProvider {
 
     private static final String PREF_KEY_NEWS_SOURCES = "PREF_KEY_user_news_source_feeds_map";
+    /**
+     * A hash map containing [URL => Title] for news source.
+     */
     private Map<String, String> mNewsMap;
     private final SharedPreferences mSharedPreferences;
 
@@ -69,11 +73,13 @@ public class UserSourceManager implements UserSourceProvider {
     public String removeSource(final String url) {
         String removedSourceTitle = mNewsMap.remove(url);
         updateSources();
+        CoreApplication.getAnalyticsReporter().reportRemoveNewsSourceEvent(removedSourceTitle);
         return removedSourceTitle;
     }
 
     @Override
     public void removeSources(final Set<String> urls) {
+        reportRemoveSource(urls);
         mNewsMap.keySet().removeAll(urls);
         updateSources();
     }
@@ -81,6 +87,13 @@ public class UserSourceManager implements UserSourceProvider {
     @Override
     public Map<String, String> getSources() {
         return mNewsMap;
+    }
+
+    @Override
+    public boolean isAdded(final String url) {
+        boolean isAlreadyAdded = mNewsMap.containsKey(url);
+        Timber.d("isAdded('%s') - returning %s", url, isAlreadyAdded);
+        return isAlreadyAdded;
     }
 
 
@@ -106,4 +119,18 @@ public class UserSourceManager implements UserSourceProvider {
         Type hasMapTypeToken = new TypeToken<Map<String, String>>() { }.getType();
         mNewsMap = gson.fromJson(newsSources, hasMapTypeToken); // This type must match TypeToken
     }
+
+    /**
+     * Convenient method to report removal of multiple URLs.
+     *
+     * @param urls List of URL.
+     */
+    private void reportRemoveSource(final Set<String> urls) {
+        for (String url : urls) {
+            if (mNewsMap.containsKey(url)) {
+                CoreApplication.getAnalyticsReporter().reportRemoveNewsSourceEvent(mNewsMap.get(url));
+            }
+        }
+    }
+
 }

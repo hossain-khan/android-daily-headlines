@@ -35,7 +35,6 @@ import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsProvider;
 import info.hossainkhan.android.core.usersource.UserSourceManager;
 import info.hossainkhan.android.core.usersource.UserSourceProvider;
-import info.hossainkhan.android.core.util.PreferenceUtils;
 import info.hossainkhan.android.core.util.StringUtils;
 import rx.Observable;
 import timber.log.Timber;

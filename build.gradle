@@ -14,7 +14,7 @@ buildscript {
          *  - Stable: https://developer.android.com/studio/releases/gradle-plugin.html
          *  - Alpha: http://tools.android.com/tech-docs/new-build-system
          */
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.3.0-beta3'
 
         // Google Services Plugin - Required for Firebase and related Google services
         // https://developers.google.com/android/guides/google-services-plugin
@@ -23,7 +23,7 @@ buildscript {
 
         // Generates dex count report - use `./gradlew assembleDebug`, reports @ ${buildDir}/outputs/dexcount/${variant}
         // https://github.com/KeepSafe/dexcount-gradle-plugin
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.5'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
 
 
         // Android plugin to support JacocoReport gradle task
@@ -53,10 +53,10 @@ ext {
     // Sdk and tools
     // --------------------------------------------------
     minSdkVersion = 21 // Lollipop 5.0
-    targetSdkVersion = 24
-    compileSdkVersion = 24
+    targetSdkVersion = 25 // Nougat MR1
+    compileSdkVersion = 25
     // Android SDK Build Tools - Versions: https://developer.android.com/studio/releases/build-tools.html
-    buildToolsVersion = '24.0.2'
+    buildToolsVersion = '25.0.0'
 
     // Java Version Compatibility
     javaSourceCompatibilityVersion = JavaVersion.VERSION_1_8
@@ -64,7 +64,7 @@ ext {
 
     // Google Products & Support library dependencies
     // --------------------------------------------------
-    supportLibraryVersion = '24.2.1' // https://developer.android.com/topic/libraries/support-library/revisions.html
+    supportLibraryVersion = '25.0.0' // https://developer.android.com/topic/libraries/support-library/revisions.html
     firebaseVersion = '9.4.0' // https://firebase.google.com/docs/android/setup
 
     // Unit test dependencies
@@ -78,9 +78,9 @@ ext {
     // --------------------------------------------------
     daggerVersion = '2.2'
     gsonVersion = '2.7'
-    retrofitVersion = '2.1.0'
-    rxJavaVersion = '1.1.6'
-    rxAndroidVersion = '1.2.1'
+    retrofitVersion = '2.1.0' // https://github.com/square/retrofit/releases
+    rxJavaVersion = '1.2.2' // https://github.com/ReactiveX/RxJava/releases
+    rxAndroidVersion = '1.2.1' // https://github.com/ReactiveX/RxAndroid/releases
     okHttpVersion = '3.3.1'
     swaggerVersion = '1.5.9'
     picassoVersion = '2.5.2'

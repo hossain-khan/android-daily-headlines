@@ -22,55 +22,31 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines.addsource;
+package info.hossainkhan.dailynewsheadlines.search;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v17.leanback.app.GuidedStepFragment;
 
-import info.hossainkhan.android.core.util.Validate;
+import info.hossainkhan.android.core.util.ActivityUtils;
+import info.hossainkhan.dailynewsheadlines.R;
 
 
 /**
- * Host activity that allows news source to be added by users.
- * See {@link AddSourceDialogFragment} for more information.
- * <p>
- * See https://developer.android.com/reference/android/support/v17/leanback/app/GuidedStepFragment.html
+ * Search fragment container activity.
  */
-public class AddNewsSourceActivity extends Activity {
-
-    private static final String INTENT_KEY_INPUT_TYPE = "KEY_INPUT_TYPE";
-
-    /**
-     * Creates a start intent for this activity.
-     *
-     * @param context    App context.
-     * @param type Type
-     * @return Intent
-     */
-    public static Intent createStartIntent(@NonNull Context context, @NonNull String type) {
-        Validate.notNull(type);
-        Intent intent = new Intent(context, AddNewsSourceActivity.class);
-        intent.putExtra(INTENT_KEY_INPUT_TYPE, type);
-        return intent;
-    }
-
+public class SearchActivity extends Activity {
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set content view is not required because we are adding fragment to "android.R.id.content"
-
+        setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            GuidedStepFragment.addAsRoot(
-                    AddNewsSourceActivity.this,
-                    AddSourceDialogFragment.newInstance(),
-                    android.R.id.content);
+            ActivityUtils.addFragmentToActivity(
+                    getFragmentManager(),
+                    FeedSearchFragment.newInstance(),
+                    R.id.fragment_container);
         }
     }
 

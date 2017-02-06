@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">core-lib</string>
 
+    <!-- Common activity titles -->
+    <string name="title_activity_browse_headlines">Today\'s Headlines</string>
+    <string name="title_activity_headlines_details">Details</string>
+    <string name="title_activity_search">Search</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_manage_feeds">Manage Feed</string>
+
 
     <!-- Settings Categories -->
     <string name="settings_navigation_row_news_source_title">Settings</string>

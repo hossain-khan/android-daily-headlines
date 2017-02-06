@@ -41,7 +41,6 @@ import timber.log.Timber;
  * It contains an Image CardView
  */
 public class HeadlinePresenter extends Presenter {
-    private static final String TAG = "HeadlinePresenter";
 
     private static final int CARD_WIDTH = 500;
     private static final int CARD_HEIGHT = 300;

@@ -49,12 +49,13 @@ import info.hossainkhan.dailynewsheadlines.browser.listeners.CardItemViewInterac
 import info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector;
 import info.hossainkhan.dailynewsheadlines.details.HeadlinesDetailsActivity;
 import info.hossainkhan.dailynewsheadlines.dialog.ErrorFragment;
+import info.hossainkhan.dailynewsheadlines.search.SearchActivity;
 import info.hossainkhan.dailynewsheadlines.settings.SettingsActivity;
 import info.hossainkhan.dailynewsheadlines.utils.PicassoBackgroundManager;
 import timber.log.Timber;
 
 import static info.hossainkhan.dailynewsheadlines.browser.RowBuilderFactory.buildCardRow;
-import static info.hossainkhan.dailynewsheadlines.utils.LeanbackHelper.addSettingsNavigation;
+import static info.hossainkhan.dailynewsheadlines.utils.LeanbackNavigationRowHelper.addSettingsNavigation;
 
 /**
  * Leanback browser fragment that is responsible for showing all the headlines.
@@ -118,6 +119,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);
 
+        // set search icon color
+        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
+
         // set fastLane (or headers) background color
         setBrandColor(getResources().getColor(R.color.fastlane_background));
     }
@@ -126,6 +130,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         CardItemViewInteractionListener listener = new CardItemViewInteractionListener(mHeadlinesPresenter);
         setOnItemViewClickedListener(listener);
         setOnItemViewSelectedListener(listener);
+
+        // Setting callback listener makes In-app search icon to be visible
+        setOnSearchClickedListener(view -> startActivity(new Intent(getActivity(), SearchActivity.class)));
     }
 
     @Override

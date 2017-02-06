@@ -22,52 +22,25 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.usersource;
-
-
-import java.util.Map;
-import java.util.Set;
+package info.hossainkhan.android.core.util;
 
 /**
- * Manages RSS/Atom based news sources that is added by user.
+ * Exception when certain validation fails.
  */
-public interface UserSourceProvider {
+public class ValidationFailedException extends RuntimeException {
 
     /**
-     * Adds a news source to the system.
-     *
-     * @param title News source title.
-     * @param url   News source feed URL.
+     * @param message Validation error message.
      */
-    void addSource(String title, String url);
+    public ValidationFailedException(String message) {
+        super(message);
+    }
 
     /**
-     * Removes a news source by URL.
-     *
-     * @param url Feed URL for news source.
-     * @return The title of URL remove, or {@code null} if URL was never there.
+     * @param message   Validation error message.
+     * @param throwable Exception related to validation.
      */
-    String removeSource(String url);
-
-    /**
-     * Removes multiple news sources by URL.
-     *
-     * @param urls Unique urls to remove.
-     */
-    void removeSources(Set<String> urls);
-
-    /**
-     * Returns a map of news source paired by URL & Title
-     *
-     * @return Map of news sources. URL is key, and Title is value.
-     */
-    Map<String, String> getSources();
-
-    /**
-     * Check if a news source is already added.
-     *
-     * @param url URL to check.
-     * @return {@code true} if exist, {@code false} otherwise.
-     */
-    boolean isAdded(String url);
+    public ValidationFailedException(final String message, final Throwable throwable) {
+        super(message, throwable);
+    }
 }

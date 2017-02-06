@@ -22,52 +22,41 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.usersource;
+package info.hossainkhan.android.core.search;
 
+import java.util.List;
 
-import java.util.Map;
-import java.util.Set;
+import info.hossainkhan.android.core.base.MvpPresenter;
+import info.hossainkhan.android.core.base.MvpView;
+import info.hossainkhan.android.core.model.CardItem;
 
 /**
- * Manages RSS/Atom based news sources that is added by user.
+ * Contract for search
  */
-public interface UserSourceProvider {
+public interface SearchContract {
 
-    /**
-     * Adds a news source to the system.
-     *
-     * @param title News source title.
-     * @param url   News source feed URL.
-     */
-    void addSource(String title, String url);
+    interface View extends MvpView {
+        /**
+         * Toggle progress loading indicator when network request in progress or finished.
+         *
+         * @param shouldShow Show when {@code true}, hide on {@code false}.
+         */
+        void toggleLoadingIndicator(boolean shouldShow);
 
-    /**
-     * Removes a news source by URL.
-     *
-     * @param url Feed URL for news source.
-     * @return The title of URL remove, or {@code null} if URL was never there.
-     */
-    String removeSource(String url);
+        /**
+         * Callback when no search result is found.
+         */
+        void showNoSearchResults();
 
-    /**
-     * Removes multiple news sources by URL.
-     *
-     * @param urls Unique urls to remove.
-     */
-    void removeSources(Set<String> urls);
+        /**
+         * Callback with search result items.
+         *
+         * @param cardItems Card items representing search result.
+         */
+        void showSearchResults(List<CardItem> cardItems);
+    }
 
-    /**
-     * Returns a map of news source paired by URL & Title
-     *
-     * @return Map of news sources. URL is key, and Title is value.
-     */
-    Map<String, String> getSources();
+    interface Presenter extends MvpPresenter<SearchContract.View> {
 
-    /**
-     * Check if a news source is already added.
-     *
-     * @param url URL to check.
-     * @return {@code true} if exist, {@code false} otherwise.
-     */
-    boolean isAdded(String url);
+    }
 }

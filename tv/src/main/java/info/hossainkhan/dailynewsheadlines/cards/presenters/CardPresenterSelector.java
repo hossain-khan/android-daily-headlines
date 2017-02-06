@@ -31,6 +31,7 @@ import android.support.v17.leanback.widget.PresenterSelector;
 import java.util.HashMap;
 
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.util.ValidationFailedException;
 
 /**
  * This PresenterSelector will decide what Presenter to use depending on a given card's type.
@@ -46,7 +47,7 @@ public class CardPresenterSelector extends PresenterSelector {
 
     @Override
     public Presenter getPresenter(Object item) {
-        if (!(item instanceof CardItem)) throw new RuntimeException(
+        if (!(item instanceof CardItem)) throw new ValidationFailedException(
                 String.format("The PresenterSelector only supports data items of type '%s'",
                         CardItem.class.getName()));
         CardItem card = (CardItem) item;
