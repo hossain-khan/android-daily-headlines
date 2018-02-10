@@ -4,6 +4,7 @@ machine:
 
 dependencies:
     pre:
+        - (echo y; echo y; echo y; echo y; echo y; echo y) | $ANDROID_HOME/tools/bin/sdkmanager --licenses
         - echo y | android update sdk --no-ui --all --filter "tools"
         - echo y | android update sdk --no-ui --all --filter "platform-tools"
         - echo y | android update sdk --no-ui --all --filter "build-tools"
@@ -18,6 +19,7 @@ dependencies:
     # Added based on https://discuss.circleci.com/t/licences-for-android-build-tools-not-accepted/17285/19
     override:
         - echo y | android update sdk --no-ui --all --filter build-tools-27.0.3,android-27
+        - echo y | android update sdk --no-ui --all --filter android-27
 
 test:
     override:
