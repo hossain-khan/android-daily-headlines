@@ -2,6 +2,12 @@ machine:
     java:
         version: oraclejdk8
 
+checkout:
+    post:
+        # Fixes license acceptance issue based on following thread
+        # https://discuss.circleci.com/t/need-to-accept-license-agreement-for-android-tools/6181/10
+        - cp -r licenses/. $ANDROID_HOME/licenses
+
 dependencies:
     pre:
         - (echo y; echo y; echo y; echo y; echo y; echo y) | $ANDROID_HOME/tools/bin/sdkmanager --licenses
