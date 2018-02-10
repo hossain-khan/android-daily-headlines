@@ -14,6 +14,11 @@ dependencies:
         - echo y | android update sdk --no-ui --all --filter "extra-android-support"
         - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
 
+dependencies:
+    # Added based on https://discuss.circleci.com/t/licences-for-android-build-tools-not-accepted/17285/19
+    override:
+        - echo y | android update sdk --no-ui --all --filter build-tools-27.0.3,android-27
+
 test:
     override:
         - ./gradlew assembleDebug

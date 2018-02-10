@@ -78,7 +78,7 @@ ext {
 
     // 3rd party library dependencies
     // --------------------------------------------------
-    daggerVersion = '2.2'
+    daggerVersion = '2.14.1'
     gsonVersion = '2.7'
     retrofitVersion = '2.1.0' // https://github.com/square/retrofit/releases
     rxJavaVersion = '1.2.7' // https://github.com/ReactiveX/RxJava/releases
