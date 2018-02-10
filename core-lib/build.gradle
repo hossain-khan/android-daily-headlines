@@ -47,9 +47,14 @@ dependencies {
     // Internal module dependency
     compile project(':api-lib')
 
-    //dagger 2
-    //https://github.com/codepath/android_guides/wiki/Dependency-Injection-with-Dagger-2
-    compile "com.google.dagger:dagger:$rootProject.daggerVersion"
+    // Dagger 2
+    // https://github.com/google/dagger
+    // https://github.com/codepath/android_guides/wiki/Dependency-Injection-with-Dagger-2
+    compile ("com.google.dagger:dagger:$rootProject.daggerVersion") {
+        // Excluded based on following issue
+        // https://stackoverflow.com/questions/48701483/what-causes-apptransformclasseswithmultidexlistfordebug-failed-and-how-can-it
+        exclude group: 'com.google.guava'
+    }
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 
     // RxAndroid (Note: RxJava is included in `api-lib` module)
