@@ -4,7 +4,7 @@ machine:
     environment:
         # Fixes Out of Memory
         # https://circleci.com/docs/1.0/oom/
-        GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"
+        GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
 
 checkout:
     post:
@@ -27,3 +27,7 @@ dependencies:
 test:
     override:
         - ./gradlew --stacktrace --info clean assembleDebug
+        # Saves the artifacts to artifact directory
+        # https://circleci.com/docs/1.0/android/
+        - cp -r android-daily-headlines/tv/build/outputs/apk $CIRCLE_ARTIFACTS
+        - cp -r android-daily-headlines/mobile/build/outputs/apk $CIRCLE_ARTIFACTS
