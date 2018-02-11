@@ -20,7 +20,7 @@ buildscript {
         // Google Services Plugin - Required for Firebase and related Google services
         // https://developers.google.com/android/guides/google-services-plugin
         // https://firebase.google.com/docs/android/setup
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.google.gms:google-services:3.1.1'
 
         // Generates dex count report - use `./gradlew assembleDebug`, reports @ ${buildDir}/outputs/dexcount/${variant}
         // https://github.com/KeepSafe/dexcount-gradle-plugin
