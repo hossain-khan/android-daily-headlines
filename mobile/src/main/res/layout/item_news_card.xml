@@ -52,7 +52,7 @@
         android:gravity="start"
         android:shadowColor="@android:color/darker_gray"
         android:text=""
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
