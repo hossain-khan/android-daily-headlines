@@ -11,16 +11,12 @@ android {
         applicationId "info.hossainkhan.dailynewsheadlines"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 21
-        versionName "1.16-tv"
+        versionCode 22
+        versionName "1.17-tv"
         versionNameSuffix "-${gitSha()}"
 
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
         buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
-
-        jackOptions {
-            enabled true
-        }
     }
     buildTypes {
         debug {

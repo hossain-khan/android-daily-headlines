@@ -63,7 +63,7 @@ public class HeadlinePresenter extends Presenter {
         sDefaultBackgroundColor = parent.getResources().getColor(R.color.default_background);
         sSelectedBackgroundColor = parent.getResources().getColor(R.color.selected_background);
         // TODO Fix this default image
-        mDefaultCardImage = parent.getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark);
+        mDefaultCardImage = parent.getResources().getDrawable(R.drawable.default_background);
 
         ImageCardView cardView = new ImageCardView(parent.getContext()) {
             @Override

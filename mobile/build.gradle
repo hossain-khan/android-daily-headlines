@@ -14,10 +14,6 @@ android {
         versionCode 3
         versionName "1.0-mobile"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        jackOptions {
-            enabled true
-        }
     }
     buildTypes {
         release {
