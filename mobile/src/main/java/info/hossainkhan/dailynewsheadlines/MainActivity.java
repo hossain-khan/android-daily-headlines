@@ -2,10 +2,15 @@ package info.hossainkhan.dailynewsheadlines;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.ImageViewCompat;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,8 +27,11 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
 
     private HeadlinesPresenter mHeadlinesPresenter;
 
-    @BindView(R.id.test_textview)
-    TextView demoTextview;
+    @BindView(R.id.headline_title)
+    TextView headlinesTitle;
+
+    @BindView(R.id.headline_background)
+    ImageView headlinesImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +67,15 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     @Override
     public void showHeadlines(final List<NavigationRow> headlines) {
         Timber.d("showHeadlines() called with: Headlines = [" + headlines.size() + "]");
-        demoTextview.setText("Total headline categories: " + headlines.size());
+
+        // TODO Test code
+        NavigationRow navigationRow = headlines.get(ThreadLocalRandom.current().nextInt(0, headlines.size()));
+        List<CardItem> cards = navigationRow.cards();
+        CardItem cardItem = cards
+                .get(ThreadLocalRandom.current().nextInt(0, cards.size()));
+
+        headlinesTitle.setText(cardItem.title());
+        Picasso.with(this).load(cardItem.imageUrl()).into(headlinesImage);
     }
 
     @Override
