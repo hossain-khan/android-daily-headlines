@@ -2,7 +2,6 @@ package info.hossainkhan.dailynewsheadlines;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.widget.ImageViewCompat;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,7 +67,7 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     public void showHeadlines(final List<NavigationRow> headlines) {
         Timber.d("showHeadlines() called with: Headlines = [" + headlines.size() + "]");
 
-        // TODO Test code
+        //Temp  Test code
         NavigationRow navigationRow = headlines.get(ThreadLocalRandom.current().nextInt(0, headlines.size()));
         List<CardItem> cards = navigationRow.cards();
         CardItem cardItem = cards
