@@ -3,6 +3,7 @@ package info.hossainkhan.dailynewsheadlines;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,9 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
 
     @BindView(R.id.headline_background)
     protected ImageView headlinesImage;
+
+    @NonNull
+    public static List<CardItem> selectedCards = null; // Test code
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,8 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
         List<CardItem> cards = navigationRow.cards();
         CardItem cardItem = cards
                 .get(ThreadLocalRandom.current().nextInt(0, cards.size()));
+
+        selectedCards = cards;
 
         headlinesTitle.setText(cardItem.title());
         Picasso.with(this).load(cardItem.imageUrl()).into(headlinesImage);
