@@ -27,10 +27,10 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
     private HeadlinesPresenter mHeadlinesPresenter;
 
     @BindView(R.id.headline_title)
-    TextView headlinesTitle;
+    protected TextView headlinesTitle;
 
     @BindView(R.id.headline_background)
-    ImageView headlinesImage;
+    protected ImageView headlinesImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
