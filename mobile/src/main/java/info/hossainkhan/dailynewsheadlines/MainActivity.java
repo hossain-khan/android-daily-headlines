@@ -1,6 +1,7 @@
 package info.hossainkhan.dailynewsheadlines;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -75,6 +76,8 @@ public class MainActivity extends BaseActivity implements HeadlinesContract.View
 
         headlinesTitle.setText(cardItem.title());
         Picasso.with(this).load(cardItem.imageUrl()).into(headlinesImage);
+
+        headlinesTitle.setOnClickListener(view -> startActivity(new Intent(this, HeadlinesBrowseActivity.class)));
     }
 
     @Override
