@@ -13,14 +13,12 @@
         <activity-alias
             android:name=".Launcher"
             android:label="@string/app_name"
-            android:targetActivity=".MainActivity">
+            android:targetActivity=".HeadlinesBrowseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
-
-        <activity android:name=".MainActivity" />
 
         <activity
             android:theme="@style/AppTheme.NoActionBar"

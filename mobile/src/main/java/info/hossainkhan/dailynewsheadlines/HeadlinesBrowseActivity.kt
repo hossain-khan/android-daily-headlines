@@ -25,25 +25,30 @@
 package info.hossainkhan.dailynewsheadlines
 
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.TextView
+import info.hossainkhan.android.core.headlines.HeadlinesContract
+import info.hossainkhan.android.core.headlines.HeadlinesPresenter
+import info.hossainkhan.android.core.model.CardItem
+import info.hossainkhan.android.core.model.NavigationRow
+import info.hossainkhan.android.core.model.ScreenType
+import info.hossainkhan.android.core.newsprovider.NewsProviderManager
 import kotlinx.android.synthetic.main.activity_headlines_browse.*
 import kotlinx.android.synthetic.main.activity_headlines_browse_viewpager.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import timber.log.Timber
+import java.util.concurrent.ThreadLocalRandom
 
 
-class HeadlinesBrowseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
+class HeadlinesBrowseActivity
+    : AppCompatActivity(),
+        NavigationView.OnNavigationItemSelectedListener,
+        HeadlinesContract.View {
 
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide
@@ -54,6 +59,8 @@ class HeadlinesBrowseActivity : AppCompatActivity(), NavigationView.OnNavigation
      * [android.support.v13.app.FragmentStatePagerAdapter].
      */
     private var headlinesPagerAdapter: HeadlinesPagerAdapter? = null
+
+    private var mHeadlinesPresenter: HeadlinesPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,12 +75,15 @@ class HeadlinesBrowseActivity : AppCompatActivity(), NavigationView.OnNavigation
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, MainActivity.selectedCards)
+        // TODO use DI to inject
+        val context = applicationContext
+        val newsProviderManager = NewsProviderManager(context)
+        mHeadlinesPresenter = HeadlinesPresenter(context, this, newsProviderManager)
+    }
 
-        // Set up the ViewPager with the sections adapter.
-        container.adapter = headlinesPagerAdapter
+    override fun onStop() {
+        mHeadlinesPresenter?.detachView()
+        super.onStop()
     }
 
     override fun onBackPressed() {
@@ -117,5 +127,61 @@ class HeadlinesBrowseActivity : AppCompatActivity(), NavigationView.OnNavigation
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
+
+    //
+    // HeadlinesContract.View
+    //
+    override fun showHeadlines(headlines: MutableList<NavigationRow>?) {
+        Timber.d("showHeadlines() called with: headlines = [${headlines}]")
+
+
+        val navigationRow = headlines?.find { it.cards()?.size ?: 0 > 5 }
+        val cards = navigationRow?.cards()
+
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, cards!!)
+
+        // Set up the ViewPager with the sections adapter.
+        container.adapter = headlinesPagerAdapter
+
+    }
+
+    override fun showHeadlineDetailsUi(cardItem: CardItem?) {
+        Timber.d("showHeadlineDetailsUi() called with: cardItem = [${cardItem}]")
+    }
+
+    override fun showAppSettingsScreen() {
+        Timber.d("showAppSettingsScreen() called")
+    }
+
+    override fun showHeadlineBackdropBackground(imageUrl: String?) {
+        Timber.d("showHeadlineBackdropBackground() called with: imageUrl = [${imageUrl}]")
+    }
+
+    override fun showDefaultBackground() {
+        Timber.d("showDefaultBackground() called")
+    }
+
+    override fun toggleLoadingIndicator(active: Boolean) {
+        Timber.d("toggleLoadingIndicator() called with: active = [${active}]")
+    }
+
+    override fun showDataLoadingError() {
+        Timber.d("showDataLoadingError() called")
+    }
+
+    override fun showDataNotAvailable() {
+        Timber.d("showDataNotAvailable() called")
+    }
+
+    override fun showAddNewsSourceScreen() {
+        Timber.d("showAddNewsSourceScreen() called")
+    }
+
+    override fun showUiScreen(type: ScreenType?) {
+        Timber.d("showUiScreen() called with: type = [${type}]")
+    }
+
 }
 
