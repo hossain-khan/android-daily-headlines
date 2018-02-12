@@ -1,6 +1,10 @@
 machine:
     java:
         version: oraclejdk8
+    environment:
+        # Fixes Out of Memory
+        # https://circleci.com/docs/1.0/oom/
+        GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
 
 checkout:
     post:

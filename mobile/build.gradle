@@ -51,6 +51,9 @@ dependencies {
     // Core module for the app
     implementation project(':core-lib')
 
+    // Android Support Lib
+    implementation "com.android.support:support-v13:$rootProject.supportLibraryVersion"
+
     // Firebase CORE
     // https://firebase.google.com/docs/android/setup
     implementation "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
