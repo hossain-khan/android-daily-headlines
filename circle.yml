@@ -27,7 +27,3 @@ dependencies:
 test:
     override:
         - ./gradlew --stacktrace --info clean assembleDebug
-        # Saves the artifacts to artifact directory
-        # https://circleci.com/docs/1.0/android/
-        - cp -r android-daily-headlines/tv/build/outputs/apk $CIRCLE_ARTIFACTS
-        - cp -r android-daily-headlines/mobile/build/outputs/apk $CIRCLE_ARTIFACTS
