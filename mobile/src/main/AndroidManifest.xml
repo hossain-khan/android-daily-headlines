@@ -23,6 +23,7 @@
         <activity android:name=".MainActivity" />
 
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".HeadlinesBrowseActivity"
             android:label="@string/title_activity_headlines_browse" />
     </application>
