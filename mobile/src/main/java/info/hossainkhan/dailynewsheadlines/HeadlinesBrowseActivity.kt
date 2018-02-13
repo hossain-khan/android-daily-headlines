@@ -131,12 +131,21 @@ class HeadlinesBrowseActivity
                 this::onNewsSourceSelected)
     }
 
+    /**
+     * Updates toolbar title with currently selected content
+     */
+    private fun updateToolbarTitle(title: String) {
+        toolbar.title = title
+    }
+
     fun onNewsSourceSelected(selectedRow: NavigationRow) {
         Timber.d("onNewsSourceSelected() called with: row = [${selectedRow}]")
 
+        updateToolbarTitle(selectedRow.title()!!)
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        if(headlinesPagerAdapter == null) {
+        if (headlinesPagerAdapter == null) {
             // Set up the ViewPager with the sections adapter.
             headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.cards()!!)
             news_headlines_pager_container.adapter = headlinesPagerAdapter
