@@ -136,11 +136,17 @@ class HeadlinesBrowseActivity
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.cards()!!)
+        if(headlinesPagerAdapter == null) {
+            // Set up the ViewPager with the sections adapter.
+            headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.cards()!!)
+            container.adapter = headlinesPagerAdapter
+        } else {
+            headlinesPagerAdapter!!.setData(selectedRow.cards()!!)
+        }
 
-        // Set up the ViewPager with the sections adapter.
-        container.adapter = headlinesPagerAdapter
-
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        }
     }
 
     //

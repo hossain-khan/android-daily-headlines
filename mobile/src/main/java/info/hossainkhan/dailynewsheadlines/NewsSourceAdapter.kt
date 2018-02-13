@@ -31,6 +31,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import info.hossainkhan.android.core.model.NavigationRow
 import kotlinx.android.synthetic.main.list_item_news_source.view.*
+import timber.log.Timber
 
 /**
  * Adapter to hold all the headlines from all news sources.
@@ -43,9 +44,10 @@ class NewsSourceAdapter(private val headlines: List<NavigationRow>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        holder!!.mContentView.text = headlines[position].title()
+        Timber.d("onBindViewHolder called with holder: [$holder], position: [$position], setting ${headlines[position].title()}")
+        holder!!.contentView.text = headlines[position].title()
 
-        holder.mContentView.setOnClickListener(View.OnClickListener {
+        holder.itemContainer.setOnClickListener({
             // TODO get adapter postion
             clickListener.invoke(headlines[position])
         })
@@ -58,6 +60,7 @@ class NewsSourceAdapter(private val headlines: List<NavigationRow>,
     }
 
     inner class ViewHolder(itemRootView: View) : RecyclerView.ViewHolder(itemRootView) {
-        val mContentView: TextView = itemRootView.news_source_item_title
+        val itemContainer = itemRootView
+        val contentView: TextView = itemRootView.news_source_item_title
     }
 }
