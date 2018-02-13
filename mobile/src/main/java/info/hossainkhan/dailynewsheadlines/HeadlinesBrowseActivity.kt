@@ -38,11 +38,10 @@ import info.hossainkhan.android.core.model.CardItem
 import info.hossainkhan.android.core.model.NavigationRow
 import info.hossainkhan.android.core.model.ScreenType
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager
-import kotlinx.android.synthetic.main.activity_headlines_browse.*
-import kotlinx.android.synthetic.main.activity_headlines_browse_viewpager.*
-import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.activity_headlines_nav_and_content.*
+import kotlinx.android.synthetic.main.headlines_item_viewpager_container.*
+import kotlinx.android.synthetic.main.headlines_main_content_container.*
 import timber.log.Timber
-import java.util.concurrent.ThreadLocalRandom
 
 
 class HeadlinesBrowseActivity
@@ -64,7 +63,7 @@ class HeadlinesBrowseActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_headlines_browse)
+        setContentView(R.layout.activity_headlines_nav_and_content)
         setSupportActionBar(toolbar)
 
 
@@ -82,6 +81,7 @@ class HeadlinesBrowseActivity
     }
 
     override fun onStop() {
+        // TODO - What happens when presenter is attached again.
         mHeadlinesPresenter?.detachView()
         super.onStop()
     }
@@ -113,14 +113,8 @@ class HeadlinesBrowseActivity
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
+            R.id.action_add_news_source_feed -> {
                 // Handle the camera action
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-
             }
         }
 
@@ -128,23 +122,36 @@ class HeadlinesBrowseActivity
         return true
     }
 
+
+    /**
+     * Setups the navigation bar with all the news sources which can be selected.
+     */
+    private fun setupNavigationDrawerAdapter(headlines: List<NavigationRow>?) {
+        nav_drawer_recycler_view.adapter = NewsSourceAdapter(headlines ?: emptyList(),
+                this::onNewsSourceSelected)
+    }
+
+    fun onNewsSourceSelected(selectedRow: NavigationRow) {
+        Timber.d("onNewsSourceSelected() called with: row = [${selectedRow}]")
+
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.cards()!!)
+
+        // Set up the ViewPager with the sections adapter.
+        container.adapter = headlinesPagerAdapter
+
+    }
+
     //
     // HeadlinesContract.View
     //
     override fun showHeadlines(headlines: MutableList<NavigationRow>?) {
         Timber.d("showHeadlines() called with: headlines = [${headlines}]")
-
-
-        val navigationRow = headlines?.find { it.cards()?.size ?: 0 > 5 }
-        val cards = navigationRow?.cards()
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, cards!!)
-
-        // Set up the ViewPager with the sections adapter.
-        container.adapter = headlinesPagerAdapter
-
+        setupNavigationDrawerAdapter(headlines?.filter {
+            // Only provide news source category (not divider or header)
+            it.type() == NavigationRow.TYPE_DEFAULT
+        })
     }
 
     override fun showHeadlineDetailsUi(cardItem: CardItem?) {
