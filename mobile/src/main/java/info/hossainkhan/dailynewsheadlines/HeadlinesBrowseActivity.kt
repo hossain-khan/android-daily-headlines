@@ -139,9 +139,10 @@ class HeadlinesBrowseActivity
         if(headlinesPagerAdapter == null) {
             // Set up the ViewPager with the sections adapter.
             headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.cards()!!)
-            container.adapter = headlinesPagerAdapter
+            news_headlines_pager_container.adapter = headlinesPagerAdapter
         } else {
             headlinesPagerAdapter!!.setData(selectedRow.cards()!!)
+            news_headlines_pager_container.setCurrentItem(0, true)
         }
 
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
