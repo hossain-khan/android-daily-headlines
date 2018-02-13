@@ -32,6 +32,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import info.hossainkhan.android.core.headlines.HeadlinesContract
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter
 import info.hossainkhan.android.core.model.CardItem
@@ -188,6 +189,11 @@ class HeadlinesBrowseActivity
 
     override fun toggleLoadingIndicator(active: Boolean) {
         Timber.d("toggleLoadingIndicator() called with: active = [${active}]")
+        if (active) {
+            news_headlines_loading_indicator.visibility = View.VISIBLE
+        } else {
+            news_headlines_loading_indicator.visibility = View.GONE
+        }
     }
 
     override fun showDataLoadingError() {
