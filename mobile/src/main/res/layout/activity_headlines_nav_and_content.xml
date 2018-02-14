@@ -38,6 +38,7 @@
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
+        android:background="@drawable/side_nav_bar_item_bg"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -58,12 +59,10 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/nav_drawer_recycler_view"
-                    android:layout_width="280dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="LinearLayoutManager"
-                    tools:background="@color/colorAccent"
                     tools:listitem="@layout/list_item_news_source"
                     tools:targetApi="lollipop" />
 
