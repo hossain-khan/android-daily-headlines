@@ -75,14 +75,14 @@ class HeadlinesBrowseActivity
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        // TODO use DI to inject
+        // NOTE use DI to inject
         val context = applicationContext
         val newsProviderManager = NewsProviderManager(context)
         mHeadlinesPresenter = HeadlinesPresenter(context, this, newsProviderManager)
     }
 
     override fun onStop() {
-        // TODO - What happens when presenter is attached again.
+        // NOTE - What happens when presenter is attached again.
         mHeadlinesPresenter?.detachView()
         super.onStop()
     }
