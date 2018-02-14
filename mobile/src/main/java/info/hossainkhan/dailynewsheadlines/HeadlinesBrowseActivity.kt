@@ -32,6 +32,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import info.hossainkhan.android.core.headlines.HeadlinesContract
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter
 import info.hossainkhan.android.core.model.CardItem
@@ -131,12 +132,21 @@ class HeadlinesBrowseActivity
                 this::onNewsSourceSelected)
     }
 
+    /**
+     * Updates toolbar title with currently selected content
+     */
+    private fun updateToolbarTitle(title: String) {
+        toolbar.title = title
+    }
+
     fun onNewsSourceSelected(selectedRow: NavigationRow) {
         Timber.d("onNewsSourceSelected() called with: row = [${selectedRow}]")
 
+        updateToolbarTitle(selectedRow.title()!!)
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        if(headlinesPagerAdapter == null) {
+        if (headlinesPagerAdapter == null) {
             // Set up the ViewPager with the sections adapter.
             headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.cards()!!)
             news_headlines_pager_container.adapter = headlinesPagerAdapter
@@ -179,6 +189,11 @@ class HeadlinesBrowseActivity
 
     override fun toggleLoadingIndicator(active: Boolean) {
         Timber.d("toggleLoadingIndicator() called with: active = [${active}]")
+        if (active) {
+            news_headlines_loading_indicator.visibility = View.VISIBLE
+        } else {
+            news_headlines_loading_indicator.visibility = View.GONE
+        }
     }
 
     override fun showDataLoadingError() {
