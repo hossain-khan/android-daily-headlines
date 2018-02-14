@@ -45,7 +45,9 @@ class HeadlineFragment : Fragment() {
         val imageUrl = arguments.getString(ARG_IMAGE_URL)
         rootView.headline_title.text = title
 
-        Picasso.with(activity).load(imageUrl).into(rootView.headline_background)
+        if(!imageUrl.isNullOrEmpty()) {
+            Picasso.with(activity).load(imageUrl).into(rootView.headline_background)
+        }
 
         return rootView
     }

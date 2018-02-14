@@ -53,6 +53,7 @@ dependencies {
 
     // Android Support Lib
     implementation "com.android.support:support-v13:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
 
     // Firebase CORE
     // https://firebase.google.com/docs/android/setup

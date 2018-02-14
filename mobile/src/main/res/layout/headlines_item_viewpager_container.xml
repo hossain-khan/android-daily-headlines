@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <!--
   ~ MIT License
   ~
@@ -27,45 +25,33 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/news_headlines_pager_container_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="info.hossainkhan.dailynewsheadlines.HeadlineFragment">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="info.hossainkhan.dailynewsheadlines.HeadlinesBrowseActivity">
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/headline_background"
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/news_headlines_pager_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:foreground="@drawable/card_image_overlay"
-        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/sample_article_image" />
+        tools:background="@android:color/holo_red_dark" />
 
-    <TextView
-        android:id="@+id/headline_title"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="start"
-        android:shadowColor="@android:color/darker_gray"
-        android:text=""
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
+    <ProgressBar
+        android:id="@+id/news_headlines_loading_indicator"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="wrap"
-        tools:text="This is a news headline. Could be long. But should look nice.
-        Otherwise I will be sad. But if it's too long, then I must truncate it. If not people might get confused." />
+        tools:visibility="visible" />
 
 </android.support.constraint.ConstraintLayout>

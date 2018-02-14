@@ -23,11 +23,37 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="info.hossainkhan.dailynewsheadlines.HeadlinesBrowseActivity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings" />
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <group>
+        <item
+            android:id="@+id/action_add_news_source_feed"
+            android:orderInCategory="100"
+            android:title="@string/settings_card_item_add_news_source_feed_title"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/action_manage_news_source_feed"
+            android:orderInCategory="100"
+            android:title="@string/settings_card_item_manage_news_source_feed_title"
+            app:showAsAction="never" />
+    </group>
+    <item
+        android:id="@+id/action_contribute"
+        android:orderInCategory="100"
+        android:title="@string/settings_card_item_contribution_title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_about_app"
+        android:orderInCategory="100"
+        android:title="@string/settings_card_item_about_app_title"
+        app:showAsAction="never" />
 </menu>
