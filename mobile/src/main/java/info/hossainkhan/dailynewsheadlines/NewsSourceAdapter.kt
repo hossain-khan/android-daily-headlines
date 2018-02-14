@@ -48,7 +48,7 @@ class NewsSourceAdapter(private val headlines: List<NavigationRow>,
         holder!!.contentView.text = headlines[position].title()
 
         holder.itemContainer.setOnClickListener({
-            // TODO get adapter postion
+            // NOTE - get adapter postion for current item
             clickListener.invoke(headlines[position])
         })
     }
