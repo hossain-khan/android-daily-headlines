@@ -1,4 +1,3 @@
-
 <!--
     List of Strings used by UI modules (TV, Mobile and so on)
 -->
@@ -26,4 +25,26 @@
     <string name="navigation_header_item_settings_title">Manage</string>
     <string name="navigation_header_item_news_source_nytimes_title">The New York Times</string>
     <string name="detail_view_title">Details</string>
+
+
+    <!--
+        Contains list of category names supported by the application.
+        See "info.hossainkhan.android.core.data.CategoryNameResolver" class for more info.
+
+
+        Here are some example category keyword which may be translated to longer version.
+
+            home, opinion, world, national, politics, upshot, nyregion, business, technology, science, health,
+            sports, arts, books, movies, theater, sundayreview, fashion, tmagazine, food, travel, magazine,
+            realestate, automobiles, obituaries, insider
+    -->
+    <string name="category_name_default">News Headlines</string>
+    <string name="category_name_top_news">Top Headlines</string>
+    <string name="category_name_world">World News</string>
+    <string name="category_name_business">Money &amp; Business</string>
+    <string name="category_name_technology">Science &amp; Technology</string>
+    <string name="category_name_movies">Movies</string>
+    <string name="category_name_sports">Sports</string>
+    <!--  END of Category names -->
+
 </resources>
