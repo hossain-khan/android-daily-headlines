@@ -60,7 +60,7 @@ class HeadlinesBrowseActivity
      */
     private var headlinesPagerAdapter: HeadlinesPagerAdapter? = null
 
-    private var mHeadlinesPresenter: HeadlinesPresenter? = null
+    private lateinit var headlinesPresenter: HeadlinesPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,12 +78,12 @@ class HeadlinesBrowseActivity
         // NOTE use DI to inject
         val context = applicationContext
         val newsProviderManager = NewsProviderManager(context)
-        mHeadlinesPresenter = HeadlinesPresenter(context, this, newsProviderManager)
+        headlinesPresenter = HeadlinesPresenter(context, this, newsProviderManager)
     }
 
     override fun onStop() {
         // NOTE - What happens when presenter is attached again.
-        mHeadlinesPresenter?.detachView()
+        headlinesPresenter.detachView()
         super.onStop()
     }
 
@@ -105,9 +105,11 @@ class HeadlinesBrowseActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
+        val isConsumed = headlinesPresenter.onMenuItemClicked(item)
+        return if (isConsumed) {
+            true
+        } else {
+            super.onOptionsItemSelected(item)
         }
     }
 
@@ -208,9 +210,8 @@ class HeadlinesBrowseActivity
         Timber.d("showAddNewsSourceScreen() called")
     }
 
-    override fun showUiScreen(type: ScreenType?) {
+    override fun showUiScreen(type: ScreenType) {
         Timber.d("showUiScreen() called with: type = [${type}]")
     }
-
 }
 

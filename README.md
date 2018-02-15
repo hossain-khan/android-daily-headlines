@@ -59,5 +59,11 @@ This is my personal project to experiment with following tools & technologies
  * AutoValue _(See [#76](https://github.com/amardeshbd/android-daily-headlines/pull/76))_
  * Google Play Alpha Beta release _(Beta app available on [Google Play](https://play.google.com/apps/testing/info.hossainkhan.dailynewsheadlines))_
  * LeakCanary _(See [#60](https://github.com/amardeshbd/android-daily-headlines/pull/60))_
+
+Features started using in the mobile app:
+ * Kotlin Support _(See [#175](https://github.com/amardeshbd/android-daily-headlines/issues/175))_
+ * Room ORM (Planned for content caching)
+ * Upgrade to RxJava 2 (Planned)
+ * Upgrade to Firebase Crashlytics (Planned)
  
 I'll try to update references for these items when I use in the app :sunglasses:

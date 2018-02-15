@@ -25,6 +25,7 @@
 package info.hossainkhan.android.core.headlines;
 
 import android.support.annotation.NonNull;
+import android.view.MenuItem;
 
 import java.util.List;
 
@@ -34,6 +35,9 @@ import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.ScreenType;
 
+/**
+ * View and Presenter contract for main headline browsing view.
+ */
 public interface HeadlinesContract {
 
     interface View extends MvpView {
@@ -56,7 +60,7 @@ public interface HeadlinesContract {
          *
          * @param active Flag to show or hide data loading indicator.
          */
-        void toggleLoadingIndicator(boolean active);
+        void toggleLoadingIndicator(@NonNull boolean active);
 
         /**
          * Shows when data loading has failed.
@@ -70,17 +74,43 @@ public interface HeadlinesContract {
 
         void showAddNewsSourceScreen();
 
-        void showUiScreen(ScreenType type);
+        void showUiScreen(@NonNull ScreenType type);
     }
 
     interface Presenter extends MvpPresenter<HeadlinesContract.View> {
-        
-        void loadHeadlines(boolean forceUpdate);
 
-        void openHeadlineDetails(@NonNull CardItem cardItem);
+        /**
+         * Loads all the headlines from different news sources added by user.
+         *
+         * @param forceUpdate Used to force update news sources to get freshest data.
+         */
+        void loadHeadlines(@NonNull boolean forceUpdate);
 
+        /**
+         * Called when an item is selected by user to preview it's content.
+         * <p>
+         * <i>For example, when using in TV app, this event will be triggered when user navigates
+         * through the headlines card item without clicking through them. When an item is clicked,
+         * then {@link #onHeadlineItemSelected(CardItem)} is invoked.</i>
+         *
+         * @param cardItem The card item that was selected as part of headline browsing.
+         */
         void onHeadlineItemSelected(@NonNull CardItem cardItem);
 
+        /**
+         * Called when user clicks on a headline card item.
+         * <p>
+         * <i>NOTE: For TV application, all items are {@link CardItem} including app settings items.
+         * So, the application must selectively handle the card item based on {@link CardItem.Type}</i>
+         *
+         * @param cardItem The card item that was clicked.
+         */
         void onHeadlineItemClicked(@NonNull CardItem cardItem);
+
+        /**
+         * @param item The menu item that was clicked.
+         * @return {@code true} when item is handled, {@code false} otherwise
+         */
+        boolean onMenuItemClicked(@NonNull MenuItem item);
     }
 }
