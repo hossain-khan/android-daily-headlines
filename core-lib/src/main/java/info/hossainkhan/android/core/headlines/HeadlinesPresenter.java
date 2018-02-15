@@ -155,22 +155,23 @@ public class HeadlinesPresenter
     @Override
     public boolean onMenuItemClicked(@NonNull MenuItem item) {
         int menuItemId = item.getItemId();
+        boolean isActionHandled = false;
         if (menuItemId == R.id.action_about_app) {
             getView().showUiScreen(ScreenType.ABOUT_APPLICATION);
-            return true;
+            isActionHandled = true;
         } else if (menuItemId == R.id.action_add_news_source_feed) {
             getView().showAddNewsSourceScreen();
-            return true;
+            isActionHandled = true;
         } else if (menuItemId == R.id.action_manage_news_source_feed) {
             getView().showUiScreen(ScreenType.MANAGE_NEWS_SOURCE);
-            return true;
+            isActionHandled = true;
         } else if (menuItemId == R.id.action_contribute) {
             getView().showUiScreen(ScreenType.ABOUT_CONTRIBUTION);
-            return true;
+            isActionHandled = true;
         } else if (menuItemId == R.id.action_settings) {
             getView().showAppSettingsScreen();
-            return true;
+            isActionHandled = true;
         }
-        return false;
+        return isActionHandled;
     }
 }
