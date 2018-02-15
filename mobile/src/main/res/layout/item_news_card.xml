@@ -53,7 +53,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:ellipsize="end"
-        android:fontFamily="sans-serif-condensed"
+        android:fontFamily="@string/font_family_medium"
         android:gravity="start"
         android:shadowColor="@android:color/darker_gray"
         android:text=""
