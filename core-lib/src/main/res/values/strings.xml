@@ -1,5 +1,8 @@
+
+<!--
+    List of Strings used by UI modules (TV, Mobile and so on)
+-->
 <resources>
-    <string name="app_name">core-lib</string>
 
     <!-- Common activity titles -->
     <string name="title_activity_browse_headlines">Today\'s Headlines</string>
