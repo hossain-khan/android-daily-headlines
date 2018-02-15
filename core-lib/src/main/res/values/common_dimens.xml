@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2016 Hossain Khan
+  ~ Copyright (c) 2018 Hossain Khan
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -23,17 +24,8 @@
   -->
 
 <resources>
-    <dimen name="card_text_container_width">420dp</dimen>
-    <dimen name="card_text_container_height">305dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <!--
-        Info sub text containers on the bottom of the card.
-        LEFT+RIGHT must not exceed "card_text_container_width"
-    -->
-    <dimen name="card_subtext_container_left_max_width">240dp</dimen>
-    <dimen name="card_subtext_container_right_max_width">160dp</dimen>
-
-    <dimen name="default_image_card_width">224dp</dimen>
-    <dimen name="default_image_card_height">126dp</dimen>
-    <integer name="info_dialog_guidedactions_item_description_min_lines">4</integer>
 </resources>
