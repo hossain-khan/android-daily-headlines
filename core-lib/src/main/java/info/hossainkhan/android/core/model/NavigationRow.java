@@ -60,6 +60,10 @@ public abstract class NavigationRow {
     public abstract String title();
 
     @Nullable
+    @SerializedName("displayTitle")
+    public abstract String displayTitle();
+
+    @Nullable
     @SerializedName("news_source_id")
     public abstract String sourceId();
 
@@ -92,6 +96,9 @@ public abstract class NavigationRow {
 
         @Nullable
         public abstract Builder title(String title);
+
+        @Nullable
+        public abstract Builder displayTitle(String title);
 
         /**
          * {@link NewsSource#id()} for current navigation row, when {@link #type()} is

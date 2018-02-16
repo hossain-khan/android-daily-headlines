@@ -49,7 +49,7 @@ class NewsSourceAdapter(private val headlines: List<NavigationRow>,
             holder!!.itemContainer.background = holder.itemContainer.context.getDrawable(R.color.news_source_item_highlight)
         }
 
-        holder!!.contentView.text = headlines[position].title()
+        holder!!.contentView.text = headlines[position].displayTitle() ?: headlines[position].title()
 
         holder.itemContainer.setOnClickListener({
             // NOTE - get adapter postion for current item
