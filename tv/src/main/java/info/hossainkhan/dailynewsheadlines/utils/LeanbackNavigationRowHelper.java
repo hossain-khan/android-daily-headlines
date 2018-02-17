@@ -50,7 +50,7 @@ public final class LeanbackNavigationRowHelper {
      * @return {@link NavigationRow} for a header.
      */
     public static NavigationRow buildNavigationHeader(@NonNull Resources resources, @StringRes int stringResId) {
-        return NavigationRow.builder()
+        return NavigationRow.Companion.builder()
                 .title(resources.getString(stringResId))
                 .type(NavigationRow.TYPE_SECTION_HEADER)
                 .build();
@@ -62,7 +62,7 @@ public final class LeanbackNavigationRowHelper {
      * @return {@link NavigationRow} for a divider.
      */
     public static NavigationRow buildNavigationDivider() {
-        return NavigationRow.builder().type(NavigationRow.TYPE_DIVIDER).build();
+        return NavigationRow.Companion.builder().type(NavigationRow.TYPE_DIVIDER).build();
     }
 
     /**
@@ -133,7 +133,7 @@ public final class LeanbackNavigationRowHelper {
         );
 
 
-        list.add(NavigationRow.builder()
+        list.add(NavigationRow.Companion.builder()
                 .title(resources.getString(R.string.settings_navigation_row_news_source_title))
                 .type(NavigationRow.TYPE_DEFAULT)
                 .cards(settingsItems)
@@ -159,7 +159,7 @@ public final class LeanbackNavigationRowHelper {
                         R.string.settings_card_item_contribution_title, R.drawable.ic_settings_contribute_github_circle)
         );
 
-        list.add(NavigationRow.builder()
+        list.add(NavigationRow.Companion.builder()
                 .title(resources.getString(R.string.settings_navigation_row_information_title))
                 .type(NavigationRow.TYPE_DEFAULT)
                 .cards(infoItems)

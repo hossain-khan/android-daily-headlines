@@ -163,7 +163,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
                             Timber.d("Unable to get all responses.");
                         } else {
                             List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
-                            navigationHeadlines.add(NavigationRow.builder()
+                            navigationHeadlines.add(NavigationRow.Companion.builder()
                                     .title(mNewsSource.name())
                                     .type(NavigationRow.TYPE_SECTION_HEADER)
                                     .sourceId(mNewsSource.id())
@@ -172,7 +172,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
                             for (int i = 0; i < totalResponseItemSize; i++) {
                                 ArticleCategory articleCategory = categories.get(i);
                                 navigationHeadlines.add(
-                                        NavigationRow.builder()
+                                        NavigationRow.Companion.builder()
                                                 .title(mContext.getString(CategoryNameResolver
                                                         .resolveCategoryResId(articleCategory)))
                                                 .category(articleCategory)
@@ -202,7 +202,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
     private List<CardItem> convertArticleToCardItems(final List<Article> articles) {
         List<CardItem> cardItems = new ArrayList<>(articles.size());
         for (Article result : articles) {
-            cardItems.add(CardItem.create(result));
+            cardItems.add(CardItem.Companion.create(result));
         }
         return cardItems;
     }
