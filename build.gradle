@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.1.51'
+    ext.kotlinVersion = '1.1.51'
     repositories {
         jcenter()
         google()
@@ -21,7 +21,7 @@ buildscript {
         // The kotlin-gradle-plugin compiles Kotlin sources and modules.
         // https://kotlinlang.org/docs/reference/using-gradle.html
         // https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.51"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         // Google Services Plugin - Required for Firebase and related Google services
         // https://developers.google.com/android/guides/google-services-plugin
@@ -37,7 +37,6 @@ buildscript {
         // https://github.com/arturdm/jacoco-android-gradle-plugin
         // https://docs.gradle.org/current/dsl/org.gradle.testing.jacoco.tasks.JacocoReport.html
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
