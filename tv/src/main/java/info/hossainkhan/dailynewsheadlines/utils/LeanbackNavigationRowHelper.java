@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.util.Validate;
 import info.hossainkhan.dailynewsheadlines.R;
@@ -75,12 +76,12 @@ public final class LeanbackNavigationRowHelper {
      */
     public static CardItem buildNavigationActionItem(final Resources resources,
                                                      @StringRes int titleRes, @DrawableRes int actionIconRes) {
-        return CardItem.create(
+        return CardItem.Companion.create(
                 titleRes /* id */, resources.getString(titleRes) /* title */,
                 null /* description */, null /*extraText */, null /*category */,
                 null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
                 actionIconRes, // localImageResourceId,
-                null /* footerColor */, null /* selectedColor */, CardItem.Type.ACTION, 0 /* width */, 0 /* height */
+                null /* footerColor */, null /* selectedColor */, CardType.ACTION, 0 /* width */, 0 /* height */
         );
     }
 

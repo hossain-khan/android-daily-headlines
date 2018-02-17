@@ -51,7 +51,7 @@ public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetail
         getView().updateScreenTitle(mContext.getString(R.string.detail_view_title));
         getView().showHeadlineDetails(mCardItem);
 
-        String imageUrl = mCardItem.imageUrl();
+        String imageUrl = mCardItem.getImageUrl();
         if(StringUtils.isValidUri(imageUrl)) {
             Timber.d("Loading image URL: %s", imageUrl);
             getView().loadDetailsImage(imageUrl);
@@ -68,7 +68,7 @@ public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetail
     public void onActionItemClicked(final int action) {
         switch (action) {
             case HeadlinesDetailsContract.ACTION_ID_OPEN_NEWS_URL:
-                getView().openArticleWebUrl(mCardItem.contentUrl());
+                getView().openArticleWebUrl(mCardItem.getContentUrl());
                 break;
             default:
                 Timber.d("onActionItemClicked() : Unsupported action id: %s", action);

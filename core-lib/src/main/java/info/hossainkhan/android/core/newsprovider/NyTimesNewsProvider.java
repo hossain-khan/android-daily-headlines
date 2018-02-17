@@ -102,7 +102,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
     /**
      * Create the NYTimes news source instance with required info.
      */
-    private NewsSource mNewsSource = NewsSource.create(PROVIDER_ID_NYTIMES, PROVIDER_NAME, PROVIDER_DESCRIPTION,
+    private NewsSource mNewsSource = NewsSource.Companion.create(PROVIDER_ID_NYTIMES, PROVIDER_NAME, PROVIDER_DESCRIPTION,
             PROVIDER_URL, PROVIDER_IMAGE_URL, MAX_CACHE_LENGTH);
 
     @Override
@@ -164,9 +164,9 @@ public final class NyTimesNewsProvider implements NewsProvider {
                         } else {
                             List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
                             navigationHeadlines.add(NavigationRow.Companion.builder()
-                                    .title(mNewsSource.name())
+                                    .title(mNewsSource.getName())
                                     .type(NavigationRow.TYPE_SECTION_HEADER)
-                                    .sourceId(mNewsSource.id())
+                                    .sourceId(mNewsSource.getId())
                                     .build());
 
                             for (int i = 0; i < totalResponseItemSize; i++) {
@@ -176,7 +176,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
                                                 .title(mContext.getString(CategoryNameResolver
                                                         .resolveCategoryResId(articleCategory)))
                                                 .category(articleCategory)
-                                                .sourceId(mNewsSource.id())
+                                                .sourceId(mNewsSource.getId())
                                                 .cards(convertArticleToCardItems(inlineResponse200s.get(i).getResults()))
                                                 .build()
                                 );

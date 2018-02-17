@@ -27,7 +27,7 @@ package info.hossainkhan.android.core.model
 /**
  * Type of the cards supported by the TV browser.
  */
-enum class CartType {
+enum class CardType {
     /**
      * News headlines or article item.
      */

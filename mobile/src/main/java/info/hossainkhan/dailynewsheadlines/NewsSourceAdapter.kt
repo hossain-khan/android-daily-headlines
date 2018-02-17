@@ -44,12 +44,13 @@ class NewsSourceAdapter(private val headlines: List<NavigationRow>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        Timber.d("onBindViewHolder called with holder: [$holder], position: [$position], setting ${headlines[position].title()}")
+        Timber.d("onBindViewHolder called with holder: [$holder], position: [$position], setting ${headlines[position].title}")
         if(position.rem(2) == 0) {
-            holder!!.itemContainer.background = holder.itemContainer.context.getDrawable(R.color.news_source_item_highlight)
+            holder!!.itemContainer.background = holder.itemContainer.context
+                    .getDrawable(R.color.news_source_item_highlight)
         }
 
-        holder!!.contentView.text = headlines[position].displayTitle() ?: headlines[position].title()
+        holder!!.contentView.text = headlines[position].displayTitle ?: headlines[position].title
 
         holder.itemContainer.setOnClickListener({
             // NOTE - get adapter postion for current item

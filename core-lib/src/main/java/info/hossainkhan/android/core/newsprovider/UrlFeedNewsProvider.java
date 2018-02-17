@@ -47,7 +47,7 @@ public class UrlFeedNewsProvider extends RssFeedNewsProvider {
         super(context);
 
         mFeedUrl = feedUrl;
-        mNewsSource = NewsSource.create(
+        mNewsSource = NewsSource.Companion.create(
                 providerName,
                 providerName,
                 "",

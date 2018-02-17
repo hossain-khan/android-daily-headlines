@@ -24,48 +24,46 @@
 
 package info.hossainkhan.android.core.model;
 
-import com.google.auto.value.AutoValue;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * A model class to define information on news source or publisher.
  */
-@AutoValue
-public abstract class NewsSource {
+data class NewsSource(
+        /**
+         * A unique identifier for the news-source/publication.
+         */
+        @SerializedName("id")
+        val id: String?,
 
-    public static NewsSource create(String id, String name, String description, String url, String imageUrl,
-                             long cacheDuration) {
-        return new AutoValue_NewsSource(id, name, description, url, imageUrl, cacheDuration);
+        /**
+         * The publication's name.
+         */
+        @SerializedName("name")
+        val name: String?,
+
+        @SerializedName("description")
+        val description: String?,
+
+        /**
+         * The URL to the publication's homepage
+         */
+        @SerializedName("url")
+        val url: String?,
+
+        @SerializedName("imageUrl")
+        val imageUrl: String?,
+
+        /**
+         * Max cache duration in <b>SECONDS</b> for the publication content. Default is {@code 0}, which means no
+         * limitation.
+         */
+        @SerializedName("cacheDuration")
+        val cacheDuration: Long) {
+    companion object {
+        fun create(id: String, name: String, description: String, url: String, imageUrl: String,
+                   cacheDuration: Long): NewsSource {
+            return NewsSource(id, name, description, url, imageUrl, cacheDuration)
+        }
     }
-
-    /**
-     * A unique identifier for the news-source/publication.
-     */
-    @SerializedName("id")
-    public abstract String id();
-
-    /**
-     * The publication's name.
-     */
-    @SerializedName("name")
-    public abstract String name();
-
-    @SerializedName("description")
-    public abstract String description();
-
-    /**
-     * The URL to the publication's homepage
-     */
-    @SerializedName("url")
-    public abstract String url();
-
-    @SerializedName("imageUrl")
-    public abstract String imageUrl();
-
-    /**
-     * Max cache duration in <b>SECONDS</b> for the publication content. Default is {@code 0}, which means no
-     * limitation.
-     */
-    @SerializedName("cacheDuration")
-    public abstract long cacheDuration();
 }

@@ -144,16 +144,16 @@ class HeadlinesBrowseActivity
     fun onNewsSourceSelected(selectedRow: NavigationRow) {
         Timber.d("onNewsSourceSelected() called with: row = [${selectedRow}]")
 
-        updateToolbarTitle(selectedRow.displayTitle() ?: selectedRow.title()!!)
+        updateToolbarTitle(selectedRow.displayTitle ?: selectedRow.title!!)
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         if (headlinesPagerAdapter == null) {
             // Set up the ViewPager with the sections adapter.
-            headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.cards()!!)
+            headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.cards!!)
             news_headlines_pager_container.adapter = headlinesPagerAdapter
         } else {
-            headlinesPagerAdapter!!.setData(selectedRow.cards()!!)
+            headlinesPagerAdapter!!.setData(selectedRow.cards!!)
             news_headlines_pager_container.setCurrentItem(0, true)
         }
 
@@ -169,7 +169,7 @@ class HeadlinesBrowseActivity
         Timber.d("showHeadlines() called with: headlines = [${headlines}]")
         setupNavigationDrawerAdapter(headlines?.filter {
             // Only provide news source category (not divider or header)
-            it.type() == NavigationRow.TYPE_DEFAULT
+            it.type == NavigationRow.TYPE_DEFAULT
         })
     }
 

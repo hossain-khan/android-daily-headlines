@@ -81,7 +81,7 @@ data class CardItem(
 
         @NonNull
         @SerializedName("type")
-        val type: CartType,
+        val type: CardType,
 
         @SerializedName("width")
         val width: Int,
@@ -122,10 +122,31 @@ data class CardItem(
                     localImageResourceId = 0,
                     footerColor = "",
                     selectedColor = "",
-                    type = CartType.HEADLINES,
+                    type = CardType.HEADLINES,
                     width = width,
                     height = height
             )
+        }
+
+        fun create(
+                id: Int, title: String?, description: String?, extraText: String?, category: String?,
+                dateCreated: String?, imageUrl: String?, contentUrl: String?,
+                localImageResourceId: Int, footerColor: String?, selectedColor: String?,
+                type: CardType, width: Int, height: Int): CardItem {
+            return CardItem(id,
+                    title,
+                    description,
+                    extraText,
+                    category,
+                    dateCreated,
+                    imageUrl,
+                    contentUrl,
+                    localImageResourceId,
+                    footerColor,
+                    selectedColor,
+                    type,
+                    width,
+                    height)
         }
     }
 }

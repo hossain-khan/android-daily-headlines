@@ -64,14 +64,14 @@ public class ImageCardViewPresenter extends AbstractCardPresenter<ImageCardView>
     @Override
     public void onBindViewHolder(final CardItem cardItem, final ImageCardView cardView) {
         cardView.setTag(cardItem);
-        cardView.setTitleText(cardItem.title());
-        cardView.setContentText(cardItem.description());
-        if (cardItem.localImageResourceId() != 0) {
-            int resourceId = cardItem.localImageResourceId();
+        cardView.setTitleText(cardItem.getTitle());
+        cardView.setContentText(cardItem.getDescription());
+        if (cardItem.getLocalImageResourceId() != 0) {
+            int resourceId = cardItem.getLocalImageResourceId();
             Picasso.with(getContext()).load(resourceId).into(cardView.getMainImageView());
-        } else if (StringUtils.isNotEmpty(cardItem.imageUrl())) {
+        } else if (StringUtils.isNotEmpty(cardItem.getImageUrl())) {
             Picasso.with(getContext())
-                    .load(cardItem.imageUrl())
+                    .load(cardItem.getImageUrl())
                     .into(cardView.getMainImageView());
         }
     }

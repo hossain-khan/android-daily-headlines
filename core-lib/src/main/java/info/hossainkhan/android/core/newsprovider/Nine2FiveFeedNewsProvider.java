@@ -36,7 +36,7 @@ import info.hossainkhan.android.core.model.NewsSource;
  */
 public class Nine2FiveFeedNewsProvider extends RssFeedNewsProvider {
     private static final String FEED_URL = "https://9to5mac.com/feed/";
-    private NewsSource mNewsSource = NewsSource.create(
+    private NewsSource mNewsSource = NewsSource.Companion.create(
             "9to5mac",
             "9to5 Mac",
             "At 9to5, we make great efforts to be a top influencer in the tech community by consistently breaking exclusive news and being the first to report information our readers care about.",
