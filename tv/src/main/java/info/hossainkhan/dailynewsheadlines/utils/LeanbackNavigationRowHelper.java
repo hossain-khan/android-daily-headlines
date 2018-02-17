@@ -50,7 +50,7 @@ public final class LeanbackNavigationRowHelper {
      * @param stringResId String res for the navigation header item.
      * @return {@link NavigationRow} for a header.
      */
-    public static NavigationRow buildNavigationHeader(@NonNull Resources resources, @StringRes int stringResId) {
+    private static NavigationRow buildNavigationHeader(@NonNull Resources resources, @StringRes int stringResId) {
         return NavigationRow.Companion.builder()
                 .title(resources.getString(stringResId))
                 .type(NavigationRow.TYPE_SECTION_HEADER)
@@ -62,8 +62,27 @@ public final class LeanbackNavigationRowHelper {
      *
      * @return {@link NavigationRow} for a divider.
      */
-    public static NavigationRow buildNavigationDivider() {
+    private static NavigationRow buildNavigationDivider() {
         return NavigationRow.Companion.builder().type(NavigationRow.TYPE_DIVIDER).build();
+    }
+
+    /**
+     * Builds a Navigation row containing multiple CardItem with default configuration.
+     *
+     * @param resources   Android resources.
+     * @param stringResId Navigation title.
+     * @param items       Card items in the row.
+     * @return Navigation row containing multiple CardItem.
+     */
+    @NonNull
+    private static NavigationRow buildNavigationItemsRow(@NonNull Resources resources, @StringRes int stringResId,
+                                                         @NonNull List<CardItem> items) {
+        return NavigationRow.Companion.builder()
+                .title(resources.getString(stringResId))
+                .type(NavigationRow.TYPE_DEFAULT)
+                .cards(items)
+                .useShadow(false)
+                .build();
     }
 
     /**
@@ -74,8 +93,8 @@ public final class LeanbackNavigationRowHelper {
      * @param actionIconRes Drawable icon for action.
      * @return CardItem.
      */
-    public static CardItem buildNavigationActionItem(final Resources resources,
-                                                     @StringRes int titleRes, @DrawableRes int actionIconRes) {
+    private static CardItem buildNavigationActionItem(final Resources resources,
+                                                      @StringRes int titleRes, @DrawableRes int actionIconRes) {
         return CardItem.Companion.create(
                 titleRes /* id */, resources.getString(titleRes) /* title */,
                 null /* description */, null /*extraText */, null /*category */,
@@ -133,13 +152,10 @@ public final class LeanbackNavigationRowHelper {
                         R.string.settings_card_item_manage_news_source_feed_title, R.drawable.ic_settings_manage_news_source)
         );
 
+        list.add(
+                buildNavigationItemsRow(resources,
+                        R.string.settings_navigation_row_news_source_title, settingsItems));
 
-        list.add(NavigationRow.Companion.builder()
-                .title(resources.getString(R.string.settings_navigation_row_news_source_title))
-                .type(NavigationRow.TYPE_DEFAULT)
-                .cards(settingsItems)
-                .useShadow(false)
-                .build());
     }
 
     /**
@@ -160,11 +176,8 @@ public final class LeanbackNavigationRowHelper {
                         R.string.settings_card_item_contribution_title, R.drawable.ic_settings_contribute_github_circle)
         );
 
-        list.add(NavigationRow.Companion.builder()
-                .title(resources.getString(R.string.settings_navigation_row_information_title))
-                .type(NavigationRow.TYPE_DEFAULT)
-                .cards(infoItems)
-                .useShadow(false)
-                .build());
+        list.add(
+                buildNavigationItemsRow(resources,
+                        R.string.settings_navigation_row_information_title, infoItems));
     }
 }

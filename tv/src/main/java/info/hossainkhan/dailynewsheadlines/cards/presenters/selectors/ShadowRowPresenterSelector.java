@@ -49,7 +49,7 @@ public class ShadowRowPresenterSelector extends PresenterSelector {
         if (!(item instanceof CardListRow)) return mShadowDisabledRowPresenter;
         CardListRow listRow = (CardListRow) item;
         NavigationRow row = listRow.getNavigationRow();
-        if (row.getUseShadow()) return mShadowEnabledRowPresenter;
+        if (row.getUseShadow() != null && row.getUseShadow()) return mShadowEnabledRowPresenter;
         return mShadowDisabledRowPresenter;
     }
 
