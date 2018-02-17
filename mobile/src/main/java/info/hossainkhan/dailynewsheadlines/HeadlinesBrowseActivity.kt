@@ -144,7 +144,7 @@ class HeadlinesBrowseActivity
     fun onNewsSourceSelected(selectedRow: NavigationRow) {
         Timber.d("onNewsSourceSelected() called with: row = [${selectedRow}]")
 
-        updateToolbarTitle(selectedRow.title()!!)
+        updateToolbarTitle(selectedRow.displayTitle() ?: selectedRow.title()!!)
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
