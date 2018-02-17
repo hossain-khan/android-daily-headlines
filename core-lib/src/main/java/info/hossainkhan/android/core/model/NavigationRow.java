@@ -37,7 +37,6 @@ import io.swagger.client.model.ArticleCategory;
 /**
  * This class represents a navigation row with news headline cards.
  */
-@AutoValue
 @AutoGson
 public abstract class NavigationRow {
 

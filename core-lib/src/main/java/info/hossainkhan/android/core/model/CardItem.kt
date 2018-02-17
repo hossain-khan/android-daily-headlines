@@ -24,154 +24,108 @@
 
 package info.hossainkhan.android.core.model;
 
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.DrawableRes
+import android.support.annotation.NonNull
+import android.support.annotation.Nullable
+import com.google.gson.annotations.SerializedName
+import io.swagger.client.model.Article
+import timber.log.Timber
 
-import com.google.auto.value.AutoValue;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
-
-import info.hossainkhan.android.core.gson.AutoGson;
-import io.swagger.client.model.Article;
-import io.swagger.client.model.ArticleMultimedia;
-import timber.log.Timber;
 
 /**
  * This is a model object that encapsulates an card item with required and optional information.
  */
-@AutoValue @AutoGson
-public abstract class CardItem {
+data class CardItem(
+        @SerializedName("id")
+        val id: Int,
 
-    /**
-     * Type of the cards supported by the TV browser.
-     */
-    public enum Type {
+        @Nullable
+        @SerializedName("title")
+        val title: String?,
+
+        @Nullable
+        @SerializedName("description")
+        val description: String? = null,
+
+        @Nullable
+        @SerializedName("extraText")
+        val extraText: String? = null,
+
+        @Nullable
+        @SerializedName("category")
+        val category: String? = null,
+
+        @Nullable
+        @SerializedName("dateCreated")
+        val dateCreated: String? = null,
+
+        @Nullable
+        @SerializedName("imageUrl")
+        val imageUrl: String? = null,
+
+        @Nullable
+        @SerializedName("contentUrl")
+        val contentUrl: String? = null,
+
+        @DrawableRes
+        @SerializedName("localImageResourceId")
+        val localImageResourceId: Int,
+
+        @Nullable
+        @SerializedName("footerColor")
+        val footerColor: String? = null,
+
+        @Nullable
+        @SerializedName("selectedColor")
+        val selectedColor: String? = null,
+
+        @NonNull
+        @SerializedName("type")
+        val type: CartType,
+
+        @SerializedName("width")
+        val width: Int,
+
+        @SerializedName("height")
+        val height: Int) {
+
+    companion object {
         /**
-         * News headlines or article item.
+         * Creates a card item with {@link Article} model.
+         *
+         * @param article Article instance to convert to CardItem.
          */
-        HEADLINES,
-        /**
-         * Details for item. Not used yet.
-         */
-        DETAILS,
-        /**
-         * Action item, ususally icon based item for user action.
-         */
-        ACTION
-    }
+        fun create(article: Article): CardItem {
+            val multimedia = article.multimedia
+            val size = multimedia.size
+            var imageUrl: String? = null
+            var width = 0
+            var height = 0
+            if (!multimedia.isEmpty()) {
+                val articleMultimedia = multimedia[size - 1]
+                imageUrl = articleMultimedia.url
+                width = articleMultimedia.width
+                height = articleMultimedia.height
+            } else {
+                Timber.w("Article '%s' does not have image.", article.title);
+            }
 
-    @SerializedName("id")
-    public abstract int id();
-
-    @Nullable
-    @SerializedName("title")
-    public abstract String title();
-
-    @Nullable
-    @SerializedName("description")
-    public abstract String description();
-
-    @Nullable
-    @SerializedName("extraText")
-    public abstract String extraText();
-
-    @Nullable
-    @SerializedName("category")
-    public abstract String category();
-
-    @Nullable
-    @SerializedName("dateCreated")
-    public abstract String dateCreated();
-
-    @Nullable
-    @SerializedName("imageUrl")
-    public abstract String imageUrl();
-
-    @Nullable
-    @SerializedName("contentUrl")
-    public abstract String contentUrl();
-
-    @DrawableRes
-    @SerializedName("localImageResourceId")
-    public abstract int localImageResourceId();
-
-    @Nullable
-    @SerializedName("footerColor")
-    public abstract String footerColor();
-
-    @Nullable
-    @SerializedName("selectedColor")
-    public abstract String selectedColor();
-
-    @NonNull
-    @SerializedName("type")
-    public abstract CardItem.Type type();
-
-    @SerializedName("width")
-    public abstract int width();
-
-    @SerializedName("height")
-    public abstract int height();
-
-    public static CardItem create(
-            int id, @Nullable String title, @Nullable String description, @Nullable String extraText, @Nullable
-            String category, @Nullable String dateCreated, @Nullable String imageUrl, @Nullable String contentUrl,
-            int localImageResourceId, @Nullable String footerColor, @Nullable String selectedColor,
-            CardItem.Type type, int width, int height) {
-        return new AutoValue_CardItem(id,
-                title,
-                description,
-                extraText,
-                category,
-                dateCreated,
-                imageUrl,
-                contentUrl,
-                localImageResourceId,
-                footerColor,
-                selectedColor,
-                type,
-                width,
-                height);
-    }
-
-    /**
-     * Creates a card item with {@link Article} model.
-     *
-     * @param article Article instance to convert to CardItem.
-     */
-    public static CardItem create(@NonNull final Article article) {
-
-        List<ArticleMultimedia> multimedia = article.getMultimedia();
-        int size = multimedia.size();
-        String imageUrl = null;
-        int width = 0;
-        int height = 0;
-        if (!multimedia.isEmpty()) {
-            ArticleMultimedia articleMultimedia = multimedia.get(size - 1);
-            imageUrl = articleMultimedia.getUrl();
-            width = articleMultimedia.getWidth();
-            height = articleMultimedia.getHeight();
-        } else {
-            Timber.w("NYTimes article '%s' does not have image.", article.getTitle());
+            return CardItem(
+                    id = article.getUrl().hashCode(),
+                    title = article.getTitle(),
+                    description = article.getAbstract(),
+                    extraText = "",
+                    category = article.getSection(),
+                    dateCreated = article.getCreatedDate(),
+                    imageUrl = imageUrl,
+                    contentUrl = article.getUrl(),
+                    localImageResourceId = 0,
+                    footerColor = "",
+                    selectedColor = "",
+                    type = CartType.HEADLINES,
+                    width = width,
+                    height = height
+            )
         }
-
-        return new AutoValue_CardItem(
-                article.getUrl().hashCode(), // id,
-                article.getTitle(), // title,
-                article.getAbstract(), // description,
-                "", //extraText,
-                article.getSection(), //category,
-                article.getCreatedDate(), // dateCreated,
-                imageUrl, // imageUrl,
-                article.getUrl(), // contentUrl,
-                0, // localImageResourceId,
-                "", // footerColor,
-                "", // selectedColor,
-                Type.HEADLINES, // type,
-                width, // width,
-                height);
-
     }
 }
