@@ -102,7 +102,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
     /**
      * Create the NYTimes news source instance with required info.
      */
-    private NewsSource mNewsSource = NewsSource.create(PROVIDER_ID_NYTIMES, PROVIDER_NAME, PROVIDER_DESCRIPTION,
+    private NewsSource mNewsSource = NewsSource.Companion.create(PROVIDER_ID_NYTIMES, PROVIDER_NAME, PROVIDER_DESCRIPTION,
             PROVIDER_URL, PROVIDER_IMAGE_URL, MAX_CACHE_LENGTH);
 
     @Override
@@ -163,20 +163,20 @@ public final class NyTimesNewsProvider implements NewsProvider {
                             Timber.d("Unable to get all responses.");
                         } else {
                             List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
-                            navigationHeadlines.add(NavigationRow.builder()
-                                    .title(mNewsSource.name())
+                            navigationHeadlines.add(NavigationRow.Companion.builder()
+                                    .title(mNewsSource.getName())
                                     .type(NavigationRow.TYPE_SECTION_HEADER)
-                                    .sourceId(mNewsSource.id())
+                                    .sourceId(mNewsSource.getId())
                                     .build());
 
                             for (int i = 0; i < totalResponseItemSize; i++) {
                                 ArticleCategory articleCategory = categories.get(i);
                                 navigationHeadlines.add(
-                                        NavigationRow.builder()
+                                        NavigationRow.Companion.builder()
                                                 .title(mContext.getString(CategoryNameResolver
                                                         .resolveCategoryResId(articleCategory)))
                                                 .category(articleCategory)
-                                                .sourceId(mNewsSource.id())
+                                                .sourceId(mNewsSource.getId())
                                                 .cards(convertArticleToCardItems(inlineResponse200s.get(i).getResults()))
                                                 .build()
                                 );
@@ -202,7 +202,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
     private List<CardItem> convertArticleToCardItems(final List<Article> articles) {
         List<CardItem> cardItems = new ArrayList<>(articles.size());
         for (Article result : articles) {
-            cardItems.add(CardItem.create(result));
+            cardItems.add(CardItem.Companion.create(result));
         }
         return cardItems;
     }

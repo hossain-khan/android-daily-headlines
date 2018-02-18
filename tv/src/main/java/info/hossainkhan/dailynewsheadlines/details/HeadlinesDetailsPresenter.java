@@ -62,10 +62,10 @@ public class HeadlinesDetailsPresenter extends Presenter {
         // ImageView newsSourceImage = mResourceCache.getViewById(viewHolder.view, R.id.headlines_source_image);
 
         CardItem card = (CardItem) item;
-        primaryText.setText(card.title());
-        sndText1.setText(card.category());
-        sndText2.setText(DateUtils.getFormattedDateTime(card.dateCreated()));
-        extraText.setText(card.description());
+        primaryText.setText(card.getTitle());
+        sndText1.setText(card.getCategory());
+        sndText2.setText(DateUtils.getFormattedDateTime(card.getDateCreated()));
+        extraText.setText(card.getDescription());
     }
 
     @Override public void onUnbindViewHolder(ViewHolder viewHolder) {

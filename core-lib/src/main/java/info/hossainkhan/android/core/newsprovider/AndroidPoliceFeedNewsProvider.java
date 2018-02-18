@@ -35,7 +35,7 @@ import info.hossainkhan.android.core.model.NewsSource;
  */
 public class AndroidPoliceFeedNewsProvider extends RssFeedNewsProvider {
     private static final String FEED_URL = "http://feeds.feedburner.com/AndroidPolice";
-    private NewsSource mNewsSource = NewsSource.create(
+    private NewsSource mNewsSource = NewsSource.Companion.create(
             "android_police",
             "Android Police",
             "Android Police is a blog dedicated to everything related to Android. We hope you enjoy our writing and subscribe to updates using the buttons on the right.",

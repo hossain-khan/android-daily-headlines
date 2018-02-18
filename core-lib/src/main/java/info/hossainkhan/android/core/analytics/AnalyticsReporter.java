@@ -69,10 +69,10 @@ public class AnalyticsReporter {
 
     public void reportHeadlineSelectedEvent(final CardItem card) {
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, card.contentUrl());
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, card.title());
-        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, card.category());
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, card.type().name());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, card.getContentUrl());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, card.getTitle());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, card.getCategory());
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, card.getType().name());
         mAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
@@ -82,9 +82,9 @@ public class AnalyticsReporter {
 
     public void reportHeadlineDetailsLoadedEvent(CardItem card) {
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, card.contentUrl());
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, card.title());
-        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, card.category());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, card.getContentUrl());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, card.getTitle());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, card.getCategory());
         mAnalytics.logEvent(EVENT_NAME_HEADLINE_DETAILS_LOAD, bundle);
     }
 

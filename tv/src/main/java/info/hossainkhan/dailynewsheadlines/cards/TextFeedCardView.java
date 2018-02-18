@@ -71,26 +71,26 @@ public class TextFeedCardView extends BaseCardView {
         final ImageView iconImage = (ImageView) findViewById(R.id.feed_provider_icon);
         final ImageView bookmarkedBadge = (ImageView) findViewById(R.id.feed_subscribed_marker_badge);
 
-        if (mUserSourceManager.isAdded(cardItem.contentUrl())) {
+        if (mUserSourceManager.isAdded(cardItem.getContentUrl())) {
             bookmarkedBadge.setVisibility(View.VISIBLE);
         } else {
             bookmarkedBadge.setVisibility(View.INVISIBLE);
         }
 
 
-        primaryHeadline.setText(cardItem.title());
-        summaryText1.setText(cardItem.description());
+        primaryHeadline.setText(cardItem.getTitle());
+        summaryText1.setText(cardItem.getDescription());
 
         // Reusing the "CardItem.width" to get total subscriber stats
         summaryText2.setText(String.format(getContext().getString(R.string.feed_stats_overview),
-                NumberFormat.getInstance().format(cardItem.width())));
+                NumberFormat.getInstance().format(cardItem.getWidth())));
 
         Context context = getContext();
         Picasso picasso = Picasso.with(context);
         Resources resources = context.getResources();
-        if (StringUtils.isNotEmpty(cardItem.imageUrl())) {
+        if (StringUtils.isNotEmpty(cardItem.getImageUrl())) {
             picasso
-                    .load(cardItem.imageUrl())
+                    .load(cardItem.getImageUrl())
                     .resize((int) resources.getDimension(R.dimen.card_text_container_width),
                             (int) resources.getDimension(R.dimen.card_text_container_height))
                     .transform(new GrayscaleTransformation(picasso))
@@ -102,9 +102,9 @@ public class TextFeedCardView extends BaseCardView {
         }
 
         // Reusing the "CardItem.extraText" to get the icon image URL
-        if (StringUtils.isNotEmpty(cardItem.extraText())) {
+        if (StringUtils.isNotEmpty(cardItem.getExtraText())) {
             picasso
-                    .load(cardItem.extraText())
+                    .load(cardItem.getExtraText())
                     .into(iconImage);
         } else {
             Timber.w("Unable to load icon image.");

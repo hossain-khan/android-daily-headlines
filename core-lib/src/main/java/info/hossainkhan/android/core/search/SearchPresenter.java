@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 import info.hossainkhan.android.core.CoreConfig;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.util.ObjectUtils;
 import info.hossainkhan.android.core.util.StringUtils;
 import rx.Observable;
@@ -166,7 +167,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
 
         for (final FeedItem feedItem : feedItems) {
             cardItems.add(
-                    CardItem.create(
+                    CardItem.Companion.create(
                             feedItem.getFeedId().hashCode(), // id,
                             feedItem.getTitle(), // title,
                             feedItem.getDescription(), // description,
@@ -178,7 +179,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                             0, // localImageResourceId,
                             null, // footerColor,
                             null, // selectedColor,
-                            CardItem.Type.HEADLINES, // type,
+                            CardType.HEADLINES, // type,
 
                             /* Re-using width and height for other purpose */
                             ObjectUtils.defaultIfNull(feedItem.getSubscribers(), 0L).intValue(), // width,

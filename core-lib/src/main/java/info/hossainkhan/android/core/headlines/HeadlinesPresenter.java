@@ -37,6 +37,7 @@ import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
@@ -100,7 +101,7 @@ public class HeadlinesPresenter
                         String sourceId = "UNKNOWN";
                         if (navigationRows != null && !navigationRows.isEmpty()) {
                             navRowSize = navigationRows.size();
-                            sourceId = navigationRows.get(0).sourceId();
+                            sourceId = navigationRows.get(0).getSourceId();
                         }
 
                         Timber.i("onNext() returned - Loaded %d items from %s.", navRowSize, sourceId);
@@ -113,7 +114,7 @@ public class HeadlinesPresenter
     @Override
     public void onHeadlineItemSelected(@NonNull final CardItem cardItem) {
         CoreApplication.getAnalyticsReporter().reportHeadlineSelectedEvent(cardItem);
-        String imageUrl = cardItem.imageUrl();
+        String imageUrl = cardItem.getImageUrl();
         if (StringUtils.isValidUri(imageUrl)) {
             Timber.d("Loading background image from URL: %s", imageUrl);
             getView().showHeadlineBackdropBackground(imageUrl);
@@ -125,9 +126,9 @@ public class HeadlinesPresenter
 
     @Override
     public void onHeadlineItemClicked(@NonNull final CardItem cardItem) {
-        int id = cardItem.id();
-        CardItem.Type type = cardItem.type();
-        if (type == CardItem.Type.ACTION) {
+        int id = cardItem.getId();
+        CardType type = cardItem.getType();
+        if (type == CardType.ACTION) {
             if (id == R.string.settings_card_item_news_source_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showAppSettingsScreen();
@@ -144,9 +145,9 @@ public class HeadlinesPresenter
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showUiScreen(ScreenType.ABOUT_CONTRIBUTION);
             } else {
-                Timber.w("Unable to handle settings item: %s", cardItem.title());
+                Timber.w("Unable to handle settings item: %s", cardItem.getTitle());
             }
-        } else if (type == CardItem.Type.HEADLINES) {
+        } else if (type == CardType.HEADLINES) {
             CoreApplication.getAnalyticsReporter().reportHeadlineDetailsLoadedEvent(cardItem);
             getView().showHeadlineDetailsUi(cardItem);
         }

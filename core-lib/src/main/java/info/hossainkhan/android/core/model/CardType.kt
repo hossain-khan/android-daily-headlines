@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2016 Hossain Khan
+ * Copyright (c) 2018 Hossain Khan
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,22 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.gson;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-// Source: https://gist.github.com/JakeWharton/0d67d01badcee0ae7bc9
+package info.hossainkhan.android.core.model
 
 /**
- * Marks an {@link AutoValue @AutoValue}-annotated type for proper Gson serialization.
- * <p>
- * This annotation is needed because the {@linkplain Retention retention} of {@code @AutoValue}
- * does not allow reflection at runtime.
+ * Type of the cards supported by the TV browser.
  */
-@Target(TYPE)
-@Retention(RUNTIME)
-public @interface AutoGson {
+enum class CardType {
+    /**
+     * News headlines or article item.
+     */
+    HEADLINES,
+    /**
+     * Details for item. Not used yet.
+     */
+    DETAILS,
+    /**
+     * Action item, ususally icon based item for user action.
+     */
+    ACTION
 }
