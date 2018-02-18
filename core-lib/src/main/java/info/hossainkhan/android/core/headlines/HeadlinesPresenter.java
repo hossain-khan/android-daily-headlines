@@ -26,6 +26,7 @@ package info.hossainkhan.android.core.headlines;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.MenuItem;
 
 import com.google.firebase.crash.FirebaseCrash;
 
@@ -36,6 +37,7 @@ import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
@@ -47,8 +49,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-
-public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> implements HeadlinesContract.Presenter {
+/**
+ * Presenter for headline that loads headlines from different news sources and handles
+ * headlines navigation and selection.
+ */
+public class HeadlinesPresenter
+        extends BasePresenter<HeadlinesContract.View>
+        implements HeadlinesContract.Presenter {
 
     private final NewsProviderManager mNewsProviderManager;
     private final Context mContext;
@@ -62,7 +69,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     }
 
     @Override
-    public void loadHeadlines(final boolean forceUpdate) {
+    public void loadHeadlines(@NonNull final boolean forceUpdate) {
         // List that is finally returned to UI
         final List<NavigationRow> navigationRowList = new ArrayList<>();
 
@@ -94,7 +101,7 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
                         String sourceId = "UNKNOWN";
                         if (navigationRows != null && !navigationRows.isEmpty()) {
                             navRowSize = navigationRows.size();
-                            sourceId = navigationRows.get(0).sourceId();
+                            sourceId = navigationRows.get(0).getSourceId();
                         }
 
                         Timber.i("onNext() returned - Loaded %d items from %s.", navRowSize, sourceId);
@@ -105,14 +112,9 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
     }
 
     @Override
-    public void openHeadlineDetails(@NonNull final CardItem cardItem) {
-
-    }
-
-    @Override
     public void onHeadlineItemSelected(@NonNull final CardItem cardItem) {
         CoreApplication.getAnalyticsReporter().reportHeadlineSelectedEvent(cardItem);
-        String imageUrl = cardItem.imageUrl();
+        String imageUrl = cardItem.getImageUrl();
         if (StringUtils.isValidUri(imageUrl)) {
             Timber.d("Loading background image from URL: %s", imageUrl);
             getView().showHeadlineBackdropBackground(imageUrl);
@@ -124,9 +126,9 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
 
     @Override
     public void onHeadlineItemClicked(@NonNull final CardItem cardItem) {
-        int id = cardItem.id();
-        CardItem.Type type = cardItem.type();
-        if (type == CardItem.Type.ACTION) {
+        int id = cardItem.getId();
+        CardType type = cardItem.getType();
+        if (type == CardType.ACTION) {
             if (id == R.string.settings_card_item_news_source_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showAppSettingsScreen();
@@ -136,18 +138,41 @@ public class HeadlinesPresenter extends BasePresenter<HeadlinesContract.View> im
             } else if (id == R.string.settings_card_item_manage_news_source_feed_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showUiScreen(ScreenType.MANAGE_NEWS_SOURCE);
-            } else if(id == R.string.settings_card_item_about_app_title) {
+            } else if (id == R.string.settings_card_item_about_app_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showUiScreen(ScreenType.ABOUT_APPLICATION);
-            } else if(id == R.string.settings_card_item_contribution_title) {
+            } else if (id == R.string.settings_card_item_contribution_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showUiScreen(ScreenType.ABOUT_CONTRIBUTION);
             } else {
-                Timber.w("Unable to handle settings item: %s", cardItem.title());
+                Timber.w("Unable to handle settings item: %s", cardItem.getTitle());
             }
-        } else if(type == CardItem.Type.HEADLINES) {
+        } else if (type == CardType.HEADLINES) {
             CoreApplication.getAnalyticsReporter().reportHeadlineDetailsLoadedEvent(cardItem);
             getView().showHeadlineDetailsUi(cardItem);
         }
+    }
+
+    @Override
+    public boolean onMenuItemClicked(@NonNull MenuItem item) {
+        int menuItemId = item.getItemId();
+        boolean isActionHandled = false;
+        if (menuItemId == R.id.action_about_app) {
+            getView().showUiScreen(ScreenType.ABOUT_APPLICATION);
+            isActionHandled = true;
+        } else if (menuItemId == R.id.action_add_news_source_feed) {
+            getView().showAddNewsSourceScreen();
+            isActionHandled = true;
+        } else if (menuItemId == R.id.action_manage_news_source_feed) {
+            getView().showUiScreen(ScreenType.MANAGE_NEWS_SOURCE);
+            isActionHandled = true;
+        } else if (menuItemId == R.id.action_contribute) {
+            getView().showUiScreen(ScreenType.ABOUT_CONTRIBUTION);
+            isActionHandled = true;
+        } else if (menuItemId == R.id.action_settings) {
+            getView().showAppSettingsScreen();
+            isActionHandled = true;
+        }
+        return isActionHandled;
     }
 }

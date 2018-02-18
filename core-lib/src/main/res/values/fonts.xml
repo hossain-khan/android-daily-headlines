@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2018 Hossain Khan
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<!--
+    Font family on android. Some of the resources taken from stack overflow.
+     * http://stackoverflow.com/questions/12128331/how-to-change-fontfamily-of-textview-in-android
+     * http://stackoverflow.com/questions/19691530/valid-values-for-androidfontfamily-and-what-they-map-to
+
+    ╔════╦════════════════════════════╦═════════════════════════════╗
+    ║    ║ FONT FAMILY                ║ TTF FILE                    ║
+    ╠════╬════════════════════════════╬═════════════════════════════╣
+    ║  1 ║ casual                     ║ ComingSoon.ttf              ║
+    ║  2 ║ cursive                    ║ DancingScript-Regular.ttf   ║
+    ║  3 ║ monospace                  ║ DroidSansMono.ttf           ║
+    ║  4 ║ sans-serif                 ║ Roboto-Regular.ttf          ║
+    ║  5 ║ sans-serif-black           ║ Roboto-Black.ttf            ║
+    ║  6 ║ sans-serif-condensed       ║ RobotoCondensed-Regular.ttf ║
+    ║  7 ║ sans-serif-condensed-light ║ RobotoCondensed-Light.ttf   ║
+    ║  8 ║ sans-serif-light           ║ Roboto-Light.ttf            ║
+    ║  9 ║ sans-serif-medium          ║ Roboto-Medium.ttf           ║
+    ║ 10 ║ sans-serif-smallcaps       ║ CarroisGothicSC-Regular.ttf ║
+    ║ 11 ║ sans-serif-thin            ║ Roboto-Thin.ttf             ║
+    ║ 12 ║ serif                      ║ NotoSerif-Regular.ttf       ║
+    ║ 13 ║ serif-monospace            ║ CutiveMono.ttf              ║
+    ╚════╩════════════════════════════╩═════════════════════════════╝
+
+    Also take a look at "abc_font_family_*" for app compat support library font family.
+
+    Visual style map: https://i.stack.imgur.com/M2yxI.png (Also available in `raw` resources)
+
+
+    Usage in style:
+    <item name="android:fontFamily">@string/font_family_medium</item>
+
+    Usage in inline view elements:
+    android:fontFamily="@string/font_family_medium"
+
+-->
+<resources>
+    <string name="font_family_light">sans-serif-light</string>
+    <string name="font_family_medium">sans-serif-medium</string>
+    <string name="font_family_regular">sans-serif</string>
+    <string name="font_family_condensed">sans-serif-condensed</string>
+    <string name="font_family_black">sans-serif-black</string>
+    <string name="font_family_thin">sans-serif-thin</string>
+</resources>

@@ -80,9 +80,9 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
 
             if(item instanceof CardItem) {
                 mSelectedCardItem = (CardItem) item;
-                if(StringUtils.isNotEmpty(mSelectedCardItem.contentUrl())) {
+                if(StringUtils.isNotEmpty(mSelectedCardItem.getContentUrl())) {
                     GuidedStepFragment fragment = ValidateNewsSourceDialogFragment
-                            .newInstance(mSelectedCardItem.title(), mSelectedCardItem.contentUrl());
+                            .newInstance(mSelectedCardItem.getTitle(), mSelectedCardItem.getContentUrl());
                     GuidedStepFragment.add(getFragmentManager(), fragment);
                 } else {
                     Toast.makeText(getActivity(), R.string.search_result_no_feed_url, Toast.LENGTH_SHORT).show();

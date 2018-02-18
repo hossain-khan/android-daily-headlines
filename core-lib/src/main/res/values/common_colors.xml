@@ -1,7 +1,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2016 Hossain Khan
+  ~ Copyright (c) 2018 Hossain Khan
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -49,6 +49,14 @@
     <color name="palette_secondary_composite3">#567564</color>
     <color name="palette_secondary_composite4">#223D2E</color>
     <color name="palette_secondary_composite5">#143723</color>
+    <color name="news_source_item_highlight">#0AFFFFFF</color>
+
+    <!--
+        Application primary color
+    -->
+    <color name="colorPrimary">@color/palette_primary1</color>
+    <color name="colorPrimaryDark">@color/palette_secondary1</color>
+    <color name="colorAccent">@color/palette_secondary_composite1</color>
 
     <!--
         Generic colors

@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsProvider;
 import io.swagger.client.model.ArticleCategory;
@@ -84,19 +85,21 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
 
                     int totalResponseItemSize = articleList.size();
                     List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize + 1);
-                    navigationHeadlines.add(NavigationRow.builder()
-                            .title(getNewsSource().name())
+                    navigationHeadlines.add(NavigationRow.Companion.builder()
+                            .title(getNewsSource().getName())
+                            .displayTitle(getNewsSource().getName())
                             .type(NavigationRow.TYPE_SECTION_HEADER)
-                            .sourceId(getNewsSource().id())
+                            .sourceId(getNewsSource().getId())
                             .build());
 
 
                     navigationHeadlines.add(
-                            NavigationRow.builder()
+                            NavigationRow.Companion.builder()
                                     .title("Headlines")
+                                    .displayTitle(getNewsSource().getName())
                                     .category(ArticleCategory.technology)
                                     .cards(convertArticleToCardItems(articleList))
-                                    .sourceId(getNewsSource().id())
+                                    .sourceId(getNewsSource().getId())
                                     .build()
                     );
                     subscriber.onNext(navigationHeadlines);
@@ -135,7 +138,7 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
             Uri source = article.getSource();
 
             cardItems.add(
-                    CardItem.create(
+                    CardItem.Companion.create(
                             article.getId(), // id,
                             article.getTitle(), // title,
                             article.getDescription(), // description,
@@ -147,7 +150,7 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
                             0, // localImageResourceId,
                             null, // footerColor,
                             null, // selectedColor,
-                            CardItem.Type.HEADLINES, // type,
+                            CardType.HEADLINES, // type,
                             0, // width,
                             0 // height
                     )

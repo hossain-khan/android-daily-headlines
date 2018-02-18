@@ -2,7 +2,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2016 Hossain Khan
+  ~ Copyright (c) 2018 Hossain Khan
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -23,23 +23,9 @@
   ~ SOFTWARE.
   -->
 
-<!--
-Contains list of category names supported by the application.
-See "info.hossainkhan.android.core.data.CategoryNameResolver" class for more info.
-
-
-Here are some example category keyword which may be translated to longer version.
-
-    home, opinion, world, national, politics, upshot, nyregion, business, technology, science, health,
-    sports, arts, books, movies, theater, sundayreview, fashion, tmagazine, food, travel, magazine,
-    realestate, automobiles, obituaries, insider
--->
 <resources>
-    <string name="category_name_default">News Headlines</string>
-    <string name="category_name_top_news">Top Headlines</string>
-    <string name="category_name_world">World News</string>
-    <string name="category_name_business">Money &amp; Business</string>
-    <string name="category_name_technology">Science &amp; Technology</string>
-    <string name="category_name_movies">Movies</string>
-    <string name="category_name_sports">Sports</string>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
 </resources>

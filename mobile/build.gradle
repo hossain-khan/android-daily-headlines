@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'jacoco-android'
 
@@ -44,23 +46,28 @@ jacocoAndroidUnitTestReport {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Core module for the app
-    compile project(':core-lib')
+    implementation project(':core-lib')
+
+    // Android Support Lib
+    implementation "com.android.support:support-v13:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
 
     // Firebase CORE
     // https://firebase.google.com/docs/android/setup
-    compile "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
+    implementation "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
 
     // Firebase - Crash Reporting
     // https://firebase.google.com/docs/crash/android
-    compile "com.google.firebase:firebase-crash:$rootProject.firebaseVersion"
+    implementation "com.google.firebase:firebase-crash:$rootProject.firebaseVersion"
 
     // Butterknife - android-view injection
-    compile "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
+    implementation "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
 
+    implementation "com.android.support.constraint:constraint-layout:1.0.2"
 
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
@@ -69,6 +76,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile "junit:junit:$rootProject.junitVersion"
+
+    // Kotlin support
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 }
 
 // **IMPORTANT** Add to the bottom of the file

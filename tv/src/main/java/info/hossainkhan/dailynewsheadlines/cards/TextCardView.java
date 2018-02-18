@@ -56,17 +56,17 @@ public class TextCardView extends BaseCardView {
         final ImageView mainContentBackground = (ImageView) findViewById(R.id.main_content_background);
 
 
-        primaryHeadline.setText(cardItem.title());
-        summaryText1.setText(cardItem.category());
+        primaryHeadline.setText(cardItem.getTitle());
+        summaryText1.setText(cardItem.getCategory());
         summaryText2.setText(String.format(getContext().getString(R.string.headline_elapsed_time),
-                DateUtils.getElapsedTime(cardItem.dateCreated())));
+                DateUtils.getElapsedTime(cardItem.getDateCreated())));
 
         Context context = getContext();
         Picasso picasso = Picasso.with(context);
         Resources resources = context.getResources();
-        if (StringUtils.isNotEmpty(cardItem.imageUrl())) {
+        if (StringUtils.isNotEmpty(cardItem.getImageUrl())) {
             picasso
-                    .load(cardItem.imageUrl())
+                    .load(cardItem.getImageUrl())
                     .resize((int) resources.getDimension(R.dimen.card_text_container_width),
                             (int) resources.getDimension(R.dimen.card_text_container_height))
                     .transform(new GrayscaleTransformation(picasso))

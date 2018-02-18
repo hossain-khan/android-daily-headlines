@@ -67,31 +67,31 @@ def buildTime() {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Core module for the app
-    compile project(':core-lib')
+    implementation project(':core-lib')
 
-    compile "com.android.support:leanback-v17:$rootProject.supportLibraryVersion"
-    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:leanback-v17:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
 
     // Needed for leanback preference
-    compile "com.android.support:preference-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:preference-leanback-v17:$rootProject.supportLibraryVersion"
-    compile "com.android.support:preference-v14:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:preference-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:preference-leanback-v17:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:preference-v14:$rootProject.supportLibraryVersion"
 
     // Firebase CORE
     // https://firebase.google.com/docs/android/setup
-    compile "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
+    implementation "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
 
     // Firebase - Crash Reporting
     // https://firebase.google.com/docs/crash/android
-    compile "com.google.firebase:firebase-crash:$rootProject.firebaseVersion"
+    implementation "com.google.firebase:firebase-crash:$rootProject.firebaseVersion"
 
     // Butterknife - android-view injection
-    compile "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
+    implementation "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
 }
 

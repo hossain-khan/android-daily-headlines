@@ -24,8 +24,6 @@
 
 package info.hossainkhan.android.core.gson;
 
-import com.google.auto.value.AutoValue;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
