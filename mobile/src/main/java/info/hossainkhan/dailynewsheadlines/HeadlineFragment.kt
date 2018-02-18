@@ -30,6 +30,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
+import info.hossainkhan.android.core.picasso.BlurTransformation
 import kotlinx.android.synthetic.main.item_news_card.view.*
 
 
@@ -46,7 +47,10 @@ class HeadlineFragment : Fragment() {
         rootView.headline_title.text = title
 
         if(!imageUrl.isNullOrEmpty()) {
-            Picasso.with(activity).load(imageUrl).into(rootView.headline_background)
+            Picasso.with(activity.applicationContext)
+                    .load(imageUrl)
+                    .transform(BlurTransformation(activity.applicationContext))
+                    .into(rootView.headline_background)
         }
 
         return rootView
