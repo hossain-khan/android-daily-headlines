@@ -1,4 +1,5 @@
 version: 2
+# Config using guides from https://circleci.com/docs/2.0/language-android/
 jobs:
   build:
     # In each job, we have the option of specifying a working_directory.
