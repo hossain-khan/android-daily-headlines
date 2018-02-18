@@ -44,6 +44,10 @@ jobs:
 #      - store_test_results:
 #          path: mobile/build/test-results
       - store_artifacts:
-          # Stores apk for local testing
+          # Stores mobile apk for local testing
           path: mobile/build/outputs/apk
-          destination: apk
+          destination: mobile-apk
+      - store_artifacts:
+          # Stores tv apk for local testing
+          path: tv/build/outputs/apk
+          destination: tv-apk
