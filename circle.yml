@@ -32,17 +32,17 @@ jobs:
       - run:
           name: Run Tests
           command: ./gradlew assembleDebug
-#      - run: # DISABLE - As lint fails at the moment (https://github.com/amardeshbd/android-daily-headlines/issues/198).
-#          # runs the unit tests, and runs the built in linting tools to check your code for style issues.
-#          name: Run Tests
-#          command: ./gradlew lint
-#      - store_artifacts:
-#          # We then upload the build reports as build artifacts,
-#          # and we upload the test metadata (XML) for CircleCI to process.
-#          path: mobile/build/reports
-#          destination: reports
-#      - store_test_results:
-#          path: mobile/build/test-results
+      - run: # DISABLE - As lint fails at the moment (https://github.com/amardeshbd/android-daily-headlines/issues/198).
+          # runs the unit tests, and runs the built in linting tools to check your code for style issues.
+          name: Run Tests
+          command: ./gradlew lint
+      - store_artifacts:
+          # We then upload the build reports as build artifacts,
+          # and we upload the test metadata (XML) for CircleCI to process.
+          path: mobile/build/reports
+          destination: reports
+      - store_test_results:
+          path: mobile/build/test-results
       - store_artifacts:
           # Stores mobile apk for local testing
           path: mobile/build/outputs/apk
