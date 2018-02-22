@@ -90,7 +90,6 @@ ext {
     swaggerVersion = '1.5.9'
     picassoVersion = '2.5.2' // https://github.com/square/picasso/releases
     butterKnifeVersion = '8.8.1' // https://github.com/JakeWharton/butterknife/releases
-    apacheOltuOauth2Version = '1.0.1'
     jodaTimeVersion = '2.9.4'
     glassfishJavaxAnnotationVersion = '10.0-b28'
     timberLibraryVersion = '4.6.0' // https://github.com/JakeWharton/timber
