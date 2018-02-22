@@ -1,7 +1,7 @@
 <!--
     List of Strings used by UI modules (TV, Mobile and so on)
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
 
     <!-- Common activity titles -->
     <string name="title_activity_browse_headlines">Today\'s Headlines</string>
