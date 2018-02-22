@@ -81,10 +81,8 @@ public class CoreApplication extends Application {
      */
     private void initLogger() {
         if (ENABLE_LOGGING) {
-            android.util.Log.i(TAG, "Planting tree for timber debug logger.");
             Timber.plant(new Timber.DebugTree(), new FirebaseCrashLogTree());
         } else {
-            android.util.Log.i(TAG, "Planting tree for production logger.");
             Timber.plant(new FirebaseCrashLogTree());
         }
     }
