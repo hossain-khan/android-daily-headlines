@@ -27,7 +27,7 @@
 
     https://material.google.com/style/color.html#color-color-palette
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
 
     <!--
         Palette color from http://paletton.com/

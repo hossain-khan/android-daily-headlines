@@ -67,16 +67,6 @@ dependencies {
     // Swagger (for server api client)
     compile "io.swagger:swagger-annotations:$rootProject.swaggerVersion"
 
-    // Apache Oltu - https://oltu.apache.org/
-    compile ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$rootProject.apacheOltuOauth2Version") {
-        /*
-         * NOTE: Swagger generated client library depends on "org.apache.oltu.oauth2.client", which
-         * includes classes from "org.apache.oltu.oauth2.common". So, we explicitly need to exclude
-         * common library being added during compilation to avoid "Multiple dex files" error.
-         */
-        exclude module: 'org.apache.oltu.oauth2.common'
-    }
-
     // http://www.joda.org/joda-time/dependency-info.html
     compile "joda-time:joda-time:$rootProject.jodaTimeVersion"
 
