@@ -93,26 +93,6 @@ dependencies {
     // Butterknife - android-view injection
     implementation "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
-
-    // Logging framework
-    // https://github.com/JakeWharton/timber
-    implementation "com.jakewharton.timber:timber:$rootProject.timberLibraryVersion"
-
-    // Picasso - Fast and memory efficient image loading
-    // http://square.github.io/picasso/
-    implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
-
-    // Gson for JSON serialization and deserialization
-    // https://github.com/google/gson
-    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
-
-    // RxJava
-    // https://github.com/ReactiveX/RxJava
-    implementation "io.reactivex:rxjava:$rootProject.rxJavaVersion"
-
-    // RxAndroid (Note: RxJava is included in `api-lib` module)
-    // https://github.com/ReactiveX/RxAndroid
-    implementation "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
 }
 
 

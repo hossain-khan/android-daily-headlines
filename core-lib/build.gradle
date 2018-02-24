@@ -51,7 +51,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // Internal module dependency
-    implementation project(':api-lib')
+    api project(':api-lib')
 
     // Dagger 2
     // https://github.com/google/dagger
@@ -63,13 +63,9 @@ dependencies {
     }
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 
-    // RxJava
-    // https://github.com/ReactiveX/RxJava
-    implementation "io.reactivex:rxjava:$rootProject.rxJavaVersion"
-
     // RxAndroid (Note: RxJava is included in `api-lib` module)
     // https://github.com/ReactiveX/RxAndroid
-    implementation "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
+    api "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
 
     // Firebase CORE
     // https://firebase.google.com/docs/android/setup
@@ -84,11 +80,11 @@ dependencies {
 
     // Logging framework
     // https://github.com/JakeWharton/timber
-    implementation "com.jakewharton.timber:timber:$rootProject.timberLibraryVersion"
+    api "com.jakewharton.timber:timber:$rootProject.timberLibraryVersion"
 
     // Picasso - Fast and memory efficient image loading
     // http://square.github.io/picasso/
-    implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+    api "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 
 
     // leakcanary - A memory leak detection library for Android and Java.
@@ -103,13 +99,6 @@ dependencies {
     // Using local snapshot build `pkrss-v.1.2.x-snapshot.jar`
     //implementation "com.pkmmte.pkrss:pkrss:$rootProject.pkrssLibraryVersion"
 
-    // http://www.joda.org/joda-time/dependency-info.html
-    implementation "joda-time:joda-time:$rootProject.jodaTimeVersion"
-
-    // Gson for JSON serialization and deserialization
-    // https://github.com/google/gson
-    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
-
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
     // ----------------------------------------------------------------
@@ -119,7 +108,7 @@ dependencies {
 
     // Disabled warning because play-services-basement:11.8.0 depends on support-v4:25.2.0
     //noinspection GradleCompatible
-    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    api "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     testImplementation "junit:junit:$rootProject.junitVersion"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryLibraryVersion"
 }
