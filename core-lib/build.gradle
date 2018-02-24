@@ -107,6 +107,7 @@ dependencies {
     // NYTimes Store - Android Library for Async Data Loading and Caching
     // https://github.com/NYTimes/Store
     api "com.nytimes.android:store3:$rootProject.storeVersion"
+    api "com.nytimes.android:filesystem3:$rootProject.storeVersion"
 
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test

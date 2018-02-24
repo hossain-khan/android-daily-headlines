@@ -96,6 +96,7 @@ ext {
     gsonVersion = '2.8.2' // https://github.com/google/gson/releases
     retrofitVersion = '2.1.0' // https://github.com/square/retrofit/releases
     rxJavaVersion = '1.2.7' // https://github.com/ReactiveX/RxJava/releases
+    rxJavaInteropVersion = '0.12.3' // https://github.com/akarnokd/RxJava2Interop/releases
     rxAndroidVersion = '1.2.1' // https://github.com/ReactiveX/RxAndroid/releases
     okHttpVersion = '3.3.1' // https://github.com/square/okhttp/releases
     swaggerVersion = '1.5.9'

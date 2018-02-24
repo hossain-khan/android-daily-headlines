@@ -24,6 +24,12 @@
 
 package info.hossainkhan.android.core.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.nytimes.android.external.store3.base.impl.BarCode;
+import com.nytimes.android.external.store3.base.impl.Store;
+
 import java.util.List;
 import java.util.Set;
 
@@ -53,5 +59,12 @@ public interface NewsProvider {
      * Provides {@link Observable} containing all the headlines.
      * @return Observable.
      */
+    @NonNull
     Observable<List<NavigationRow>> getNewsObservable();
+
+    /**
+     * @return Provides store instance to get offline supported store.
+     */
+    @NonNull
+    Store<List<NavigationRow>, BarCode> getNewsStore();
 }

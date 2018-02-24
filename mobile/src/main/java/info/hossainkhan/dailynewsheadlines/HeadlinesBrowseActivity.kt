@@ -44,6 +44,11 @@ import kotlinx.android.synthetic.main.activity_headlines_nav_and_content.*
 import kotlinx.android.synthetic.main.headlines_item_viewpager_container.*
 import kotlinx.android.synthetic.main.headlines_main_content_container.*
 import timber.log.Timber
+import com.nytimes.android.external.store3.base.impl.StoreBuilder
+import com.nytimes.android.external.store3.base.impl.BarCode
+import com.nytimes.android.external.store3.base.impl.Store
+
+
 
 
 class HeadlinesBrowseActivity

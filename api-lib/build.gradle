@@ -66,6 +66,11 @@ dependencies {
     // https://github.com/ReactiveX/RxJava
     api "io.reactivex:rxjava:$rootProject.rxJavaVersion"
 
+    // RxJava interop lib
+    // Library to convert between RxJava 1.x and 2.x reactive types, schedulers and resource handles.
+    // https://github.com/akarnokd/RxJava2Interop
+    api "com.github.akarnokd:rxjava2-interop:$rootProject.rxJavaInteropVersion"
+
     // OkHttp - logging
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
 

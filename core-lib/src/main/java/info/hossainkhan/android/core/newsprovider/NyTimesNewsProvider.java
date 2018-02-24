@@ -25,6 +25,11 @@
 package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+
+import com.nytimes.android.external.store3.base.impl.BarCode;
+import com.nytimes.android.external.store3.base.impl.Store;
+import com.nytimes.android.external.store3.base.impl.StoreBuilder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,6 +37,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import hu.akarnokd.rxjava.interop.RxJavaInterop;
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.data.CategoryNameResolver;
 import info.hossainkhan.android.core.model.CardItem;
@@ -69,7 +75,7 @@ import timber.log.Timber;
  */
 public final class NyTimesNewsProvider implements NewsProvider {
 
-    public static final String PROVIDER_ID_NYTIMES = "nytimes";
+    private static final String PROVIDER_ID_NYTIMES = "nytimes";
     /**
      * For applications that do not easily support logos or where Times data are used in alternative media formats,
      * the written attribution "Data provided by The New York Times" can be substituted.
@@ -102,8 +108,18 @@ public final class NyTimesNewsProvider implements NewsProvider {
     /**
      * Create the NYTimes news source instance with required info.
      */
-    private NewsSource mNewsSource = NewsSource.Companion.create(PROVIDER_ID_NYTIMES, PROVIDER_NAME, PROVIDER_DESCRIPTION,
+    private NewsSource mNewsSource = NewsSource.Companion.create(
+            PROVIDER_ID_NYTIMES, PROVIDER_NAME, PROVIDER_DESCRIPTION,
             PROVIDER_URL, PROVIDER_IMAGE_URL, MAX_CACHE_LENGTH);
+
+    @NonNull
+    private final Store<List<NavigationRow>, BarCode> store;
+
+    public NyTimesNewsProvider() {
+        store = StoreBuilder.<List<NavigationRow>>barcode()
+                .fetcher(barCode -> RxJavaInterop.toV2Single(getNewsObservable().toSingle()))
+                .open();
+    }
 
     @Override
     public NewsSource getNewsSource() {
@@ -123,6 +139,13 @@ public final class NyTimesNewsProvider implements NewsProvider {
         return categories;
     }
 
+    @NonNull
+    @Override
+    public Store<List<NavigationRow>, BarCode> getNewsStore() {
+        return store;
+    }
+
+    @NonNull
     @Override
     public Observable<List<NavigationRow>> getNewsObservable() {
         final Context mContext = CoreApplication.getAppComponent().getContext();
@@ -146,7 +169,6 @@ public final class NyTimesNewsProvider implements NewsProvider {
         });
 
 
-
         return Observable.merge(observableList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -162,7 +184,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
                             // Error
                             Timber.d("Unable to get all responses.");
                         } else {
-                            List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
+                            List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize + 1);
                             navigationHeadlines.add(NavigationRow.Companion.builder()
                                     .title(mNewsSource.getName())
                                     .type(NavigationRow.TYPE_SECTION_HEADER)
