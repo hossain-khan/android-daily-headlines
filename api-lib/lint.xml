@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2016 Hossain Khan
+  ~ Copyright (c) 2018 Hossain Khan
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,13 @@
   ~ SOFTWARE.
   -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <gradient
-        android:angle="90"
-        android:centerColor="#00000000"
-        android:endColor="#B2000000"
-        android:startColor="#B2000000"
-        android:type="linear"/>
-
-</shape>
+<lint>
+    <issue id="InvalidPackage">
+        <!--
+        http://sourceforge.net/p/simple/mailman/simple-support/thread/339270128E13BE47A6B10EED7367E7852BC2A912@MERCMBX18D.na.SAS.com/
+        Q: "The new Android developer tools (21.1) are reporting many cases of invalid package references in the SimpleXML library jar"
+        A: "Just ignore this, it should be a warning only, this references StAX which is not available on Android. SimpleXML will default to XmlPull"
+        -->
+        <ignore path="**/simple-xml-2.7.1.jar"/>
+    </issue>
+</lint>

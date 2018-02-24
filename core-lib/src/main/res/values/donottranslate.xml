@@ -29,7 +29,7 @@
 
     See guidelines on non-translatable resources at http://tools.android.com/recent/non-translatablestrings
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
     <!--
         Section for shared preference keys
     -->

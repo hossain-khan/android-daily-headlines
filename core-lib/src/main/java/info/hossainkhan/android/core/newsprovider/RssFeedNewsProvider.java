@@ -45,8 +45,8 @@ import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsProvider;
 import io.swagger.client.model.ArticleCategory;
+import rx.Emitter;
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -74,43 +74,40 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
 
     @Override
     public Observable<List<NavigationRow>> getNewsObservable() {
-        return Observable.create(new Observable.OnSubscribe<List<NavigationRow>>() {
-            @Override
-            public void call(final Subscriber<? super List<NavigationRow>> subscriber) {
-                try {
-                    // Make Synchronous call to get all the data.
-                    List<Article> articleList = PkRSS.with(mContext)
-                            .load(getFeedUrl())
-                            .get();
+        return Observable.<List<NavigationRow>>create(emitter -> {
+            try {
+                // Make Synchronous call to get all the data.
+                List<Article> articleList = PkRSS.with(mContext)
+                        .load(getFeedUrl())
+                        .get();
 
-                    int totalResponseItemSize = articleList.size();
-                    List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize + 1);
-                    navigationHeadlines.add(NavigationRow.Companion.builder()
-                            .title(getNewsSource().getName())
-                            .displayTitle(getNewsSource().getName())
-                            .type(NavigationRow.TYPE_SECTION_HEADER)
-                            .sourceId(getNewsSource().getId())
-                            .build());
+                int totalResponseItemSize = articleList.size();
+                List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize + 1);
+                navigationHeadlines.add(NavigationRow.Companion.builder()
+                        .title(getNewsSource().getName())
+                        .displayTitle(getNewsSource().getName())
+                        .type(NavigationRow.TYPE_SECTION_HEADER)
+                        .sourceId(getNewsSource().getId())
+                        .build());
 
 
-                    navigationHeadlines.add(
-                            NavigationRow.Companion.builder()
-                                    .title("Headlines")
-                                    .displayTitle(getNewsSource().getName())
-                                    .category(ArticleCategory.technology)
-                                    .cards(convertArticleToCardItems(articleList))
-                                    .sourceId(getNewsSource().getId())
-                                    .build()
-                    );
-                    subscriber.onNext(navigationHeadlines);
-                } catch (IOException e) {
-                    FirebaseCrash.report(e);
-                    subscriber.onError(e);
-                }
-
-                subscriber.onCompleted();
+                navigationHeadlines.add(
+                        NavigationRow.Companion.builder()
+                                .title("Headlines")
+                                .displayTitle(getNewsSource().getName())
+                                .category(ArticleCategory.technology)
+                                .cards(convertArticleToCardItems(articleList))
+                                .sourceId(getNewsSource().getId())
+                                .build()
+                );
+                emitter.onNext(navigationHeadlines);
+                emitter.onCompleted();
+            } catch (IOException e) {
+                FirebaseCrash.report(e);
+                emitter.onError(e);
             }
-        })
+
+        }, Emitter.BackpressureMode.BUFFER)
                 // By default network call must be done on non-ui thread.
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -33,6 +33,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import info.hossainkhan.android.core.headlines.HeadlinesContract
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter
 import info.hossainkhan.android.core.model.CardItem
@@ -175,10 +176,12 @@ class HeadlinesBrowseActivity
 
     override fun showHeadlineDetailsUi(cardItem: CardItem?) {
         Timber.d("showHeadlineDetailsUi() called with: cardItem = [${cardItem}]")
+        // NOTE: Details view on mobile is not supported to keep it minimal.
     }
 
     override fun showAppSettingsScreen() {
         Timber.d("showAppSettingsScreen() called")
+        Toast.makeText(this, "Feature not implemented yet.", Toast.LENGTH_SHORT).show()
     }
 
     override fun showHeadlineBackdropBackground(imageUrl: String?) {
@@ -208,10 +211,12 @@ class HeadlinesBrowseActivity
 
     override fun showAddNewsSourceScreen() {
         Timber.d("showAddNewsSourceScreen() called")
+        Toast.makeText(this, "Feature not implemented yet.", Toast.LENGTH_SHORT).show()
     }
 
     override fun showUiScreen(type: ScreenType) {
         Timber.d("showUiScreen() called with: type = [${type}]")
+        Toast.makeText(this, "Feature not implemented yet.", Toast.LENGTH_SHORT).show()
     }
 }
 

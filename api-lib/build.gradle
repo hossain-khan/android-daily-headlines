@@ -37,17 +37,21 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 
-    provided "org.glassfish:javax.annotation:$rootProject.glassfishJavaxAnnotationVersion"
+    compileOnly "org.glassfish:javax.annotation:$rootProject.glassfishJavaxAnnotationVersion"
+
+    // Gson for JSON serialization and deserialization
+    // https://github.com/google/gson
+    api "com.google.code.gson:gson:$rootProject.gsonVersion"
 
     // Retrofit
     // https://github.com/square/retrofit
-    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
-    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
-    compile "com.squareup.retrofit2:converter-scalars:$rootProject.retrofitVersion"
-    compile ("com.squareup.retrofit2:converter-simplexml:$rootProject.retrofitVersion") {
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-scalars:$rootProject.retrofitVersion"
+    implementation ("com.squareup.retrofit2:converter-simplexml:$rootProject.retrofitVersion") {
         // https://github.com/square/retrofit/tree/master/retrofit-converters/simplexml
         // exclude the following transitive dependencies: stax:stax-api, stax:stax, and xpp3:xpp3
         exclude group: 'xpp3', module: 'xpp3'
@@ -55,38 +59,28 @@ dependencies {
         exclude group: 'stax', module: 'stax'
     }
     // http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22adapter-rxjava%22
-    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofitVersion"
 
     // RxJava
     // https://github.com/ReactiveX/RxJava
-    compile "io.reactivex:rxjava:$rootProject.rxJavaVersion"
+    api "io.reactivex:rxjava:$rootProject.rxJavaVersion"
 
     // OkHttp - logging
-    compile "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
 
     // Swagger (for server api client)
-    compile "io.swagger:swagger-annotations:$rootProject.swaggerVersion"
-
-    // Apache Oltu - https://oltu.apache.org/
-    compile ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$rootProject.apacheOltuOauth2Version") {
-        /*
-         * NOTE: Swagger generated client library depends on "org.apache.oltu.oauth2.client", which
-         * includes classes from "org.apache.oltu.oauth2.common". So, we explicitly need to exclude
-         * common library being added during compilation to avoid "Multiple dex files" error.
-         */
-        exclude module: 'org.apache.oltu.oauth2.common'
-    }
+    implementation "io.swagger:swagger-annotations:$rootProject.swaggerVersion"
 
     // http://www.joda.org/joda-time/dependency-info.html
-    compile "joda-time:joda-time:$rootProject.jodaTimeVersion"
+    api "joda-time:joda-time:$rootProject.jodaTimeVersion"
 
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
     // ----------------------------------------------------------------
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    testCompile "junit:junit:$rootProject.junitVersion"
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    testImplementation "junit:junit:$rootProject.junitVersion"
 }
 

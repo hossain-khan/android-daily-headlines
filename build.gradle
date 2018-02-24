@@ -26,7 +26,7 @@ buildscript {
         // Google Services Plugin - Required for Firebase and related Google services
         // https://developers.google.com/android/guides/google-services-plugin
         // https://firebase.google.com/docs/android/setup
-        classpath 'com.google.gms:google-services:3.1.1'
+        classpath 'com.google.gms:google-services:3.2.0'
 
         // Generates dex count report - use `./gradlew assembleDebug`, reports @ ${buildDir}/outputs/dexcount/${variant}
         // https://github.com/KeepSafe/dexcount-gradle-plugin
@@ -90,13 +90,10 @@ ext {
     swaggerVersion = '1.5.9'
     picassoVersion = '2.5.2' // https://github.com/square/picasso/releases
     butterKnifeVersion = '8.8.1' // https://github.com/JakeWharton/butterknife/releases
-    apacheOltuOauth2Version = '1.0.1'
     jodaTimeVersion = '2.9.4'
     glassfishJavaxAnnotationVersion = '10.0-b28'
     timberLibraryVersion = '4.6.0' // https://github.com/JakeWharton/timber
     leakcanaryLibraryVersion = '1.5.4' // https://github.com/square/leakcanary/releases
-    autoValueLibraryVersion = '1.5.3' // https://github.com/google/auto
-    autoValueExtentionGsonVersion = '0.7.0' // https://github.com/rharter/auto-value-gson/releases
     pkrssLibraryVersion = '1.2'
     // NOTE: Use new version on https://github.com/Pkmmte/PkRSS/issues/31 is addressed.
 }

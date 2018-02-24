@@ -24,6 +24,7 @@
 
 package info.hossainkhan.dailynewsheadlines.settings;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -92,6 +93,7 @@ public class SettingsFragment extends LeanbackSettingsFragment implements Dialog
         return fragment;
     }
 
+    @SuppressLint("ValidFragment")
     private class PrefFragment extends LeanbackPreferenceFragment {
 
         @Override
