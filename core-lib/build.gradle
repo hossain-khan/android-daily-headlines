@@ -40,67 +40,86 @@ android {
         sourceCompatibility rootProject.ext.javaSourceCompatibilityVersion
         targetCompatibility rootProject.ext.javaTargetCompatibilityVersion
     }
+
+    lintOptions {
+        // Disabled `GradleCompatible` warning because play-services-basement:11.8.0 depends on support-v4:25.2.0
+        disable 'GradleCompatible'
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // Internal module dependency
-    compile project(':api-lib')
+    implementation project(':api-lib')
 
     // Dagger 2
     // https://github.com/google/dagger
     // https://github.com/codepath/android_guides/wiki/Dependency-Injection-with-Dagger-2
-    compile ("com.google.dagger:dagger:$rootProject.daggerVersion") {
+    implementation ("com.google.dagger:dagger:$rootProject.daggerVersion") {
         // Excluded based on following issue
         // https://stackoverflow.com/questions/48701483/what-causes-apptransformclasseswithmultidexlistfordebug-failed-and-how-can-it
         exclude group: 'com.google.guava'
     }
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 
+    // RxJava
+    // https://github.com/ReactiveX/RxJava
+    implementation "io.reactivex:rxjava:$rootProject.rxJavaVersion"
+
     // RxAndroid (Note: RxJava is included in `api-lib` module)
     // https://github.com/ReactiveX/RxAndroid
-    compile "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
+    implementation "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
 
     // Firebase CORE
     // https://firebase.google.com/docs/android/setup
-    compile "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
+    implementation "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
 
     // Firebase - Crash Reporting
     // https://firebase.google.com/docs/crash/android
-    compile "com.google.firebase:firebase-crash:$rootProject.firebaseVersion"
+    implementation "com.google.firebase:firebase-crash:$rootProject.firebaseVersion"
 
     // Kotlin support
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 
     // Logging framework
     // https://github.com/JakeWharton/timber
-    compile "com.jakewharton.timber:timber:$rootProject.timberLibraryVersion"
+    implementation "com.jakewharton.timber:timber:$rootProject.timberLibraryVersion"
 
     // Picasso - Fast and memory efficient image loading
     // http://square.github.io/picasso/
-    compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+    implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 
 
     // leakcanary - A memory leak detection library for Android and Java.
     // https://github.com/square/leakcanary
-    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanaryLibraryVersion"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryLibraryVersion"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanaryLibraryVersion"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryLibraryVersion"
 
     // A fluent and flexible RSS feed manager for Android
     // https://github.com/Pkmmte/PkRSS
     // NOTE: Can not use it due to issue https://github.com/Pkmmte/PkRSS/issues/31
     // Created PR https://github.com/Pkmmte/PkRSS/pull/33
     // Using local snapshot build `pkrss-v.1.2.x-snapshot.jar`
-    //compile "com.pkmmte.pkrss:pkrss:$rootProject.pkrssLibraryVersion"
+    //implementation "com.pkmmte.pkrss:pkrss:$rootProject.pkrssLibraryVersion"
+
+    // http://www.joda.org/joda-time/dependency-info.html
+    implementation "joda-time:joda-time:$rootProject.jodaTimeVersion"
+
+    // Gson for JSON serialization and deserialization
+    // https://github.com/google/gson
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
 
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
     // ----------------------------------------------------------------
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    testCompile "junit:junit:$rootProject.junitVersion"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryLibraryVersion"
+
+    // Disabled warning because play-services-basement:11.8.0 depends on support-v4:25.2.0
+    //noinspection GradleCompatible
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    testImplementation "junit:junit:$rootProject.junitVersion"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryLibraryVersion"
 }

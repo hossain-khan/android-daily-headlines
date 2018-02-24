@@ -94,8 +94,6 @@ ext {
     glassfishJavaxAnnotationVersion = '10.0-b28'
     timberLibraryVersion = '4.6.0' // https://github.com/JakeWharton/timber
     leakcanaryLibraryVersion = '1.5.4' // https://github.com/square/leakcanary/releases
-    autoValueLibraryVersion = '1.5.3' // https://github.com/google/auto
-    autoValueExtentionGsonVersion = '0.7.0' // https://github.com/rharter/auto-value-gson/releases
     pkrssLibraryVersion = '1.2'
     // NOTE: Use new version on https://github.com/Pkmmte/PkRSS/issues/31 is addressed.
 }

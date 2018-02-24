@@ -67,15 +67,35 @@ dependencies {
     implementation "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
 
+    // Logging framework
+    // https://github.com/JakeWharton/timber
+    implementation "com.jakewharton.timber:timber:$rootProject.timberLibraryVersion"
+
+    // Picasso - Fast and memory efficient image loading
+    // http://square.github.io/picasso/
+    implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+
+    // Gson for JSON serialization and deserialization
+    // https://github.com/google/gson
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
+
+    // RxJava
+    // https://github.com/ReactiveX/RxJava
+    implementation "io.reactivex:rxjava:$rootProject.rxJavaVersion"
+
+    // RxAndroid (Note: RxJava is included in `api-lib` module)
+    // https://github.com/ReactiveX/RxAndroid
+    implementation "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
+
     implementation "com.android.support.constraint:constraint-layout:1.0.2"
 
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
     // ----------------------------------------------------------------
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile "junit:junit:$rootProject.junitVersion"
+    testImplementation "junit:junit:$rootProject.junitVersion"
 
     // Kotlin support
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
