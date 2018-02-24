@@ -44,7 +44,7 @@ dependencies {
 
     // Gson for JSON serialization and deserialization
     // https://github.com/google/gson
-    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
+    api "com.google.code.gson:gson:$rootProject.gsonVersion"
 
     // Retrofit
     // https://github.com/square/retrofit
@@ -63,7 +63,7 @@ dependencies {
 
     // RxJava
     // https://github.com/ReactiveX/RxJava
-    implementation "io.reactivex:rxjava:$rootProject.rxJavaVersion"
+    api "io.reactivex:rxjava:$rootProject.rxJavaVersion"
 
     // OkHttp - logging
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
@@ -72,7 +72,7 @@ dependencies {
     implementation "io.swagger:swagger-annotations:$rootProject.swaggerVersion"
 
     // http://www.joda.org/joda-time/dependency-info.html
-    implementation "joda-time:joda-time:$rootProject.jodaTimeVersion"
+    api "joda-time:joda-time:$rootProject.jodaTimeVersion"
 
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
