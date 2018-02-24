@@ -26,9 +26,14 @@ package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.google.firebase.crash.FirebaseCrash;
+import com.nytimes.android.external.store3.base.impl.BarCode;
+import com.nytimes.android.external.store3.base.impl.Store;
+import com.nytimes.android.external.store3.base.impl.StoreBuilder;
 import com.pkmmte.pkrss.Article;
 import com.pkmmte.pkrss.PkRSS;
 
@@ -40,6 +45,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import hu.akarnokd.rxjava.interop.RxJavaInterop;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.model.NavigationRow;
@@ -58,6 +64,9 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
 
     private final Context mContext;
 
+    @NonNull
+    private final Store<List<NavigationRow>, BarCode> store;
+
     /**
      * @return The RSS/Atom feed URL for the news provider.
      */
@@ -65,11 +74,21 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
 
     public RssFeedNewsProvider(final Context context) {
         this.mContext = context;
+
+        store = StoreBuilder.<List<NavigationRow>>barcode()
+                .fetcher(barCode -> RxJavaInterop.toV2Single(getNewsObservable().toSingle()))
+                .open();
     }
 
     @Override
     public Set<ArticleCategory> getSupportedCategories() {
         return Collections.emptySet();
+    }
+
+    @NonNull
+    @Override
+    public Store<List<NavigationRow>, BarCode> getNewsStore() {
+        return store;
     }
 
     @Override

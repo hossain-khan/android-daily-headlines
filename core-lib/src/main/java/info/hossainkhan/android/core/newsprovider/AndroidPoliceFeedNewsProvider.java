@@ -25,9 +25,16 @@
 package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
+import com.nytimes.android.external.store3.base.impl.BarCode;
+import com.nytimes.android.external.store3.base.impl.Store;
+import com.nytimes.android.external.store3.base.impl.StoreBuilder;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsSource;
 
 /**

@@ -27,6 +27,9 @@ package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
 
+import com.nytimes.android.external.store3.base.impl.BarCode;
+import com.nytimes.android.external.store3.base.impl.Store;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,22 +49,29 @@ public class NewsProviderManager {
 
     private final List<NewsProvider> mNewsProviders;
     private final List<Observable<List<NavigationRow>>> mProviderObservableList;
+    private final List<Store<List<NavigationRow>, BarCode>> mNewsStores;
     private final UserSourceProvider mUserSourceProvider;
 
     public NewsProviderManager(final Context context) {
         mUserSourceProvider = new UserSourceManager(context);
         mNewsProviders = new ArrayList<>(5);
         mProviderObservableList = new ArrayList<>(5); // Prepares list of observables for each news providers.
+        mNewsStores = new ArrayList<>();
 
         NyTimesNewsProvider nyTimesProvider = new NyTimesNewsProvider();
         mProviderObservableList.add(nyTimesProvider.getNewsObservable());
         mNewsProviders.add(nyTimesProvider);
+        mNewsStores.add(nyTimesProvider.getNewsStore());
+
         AndroidPoliceFeedNewsProvider androidPoliceProvider = new AndroidPoliceFeedNewsProvider(context);
         mProviderObservableList.add(androidPoliceProvider.getNewsObservable());
         mNewsProviders.add(androidPoliceProvider);
+        mNewsStores.add(androidPoliceProvider.getNewsStore());
+
         Nine2FiveFeedNewsProvider nine2FiveProvider = new Nine2FiveFeedNewsProvider(context);
         mProviderObservableList.add(nine2FiveProvider.getNewsObservable());
         mNewsProviders.add(nine2FiveProvider);
+        mNewsStores.add(nine2FiveProvider.getNewsStore());
 
         loadUerProviderFeeds(context);
     }
@@ -85,6 +95,7 @@ public class NewsProviderManager {
                 UrlFeedNewsProvider urlFeedNewsProvider = new UrlFeedNewsProvider(context, title, url);
                 mProviderObservableList.add(urlFeedNewsProvider.getNewsObservable());
                 mNewsProviders.add(urlFeedNewsProvider);
+                mNewsStores.add(urlFeedNewsProvider.getNewsStore());
             }
         }
     }
@@ -101,11 +112,16 @@ public class NewsProviderManager {
 
 
     /**
-     * Get list of overservables for each {@link NewsProvider} available via {@link NewsProvider#getNewsObservable()}.
+     * Get list of overservables for each {@link NewsProvider} available
+     * via {@link NewsProvider#getNewsObservable()}.
      *
      * @return List of observable for news provider.
      */
     public List<Observable<List<NavigationRow>>> getProviderObservable() {
         return mProviderObservableList;
+    }
+
+    public List<Store<List<NavigationRow>, BarCode>> getNewsStores() {
+        return mNewsStores;
     }
 }

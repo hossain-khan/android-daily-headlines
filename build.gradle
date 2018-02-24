@@ -52,6 +52,16 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+def gitSha() {
+    return 'git rev-parse --short HEAD'.execute().text.trim()
+}
+
+def buildTime() {
+    def df = new java.text.SimpleDateFormat("EEE, d MMM, yyyy hh:mm aaa z")
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+    return df.format(new Date())
+}
+
 // Define versions in a single place
 ext {
     // Sdk and tools
@@ -68,6 +78,7 @@ ext {
 
     // Google Products & Support library dependencies
     // --------------------------------------------------
+    multiDexVersion = '1.0.2'
     supportLibraryVersion = '27.0.2'
     // https://developer.android.com/topic/libraries/support-library/revisions.html
     firebaseVersion = '11.8.0' // https://firebase.google.com/docs/android/setup
@@ -85,6 +96,7 @@ ext {
     gsonVersion = '2.8.2' // https://github.com/google/gson/releases
     retrofitVersion = '2.1.0' // https://github.com/square/retrofit/releases
     rxJavaVersion = '1.2.7' // https://github.com/ReactiveX/RxJava/releases
+    rxJavaInteropVersion = '0.12.3' // https://github.com/akarnokd/RxJava2Interop/releases
     rxAndroidVersion = '1.2.1' // https://github.com/ReactiveX/RxAndroid/releases
     okHttpVersion = '3.3.1' // https://github.com/square/okhttp/releases
     swaggerVersion = '1.5.9'
@@ -96,4 +108,5 @@ ext {
     leakcanaryLibraryVersion = '1.5.4' // https://github.com/square/leakcanary/releases
     pkrssLibraryVersion = '1.2'
     // NOTE: Use new version on https://github.com/Pkmmte/PkRSS/issues/31 is addressed.
+    storeVersion = '3.0.0' // https://github.com/NYTimes/Store/releases
 }
