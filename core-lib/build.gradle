@@ -15,7 +15,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -31,6 +31,7 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/rxjava.properties'
     }
 
     compileOptions {
@@ -52,6 +53,10 @@ dependencies {
 
     // Internal module dependency
     api project(':api-lib')
+
+    // Android MultiDex
+    // https://developer.android.com/studio/build/multidex.html
+    api "com.android.support:multidex:$rootProject.multiDexVersion"
 
     // Dagger 2
     // https://github.com/google/dagger
@@ -98,6 +103,10 @@ dependencies {
     // Created PR https://github.com/Pkmmte/PkRSS/pull/33
     // Using local snapshot build `pkrss-v.1.2.x-snapshot.jar`
     //implementation "com.pkmmte.pkrss:pkrss:$rootProject.pkrssLibraryVersion"
+
+    // NYTimes Store - Android Library for Async Data Loading and Caching
+    // https://github.com/NYTimes/Store
+    api "com.nytimes.android:store3:$rootProject.storeVersion"
 
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
