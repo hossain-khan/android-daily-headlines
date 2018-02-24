@@ -109,7 +109,7 @@ data class NavigationRow(
 
         fun title(title: String) = apply { this.title = title }
 
-        fun displayTitle(title: String) = apply { this.displayTitle = displayTitle }
+        fun displayTitle(title: String) = apply { this.displayTitle = title }
 
         /**
          * {@link NewsSource#id()} for current navigation row, when {@link #type()} is
@@ -118,7 +118,7 @@ data class NavigationRow(
          * @param newsSourceId News source ID from {@link NewsSource#id()}
          * @return The builder instance.
          */
-        fun sourceId(newsSourceId: String) = apply { this.sourceId = sourceId }
+        fun sourceId(newsSourceId: String) = apply { this.sourceId = newsSourceId }
 
         fun category(category: ArticleCategory) = apply { this.category = category }
 
