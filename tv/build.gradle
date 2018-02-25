@@ -17,6 +17,8 @@ android {
 
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
         buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
+
+        multiDexEnabled true
     }
     buildTypes {
         debug {
@@ -53,17 +55,6 @@ jacocoAndroidUnitTestReport {
     excludes += ['**/AutoValue_*.*',
                  '**/*$ViewBinder*.*', /* Based on https://github.com/JakeWharton/butterknife/issues/289 */
                  '**/*JavascriptBridge.class']
-}
-
-
-def gitSha() {
-    return 'git rev-parse --short HEAD'.execute().text.trim()
-}
-
-def buildTime() {
-    def df = new java.text.SimpleDateFormat("EEE, d MMM, yyyy hh:mm aaa z")
-    df.setTimeZone(TimeZone.getTimeZone("UTC"))
-    return df.format(new Date())
 }
 
 dependencies {

@@ -68,6 +68,7 @@ ext {
 
     // Google Products & Support library dependencies
     // --------------------------------------------------
+    multiDexVersion = '1.0.2'
     supportLibraryVersion = '27.0.2'
     // https://developer.android.com/topic/libraries/support-library/revisions.html
     firebaseVersion = '11.8.0' // https://firebase.google.com/docs/android/setup
@@ -96,4 +97,19 @@ ext {
     leakcanaryLibraryVersion = '1.5.4' // https://github.com/square/leakcanary/releases
     pkrssLibraryVersion = '1.2'
     // NOTE: Use new version on https://github.com/Pkmmte/PkRSS/issues/31 is addressed.
+}
+
+
+//
+// Utility methods
+//
+
+static def gitSha() {
+    return 'git rev-parse --short HEAD'.execute().text.trim()
+}
+
+static def buildTime() {
+    def df = new java.text.SimpleDateFormat("EEE, d MMM, yyyy hh:mm aaa z")
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+    return df.format(new Date())
 }
