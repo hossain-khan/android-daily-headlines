@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.NewsProvider;
 import info.hossainkhan.android.core.usersource.UserSourceManager;
 import info.hossainkhan.android.core.usersource.UserSourceProvider;
@@ -45,7 +46,7 @@ import timber.log.Timber;
 public class NewsProviderManager {
 
     private final List<NewsProvider> mNewsProviders;
-    private final List<Observable<List<NavigationRow>>> mProviderObservableList;
+    private final List<Observable<NewsHeadlines>> mProviderObservableList;
     private final UserSourceProvider mUserSourceProvider;
 
     public NewsProviderManager(final Context context) {
@@ -105,7 +106,7 @@ public class NewsProviderManager {
      *
      * @return List of observable for news provider.
      */
-    public List<Observable<List<NavigationRow>>> getProviderObservable() {
+    public List<Observable<NewsHeadlines>> getProviderObservable() {
         return mProviderObservableList;
     }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2016 Hossain Khan
+ * Copyright (c) 2018 Hossain Khan
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,38 +22,22 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.model;
-
-import android.support.annotation.NonNull;
-
-import java.util.Set;
-
-import io.swagger.client.model.ArticleCategory;
-import rx.Observable;
-
+package info.hossainkhan.android.core.model
 
 /**
- * Interface for news source provider.
+ * Data class consisting for the news source and it's headlines.
+ *
+ * Example:
+ *    newsSource -> NY Times
+ *    headlines -> Navigation Row 1 -> List of top headlines
+ *              -> Navigation Row 2 -> List of sports headlines
  */
-public interface NewsProvider {
-    /**
-     * Provide news source info for the provider.
-     *
-     * @return {@link NewsSource}
-     */
-    @NonNull
-    NewsSource getNewsSource();
-
-    /**
-     * Provide list of supported categories for the current {@link NewsSource}.
-     * @return Unique list of categories.
-     */
-    Set<ArticleCategory> getSupportedCategories();
-
-    /**
-     * Provides {@link Observable} containing all the headlines.
-     * @return Observable.
-     */
-    @NonNull
-    Observable<NewsHeadlines> getNewsObservable();
-}
+data class NewsHeadlines(
+        /**
+         * News source information.
+         */
+        val newsSource: NewsSource,
+        /**
+         * List of news navigation row containing headlines cards.
+         */
+        val headlines: List<NavigationRow>)

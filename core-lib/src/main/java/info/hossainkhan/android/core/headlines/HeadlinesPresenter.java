@@ -38,6 +38,7 @@ import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CardType;
+import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
@@ -77,7 +78,7 @@ public class HeadlinesPresenter
                 .mergeDelayError(mNewsProviderManager.getProviderObservable())
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<NavigationRow>>() {
+                .subscribe(new Subscriber<NewsHeadlines>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("onCompleted() called");
@@ -96,16 +97,16 @@ public class HeadlinesPresenter
                     }
 
                     @Override
-                    public void onNext(final List<NavigationRow> navigationRows) {
+                    public void onNext(final NewsHeadlines newsHeadlines) {
                         int navRowSize = 0;
                         String sourceId = "UNKNOWN";
-                        if (navigationRows != null && !navigationRows.isEmpty()) {
-                            navRowSize = navigationRows.size();
-                            sourceId = navigationRows.get(0).getSourceId();
+                        if (newsHeadlines != null && !newsHeadlines.getHeadlines().isEmpty()) {
+                            navRowSize = newsHeadlines.getHeadlines().size();
+                            sourceId = newsHeadlines.getNewsSource().getId();
                         }
 
                         Timber.i("onNext() returned - Loaded %d items from %s.", navRowSize, sourceId);
-                        navigationRowList.addAll(navigationRows);
+                        navigationRowList.addAll(newsHeadlines.getHeadlines());
                     }
                 });
         addSubscription(subscription);

@@ -203,6 +203,8 @@ class HeadlinesBrowseActivity
 
     override fun showDataLoadingError() {
         Timber.d("showDataLoadingError() called")
+
+        Toast.makeText(this, "Failed to load news.", Toast.LENGTH_LONG).show()
     }
 
     override fun showDataNotAvailable() {
