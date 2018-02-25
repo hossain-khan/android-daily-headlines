@@ -25,6 +25,11 @@
 package info.hossainkhan.android.core.dagger.modules;
 
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+import java.io.File;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -37,10 +42,26 @@ public class NetworkModule {
     public static final String API_KEY_NYTIMES = "4d94e696bef94de0b5fa2b14bab6b7e2";
     public static final String API_KEY_KEYWORD = "apikey";
 
+    private final Context context;
+
+    public NetworkModule(@NonNull Context context) {
+        this.context = context;
+    }
+
+    @Provides
+    public Context provideContext() {
+        return context;
+    }
+
+    @Provides
+    public File provideCacheDir(Context context) {
+        return context.getCacheDir();
+    }
+
     @Singleton
     @Provides
-    public ApiClient provideApiClient() {
-        return new ApiClient(API_KEY_KEYWORD, API_KEY_NYTIMES);
+    public ApiClient provideApiClient(File cacheDir) {
+        return new ApiClient(API_KEY_KEYWORD, API_KEY_NYTIMES, cacheDir);
     }
 
     @Provides
