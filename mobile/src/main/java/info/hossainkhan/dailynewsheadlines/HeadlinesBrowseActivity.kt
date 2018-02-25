@@ -38,6 +38,7 @@ import info.hossainkhan.android.core.headlines.HeadlinesContract
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter
 import info.hossainkhan.android.core.model.CardItem
 import info.hossainkhan.android.core.model.NavigationRow
+import info.hossainkhan.android.core.model.NewsHeadlines
 import info.hossainkhan.android.core.model.ScreenType
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager
 import kotlinx.android.synthetic.main.activity_headlines_nav_and_content.*
@@ -130,8 +131,8 @@ class HeadlinesBrowseActivity
     /**
      * Setups the navigation bar with all the news sources which can be selected.
      */
-    private fun setupNavigationDrawerAdapter(headlines: List<NavigationRow>?) {
-        nav_drawer_recycler_view.adapter = NewsSourceAdapter(headlines ?: emptyList(),
+    private fun setupNavigationDrawerAdapter(headlines: List<NewsHeadlines>) {
+        nav_drawer_recycler_view.adapter = NewsSourceAdapter(headlines,
                 this::onNewsSourceSelected)
     }
 
@@ -166,12 +167,9 @@ class HeadlinesBrowseActivity
     //
     // HeadlinesContract.View
     //
-    override fun showHeadlines(headlines: MutableList<NavigationRow>?) {
+    override fun showHeadlines(headlines: MutableList<NewsHeadlines>) {
         Timber.d("showHeadlines() called with: headlines = [${headlines}]")
-        setupNavigationDrawerAdapter(headlines?.filter {
-            // Only provide news source category (not divider or header)
-            it.type == NavigationRow.TYPE_DEFAULT
-        })
+        setupNavigationDrawerAdapter(headlines)
     }
 
     override fun showHeadlineDetailsUi(cardItem: CardItem?) {

@@ -33,12 +33,14 @@ import android.os.Bundle;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
@@ -144,7 +146,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     @Override
-    public void showHeadlines(final List<NavigationRow> headlines) {
+    public void showHeadlines(final List<NewsHeadlines> headlines) {
         loadRows(headlines);
         setupEventListeners();
     }
@@ -203,8 +205,22 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
 
-    private void loadRows(final List<NavigationRow> list) {
-        applyStaticNavigationItems(list);
+    private void loadRows(final List<NewsHeadlines> list) {
+        ArrayList<NavigationRow> navigationRows = new ArrayList<>();
+        for (final NewsHeadlines newsHeadlines : list) {
+
+            // Builds the header for each news source.
+            navigationRows.add(NavigationRow.Companion.builder()
+                    .title(newsHeadlines.getNewsSource().getName())
+                    .displayTitle(newsHeadlines.getNewsSource().getName())
+                    .type(NavigationRow.TYPE_SECTION_HEADER)
+                    .sourceId(newsHeadlines.getNewsSource().getId())
+                    .build());
+
+            navigationRows.addAll(newsHeadlines.getHeadlines());
+        }
+
+        applyStaticNavigationItems(navigationRows);
 
 
         mRowsAdapter = new ArrayObjectAdapter(new ShadowRowPresenterSelector());
@@ -212,7 +228,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         int totalNavigationItems = list.size();
         int i;
         for (i = 0; i < totalNavigationItems; i++) {
-            NavigationRow navigationRow = list.get(i);
+            NavigationRow navigationRow = navigationRows.get(i);
             mRowsAdapter.add(buildCardRow(mApplicationContext, navigationRow));
         }
 

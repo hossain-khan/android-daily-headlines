@@ -72,7 +72,7 @@ public class HeadlinesPresenter
     @Override
     public void loadHeadlines(@NonNull final boolean forceUpdate) {
         // List that is finally returned to UI
-        final List<NavigationRow> navigationRowList = new ArrayList<>();
+        final List<NewsHeadlines> headlinesList = new ArrayList<>();
 
         Subscription subscription = Observable
                 .mergeDelayError(mNewsProviderManager.getProviderObservable())
@@ -83,7 +83,7 @@ public class HeadlinesPresenter
                     public void onCompleted() {
                         Timber.d("onCompleted() called");
                         getView().toggleLoadingIndicator(false);
-                        getView().showHeadlines(navigationRowList);
+                        getView().showHeadlines(headlinesList);
                     }
 
                     @Override
@@ -106,7 +106,7 @@ public class HeadlinesPresenter
                         }
 
                         Timber.i("onNext() returned - Loaded %d items from %s.", navRowSize, sourceId);
-                        navigationRowList.addAll(newsHeadlines.getHeadlines());
+                        headlinesList.add(newsHeadlines);
                     }
                 });
         addSubscription(subscription);

@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 import info.hossainkhan.android.core.CoreApplication;
@@ -144,6 +143,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
         return Observable.from(categories)
                 .flatMap(category ->
                         service.sectionFormatGet(category.name(), ConsumptionFormat.json.name(), null)
+                                // Pass the category down the chain using pair.
                                 .map(response -> new Pair<>(category, response))
 
                 ).map(categoryResponse ->
@@ -158,15 +158,21 @@ public final class NyTimesNewsProvider implements NewsProvider {
 
     }
 
-    private NavigationRow convertResponseToNavigationRow(@NonNull final Context mContext,
+    /**
+     * @param context  Application context
+     * @param category Article category for news.
+     * @param response Headlines news response.
+     * @return Navigation row with all the news headlines for respective category.
+     */
+    private NavigationRow convertResponseToNavigationRow(@NonNull final Context context,
                                                          @NonNull final ArticleCategory category,
-                                                         @NonNull final InlineResponse200 response200) {
+                                                         @NonNull final InlineResponse200 response) {
         return NavigationRow.Companion.builder()
-                .title(mContext.getString(CategoryNameResolver
+                .title(context.getString(CategoryNameResolver
                         .resolveCategoryResId(category)))
                 .category(category)
                 .sourceId(mNewsSource.getId())
-                .cards(convertArticleToCardItems(response200.getResults()))
+                .cards(convertArticleToCardItems(response.getResults()))
                 .build();
     }
 

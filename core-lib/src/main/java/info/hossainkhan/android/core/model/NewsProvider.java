@@ -46,8 +46,9 @@ public interface NewsProvider {
 
     /**
      * Provide list of supported categories for the current {@link NewsSource}.
-     * @return Unique list of categories.
+     * @return Unique list of categories or empty if it does not support any.
      */
+    @NonNull
     Set<ArticleCategory> getSupportedCategories();
 
     /**

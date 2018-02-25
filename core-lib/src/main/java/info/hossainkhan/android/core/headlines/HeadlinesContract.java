@@ -33,6 +33,7 @@ import info.hossainkhan.android.core.base.MvpPresenter;
 import info.hossainkhan.android.core.base.MvpView;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.ScreenType;
 
 /**
@@ -42,7 +43,7 @@ public interface HeadlinesContract {
 
     interface View extends MvpView {
 
-        void showHeadlines(List<NavigationRow> headlines);
+        void showHeadlines(@NonNull List<NewsHeadlines> headlines);
 
         void showHeadlineDetailsUi(CardItem cardItem);
 
