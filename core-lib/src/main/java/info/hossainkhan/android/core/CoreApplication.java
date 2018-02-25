@@ -91,7 +91,7 @@ public class CoreApplication extends Application {
         sAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .interactorsModule(new InteractorsModule())
-                .networkModule(new NetworkModule())
+                .networkModule(new NetworkModule(this))
                 .build();
 
     }

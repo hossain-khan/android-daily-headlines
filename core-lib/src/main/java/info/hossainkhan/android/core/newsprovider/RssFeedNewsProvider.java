@@ -40,6 +40,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import info.hossainkhan.android.core.BuildConfig;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.model.NavigationRow;
@@ -49,6 +50,7 @@ import rx.Emitter;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 
 /**
@@ -77,7 +79,11 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
         return Observable.<List<NavigationRow>>create(emitter -> {
             try {
                 // Make Synchronous call to get all the data.
-                List<Article> articleList = PkRSS.with(mContext)
+                PkRSS pkRSS = PkRSS.with(mContext);
+                Timber.d("Requesting %s with debug on = %s", getFeedUrl(), BuildConfig.DEBUG);
+                pkRSS.setLoggingEnabled(BuildConfig.DEBUG);
+
+                List<Article> articleList = pkRSS
                         .load(getFeedUrl())
                         .get();
 
