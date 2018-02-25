@@ -44,6 +44,7 @@ import info.hossainkhan.android.core.BuildConfig;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.NewsProvider;
 import io.swagger.client.model.ArticleCategory;
 import rx.Emitter;
@@ -75,8 +76,8 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
     }
 
     @Override
-    public Observable<List<NavigationRow>> getNewsObservable() {
-        return Observable.<List<NavigationRow>>create(emitter -> {
+    public Observable<NewsHeadlines> getNewsObservable() {
+        return Observable.<NewsHeadlines>create(emitter -> {
             try {
                 // Make Synchronous call to get all the data.
                 PkRSS pkRSS = PkRSS.with(mContext);
@@ -87,26 +88,17 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
                         .load(getFeedUrl())
                         .get();
 
-                int totalResponseItemSize = articleList.size();
-                List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize + 1);
-                navigationHeadlines.add(NavigationRow.Companion.builder()
-                        .title(getNewsSource().getName())
-                        .displayTitle(getNewsSource().getName())
-                        .type(NavigationRow.TYPE_SECTION_HEADER)
-                        .sourceId(getNewsSource().getId())
-                        .build());
-
-
+                List<NavigationRow> navigationHeadlines = new ArrayList<>(1);
                 navigationHeadlines.add(
                         NavigationRow.Companion.builder()
-                                .title("Headlines")
+                                .title(getNewsSource().getName())
                                 .displayTitle(getNewsSource().getName())
                                 .category(ArticleCategory.technology)
                                 .cards(convertArticleToCardItems(articleList))
                                 .sourceId(getNewsSource().getId())
                                 .build()
                 );
-                emitter.onNext(navigationHeadlines);
+                emitter.onNext(new NewsHeadlines(getNewsSource(), navigationHeadlines));
                 emitter.onCompleted();
             } catch (IOException e) {
                 FirebaseCrash.report(e);

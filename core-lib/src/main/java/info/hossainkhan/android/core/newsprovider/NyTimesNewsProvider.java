@@ -25,6 +25,8 @@
 package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,6 +38,7 @@ import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.data.CategoryNameResolver;
 import info.hossainkhan.android.core.model.CardItem;
 import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.NewsProvider;
 import info.hossainkhan.android.core.model.NewsSource;
 import io.swagger.client.ApiClient;
@@ -46,8 +49,6 @@ import io.swagger.client.model.ArticleCategory;
 import io.swagger.client.model.InlineResponse200;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -124,69 +125,55 @@ public final class NyTimesNewsProvider implements NewsProvider {
     }
 
     @Override
-    public Observable<List<NavigationRow>> getNewsObservable() {
+    public Observable<NewsHeadlines> getNewsObservable() {
+        /*
+         * NY Times has multiple categories.
+         * For each category, load headlines
+         * Map in to a list of Navigation Rows
+         * Finally, provide the headlines with news source.
+         */
         final Context mContext = CoreApplication.getAppComponent().getContext();
         ApiClient apiClient = CoreApplication.getAppComponent().getApiClient();
         StoriesApi service = apiClient.createService(StoriesApi.class);
 
         final List<ArticleCategory> categories = new ArrayList<>(CategoryNameResolver.getPreferredCategories(mContext));
 
-        int sectionSize = categories.size();
-        List<Observable<InlineResponse200>> observableList = new ArrayList<>(sectionSize);
-
         Timber.i("Loading categories: %s", categories);
 
-        // NOTE: Unable to use java8 lambda using jack. Error: Library projects cannot enable Jack (Java 8).
-        // ASOP Issue # https://code.google.com/p/android/issues/detail?id=211386
-        Observable.from(categories).subscribe(new Action1<ArticleCategory>() {
-            @Override
-            public void call(ArticleCategory articleCategory) {
-                observableList.add(service.sectionFormatGet(articleCategory.name(), ConsumptionFormat.json.name(), null));
-            }
-        });
+        return Observable.from(categories)
+                .flatMap(category ->
+                        service.sectionFormatGet(category.name(), ConsumptionFormat.json.name(), null)
+                                // Pass the category down the chain using pair.
+                                .map(response -> new Pair<>(category, response))
 
-
-
-        return Observable.merge(observableList)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                ).map(categoryResponse ->
+                        convertResponseToNavigationRow(mContext, categoryResponse.first, categoryResponse.second)
+                )
                 .toList()
-                .single()
-                .map(new Func1<List<InlineResponse200>, List<NavigationRow>>() {
-                    @Override
-                    public List<NavigationRow> call(final List<InlineResponse200> inlineResponse200s) {
-                        int totalResponseItemSize = inlineResponse200s.size();
-                        Timber.i("Got total responses: %d", totalResponseItemSize);
+                .map(list ->
+                        new NewsHeadlines(mNewsSource, list)
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
 
-                        if (totalResponseItemSize != sectionSize) {
-                            // Error
-                            Timber.d("Unable to get all responses.");
-                        } else {
-                            List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize+1);
-                            navigationHeadlines.add(NavigationRow.Companion.builder()
-                                    .title(mNewsSource.getName())
-                                    .type(NavigationRow.TYPE_SECTION_HEADER)
-                                    .sourceId(mNewsSource.getId())
-                                    .build());
+    }
 
-                            for (int i = 0; i < totalResponseItemSize; i++) {
-                                ArticleCategory articleCategory = categories.get(i);
-                                navigationHeadlines.add(
-                                        NavigationRow.Companion.builder()
-                                                .title(mContext.getString(CategoryNameResolver
-                                                        .resolveCategoryResId(articleCategory)))
-                                                .category(articleCategory)
-                                                .sourceId(mNewsSource.getId())
-                                                .cards(convertArticleToCardItems(inlineResponse200s.get(i).getResults()))
-                                                .build()
-                                );
-                            }
-                            return navigationHeadlines;
-                        }
-                        return null;
-                    }
-                })
-                .onErrorResumeNext(Observable.empty());
+    /**
+     * @param context  Application context
+     * @param category Article category for news.
+     * @param response Headlines news response.
+     * @return Navigation row with all the news headlines for respective category.
+     */
+    private NavigationRow convertResponseToNavigationRow(@NonNull final Context context,
+                                                         @NonNull final ArticleCategory category,
+                                                         @NonNull final InlineResponse200 response) {
+        return NavigationRow.Companion.builder()
+                .title(context.getString(CategoryNameResolver
+                        .resolveCategoryResId(category)))
+                .category(category)
+                .sourceId(mNewsSource.getId())
+                .cards(convertArticleToCardItems(response.getResults()))
+                .build();
     }
 
 
