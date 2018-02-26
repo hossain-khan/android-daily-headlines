@@ -28,17 +28,17 @@ import android.app.Fragment
 import android.app.FragmentManager
 import android.support.v13.app.FragmentPagerAdapter
 import android.support.v13.app.FragmentStatePagerAdapter
-import info.hossainkhan.android.core.model.CardItem
+import info.hossainkhan.android.core.model.NewsHeadlineItem
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
 class HeadlinesPagerAdapter(fm: FragmentManager,
-                            private var headlines: List<CardItem>)
+                            private var headlines: List<NewsHeadlineItem>)
     : FragmentStatePagerAdapter(fm) {
 
-    fun setData(data: List<CardItem>) {
+    fun setData(data: List<NewsHeadlineItem>) {
         headlines = data
         notifyDataSetChanged()
     }

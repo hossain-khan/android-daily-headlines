@@ -34,8 +34,8 @@ import android.widget.ImageView;
 import info.hossainkhan.dailynewsheadlines.R;
 
 /**
- * This Presenter will display cards which consists of a single icon which will be highlighted by a
- * surrounding circle when the card is focused. AndroidTV uses these cards for entering settings
+ * This Presenter will display newsHeadlines which consists of a single icon which will be highlighted by a
+ * surrounding circle when the card is focused. AndroidTV uses these newsHeadlines for entering settings
  * menu.
  */
 public class IconCardPresenter extends ImageCardViewPresenter {

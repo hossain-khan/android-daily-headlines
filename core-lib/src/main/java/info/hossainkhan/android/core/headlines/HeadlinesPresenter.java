@@ -30,17 +30,15 @@ import android.view.MenuItem;
 
 import com.google.firebase.crash.FirebaseCrash;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.ScreenType;
-import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import info.hossainkhan.android.core.util.StringUtils;
 import rx.Observable;
@@ -105,9 +103,9 @@ public class HeadlinesPresenter
     }
 
     @Override
-    public void onHeadlineItemSelected(@NonNull final CardItem cardItem) {
-        CoreApplication.getAnalyticsReporter().reportHeadlineSelectedEvent(cardItem);
-        String imageUrl = cardItem.getImageUrl();
+    public void onHeadlineItemSelected(@NonNull final NewsHeadlineItem newsHeadlineItem) {
+        CoreApplication.getAnalyticsReporter().reportHeadlineSelectedEvent(newsHeadlineItem);
+        String imageUrl = newsHeadlineItem.getImageUrl();
         if (StringUtils.isValidUri(imageUrl)) {
             Timber.d("Loading background image from URL: %s", imageUrl);
             getView().showHeadlineBackdropBackground(imageUrl);
@@ -118,9 +116,9 @@ public class HeadlinesPresenter
     }
 
     @Override
-    public void onHeadlineItemClicked(@NonNull final CardItem cardItem) {
-        int id = cardItem.getId();
-        CardType type = cardItem.getType();
+    public void onHeadlineItemClicked(@NonNull final NewsHeadlineItem newsHeadlineItem) {
+        int id = newsHeadlineItem.getId();
+        CardType type = newsHeadlineItem.getType();
         if (type == CardType.ACTION) {
             if (id == R.string.settings_card_item_news_source_title) {
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
@@ -138,11 +136,11 @@ public class HeadlinesPresenter
                 CoreApplication.getAnalyticsReporter().reportSettingsScreenLoadedEvent(mContext.getString(id));
                 getView().showUiScreen(ScreenType.ABOUT_CONTRIBUTION);
             } else {
-                Timber.w("Unable to handle settings item: %s", cardItem.getTitle());
+                Timber.w("Unable to handle settings item: %s", newsHeadlineItem.getTitle());
             }
         } else if (type == CardType.HEADLINES) {
-            CoreApplication.getAnalyticsReporter().reportHeadlineDetailsLoadedEvent(cardItem);
-            getView().showHeadlineDetailsUi(cardItem);
+            CoreApplication.getAnalyticsReporter().reportHeadlineDetailsLoadedEvent(newsHeadlineItem);
+            getView().showHeadlineDetailsUi(newsHeadlineItem);
         }
     }
 

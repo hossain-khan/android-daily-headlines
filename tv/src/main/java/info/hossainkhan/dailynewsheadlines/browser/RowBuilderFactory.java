@@ -35,7 +35,7 @@ import android.support.v17.leanback.widget.SectionRow;
 
 import java.util.List;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
@@ -66,7 +66,7 @@ public class RowBuilderFactory {
                 // Build rows using different presenter defined in "CardPresenterSelector"
                 PresenterSelector presenterSelector = new CardPresenterSelector(context);
                 ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(presenterSelector);
-                for (CardItem card : navigationRow.getCards()) {
+                for (NewsHeadlineItem card : navigationRow.getNewsHeadlines()) {
                     listRowAdapter.add(card);
                 }
 
@@ -76,14 +76,14 @@ public class RowBuilderFactory {
         }
     }
 
-    public static Row buildSearchResultCardRow(final Context context, final List<CardItem> cardItems) {
+    public static Row buildSearchResultCardRow(final Context context, final List<NewsHeadlineItem> newsHeadlineItems) {
         // Build rows using different presenter defined in "CardPresenterSelector"
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new TextFeedCardPresenter(context));
-        for (CardItem card : cardItems) {
+        for (NewsHeadlineItem card : newsHeadlineItems) {
             listRowAdapter.add(card);
         }
 
-        HeaderItem header = new HeaderItem(context.getString(R.string.search_result_title, cardItems.size()));
+        HeaderItem header = new HeaderItem(context.getString(R.string.search_result_title, newsHeadlineItems.size()));
 
         return new ListRow(header, listRowAdapter);
     }

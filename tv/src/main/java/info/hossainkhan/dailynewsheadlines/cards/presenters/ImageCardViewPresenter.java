@@ -30,7 +30,7 @@ import android.view.ContextThemeWrapper;
 
 import com.squareup.picasso.Picasso;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.util.StringUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 
@@ -62,16 +62,16 @@ public class ImageCardViewPresenter extends AbstractCardPresenter<ImageCardView>
     }
 
     @Override
-    public void onBindViewHolder(final CardItem cardItem, final ImageCardView cardView) {
-        cardView.setTag(cardItem);
-        cardView.setTitleText(cardItem.getTitle());
-        cardView.setContentText(cardItem.getDescription());
-        if (cardItem.getLocalImageResourceId() != 0) {
-            int resourceId = cardItem.getLocalImageResourceId();
+    public void onBindViewHolder(final NewsHeadlineItem newsHeadlineItem, final ImageCardView cardView) {
+        cardView.setTag(newsHeadlineItem);
+        cardView.setTitleText(newsHeadlineItem.getTitle());
+        cardView.setContentText(newsHeadlineItem.getDescription());
+        if (newsHeadlineItem.getLocalImageResourceId() != 0) {
+            int resourceId = newsHeadlineItem.getLocalImageResourceId();
             Picasso.with(getContext()).load(resourceId).into(cardView.getMainImageView());
-        } else if (StringUtils.isNotEmpty(cardItem.getImageUrl())) {
+        } else if (StringUtils.isNotEmpty(newsHeadlineItem.getImageUrl())) {
             Picasso.with(getContext())
-                    .load(cardItem.getImageUrl())
+                    .load(newsHeadlineItem.getImageUrl())
                     .into(cardView.getMainImageView());
         }
     }

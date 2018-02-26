@@ -36,7 +36,7 @@ import android.view.View
 import android.widget.Toast
 import info.hossainkhan.android.core.headlines.HeadlinesContract
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter
-import info.hossainkhan.android.core.model.CardItem
+import info.hossainkhan.android.core.model.NewsHeadlineItem
 import info.hossainkhan.android.core.model.NavigationRow
 import info.hossainkhan.android.core.model.NewsHeadlines
 import info.hossainkhan.android.core.model.ScreenType
@@ -152,10 +152,10 @@ class HeadlinesBrowseActivity
         // primary sections of the activity.
         if (headlinesPagerAdapter == null) {
             // Set up the ViewPager with the sections adapter.
-            headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.cards!!)
+            headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.newsHeadlines!!)
             news_headlines_pager_container.adapter = headlinesPagerAdapter
         } else {
-            headlinesPagerAdapter!!.setData(selectedRow.cards!!)
+            headlinesPagerAdapter!!.setData(selectedRow.newsHeadlines!!)
             news_headlines_pager_container.setCurrentItem(0, true)
         }
 
@@ -172,8 +172,8 @@ class HeadlinesBrowseActivity
         setupNavigationDrawerAdapter(headlines)
     }
 
-    override fun showHeadlineDetailsUi(cardItem: CardItem?) {
-        Timber.d("showHeadlineDetailsUi() called with: cardItem = [${cardItem}]")
+    override fun showHeadlineDetailsUi(newsHeadlineItem: NewsHeadlineItem?) {
+        Timber.d("showHeadlineDetailsUi() called with: newsHeadlineItem = [${newsHeadlineItem}]")
         // NOTE: Details view on mobile is not supported to keep it minimal.
     }
 

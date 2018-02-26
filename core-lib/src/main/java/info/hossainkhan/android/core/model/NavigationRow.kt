@@ -32,7 +32,7 @@ import info.hossainkhan.android.core.gson.AutoGson;
 import io.swagger.client.model.ArticleCategory;
 
 /**
- * This class represents a navigation row with news headline cards.
+ * This class represents a navigation row with news headline newsHeadlines.
  */
 @AutoGson
 data class NavigationRow(
@@ -45,7 +45,7 @@ data class NavigationRow(
         val type: Int = TYPE_DEFAULT,
 
         /**
-         * Used to determine whether the row shall use shadows when displaying its cards or not.
+         * Used to determine whether the row shall use shadows when displaying its newsHeadlines or not.
          */
         @SerializedName("shadow")
         val useShadow: Boolean? = true,
@@ -75,10 +75,10 @@ data class NavigationRow(
 
         @Nullable
         @SerializedName("cards")
-        val cards: List<CardItem>? = emptyList()) {
+        val newsHeadlines: List<NewsHeadlineItem>? = emptyList()) {
 
     companion object {
-        // default is a list of cards
+        // default is a list of newsHeadlines
         const val TYPE_DEFAULT = 0
         // section header
         const val TYPE_SECTION_HEADER = 1
@@ -95,7 +95,7 @@ data class NavigationRow(
         private var displayTitle: String? = null
         private var sourceId: String? = null
         private var category: ArticleCategory? = null
-        private var cards: List<CardItem>? = null
+        private var newsHeadlines: List<NewsHeadlineItem>? = null
         private var useShadow: Boolean? = null
 
         /**
@@ -122,10 +122,10 @@ data class NavigationRow(
 
         fun category(category: ArticleCategory) = apply { this.category = category }
 
-        fun cards(cards: List<CardItem>) = apply { this.cards = cards }
+        fun cards(newsHeadlines: List<NewsHeadlineItem>) = apply { this.newsHeadlines = newsHeadlines }
 
         /**
-         * Used to determine whether the row shall use shadows when displaying its cards or not.
+         * Used to determine whether the row shall use shadows when displaying its newsHeadlines or not.
          *
          * @param useShadow flag for card shadow
          * @return Builder
@@ -139,7 +139,7 @@ data class NavigationRow(
                     displayTitle = displayTitle,
                     sourceId = sourceId,
                     category = category,
-                    cards = cards,
+                    newsHeadlines = newsHeadlines,
                     useShadow = useShadow
             )
         }

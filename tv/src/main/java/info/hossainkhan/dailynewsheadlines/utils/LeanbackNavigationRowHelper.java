@@ -32,7 +32,7 @@ import android.support.annotation.StringRes;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.util.Validate;
@@ -67,16 +67,16 @@ public final class LeanbackNavigationRowHelper {
     }
 
     /**
-     * Builds a Navigation row containing multiple CardItem with default configuration.
+     * Builds a Navigation row containing multiple NewsHeadlineItem with default configuration.
      *
      * @param resources   Android resources.
      * @param stringResId Navigation title.
      * @param items       Card items in the row.
-     * @return Navigation row containing multiple CardItem.
+     * @return Navigation row containing multiple NewsHeadlineItem.
      */
     @NonNull
     private static NavigationRow buildNavigationItemsRow(@NonNull Resources resources, @StringRes int stringResId,
-                                                         @NonNull List<CardItem> items) {
+                                                         @NonNull List<NewsHeadlineItem> items) {
         return NavigationRow.Companion.builder()
                 .title(resources.getString(stringResId))
                 .type(NavigationRow.TYPE_DEFAULT)
@@ -91,11 +91,11 @@ public final class LeanbackNavigationRowHelper {
      * @param resources     Resources.
      * @param titleRes      String resource ID for item title.
      * @param actionIconRes Drawable icon for action.
-     * @return CardItem.
+     * @return NewsHeadlineItem.
      */
-    private static CardItem buildNavigationActionItem(final Resources resources,
-                                                      @StringRes int titleRes, @DrawableRes int actionIconRes) {
-        return CardItem.Companion.create(
+    private static NewsHeadlineItem buildNavigationActionItem(final Resources resources,
+                                                              @StringRes int titleRes, @DrawableRes int actionIconRes) {
+        return NewsHeadlineItem.Companion.create(
                 titleRes /* id */, resources.getString(titleRes) /* title */,
                 null /* description */, null /*extraText */, null /*category */,
                 null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
@@ -137,7 +137,7 @@ public final class LeanbackNavigationRowHelper {
     private static void addSettingsNavigationRows(final Resources resources, final List<NavigationRow> list) {
         // Build settings items
 
-        List<CardItem> settingsItems = new ArrayList<>(5);
+        List<NewsHeadlineItem> settingsItems = new ArrayList<>(5);
         settingsItems.add(
                 buildNavigationActionItem(resources,
                         R.string.settings_card_item_news_source_title, R.drawable.ic_settings_settings)
@@ -165,7 +165,7 @@ public final class LeanbackNavigationRowHelper {
      * @param list      List of navigation row where application info navigation item will be added.
      */
     private static void addInformationNavigationRows(final Resources resources, final List<NavigationRow> list) {
-        List<CardItem> infoItems = new ArrayList<>(5);
+        List<NewsHeadlineItem> infoItems = new ArrayList<>(5);
         infoItems.add(
                 buildNavigationActionItem(resources,
                         R.string.settings_card_item_about_app_title, R.drawable.ic_settings_about_app_information)

@@ -39,7 +39,7 @@ import java.util.List;
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.ScreenType;
 import info.hossainkhan.android.core.model.NavigationRow;
@@ -152,7 +152,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     @Override
-    public void showHeadlineDetailsUi(final CardItem item) {
+    public void showHeadlineDetailsUi(final NewsHeadlineItem item) {
         Timber.d("Load details view for item: %s", item);
         startActivity(HeadlinesDetailsActivity.createLaunchIntent(getActivity().getBaseContext(),item));
     }

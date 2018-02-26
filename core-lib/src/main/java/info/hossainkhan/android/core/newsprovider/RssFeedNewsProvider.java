@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 import info.hossainkhan.android.core.BuildConfig;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsHeadlines;
@@ -117,13 +117,13 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
     }
 
     /**
-     * Converts feed article into applications {@link CardItem}.
+     * Converts feed article into applications {@link NewsHeadlineItem}.
      *
      * @param articleList Feed article list.
      * @return List of card items.
      */
-    private List<CardItem> convertArticleToCardItems(final List<Article> articleList) {
-        List<CardItem> cardItems = new ArrayList<>(articleList.size());
+    private List<NewsHeadlineItem> convertArticleToCardItems(final List<Article> articleList) {
+        List<NewsHeadlineItem> newsHeadlineItems = new ArrayList<>(articleList.size());
 
         int MAX_TAGS = 3;
         for (final Article article : articleList) {
@@ -136,8 +136,8 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
             Uri image = article.getImage();
             Uri source = article.getSource();
 
-            cardItems.add(
-                    CardItem.Companion.create(
+            newsHeadlineItems.add(
+                    NewsHeadlineItem.Companion.create(
                             article.getId(), // id,
                             article.getTitle(), // title,
                             article.getDescription(), // description,
@@ -155,7 +155,7 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
                     )
             );
         }
-        return cardItems;
+        return newsHeadlineItems;
     }
 
 

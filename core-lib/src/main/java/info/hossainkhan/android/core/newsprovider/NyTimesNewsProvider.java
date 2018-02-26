@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.data.CategoryNameResolver;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.NewsProvider;
@@ -184,19 +184,19 @@ public final class NyTimesNewsProvider implements NewsProvider {
 
 
     /**
-     * Converts {@link Article} list into generic {@link CardItem} model.
+     * Converts {@link Article} list into generic {@link NewsHeadlineItem} model.
      * <p>
      * <br/>
      * Check if we can use "adapter" or "factory" pattern to standardize this.
      *
      * @param articles List of articles.
-     * @return List of converted {@link CardItem}.
+     * @return List of converted {@link NewsHeadlineItem}.
      */
-    private List<CardItem> convertArticleToCardItems(final List<Article> articles) {
-        List<CardItem> cardItems = new ArrayList<>(articles.size());
+    private List<NewsHeadlineItem> convertArticleToCardItems(final List<Article> articles) {
+        List<NewsHeadlineItem> newsHeadlineItems = new ArrayList<>(articles.size());
         for (Article result : articles) {
-            cardItems.add(CardItem.Companion.create(result));
+            newsHeadlineItems.add(NewsHeadlineItem.Companion.create(result));
         }
-        return cardItems;
+        return newsHeadlineItems;
     }
 }

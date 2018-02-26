@@ -33,7 +33,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.picasso.BlurTransformation;
 import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
 import info.hossainkhan.android.core.util.DateUtils;
@@ -49,24 +49,24 @@ public class TextCardView extends BaseCardView {
         setFocusable(true);
     }
 
-    public void updateUi(CardItem cardItem) {
+    public void updateUi(NewsHeadlineItem newsHeadlineItem) {
         final TextView primaryHeadline = (TextView) findViewById(R.id.primary_headline_text);
         final TextView summaryText1 = (TextView) findViewById(R.id.summary_text_1);
         final TextView summaryText2 = (TextView) findViewById(R.id.summary_text_2);
         final ImageView mainContentBackground = (ImageView) findViewById(R.id.main_content_background);
 
 
-        primaryHeadline.setText(cardItem.getTitle());
-        summaryText1.setText(cardItem.getCategory());
+        primaryHeadline.setText(newsHeadlineItem.getTitle());
+        summaryText1.setText(newsHeadlineItem.getCategory());
         summaryText2.setText(String.format(getContext().getString(R.string.headline_elapsed_time),
-                DateUtils.getElapsedTime(cardItem.getDateCreated())));
+                DateUtils.getElapsedTime(newsHeadlineItem.getDateCreated())));
 
         Context context = getContext();
         Picasso picasso = Picasso.with(context);
         Resources resources = context.getResources();
-        if (StringUtils.isNotEmpty(cardItem.getImageUrl())) {
+        if (StringUtils.isNotEmpty(newsHeadlineItem.getImageUrl())) {
             picasso
-                    .load(cardItem.getImageUrl())
+                    .load(newsHeadlineItem.getImageUrl())
                     .resize((int) resources.getDimension(R.dimen.card_text_container_width),
                             (int) resources.getDimension(R.dimen.card_text_container_height))
                     .transform(new GrayscaleTransformation(picasso))

@@ -26,7 +26,7 @@ package info.hossainkhan.android.core.headlines;
 
 import info.hossainkhan.android.core.base.MvpPresenter;
 import info.hossainkhan.android.core.base.MvpView;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 
 /**
  * Contract for headlines details view
@@ -39,7 +39,7 @@ public interface HeadlinesDetailsContract {
 
         void openArticleWebUrl(String contentUrl);
 
-        void showHeadlineDetails(CardItem cardItem);
+        void showHeadlineDetails(NewsHeadlineItem newsHeadlineItem);
 
         void loadDetailsImage(String imageUrl);
 

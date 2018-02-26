@@ -36,7 +36,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.picasso.BlurTransformation;
 import info.hossainkhan.android.core.picasso.GrayscaleTransformation;
 import info.hossainkhan.android.core.usersource.UserSourceManager;
@@ -63,7 +63,7 @@ public class TextFeedCardView extends BaseCardView {
         mUserSourceManager = new UserSourceManager(context);
     }
 
-    public void updateUi(CardItem cardItem) {
+    public void updateUi(NewsHeadlineItem newsHeadlineItem) {
         final TextView primaryHeadline = (TextView) findViewById(R.id.primary_headline_text);
         final TextView summaryText1 = (TextView) findViewById(R.id.summary_text_1);
         final TextView summaryText2 = (TextView) findViewById(R.id.summary_text_2);
@@ -71,26 +71,26 @@ public class TextFeedCardView extends BaseCardView {
         final ImageView iconImage = (ImageView) findViewById(R.id.feed_provider_icon);
         final ImageView bookmarkedBadge = (ImageView) findViewById(R.id.feed_subscribed_marker_badge);
 
-        if (mUserSourceManager.isAdded(cardItem.getContentUrl())) {
+        if (mUserSourceManager.isAdded(newsHeadlineItem.getContentUrl())) {
             bookmarkedBadge.setVisibility(View.VISIBLE);
         } else {
             bookmarkedBadge.setVisibility(View.INVISIBLE);
         }
 
 
-        primaryHeadline.setText(cardItem.getTitle());
-        summaryText1.setText(cardItem.getDescription());
+        primaryHeadline.setText(newsHeadlineItem.getTitle());
+        summaryText1.setText(newsHeadlineItem.getDescription());
 
-        // Reusing the "CardItem.width" to get total subscriber stats
+        // Reusing the "NewsHeadlineItem.width" to get total subscriber stats
         summaryText2.setText(String.format(getContext().getString(R.string.feed_stats_overview),
-                NumberFormat.getInstance().format(cardItem.getWidth())));
+                NumberFormat.getInstance().format(newsHeadlineItem.getWidth())));
 
         Context context = getContext();
         Picasso picasso = Picasso.with(context);
         Resources resources = context.getResources();
-        if (StringUtils.isNotEmpty(cardItem.getImageUrl())) {
+        if (StringUtils.isNotEmpty(newsHeadlineItem.getImageUrl())) {
             picasso
-                    .load(cardItem.getImageUrl())
+                    .load(newsHeadlineItem.getImageUrl())
                     .resize((int) resources.getDimension(R.dimen.card_text_container_width),
                             (int) resources.getDimension(R.dimen.card_text_container_height))
                     .transform(new GrayscaleTransformation(picasso))
@@ -101,10 +101,10 @@ public class TextFeedCardView extends BaseCardView {
             Timber.w("Unable to load thumb image.");
         }
 
-        // Reusing the "CardItem.extraText" to get the icon image URL
-        if (StringUtils.isNotEmpty(cardItem.getExtraText())) {
+        // Reusing the "NewsHeadlineItem.extraText" to get the icon image URL
+        if (StringUtils.isNotEmpty(newsHeadlineItem.getExtraText())) {
             picasso
-                    .load(cardItem.getExtraText())
+                    .load(newsHeadlineItem.getExtraText())
                     .into(iconImage);
         } else {
             Timber.w("Unable to load icon image.");

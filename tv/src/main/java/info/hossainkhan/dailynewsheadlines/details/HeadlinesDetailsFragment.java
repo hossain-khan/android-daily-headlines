@@ -45,7 +45,7 @@ import com.squareup.picasso.Picasso;
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.headlines.HeadlinesDetailsContract;
 import info.hossainkhan.android.core.headlines.HeadlinesDetailsViewPresenter;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.util.ActivityUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
@@ -97,9 +97,9 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        CardItem cardItem = mAttachedHeadlinesActivity.getCardItem();
+        NewsHeadlineItem newsHeadlineItem = mAttachedHeadlinesActivity.getCardItem();
         mPicassoBackgroundManager = new PicassoBackgroundManager(mAttachedHeadlinesActivity);
-        mPresenter = new HeadlinesDetailsViewPresenter(mApplicationContext, this, cardItem);
+        mPresenter = new HeadlinesDetailsViewPresenter(mApplicationContext, this, newsHeadlineItem);
         DetailsViewInteractionListener listener = new DetailsViewInteractionListener(mPresenter);
         setupEventListeners(listener);
     }
@@ -128,7 +128,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
 
 
     @Override
-    public void showHeadlineDetails(final CardItem cardItem) {
+    public void showHeadlineDetails(final NewsHeadlineItem newsHeadlineItem) {
         FullWidthDetailsOverviewRowPresenter rowPresenter = new FullWidthDetailsOverviewRowPresenter(
                 new HeadlinesDetailsPresenter(getActivity())) {
 
@@ -166,7 +166,7 @@ public class HeadlinesDetailsFragment extends DetailsFragment implements Headlin
         mRowsAdapter = new ArrayObjectAdapter(rowPresenterSelector);
 
         // Setup action and detail row.
-        mDetailsOverview = new DetailsOverviewRow(cardItem);
+        mDetailsOverview = new DetailsOverviewRow(newsHeadlineItem);
         // DEV NOTE: Without the image drawable, the details view occupies full width for texts.
         mDetailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.placeholder_loading_image));
 

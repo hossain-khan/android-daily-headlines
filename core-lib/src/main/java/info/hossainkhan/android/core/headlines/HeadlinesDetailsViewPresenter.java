@@ -29,7 +29,7 @@ import android.content.Context;
 
 import info.hossainkhan.android.core.R;
 import info.hossainkhan.android.core.base.BasePresenter;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.util.StringUtils;
 import timber.log.Timber;
 
@@ -37,11 +37,11 @@ public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetail
         implements HeadlinesDetailsContract.Presenter {
 
     private final Context mContext;
-    private final CardItem mCardItem;
+    private final NewsHeadlineItem mNewsHeadlineItem;
 
-    public HeadlinesDetailsViewPresenter(final Context context, final HeadlinesDetailsContract.View view, final CardItem cardItem) {
+    public HeadlinesDetailsViewPresenter(final Context context, final HeadlinesDetailsContract.View view, final NewsHeadlineItem newsHeadlineItem) {
         mContext = context;
-        mCardItem = cardItem;
+        mNewsHeadlineItem = newsHeadlineItem;
 
         attachView(view);
         initView();
@@ -49,9 +49,9 @@ public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetail
 
     private void initView() {
         getView().updateScreenTitle(mContext.getString(R.string.detail_view_title));
-        getView().showHeadlineDetails(mCardItem);
+        getView().showHeadlineDetails(mNewsHeadlineItem);
 
-        String imageUrl = mCardItem.getImageUrl();
+        String imageUrl = mNewsHeadlineItem.getImageUrl();
         if(StringUtils.isValidUri(imageUrl)) {
             Timber.d("Loading image URL: %s", imageUrl);
             getView().loadDetailsImage(imageUrl);
@@ -68,7 +68,7 @@ public class HeadlinesDetailsViewPresenter extends BasePresenter<HeadlinesDetail
     public void onActionItemClicked(final int action) {
         switch (action) {
             case HeadlinesDetailsContract.ACTION_ID_OPEN_NEWS_URL:
-                getView().openArticleWebUrl(mCardItem.getContentUrl());
+                getView().openArticleWebUrl(mNewsHeadlineItem.getContentUrl());
                 break;
             default:
                 Timber.d("onActionItemClicked() : Unsupported action id: %s", action);

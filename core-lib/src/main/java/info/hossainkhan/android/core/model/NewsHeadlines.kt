@@ -38,6 +38,6 @@ data class NewsHeadlines(
          */
         val newsSource: NewsSource,
         /**
-         * List of news navigation row containing headlines cards.
+         * List of news navigation row containing headlines newsHeadlines.
          */
         val headlines: List<NavigationRow>)

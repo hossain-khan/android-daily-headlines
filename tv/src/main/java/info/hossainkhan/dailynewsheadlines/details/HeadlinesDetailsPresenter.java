@@ -31,13 +31,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.util.DateUtils;
 import info.hossainkhan.android.core.util.ResourceCache;
 import info.hossainkhan.dailynewsheadlines.R;
 
 /**
- * This presenter is used to render a {@link info.hossainkhan.android.core.model.CardItem} in the {@link
+ * This presenter is used to render a {@link info.hossainkhan.android.core.model.NewsHeadlineItem} in the {@link
  * HeadlinesDetailsFragment}.
  */
 public class HeadlinesDetailsPresenter extends Presenter {
@@ -61,7 +61,7 @@ public class HeadlinesDetailsPresenter extends Presenter {
         TextView extraText = mResourceCache.getViewById(viewHolder.view, R.id.extra_text);
         // ImageView newsSourceImage = mResourceCache.getViewById(viewHolder.view, R.id.headlines_source_image);
 
-        CardItem card = (CardItem) item;
+        NewsHeadlineItem card = (NewsHeadlineItem) item;
         primaryText.setText(card.getTitle());
         sndText1.setText(card.getCategory());
         sndText2.setText(DateUtils.getFormattedDateTime(card.getDateCreated()));
