@@ -26,6 +26,7 @@ package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.firebase.crash.FirebaseCrash;
@@ -64,17 +65,20 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
     /**
      * @return The RSS/Atom feed URL for the news provider.
      */
+    @NonNull
     public abstract String getFeedUrl();
 
-    public RssFeedNewsProvider(final Context context) {
+    public RssFeedNewsProvider(@NonNull final Context context) {
         this.mContext = context;
     }
 
+    @NonNull
     @Override
     public Set<ArticleCategory> getSupportedCategories() {
         return Collections.emptySet();
     }
 
+    @NonNull
     @Override
     public Observable<NewsHeadlines> getNewsObservable() {
         return Observable.<NewsHeadlines>create(emitter -> {

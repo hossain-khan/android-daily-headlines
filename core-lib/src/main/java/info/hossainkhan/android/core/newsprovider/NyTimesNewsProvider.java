@@ -28,6 +28,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -106,11 +108,13 @@ public final class NyTimesNewsProvider implements NewsProvider {
     private NewsSource mNewsSource = NewsSource.Companion.create(PROVIDER_ID_NYTIMES, PROVIDER_NAME, PROVIDER_DESCRIPTION,
             PROVIDER_URL, PROVIDER_IMAGE_URL, MAX_CACHE_LENGTH);
 
+    @NonNull
     @Override
     public NewsSource getNewsSource() {
         return mNewsSource;
     }
 
+    @NonNull
     @Override
     public Set<ArticleCategory> getSupportedCategories() {
         Set<ArticleCategory> categories = new HashSet<>();
@@ -124,6 +128,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
         return categories;
     }
 
+    @NonNull
     @Override
     public Observable<NewsHeadlines> getNewsObservable() {
         /*
@@ -153,6 +158,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
                 .map(list ->
                         new NewsHeadlines(mNewsSource, list)
                 )
+                .doOnError(FirebaseCrash::report)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

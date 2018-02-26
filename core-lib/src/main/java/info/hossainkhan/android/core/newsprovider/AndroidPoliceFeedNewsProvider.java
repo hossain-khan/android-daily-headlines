@@ -25,6 +25,7 @@
 package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.concurrent.TimeUnit;
 
@@ -43,15 +44,17 @@ public class AndroidPoliceFeedNewsProvider extends RssFeedNewsProvider {
             "http://www.androidpolice.com/wp-content/themes/ap2/images/android-police-logo-ns.png?nocache=1",
             TimeUnit.HOURS.toSeconds(24));
 
-    public AndroidPoliceFeedNewsProvider(final Context context) {
+    public AndroidPoliceFeedNewsProvider(@NonNull final Context context) {
         super(context);
     }
 
+    @NonNull
     @Override
     public String getFeedUrl() {
         return FEED_URL;
     }
 
+    @NonNull
     @Override
     public NewsSource getNewsSource() {
         return mNewsSource;

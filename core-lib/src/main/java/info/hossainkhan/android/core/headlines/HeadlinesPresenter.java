@@ -71,19 +71,18 @@ public class HeadlinesPresenter
 
     @Override
     public void loadHeadlines(@NonNull final boolean forceUpdate) {
-        // List that is finally returned to UI
-        final List<NewsHeadlines> headlinesList = new ArrayList<>();
 
         Subscription subscription = Observable
                 .mergeDelayError(mNewsProviderManager.getProviderObservable())
-                .observeOn(Schedulers.io())
+                .toList()
+                .doOnSubscribe(() -> getView().toggleLoadingIndicator(true))
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NewsHeadlines>() {
+                .subscribe(new Subscriber<List<NewsHeadlines>>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("onCompleted() called");
                         getView().toggleLoadingIndicator(false);
-                        getView().showHeadlines(headlinesList);
                     }
 
                     @Override
@@ -97,16 +96,9 @@ public class HeadlinesPresenter
                     }
 
                     @Override
-                    public void onNext(final NewsHeadlines newsHeadlines) {
-                        int navRowSize = 0;
-                        String sourceId = "UNKNOWN";
-                        if (newsHeadlines != null && !newsHeadlines.getHeadlines().isEmpty()) {
-                            navRowSize = newsHeadlines.getHeadlines().size();
-                            sourceId = newsHeadlines.getNewsSource().getId();
-                        }
-
-                        Timber.i("onNext() returned - Loaded %d items from %s.", navRowSize, sourceId);
-                        headlinesList.add(newsHeadlines);
+                    public void onNext(final List<NewsHeadlines> headlinesList) {
+                        Timber.i("onNext() returned - Loaded %d items.", headlinesList.size());
+                        getView().showHeadlines(headlinesList);
                     }
                 });
         addSubscription(subscription);
