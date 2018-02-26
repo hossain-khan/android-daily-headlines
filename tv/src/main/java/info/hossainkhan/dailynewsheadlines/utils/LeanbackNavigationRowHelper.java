@@ -34,7 +34,7 @@ import java.util.List;
 
 import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.CardType;
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines;
 import info.hossainkhan.android.core.util.Validate;
 import info.hossainkhan.dailynewsheadlines.R;
 
@@ -48,22 +48,22 @@ public final class LeanbackNavigationRowHelper {
      *
      * @param resources   Resources.
      * @param stringResId String res for the navigation header item.
-     * @return {@link NavigationRow} for a header.
+     * @return {@link NewsCategoryHeadlines} for a header.
      */
-    private static NavigationRow buildNavigationHeader(@NonNull Resources resources, @StringRes int stringResId) {
-        return NavigationRow.Companion.builder()
+    private static NewsCategoryHeadlines buildNavigationHeader(@NonNull Resources resources, @StringRes int stringResId) {
+        return NewsCategoryHeadlines.Companion.builder()
                 .title(resources.getString(stringResId))
-                .type(NavigationRow.TYPE_SECTION_HEADER)
+                .type(NewsCategoryHeadlines.TYPE_SECTION_HEADER)
                 .build();
     }
 
     /**
      * Builds a navigation divider item.
      *
-     * @return {@link NavigationRow} for a divider.
+     * @return {@link NewsCategoryHeadlines} for a divider.
      */
-    private static NavigationRow buildNavigationDivider() {
-        return NavigationRow.Companion.builder().type(NavigationRow.TYPE_DIVIDER).build();
+    private static NewsCategoryHeadlines buildNavigationDivider() {
+        return NewsCategoryHeadlines.Companion.builder().type(NewsCategoryHeadlines.TYPE_DIVIDER).build();
     }
 
     /**
@@ -75,11 +75,11 @@ public final class LeanbackNavigationRowHelper {
      * @return Navigation row containing multiple NewsHeadlineItem.
      */
     @NonNull
-    private static NavigationRow buildNavigationItemsRow(@NonNull Resources resources, @StringRes int stringResId,
-                                                         @NonNull List<NewsHeadlineItem> items) {
-        return NavigationRow.Companion.builder()
+    private static NewsCategoryHeadlines buildNavigationItemsRow(@NonNull Resources resources, @StringRes int stringResId,
+                                                                 @NonNull List<NewsHeadlineItem> items) {
+        return NewsCategoryHeadlines.Companion.builder()
                 .title(resources.getString(stringResId))
-                .type(NavigationRow.TYPE_DEFAULT)
+                .type(NewsCategoryHeadlines.TYPE_DEFAULT)
                 .cards(items)
                 .useShadow(false)
                 .build();
@@ -111,7 +111,7 @@ public final class LeanbackNavigationRowHelper {
      * @param resources Resources for using string res.
      * @param list      Existing list where setting will be added.
      */
-    public static void addSettingsNavigation(final Resources resources, final List<NavigationRow> list) {
+    public static void addSettingsNavigation(final Resources resources, final List<NewsCategoryHeadlines> list) {
         Validate.notNull(list);
 
         // Begin settings section
@@ -134,7 +134,7 @@ public final class LeanbackNavigationRowHelper {
      * @param resources {@link Resources}
      * @param list      List of navigation row where settings navigation item will be added.
      */
-    private static void addSettingsNavigationRows(final Resources resources, final List<NavigationRow> list) {
+    private static void addSettingsNavigationRows(final Resources resources, final List<NewsCategoryHeadlines> list) {
         // Build settings items
 
         List<NewsHeadlineItem> settingsItems = new ArrayList<>(5);
@@ -164,7 +164,7 @@ public final class LeanbackNavigationRowHelper {
      * @param resources {@link Resources}
      * @param list      List of navigation row where application info navigation item will be added.
      */
-    private static void addInformationNavigationRows(final Resources resources, final List<NavigationRow> list) {
+    private static void addInformationNavigationRows(final Resources resources, final List<NewsCategoryHeadlines> list) {
         List<NewsHeadlineItem> infoItems = new ArrayList<>(5);
         infoItems.add(
                 buildNavigationActionItem(resources,

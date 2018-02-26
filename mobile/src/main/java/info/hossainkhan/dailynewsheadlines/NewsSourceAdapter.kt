@@ -29,24 +29,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import info.hossainkhan.android.core.model.NavigationRow
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines
 import info.hossainkhan.android.core.model.NewsHeadlines
 import kotlinx.android.synthetic.main.list_item_news_source.view.*
 import timber.log.Timber
 
 /**
  * Adapter to hold all the headlines from all news sources.
- * This contains List of [NewsHeadlines] that contains the news source and their list of [NavigationRow]
+ * This contains List of [NewsHeadlines] that contains the news source and their list of [NewsCategoryHeadlines]
  */
 class NewsSourceAdapter(private val headlines: List<NewsHeadlines>,
-                        private val clickListener: (NavigationRow) -> Unit)
+                        private val clickListener: (NewsCategoryHeadlines) -> Unit)
     : RecyclerView.Adapter<NewsSourceAdapter.ViewHolder>() {
 
-    val navigationRowSizes: List<Int> = headlines.map { it.headlines.size }
+    val navigationRowSizes: List<Int> = headlines.map { it.categoriesHeadlines.size }
 
 
     override fun getItemCount(): Int {
-        return headlines.sumBy { it.headlines.size }
+        return headlines.sumBy { it.categoriesHeadlines.size }
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -82,14 +82,14 @@ class NewsSourceAdapter(private val headlines: List<NewsHeadlines>,
      * Finds the navigation row for given position from [headlines] data set.
      *
      * ```
-     *  NewsHeadlines -> [Source] -> List<NavigationRow>
+     *  NewsHeadlines -> [Source] -> List<NewsCategoryHeadlines>
      *  [0]                               - Row 1 [0]
      *  [1]                               - Row 2 [1]
-     *  NewsHeadlines -> [Source] -> List<NavigationRow>
+     *  NewsHeadlines -> [Source] -> List<NewsCategoryHeadlines>
      *  [2]                               - Row 1 [0]
      *  [3]                               - Row 2 [1]
      *  [4]                               - Row 3 [2]
-     *  NewsHeadlines -> [Source] -> List<NavigationRow>
+     *  NewsHeadlines -> [Source] -> List<NewsCategoryHeadlines>
      *  [5]                               - Row 1 [0]
      *
      *  getRowForPosition(position = 2)
@@ -98,7 +98,7 @@ class NewsSourceAdapter(private val headlines: List<NewsHeadlines>,
      *  h3 = count = 1 | sum = 6
      * ```
      */
-    private fun getRowForPosition(position: Int): NavigationRow {
+    private fun getRowForPosition(position: Int): NewsCategoryHeadlines {
         var sum = 0
         var headlineIndex = -1
 
@@ -116,6 +116,6 @@ class NewsSourceAdapter(private val headlines: List<NewsHeadlines>,
             index++
         }
 
-        return headlines[headlineIndex].headlines[sum - position - 1]
+        return headlines[headlineIndex].categoriesHeadlines[sum - position - 1]
     }
 }

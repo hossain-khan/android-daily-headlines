@@ -28,12 +28,12 @@ import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.PresenterSelector;
 
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 
 /**
  * This {@link PresenterSelector} will return a {@link ListRowPresenter} which has shadow support
- * enabled or not depending on {@link info.hossainkhan.android.core.model.NavigationRow#useShadow()} for a given row.
+ * enabled or not depending on {@link info.hossainkhan.android.core.model.NewsCategoryHeadlines#useShadow()} for a given row.
  */
 public class ShadowRowPresenterSelector extends PresenterSelector {
 
@@ -48,7 +48,7 @@ public class ShadowRowPresenterSelector extends PresenterSelector {
     @Override public Presenter getPresenter(Object item) {
         if (!(item instanceof CardListRow)) return mShadowDisabledRowPresenter;
         CardListRow listRow = (CardListRow) item;
-        NavigationRow row = listRow.getNavigationRow();
+        NewsCategoryHeadlines row = listRow.getNavigationRow();
         if (row.getUseShadow() != null && row.getUseShadow()) return mShadowEnabledRowPresenter;
         return mShadowDisabledRowPresenter;
     }

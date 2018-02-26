@@ -44,7 +44,7 @@ import java.util.Set;
 import info.hossainkhan.android.core.BuildConfig;
 import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.CardType;
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines;
 import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.NewsProvider;
 import io.swagger.client.model.ArticleCategory;
@@ -92,9 +92,9 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
                         .load(getFeedUrl())
                         .get();
 
-                List<NavigationRow> navigationHeadlines = new ArrayList<>(1);
+                List<NewsCategoryHeadlines> navigationHeadlines = new ArrayList<>(1);
                 navigationHeadlines.add(
-                        NavigationRow.Companion.builder()
+                        NewsCategoryHeadlines.Companion.builder()
                                 .title(getNewsSource().getName())
                                 .displayTitle(getNewsSource().getName())
                                 .category(ArticleCategory.technology)

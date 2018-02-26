@@ -32,10 +32,10 @@ import info.hossainkhan.android.core.gson.AutoGson;
 import io.swagger.client.model.ArticleCategory;
 
 /**
- * This class represents a navigation row with news headline newsHeadlines.
+ * This class represents a category of news with it's respective headlines.
  */
 @AutoGson
-data class NavigationRow(
+data class NewsCategoryHeadlines(
         /**
          * Type of navigation item.
          *
@@ -59,10 +59,9 @@ data class NavigationRow(
         val displayTitle: String? = null,
 
         /**
-         * {@link NewsSource#id()} for current navigation row, when {@link #type()} is
-         * {@link NavigationRow#TYPE_SECTION_HEADER} or {@link NavigationRow#TYPE_DEFAULT}.
+         * [NewsSource.id] for current navigation row, when [type] is [TYPE_SECTION_HEADER] or [TYPE_DEFAULT].
          *
-         * @param newsSourceId News source ID from {@link NewsSource#id()}
+         * @param newsSourceId News source ID from [NewsSource.id]
          * @return The builder instance.
          */
         @Nullable
@@ -101,8 +100,7 @@ data class NavigationRow(
         /**
          * Type of navigation item.
          *
-         * @param type Allowed values are {@link NavigationRow#TYPE_DEFAULT},
-         *             {@link NavigationRow#TYPE_DIVIDER}, {@link NavigationRow#TYPE_DIVIDER}
+         * @param type Allowed values are [TYPE_DEFAULT], [TYPE_DIVIDER], [TYPE_DIVIDER]
          * @return The builder instance.
          */
         fun type(type: Int) = apply { this.type = type }
@@ -112,10 +110,9 @@ data class NavigationRow(
         fun displayTitle(title: String) = apply { this.displayTitle = title }
 
         /**
-         * {@link NewsSource#id()} for current navigation row, when {@link #type()} is
-         * {@link NavigationRow#TYPE_SECTION_HEADER} or {@link NavigationRow#TYPE_DEFAULT}.
+         * [NewsSource.id] for current navigation row, when [type] is [TYPE_SECTION_HEADER] or [TYPE_DEFAULT].
          *
-         * @param newsSourceId News source ID from {@link NewsSource#id()}
+         * @param newsSourceId News source ID from [NewsSource#id]
          * @return The builder instance.
          */
         fun sourceId(newsSourceId: String) = apply { this.sourceId = newsSourceId }
@@ -132,8 +129,8 @@ data class NavigationRow(
          */
         fun useShadow(useShadow: Boolean) = apply { this.useShadow = useShadow }
 
-        fun build(): NavigationRow {
-            return NavigationRow(
+        fun build(): NewsCategoryHeadlines {
+            return NewsCategoryHeadlines(
                     type = type,
                     title = title,
                     displayTitle = displayTitle,

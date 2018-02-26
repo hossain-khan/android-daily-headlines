@@ -37,7 +37,7 @@ import android.widget.Toast
 import info.hossainkhan.android.core.headlines.HeadlinesContract
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter
 import info.hossainkhan.android.core.model.NewsHeadlineItem
-import info.hossainkhan.android.core.model.NavigationRow
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines
 import info.hossainkhan.android.core.model.NewsHeadlines
 import info.hossainkhan.android.core.model.ScreenType
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager
@@ -143,7 +143,7 @@ class HeadlinesBrowseActivity
         toolbar.title = title
     }
 
-    fun onNewsSourceSelected(selectedRow: NavigationRow) {
+    fun onNewsSourceSelected(selectedRow: NewsCategoryHeadlines) {
         Timber.d("onNewsSourceSelected() called with: row = [${selectedRow}]")
 
         updateToolbarTitle(selectedRow.displayTitle ?: selectedRow.title!!)
@@ -168,7 +168,7 @@ class HeadlinesBrowseActivity
     // HeadlinesContract.View
     //
     override fun showHeadlines(headlines: MutableList<NewsHeadlines>) {
-        Timber.d("showHeadlines() called with: headlines = [${headlines}]")
+        Timber.d("showHeadlines() called with: categoriesHeadlines = [${headlines}]")
         setupNavigationDrawerAdapter(headlines)
     }
 

@@ -42,7 +42,7 @@ import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
 import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.ScreenType;
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.about.DisplayInfoActivity;
@@ -206,21 +206,21 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
 
 
     private void loadRows(final List<NewsHeadlines> list) {
-        ArrayList<NavigationRow> navigationRows = new ArrayList<>();
+        ArrayList<NewsCategoryHeadlines> newsCategoryHeadlines = new ArrayList<>();
         for (final NewsHeadlines newsHeadlines : list) {
 
             // Builds the header for each news source.
-            navigationRows.add(NavigationRow.Companion.builder()
+            newsCategoryHeadlines.add(NewsCategoryHeadlines.Companion.builder()
                     .title(newsHeadlines.getNewsSource().getName())
                     .displayTitle(newsHeadlines.getNewsSource().getName())
-                    .type(NavigationRow.TYPE_SECTION_HEADER)
+                    .type(NewsCategoryHeadlines.TYPE_SECTION_HEADER)
                     .sourceId(newsHeadlines.getNewsSource().getId())
                     .build());
 
-            navigationRows.addAll(newsHeadlines.getHeadlines());
+            newsCategoryHeadlines.addAll(newsHeadlines.getCategoriesHeadlines());
         }
 
-        applyStaticNavigationItems(navigationRows);
+        applyStaticNavigationItems(newsCategoryHeadlines);
 
 
         mRowsAdapter = new ArrayObjectAdapter(new ShadowRowPresenterSelector());
@@ -228,8 +228,8 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         int totalNavigationItems = list.size();
         int i;
         for (i = 0; i < totalNavigationItems; i++) {
-            NavigationRow navigationRow = navigationRows.get(i);
-            mRowsAdapter.add(buildCardRow(mApplicationContext, navigationRow));
+            NewsCategoryHeadlines categoryHeadlines = newsCategoryHeadlines.get(i);
+            mRowsAdapter.add(buildCardRow(mApplicationContext, categoryHeadlines));
         }
 
         setAdapter(mRowsAdapter);
@@ -239,7 +239,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
      * Adds static navigation items like Menu and settings to existing list of navigation.
      * @param list Existing list of items.
      */
-    private void applyStaticNavigationItems(final List<NavigationRow> list) {
+    private void applyStaticNavigationItems(final List<NewsCategoryHeadlines> list) {
         addSettingsNavigation(mResources, list);
     }
 

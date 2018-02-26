@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.data.CategoryNameResolver;
 import info.hossainkhan.android.core.model.NewsHeadlineItem;
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines;
 import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.NewsProvider;
 import info.hossainkhan.android.core.model.NewsSource;
@@ -170,10 +170,10 @@ public final class NyTimesNewsProvider implements NewsProvider {
      * @param response Headlines news response.
      * @return Navigation row with all the news headlines for respective category.
      */
-    private NavigationRow convertResponseToNavigationRow(@NonNull final Context context,
-                                                         @NonNull final ArticleCategory category,
-                                                         @NonNull final InlineResponse200 response) {
-        return NavigationRow.Companion.builder()
+    private NewsCategoryHeadlines convertResponseToNavigationRow(@NonNull final Context context,
+                                                                 @NonNull final ArticleCategory category,
+                                                                 @NonNull final InlineResponse200 response) {
+        return NewsCategoryHeadlines.Companion.builder()
                 .title(context.getString(CategoryNameResolver
                         .resolveCategoryResId(category)))
                 .category(category)
