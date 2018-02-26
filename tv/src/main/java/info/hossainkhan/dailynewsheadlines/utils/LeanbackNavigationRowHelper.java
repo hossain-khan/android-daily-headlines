@@ -50,8 +50,11 @@ public final class LeanbackNavigationRowHelper {
      * @param stringResId String res for the navigation header item.
      * @return {@link NewsCategoryHeadlines} for a header.
      */
-    private static NewsCategoryHeadlines buildNavigationHeader(@NonNull Resources resources, @StringRes int stringResId) {
-        return NewsCategoryHeadlines.Companion.builder()
+    private static NewsCategoryHeadlines buildNavigationHeader(
+            @NonNull Resources resources,
+            @NonNull String sourceId,
+            @StringRes int stringResId) {
+        return NewsCategoryHeadlines.Companion.builder(sourceId)
                 .title(resources.getString(stringResId))
                 .type(NewsCategoryHeadlines.TYPE_SECTION_HEADER)
                 .build();
@@ -62,8 +65,9 @@ public final class LeanbackNavigationRowHelper {
      *
      * @return {@link NewsCategoryHeadlines} for a divider.
      */
-    private static NewsCategoryHeadlines buildNavigationDivider() {
-        return NewsCategoryHeadlines.Companion.builder().type(NewsCategoryHeadlines.TYPE_DIVIDER).build();
+    private static NewsCategoryHeadlines buildNavigationDivider(@NonNull String sourceId) {
+        return NewsCategoryHeadlines.Companion.builder(sourceId)
+                .type(NewsCategoryHeadlines.TYPE_DIVIDER).build();
     }
 
     /**
@@ -75,9 +79,12 @@ public final class LeanbackNavigationRowHelper {
      * @return Navigation row containing multiple NewsHeadlineItem.
      */
     @NonNull
-    private static NewsCategoryHeadlines buildNavigationItemsRow(@NonNull Resources resources, @StringRes int stringResId,
-                                                                 @NonNull List<NewsHeadlineItem> items) {
-        return NewsCategoryHeadlines.Companion.builder()
+    private static NewsCategoryHeadlines buildNavigationItemsRow(
+            @NonNull Resources resources,
+            @NonNull String sourceId,
+            @StringRes int stringResId,
+            @NonNull List<NewsHeadlineItem> items) {
+        return NewsCategoryHeadlines.Companion.builder(sourceId)
                 .title(resources.getString(stringResId))
                 .type(NewsCategoryHeadlines.TYPE_DEFAULT)
                 .cards(items)
@@ -115,8 +122,9 @@ public final class LeanbackNavigationRowHelper {
         Validate.notNull(list);
 
         // Begin settings section
-        list.add(buildNavigationDivider());
-        list.add(buildNavigationHeader(resources, R.string.navigation_header_item_settings_title));
+        list.add(buildNavigationDivider("source_id_divider"));
+        list.add(buildNavigationHeader(resources, "source_id_settings",
+                R.string.navigation_header_item_settings_title));
 
         // Adds row for application settings
         addSettingsNavigationRows(resources, list);
@@ -125,7 +133,7 @@ public final class LeanbackNavigationRowHelper {
         addInformationNavigationRows(resources, list);
 
         // Add end divider
-        list.add(buildNavigationDivider());
+        list.add(buildNavigationDivider("source_id_divider"));
     }
 
     /**
@@ -153,7 +161,7 @@ public final class LeanbackNavigationRowHelper {
         );
 
         list.add(
-                buildNavigationItemsRow(resources,
+                buildNavigationItemsRow(resources, "source_id_settings",
                         R.string.settings_navigation_row_news_source_title, settingsItems));
 
     }
@@ -177,7 +185,7 @@ public final class LeanbackNavigationRowHelper {
         );
 
         list.add(
-                buildNavigationItemsRow(resources,
+                buildNavigationItemsRow(resources, "source_id_information",
                         R.string.settings_navigation_row_information_title, infoItems));
     }
 }

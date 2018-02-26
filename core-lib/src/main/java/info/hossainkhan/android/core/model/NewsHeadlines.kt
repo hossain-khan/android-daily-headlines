@@ -40,4 +40,10 @@ data class NewsHeadlines(
         /**
          * List of news navigation categories containing headlines.
          */
-        val categoriesHeadlines: List<NewsCategoryHeadlines>)
+        val categoriesHeadlines: List<NewsCategoryHeadlines>) {
+
+    /**
+     * News source ID from the [NewsSource]. This may be used for caching in database.
+     */
+    val newsSourceId = newsSource.id
+}

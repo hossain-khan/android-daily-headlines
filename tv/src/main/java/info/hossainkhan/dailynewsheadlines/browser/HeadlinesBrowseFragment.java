@@ -210,11 +210,10 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         for (final NewsHeadlines newsHeadlines : list) {
 
             // Builds the header for each news source.
-            newsCategoryHeadlines.add(NewsCategoryHeadlines.Companion.builder()
+            newsCategoryHeadlines.add(NewsCategoryHeadlines.Companion.builder(newsHeadlines.getNewsSource().getId())
                     .title(newsHeadlines.getNewsSource().getName())
                     .displayTitle(newsHeadlines.getNewsSource().getName())
                     .type(NewsCategoryHeadlines.TYPE_SECTION_HEADER)
-                    .sourceId(newsHeadlines.getNewsSource().getId())
                     .build());
 
             newsCategoryHeadlines.addAll(newsHeadlines.getCategoriesHeadlines());

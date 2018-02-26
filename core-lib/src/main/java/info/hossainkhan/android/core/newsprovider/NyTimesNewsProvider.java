@@ -173,11 +173,10 @@ public final class NyTimesNewsProvider implements NewsProvider {
     private NewsCategoryHeadlines convertResponseToNavigationRow(@NonNull final Context context,
                                                                  @NonNull final ArticleCategory category,
                                                                  @NonNull final InlineResponse200 response) {
-        return NewsCategoryHeadlines.Companion.builder()
+        return NewsCategoryHeadlines.Companion.builder(mNewsSource.getId())
                 .title(context.getString(CategoryNameResolver
                         .resolveCategoryResId(category)))
                 .category(category)
-                .sourceId(mNewsSource.getId())
                 .cards(convertArticleToCardItems(response.getResults()))
                 .build();
     }

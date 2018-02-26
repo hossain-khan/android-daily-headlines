@@ -66,7 +66,7 @@ data class NewsCategoryHeadlines(
          */
         @Nullable
         @SerializedName("news_source_id")
-        val sourceId: String? = null,
+        val sourceId: String,
 
         @Nullable
         @SerializedName("category")
@@ -84,15 +84,22 @@ data class NewsCategoryHeadlines(
         // divider
         const val TYPE_DIVIDER = 2
 
-        fun builder() = Builder()
+        fun builder(newsSourceId: String) = Builder(newsSourceId)
     }
 
-    class Builder {
+
+    /**
+     * Creates a builder with news source ID [NewsSource.id] for current navigation row,
+     * when [type] is [TYPE_SECTION_HEADER] or [TYPE_DEFAULT].
+     *
+     * @param newsSourceId News source ID from [NewsSource.id]
+     */
+    class Builder(newsSourceId: String) {
 
         private var type: Int = TYPE_DEFAULT
         private var title: String? = null
         private var displayTitle: String? = null
-        private var sourceId: String? = null
+        private var sourceId: String = newsSourceId
         private var category: ArticleCategory? = null
         private var newsHeadlines: List<NewsHeadlineItem>? = null
         private var useShadow: Boolean? = null
@@ -108,14 +115,6 @@ data class NewsCategoryHeadlines(
         fun title(title: String) = apply { this.title = title }
 
         fun displayTitle(title: String) = apply { this.displayTitle = title }
-
-        /**
-         * [NewsSource.id] for current navigation row, when [type] is [TYPE_SECTION_HEADER] or [TYPE_DEFAULT].
-         *
-         * @param newsSourceId News source ID from [NewsSource#id]
-         * @return The builder instance.
-         */
-        fun sourceId(newsSourceId: String) = apply { this.sourceId = newsSourceId }
 
         fun category(category: ArticleCategory) = apply { this.category = category }
 

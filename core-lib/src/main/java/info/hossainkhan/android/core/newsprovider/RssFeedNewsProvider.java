@@ -94,12 +94,11 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
 
                 List<NewsCategoryHeadlines> navigationHeadlines = new ArrayList<>(1);
                 navigationHeadlines.add(
-                        NewsCategoryHeadlines.Companion.builder()
+                        NewsCategoryHeadlines.Companion.builder(getNewsSource().getId())
                                 .title(getNewsSource().getName())
                                 .displayTitle(getNewsSource().getName())
                                 .category(ArticleCategory.technology)
                                 .cards(convertArticleToCardItems(articleList))
-                                .sourceId(getNewsSource().getId())
                                 .build()
                 );
                 emitter.onNext(new NewsHeadlines(getNewsSource(), navigationHeadlines));
