@@ -28,6 +28,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -36,8 +38,8 @@ import java.util.concurrent.TimeUnit;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.data.CategoryNameResolver;
-import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines;
 import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.NewsProvider;
 import info.hossainkhan.android.core.model.NewsSource;
@@ -106,11 +108,13 @@ public final class NyTimesNewsProvider implements NewsProvider {
     private NewsSource mNewsSource = NewsSource.Companion.create(PROVIDER_ID_NYTIMES, PROVIDER_NAME, PROVIDER_DESCRIPTION,
             PROVIDER_URL, PROVIDER_IMAGE_URL, MAX_CACHE_LENGTH);
 
+    @NonNull
     @Override
     public NewsSource getNewsSource() {
         return mNewsSource;
     }
 
+    @NonNull
     @Override
     public Set<ArticleCategory> getSupportedCategories() {
         Set<ArticleCategory> categories = new HashSet<>();
@@ -124,6 +128,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
         return categories;
     }
 
+    @NonNull
     @Override
     public Observable<NewsHeadlines> getNewsObservable() {
         /*
@@ -153,6 +158,7 @@ public final class NyTimesNewsProvider implements NewsProvider {
                 .map(list ->
                         new NewsHeadlines(mNewsSource, list)
                 )
+                .doOnError(FirebaseCrash::report)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
@@ -164,33 +170,32 @@ public final class NyTimesNewsProvider implements NewsProvider {
      * @param response Headlines news response.
      * @return Navigation row with all the news headlines for respective category.
      */
-    private NavigationRow convertResponseToNavigationRow(@NonNull final Context context,
-                                                         @NonNull final ArticleCategory category,
-                                                         @NonNull final InlineResponse200 response) {
-        return NavigationRow.Companion.builder()
+    private NewsCategoryHeadlines convertResponseToNavigationRow(@NonNull final Context context,
+                                                                 @NonNull final ArticleCategory category,
+                                                                 @NonNull final InlineResponse200 response) {
+        return NewsCategoryHeadlines.Companion.builder(mNewsSource.getId())
                 .title(context.getString(CategoryNameResolver
                         .resolveCategoryResId(category)))
                 .category(category)
-                .sourceId(mNewsSource.getId())
                 .cards(convertArticleToCardItems(response.getResults()))
                 .build();
     }
 
 
     /**
-     * Converts {@link Article} list into generic {@link CardItem} model.
+     * Converts {@link Article} list into generic {@link NewsHeadlineItem} model.
      * <p>
      * <br/>
      * Check if we can use "adapter" or "factory" pattern to standardize this.
      *
      * @param articles List of articles.
-     * @return List of converted {@link CardItem}.
+     * @return List of converted {@link NewsHeadlineItem}.
      */
-    private List<CardItem> convertArticleToCardItems(final List<Article> articles) {
-        List<CardItem> cardItems = new ArrayList<>(articles.size());
+    private List<NewsHeadlineItem> convertArticleToCardItems(final List<Article> articles) {
+        List<NewsHeadlineItem> newsHeadlineItems = new ArrayList<>(articles.size());
         for (Article result : articles) {
-            cardItems.add(CardItem.Companion.create(result));
+            newsHeadlineItems.add(NewsHeadlineItem.Companion.create(result));
         }
-        return cardItems;
+        return newsHeadlineItems;
     }
 }

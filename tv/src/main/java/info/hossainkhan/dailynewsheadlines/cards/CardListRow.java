@@ -28,27 +28,27 @@ import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ObjectAdapter;
 
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines;
 
 /**
  * The {@link CardListRow} allows the {@link info.hossainkhan.dailynewsheadlines.cards.presenters.selectors.ShadowRowPresenterSelector}
- * to access the {@link NavigationRow} held by the row and determine whether to use a
+ * to access the {@link NewsCategoryHeadlines} held by the row and determine whether to use a
  * {@link android.support.v17.leanback.widget.Presenter} with or without a shadow.
  */
 public class CardListRow extends ListRow {
 
-    private NavigationRow mNavigationRow;
+    private NewsCategoryHeadlines mNewsCategoryHeadlines;
 
-    public CardListRow(HeaderItem header, ObjectAdapter adapter, NavigationRow navigationRow) {
+    public CardListRow(HeaderItem header, ObjectAdapter adapter, NewsCategoryHeadlines newsCategoryHeadlines) {
         super(header, adapter);
-        setNavigationRow(navigationRow);
+        setNavigationRow(newsCategoryHeadlines);
     }
 
-    public NavigationRow getNavigationRow() {
-        return mNavigationRow;
+    public NewsCategoryHeadlines getNavigationRow() {
+        return mNewsCategoryHeadlines;
     }
 
-    public void setNavigationRow(NavigationRow navigationRow) {
-        this.mNavigationRow = navigationRow;
+    public void setNavigationRow(NewsCategoryHeadlines newsCategoryHeadlines) {
+        this.mNewsCategoryHeadlines = newsCategoryHeadlines;
     }
 }

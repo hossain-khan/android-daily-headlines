@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 import info.hossainkhan.android.core.CoreConfig;
 import info.hossainkhan.android.core.base.BasePresenter;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.util.ObjectUtils;
 import info.hossainkhan.android.core.util.StringUtils;
@@ -109,7 +109,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
     private void onSearchTermEntered(final String searchQuery) {
         Timber.d("onSearchTermEntered() called with: searchQuery = [%s]", searchQuery);
 
-        final List<CardItem> cardItems = new ArrayList<>();
+        final List<NewsHeadlineItem> newsHeadlineItems = new ArrayList<>();
 
         getView().toggleLoadingIndicator(true); // Show the loading indicator before making the request
         Observable<SearchResponse> searchResponseObservable = mSearchApi
@@ -123,10 +123,10 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                         Timber.d("onCompleted() called");
                         if (isViewAttached()) {
                             getView().toggleLoadingIndicator(false);
-                            if (cardItems.isEmpty()) {
+                            if (newsHeadlineItems.isEmpty()) {
                                 getView().showNoSearchResults();
                             } else {
-                                getView().showSearchResults(cardItems);
+                                getView().showSearchResults(newsHeadlineItems);
                             }
                         } else {
                             Timber.i("onCompleted() - Search view is already detached.");
@@ -147,7 +147,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                     @Override
                     public void onNext(final SearchResponse searchResponse) {
                         Timber.d("onNext() called with: searchResponse size = [%d]", searchResponse.getResults().size());
-                        cardItems.addAll(convertArticleToCardItems(searchResponse.getResults()));
+                        newsHeadlineItems.addAll(convertArticleToCardItems(searchResponse.getResults()));
                     }
                 });
 
@@ -157,17 +157,17 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
 
 
     /**
-     * Converts feed items into application's {@link CardItem}.
+     * Converts feed items into application's {@link NewsHeadlineItem}.
      *
      * @param feedItems Feed items.
      * @return List of card items.
      */
-    private List<CardItem> convertArticleToCardItems(final List<FeedItem> feedItems) {
-        List<CardItem> cardItems = new ArrayList<>(feedItems.size());
+    private List<NewsHeadlineItem> convertArticleToCardItems(final List<FeedItem> feedItems) {
+        List<NewsHeadlineItem> newsHeadlineItems = new ArrayList<>(feedItems.size());
 
         for (final FeedItem feedItem : feedItems) {
-            cardItems.add(
-                    CardItem.Companion.create(
+            newsHeadlineItems.add(
+                    NewsHeadlineItem.Companion.create(
                             feedItem.getFeedId().hashCode(), // id,
                             feedItem.getTitle(), // title,
                             feedItem.getDescription(), // description,
@@ -187,7 +187,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                     )
             );
         }
-        return cardItems;
+        return newsHeadlineItems;
     }
 
 

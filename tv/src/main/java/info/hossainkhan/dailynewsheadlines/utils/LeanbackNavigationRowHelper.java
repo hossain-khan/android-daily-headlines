@@ -32,9 +32,9 @@ import android.support.annotation.StringRes;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.CardType;
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines;
 import info.hossainkhan.android.core.util.Validate;
 import info.hossainkhan.dailynewsheadlines.R;
 
@@ -48,38 +48,45 @@ public final class LeanbackNavigationRowHelper {
      *
      * @param resources   Resources.
      * @param stringResId String res for the navigation header item.
-     * @return {@link NavigationRow} for a header.
+     * @return {@link NewsCategoryHeadlines} for a header.
      */
-    private static NavigationRow buildNavigationHeader(@NonNull Resources resources, @StringRes int stringResId) {
-        return NavigationRow.Companion.builder()
+    private static NewsCategoryHeadlines buildNavigationHeader(
+            @NonNull Resources resources,
+            @NonNull String sourceId,
+            @StringRes int stringResId) {
+        return NewsCategoryHeadlines.Companion.builder(sourceId)
                 .title(resources.getString(stringResId))
-                .type(NavigationRow.TYPE_SECTION_HEADER)
+                .type(NewsCategoryHeadlines.TYPE_SECTION_HEADER)
                 .build();
     }
 
     /**
      * Builds a navigation divider item.
      *
-     * @return {@link NavigationRow} for a divider.
+     * @return {@link NewsCategoryHeadlines} for a divider.
      */
-    private static NavigationRow buildNavigationDivider() {
-        return NavigationRow.Companion.builder().type(NavigationRow.TYPE_DIVIDER).build();
+    private static NewsCategoryHeadlines buildNavigationDivider(@NonNull String sourceId) {
+        return NewsCategoryHeadlines.Companion.builder(sourceId)
+                .type(NewsCategoryHeadlines.TYPE_DIVIDER).build();
     }
 
     /**
-     * Builds a Navigation row containing multiple CardItem with default configuration.
+     * Builds a Navigation row containing multiple NewsHeadlineItem with default configuration.
      *
      * @param resources   Android resources.
      * @param stringResId Navigation title.
      * @param items       Card items in the row.
-     * @return Navigation row containing multiple CardItem.
+     * @return Navigation row containing multiple NewsHeadlineItem.
      */
     @NonNull
-    private static NavigationRow buildNavigationItemsRow(@NonNull Resources resources, @StringRes int stringResId,
-                                                         @NonNull List<CardItem> items) {
-        return NavigationRow.Companion.builder()
+    private static NewsCategoryHeadlines buildNavigationItemsRow(
+            @NonNull Resources resources,
+            @NonNull String sourceId,
+            @StringRes int stringResId,
+            @NonNull List<NewsHeadlineItem> items) {
+        return NewsCategoryHeadlines.Companion.builder(sourceId)
                 .title(resources.getString(stringResId))
-                .type(NavigationRow.TYPE_DEFAULT)
+                .type(NewsCategoryHeadlines.TYPE_DEFAULT)
                 .cards(items)
                 .useShadow(false)
                 .build();
@@ -91,11 +98,11 @@ public final class LeanbackNavigationRowHelper {
      * @param resources     Resources.
      * @param titleRes      String resource ID for item title.
      * @param actionIconRes Drawable icon for action.
-     * @return CardItem.
+     * @return NewsHeadlineItem.
      */
-    private static CardItem buildNavigationActionItem(final Resources resources,
-                                                      @StringRes int titleRes, @DrawableRes int actionIconRes) {
-        return CardItem.Companion.create(
+    private static NewsHeadlineItem buildNavigationActionItem(final Resources resources,
+                                                              @StringRes int titleRes, @DrawableRes int actionIconRes) {
+        return NewsHeadlineItem.Companion.create(
                 titleRes /* id */, resources.getString(titleRes) /* title */,
                 null /* description */, null /*extraText */, null /*category */,
                 null /* dateCreated */, null /* imageUrl */, null /* contentUrl */,
@@ -111,12 +118,13 @@ public final class LeanbackNavigationRowHelper {
      * @param resources Resources for using string res.
      * @param list      Existing list where setting will be added.
      */
-    public static void addSettingsNavigation(final Resources resources, final List<NavigationRow> list) {
+    public static void addSettingsNavigation(final Resources resources, final List<NewsCategoryHeadlines> list) {
         Validate.notNull(list);
 
         // Begin settings section
-        list.add(buildNavigationDivider());
-        list.add(buildNavigationHeader(resources, R.string.navigation_header_item_settings_title));
+        list.add(buildNavigationDivider("source_id_divider"));
+        list.add(buildNavigationHeader(resources, "source_id_settings",
+                R.string.navigation_header_item_settings_title));
 
         // Adds row for application settings
         addSettingsNavigationRows(resources, list);
@@ -125,7 +133,7 @@ public final class LeanbackNavigationRowHelper {
         addInformationNavigationRows(resources, list);
 
         // Add end divider
-        list.add(buildNavigationDivider());
+        list.add(buildNavigationDivider("source_id_divider"));
     }
 
     /**
@@ -134,10 +142,10 @@ public final class LeanbackNavigationRowHelper {
      * @param resources {@link Resources}
      * @param list      List of navigation row where settings navigation item will be added.
      */
-    private static void addSettingsNavigationRows(final Resources resources, final List<NavigationRow> list) {
+    private static void addSettingsNavigationRows(final Resources resources, final List<NewsCategoryHeadlines> list) {
         // Build settings items
 
-        List<CardItem> settingsItems = new ArrayList<>(5);
+        List<NewsHeadlineItem> settingsItems = new ArrayList<>(5);
         settingsItems.add(
                 buildNavigationActionItem(resources,
                         R.string.settings_card_item_news_source_title, R.drawable.ic_settings_settings)
@@ -153,7 +161,7 @@ public final class LeanbackNavigationRowHelper {
         );
 
         list.add(
-                buildNavigationItemsRow(resources,
+                buildNavigationItemsRow(resources, "source_id_settings",
                         R.string.settings_navigation_row_news_source_title, settingsItems));
 
     }
@@ -164,8 +172,8 @@ public final class LeanbackNavigationRowHelper {
      * @param resources {@link Resources}
      * @param list      List of navigation row where application info navigation item will be added.
      */
-    private static void addInformationNavigationRows(final Resources resources, final List<NavigationRow> list) {
-        List<CardItem> infoItems = new ArrayList<>(5);
+    private static void addInformationNavigationRows(final Resources resources, final List<NewsCategoryHeadlines> list) {
+        List<NewsHeadlineItem> infoItems = new ArrayList<>(5);
         infoItems.add(
                 buildNavigationActionItem(resources,
                         R.string.settings_card_item_about_app_title, R.drawable.ic_settings_about_app_information)
@@ -177,7 +185,7 @@ public final class LeanbackNavigationRowHelper {
         );
 
         list.add(
-                buildNavigationItemsRow(resources,
+                buildNavigationItemsRow(resources, "source_id_information",
                         R.string.settings_navigation_row_information_title, infoItems));
     }
 }

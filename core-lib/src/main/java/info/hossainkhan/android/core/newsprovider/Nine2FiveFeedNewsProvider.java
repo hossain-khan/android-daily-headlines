@@ -25,6 +25,7 @@
 package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.concurrent.TimeUnit;
 
@@ -44,15 +45,17 @@ public class Nine2FiveFeedNewsProvider extends RssFeedNewsProvider {
             "https://9to5mac.files.wordpress.com/2016/07/9to5-mac-logo-min.png",
             TimeUnit.HOURS.toSeconds(24));
 
-    public Nine2FiveFeedNewsProvider(final Context context) {
+    public Nine2FiveFeedNewsProvider(@NonNull final Context context) {
         super(context);
     }
 
+    @NonNull
     @Override
     public String getFeedUrl() {
         return FEED_URL;
     }
 
+    @NonNull
     @Override
     public NewsSource getNewsSource() {
         return mNewsSource;

@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import info.hossainkhan.android.core.model.NavigationRow;
 import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.NewsProvider;
 import info.hossainkhan.android.core.usersource.UserSourceManager;

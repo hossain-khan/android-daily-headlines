@@ -28,7 +28,7 @@ import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 
 public class AnalyticsReporter {
 
@@ -67,7 +67,7 @@ public class AnalyticsReporter {
     }
 
 
-    public void reportHeadlineSelectedEvent(final CardItem card) {
+    public void reportHeadlineSelectedEvent(final NewsHeadlineItem card) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, card.getContentUrl());
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, card.getTitle());
@@ -80,7 +80,7 @@ public class AnalyticsReporter {
         mAnalytics.logEvent(EVENT_NAME_HEADLINE_LOADING_ERROR, null);
     }
 
-    public void reportHeadlineDetailsLoadedEvent(CardItem card) {
+    public void reportHeadlineDetailsLoadedEvent(NewsHeadlineItem card) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, card.getContentUrl());
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, card.getTitle());

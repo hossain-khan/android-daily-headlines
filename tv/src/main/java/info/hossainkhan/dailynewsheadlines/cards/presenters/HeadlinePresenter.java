@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.util.StringUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import timber.log.Timber;
@@ -81,21 +81,21 @@ public class HeadlinePresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-        CardItem cardItem = (CardItem) item;
-        Timber.d("onBindViewHolder, item %s", cardItem);
+        NewsHeadlineItem newsHeadlineItem = (NewsHeadlineItem) item;
+        Timber.d("onBindViewHolder, item %s", newsHeadlineItem);
 
         ImageCardView cardView = (ImageCardView) viewHolder.view;
 
 
-            cardView.setTitleText(cardItem.getTitle());
-            cardView.setContentText(cardItem.getDescription());
+            cardView.setTitleText(newsHeadlineItem.getTitle());
+            cardView.setContentText(newsHeadlineItem.getDescription());
             cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
 
 
-        if(StringUtils.isNotEmpty(cardItem.getImageUrl())) {
+        if(StringUtils.isNotEmpty(newsHeadlineItem.getImageUrl())) {
             // FIXME - fit won't work, use proper sizing
             Picasso.with(viewHolder.view.getContext())
-                    .load(cardItem.getImageUrl())
+                    .load(newsHeadlineItem.getImageUrl())
                     //.fit()
                     .error(mDefaultCardImage)
                     .into(cardView.getMainImageView());

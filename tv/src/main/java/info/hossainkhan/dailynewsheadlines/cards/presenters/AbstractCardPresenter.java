@@ -29,7 +29,7 @@ import android.support.v17.leanback.widget.BaseCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.ViewGroup;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 
 /**
  * This abstract, generic class will create and manage the
@@ -59,8 +59,8 @@ public abstract class AbstractCardPresenter<T extends BaseCardView> extends Pres
     }
 
     @Override public final void onBindViewHolder(ViewHolder viewHolder, Object item) {
-        CardItem cardItem = (CardItem) item;
-        onBindViewHolder(cardItem, (T) viewHolder.view);
+        NewsHeadlineItem newsHeadlineItem = (NewsHeadlineItem) item;
+        onBindViewHolder(newsHeadlineItem, (T) viewHolder.view);
     }
 
     @Override public final void onUnbindViewHolder(ViewHolder viewHolder) {
@@ -79,12 +79,12 @@ public abstract class AbstractCardPresenter<T extends BaseCardView> extends Pres
     protected abstract T onCreateView();
 
     /**
-     * Implement this method to update your cardItem's view with the data bound to it.
+     * Implement this method to update your newsHeadlineItem's view with the data bound to it.
      *
-     * @param cardItem The model containing the data for the cardItem.
-     * @param cardView The view the cardItem is bound to.
+     * @param newsHeadlineItem The model containing the data for the newsHeadlineItem.
+     * @param cardView The view the newsHeadlineItem is bound to.
      * @see Presenter#onBindViewHolder(Presenter.ViewHolder, Object)
      */
-    public abstract void onBindViewHolder(CardItem cardItem, T cardView);
+    public abstract void onBindViewHolder(NewsHeadlineItem newsHeadlineItem, T cardView);
 
 }

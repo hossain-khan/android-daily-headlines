@@ -35,8 +35,8 @@ import android.support.v17.leanback.widget.SectionRow;
 
 import java.util.List;
 
-import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.cards.CardListRow;
 import info.hossainkhan.dailynewsheadlines.cards.presenters.CardPresenterSelector;
@@ -49,41 +49,41 @@ import info.hossainkhan.dailynewsheadlines.cards.presenters.TextFeedCardPresente
 public class RowBuilderFactory {
 
     /**
-     * Creates appropriate {@link Row} item based on {@link NavigationRow} type.
+     * Creates appropriate {@link Row} item based on {@link NewsCategoryHeadlines} type.
      *
-     * @param navigationRow Navigation row
+     * @param newsCategoryHeadlines Navigation row
      * @return {@link Row}
      */
-    public static Row buildCardRow(final Context context, final NavigationRow navigationRow) {
-        int navigationRowType = navigationRow.getType();
+    public static Row buildCardRow(final Context context, final NewsCategoryHeadlines newsCategoryHeadlines) {
+        int navigationRowType = newsCategoryHeadlines.getType();
         switch (navigationRowType) {
-            case NavigationRow.TYPE_SECTION_HEADER:
-                return new SectionRow(new HeaderItem(navigationRow.getTitle()));
-            case NavigationRow.TYPE_DIVIDER:
+            case NewsCategoryHeadlines.TYPE_SECTION_HEADER:
+                return new SectionRow(new HeaderItem(newsCategoryHeadlines.getTitle()));
+            case NewsCategoryHeadlines.TYPE_DIVIDER:
                 return new DividerRow();
-            case NavigationRow.TYPE_DEFAULT:
+            case NewsCategoryHeadlines.TYPE_DEFAULT:
             default:
                 // Build rows using different presenter defined in "CardPresenterSelector"
                 PresenterSelector presenterSelector = new CardPresenterSelector(context);
                 ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(presenterSelector);
-                for (CardItem card : navigationRow.getCards()) {
+                for (NewsHeadlineItem card : newsCategoryHeadlines.getNewsHeadlines()) {
                     listRowAdapter.add(card);
                 }
 
-                HeaderItem header = new HeaderItem(navigationRow.getTitle());
+                HeaderItem header = new HeaderItem(newsCategoryHeadlines.getTitle());
 
-                return new CardListRow(header, listRowAdapter, navigationRow);
+                return new CardListRow(header, listRowAdapter, newsCategoryHeadlines);
         }
     }
 
-    public static Row buildSearchResultCardRow(final Context context, final List<CardItem> cardItems) {
+    public static Row buildSearchResultCardRow(final Context context, final List<NewsHeadlineItem> newsHeadlineItems) {
         // Build rows using different presenter defined in "CardPresenterSelector"
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new TextFeedCardPresenter(context));
-        for (CardItem card : cardItems) {
+        for (NewsHeadlineItem card : newsHeadlineItems) {
             listRowAdapter.add(card);
         }
 
-        HeaderItem header = new HeaderItem(context.getString(R.string.search_result_title, cardItems.size()));
+        HeaderItem header = new HeaderItem(context.getString(R.string.search_result_title, newsHeadlineItems.size()));
 
         return new ListRow(header, listRowAdapter);
     }

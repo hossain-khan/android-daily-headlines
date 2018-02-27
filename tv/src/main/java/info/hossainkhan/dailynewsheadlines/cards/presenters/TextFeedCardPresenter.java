@@ -26,7 +26,7 @@ package info.hossainkhan.dailynewsheadlines.cards.presenters;
 
 import android.content.Context;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.dailynewsheadlines.cards.TextFeedCardView;
 
 /**
@@ -44,8 +44,8 @@ public class TextFeedCardPresenter extends AbstractCardPresenter<TextFeedCardVie
     }
 
     @Override
-    public void onBindViewHolder(CardItem cardItem, TextFeedCardView cardView) {
-        cardView.updateUi(cardItem);
+    public void onBindViewHolder(NewsHeadlineItem newsHeadlineItem, TextFeedCardView cardView) {
+        cardView.updateUi(newsHeadlineItem);
     }
 
 }

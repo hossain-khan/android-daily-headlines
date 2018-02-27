@@ -28,9 +28,9 @@ package info.hossainkhan.android.core.model
  * Data class consisting for the news source and it's headlines.
  *
  * Example:
- *    newsSource -> NY Times
- *    headlines -> Navigation Row 1 -> List of top headlines
- *              -> Navigation Row 2 -> List of sports headlines
+ *    newsSource -> NY Times Source Info
+ *    headlines -> Top Category Headlines    1 -> List of top headlines
+ *              -> Sports Category Headlines 2 -> List of sports headlines
  */
 data class NewsHeadlines(
         /**
@@ -38,6 +38,12 @@ data class NewsHeadlines(
          */
         val newsSource: NewsSource,
         /**
-         * List of news navigation row containing headlines cards.
+         * List of news navigation categories containing headlines.
          */
-        val headlines: List<NavigationRow>)
+        val categoriesHeadlines: List<NewsCategoryHeadlines>) {
+
+    /**
+     * News source ID from the [NewsSource]. This may be used for caching in database.
+     */
+    val newsSourceId = newsSource.id
+}

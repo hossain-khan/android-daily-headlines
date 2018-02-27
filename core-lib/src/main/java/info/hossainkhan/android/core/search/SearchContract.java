@@ -28,7 +28,7 @@ import java.util.List;
 
 import info.hossainkhan.android.core.base.MvpPresenter;
 import info.hossainkhan.android.core.base.MvpView;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 
 /**
  * Contract for search
@@ -51,9 +51,9 @@ public interface SearchContract {
         /**
          * Callback with search result items.
          *
-         * @param cardItems Card items representing search result.
+         * @param newsHeadlineItems Card items representing search result.
          */
-        void showSearchResults(List<CardItem> cardItems);
+        void showSearchResults(List<NewsHeadlineItem> newsHeadlineItems);
     }
 
     interface Presenter extends MvpPresenter<SearchContract.View> {

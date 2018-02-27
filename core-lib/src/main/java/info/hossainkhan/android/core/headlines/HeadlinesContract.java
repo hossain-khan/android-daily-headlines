@@ -31,8 +31,7 @@ import java.util.List;
 
 import info.hossainkhan.android.core.base.MvpPresenter;
 import info.hossainkhan.android.core.base.MvpView;
-import info.hossainkhan.android.core.model.CardItem;
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.ScreenType;
 
@@ -45,7 +44,7 @@ public interface HeadlinesContract {
 
         void showHeadlines(@NonNull List<NewsHeadlines> headlines);
 
-        void showHeadlineDetailsUi(CardItem cardItem);
+        void showHeadlineDetailsUi(NewsHeadlineItem newsHeadlineItem);
 
         void showAppSettingsScreen();
 
@@ -92,21 +91,21 @@ public interface HeadlinesContract {
          * <p>
          * <i>For example, when using in TV app, this event will be triggered when user navigates
          * through the headlines card item without clicking through them. When an item is clicked,
-         * then {@link #onHeadlineItemSelected(CardItem)} is invoked.</i>
+         * then {@link #onHeadlineItemSelected(NewsHeadlineItem)} is invoked.</i>
          *
-         * @param cardItem The card item that was selected as part of headline browsing.
+         * @param newsHeadlineItem The card item that was selected as part of headline browsing.
          */
-        void onHeadlineItemSelected(@NonNull CardItem cardItem);
+        void onHeadlineItemSelected(@NonNull NewsHeadlineItem newsHeadlineItem);
 
         /**
          * Called when user clicks on a headline card item.
          * <p>
-         * <i>NOTE: For TV application, all items are {@link CardItem} including app settings items.
-         * So, the application must selectively handle the card item based on {@link CardItem.Type}</i>
+         * <i>NOTE: For TV application, all items are {@link NewsHeadlineItem} including app settings items.
+         * So, the application must selectively handle the card item based on {@link NewsHeadlineItem.Type}</i>
          *
-         * @param cardItem The card item that was clicked.
+         * @param newsHeadlineItem The card item that was clicked.
          */
-        void onHeadlineItemClicked(@NonNull CardItem cardItem);
+        void onHeadlineItemClicked(@NonNull NewsHeadlineItem newsHeadlineItem);
 
         /**
          * @param item The menu item that was clicked.

@@ -36,8 +36,8 @@ import android.view.View
 import android.widget.Toast
 import info.hossainkhan.android.core.headlines.HeadlinesContract
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter
-import info.hossainkhan.android.core.model.CardItem
-import info.hossainkhan.android.core.model.NavigationRow
+import info.hossainkhan.android.core.model.NewsHeadlineItem
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines
 import info.hossainkhan.android.core.model.NewsHeadlines
 import info.hossainkhan.android.core.model.ScreenType
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager
@@ -143,7 +143,7 @@ class HeadlinesBrowseActivity
         toolbar.title = title
     }
 
-    fun onNewsSourceSelected(selectedRow: NavigationRow) {
+    fun onNewsSourceSelected(selectedRow: NewsCategoryHeadlines) {
         Timber.d("onNewsSourceSelected() called with: row = [${selectedRow}]")
 
         updateToolbarTitle(selectedRow.displayTitle ?: selectedRow.title!!)
@@ -152,10 +152,10 @@ class HeadlinesBrowseActivity
         // primary sections of the activity.
         if (headlinesPagerAdapter == null) {
             // Set up the ViewPager with the sections adapter.
-            headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.cards!!)
+            headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.newsHeadlines!!)
             news_headlines_pager_container.adapter = headlinesPagerAdapter
         } else {
-            headlinesPagerAdapter!!.setData(selectedRow.cards!!)
+            headlinesPagerAdapter!!.setData(selectedRow.newsHeadlines!!)
             news_headlines_pager_container.setCurrentItem(0, true)
         }
 
@@ -168,12 +168,12 @@ class HeadlinesBrowseActivity
     // HeadlinesContract.View
     //
     override fun showHeadlines(headlines: MutableList<NewsHeadlines>) {
-        Timber.d("showHeadlines() called with: headlines = [${headlines}]")
+        Timber.d("showHeadlines() called with: categoriesHeadlines = [${headlines}]")
         setupNavigationDrawerAdapter(headlines)
     }
 
-    override fun showHeadlineDetailsUi(cardItem: CardItem?) {
-        Timber.d("showHeadlineDetailsUi() called with: cardItem = [${cardItem}]")
+    override fun showHeadlineDetailsUi(newsHeadlineItem: NewsHeadlineItem?) {
+        Timber.d("showHeadlineDetailsUi() called with: newsHeadlineItem = [${newsHeadlineItem}]")
         // NOTE: Details view on mobile is not supported to keep it minimal.
     }
 

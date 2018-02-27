@@ -30,7 +30,7 @@ import android.support.v17.leanback.widget.PresenterSelector;
 
 import java.util.HashMap;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.CardType;
 import info.hossainkhan.android.core.util.ValidationFailedException;
 
@@ -48,10 +48,10 @@ public class CardPresenterSelector extends PresenterSelector {
 
     @Override
     public Presenter getPresenter(Object item) {
-        if (!(item instanceof CardItem)) throw new ValidationFailedException(
+        if (!(item instanceof NewsHeadlineItem)) throw new ValidationFailedException(
                 String.format("The PresenterSelector only supports data items of type '%s'",
-                        CardItem.class.getName()));
-        CardItem card = (CardItem) item;
+                        NewsHeadlineItem.class.getName()));
+        NewsHeadlineItem card = (NewsHeadlineItem) item;
         CardType type = card.getType();
         Presenter presenter = presenters.get(type);
         if (presenter == null) {

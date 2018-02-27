@@ -35,7 +35,7 @@ import timber.log.Timber
 /**
  * This is a model object that encapsulates an card item with required and optional information.
  */
-data class CardItem(
+data class NewsHeadlineItem(
         @SerializedName("id")
         val id: Int,
 
@@ -93,9 +93,9 @@ data class CardItem(
         /**
          * Creates a card item with {@link Article} model.
          *
-         * @param article Article instance to convert to CardItem.
+         * @param article Article instance to convert to NewsHeadlineItem.
          */
-        fun create(article: Article): CardItem {
+        fun create(article: Article): NewsHeadlineItem {
             val multimedia = article.multimedia
             val size = multimedia.size
             var imageUrl: String? = null
@@ -110,7 +110,7 @@ data class CardItem(
                 Timber.w("Article '%s' does not have image.", article.title);
             }
 
-            return CardItem(
+            return NewsHeadlineItem(
                     id = article.getUrl().hashCode(),
                     title = article.getTitle(),
                     description = article.getAbstract(),
@@ -132,8 +132,8 @@ data class CardItem(
                 id: Int, title: String?, description: String?, extraText: String?, category: String?,
                 dateCreated: String?, imageUrl: String?, contentUrl: String?,
                 localImageResourceId: Int, footerColor: String?, selectedColor: String?,
-                type: CardType, width: Int, height: Int): CardItem {
-            return CardItem(id,
+                type: CardType, width: Int, height: Int): NewsHeadlineItem {
+            return NewsHeadlineItem(id,
                     title,
                     description,
                     extraText,
