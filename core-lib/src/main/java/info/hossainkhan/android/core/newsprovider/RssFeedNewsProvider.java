@@ -26,6 +26,7 @@ package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.firebase.crash.FirebaseCrash;
@@ -40,15 +41,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.BuildConfig;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.model.CardType;
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines;
+import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.NewsProvider;
 import io.swagger.client.model.ArticleCategory;
 import rx.Emitter;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 
 /**
@@ -61,46 +65,43 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
     /**
      * @return The RSS/Atom feed URL for the news provider.
      */
+    @NonNull
     public abstract String getFeedUrl();
 
-    public RssFeedNewsProvider(final Context context) {
+    public RssFeedNewsProvider(@NonNull final Context context) {
         this.mContext = context;
     }
 
+    @NonNull
     @Override
     public Set<ArticleCategory> getSupportedCategories() {
         return Collections.emptySet();
     }
 
+    @NonNull
     @Override
-    public Observable<List<NavigationRow>> getNewsObservable() {
-        return Observable.<List<NavigationRow>>create(emitter -> {
+    public Observable<NewsHeadlines> getNewsObservable() {
+        return Observable.<NewsHeadlines>create(emitter -> {
             try {
                 // Make Synchronous call to get all the data.
-                List<Article> articleList = PkRSS.with(mContext)
+                PkRSS pkRSS = PkRSS.with(mContext);
+                Timber.d("Requesting %s with debug on = %s", getFeedUrl(), BuildConfig.DEBUG);
+                pkRSS.setLoggingEnabled(BuildConfig.DEBUG);
+
+                List<Article> articleList = pkRSS
                         .load(getFeedUrl())
                         .get();
 
-                int totalResponseItemSize = articleList.size();
-                List<NavigationRow> navigationHeadlines = new ArrayList<>(totalResponseItemSize + 1);
-                navigationHeadlines.add(NavigationRow.Companion.builder()
-                        .title(getNewsSource().getName())
-                        .displayTitle(getNewsSource().getName())
-                        .type(NavigationRow.TYPE_SECTION_HEADER)
-                        .sourceId(getNewsSource().getId())
-                        .build());
-
-
+                List<NewsCategoryHeadlines> navigationHeadlines = new ArrayList<>(1);
                 navigationHeadlines.add(
-                        NavigationRow.Companion.builder()
-                                .title("Headlines")
+                        NewsCategoryHeadlines.Companion.builder(getNewsSource().getId())
+                                .title(getNewsSource().getName())
                                 .displayTitle(getNewsSource().getName())
                                 .category(ArticleCategory.technology)
                                 .cards(convertArticleToCardItems(articleList))
-                                .sourceId(getNewsSource().getId())
                                 .build()
                 );
-                emitter.onNext(navigationHeadlines);
+                emitter.onNext(new NewsHeadlines(getNewsSource(), navigationHeadlines));
                 emitter.onCompleted();
             } catch (IOException e) {
                 FirebaseCrash.report(e);
@@ -115,13 +116,13 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
     }
 
     /**
-     * Converts feed article into applications {@link CardItem}.
+     * Converts feed article into applications {@link NewsHeadlineItem}.
      *
      * @param articleList Feed article list.
      * @return List of card items.
      */
-    private List<CardItem> convertArticleToCardItems(final List<Article> articleList) {
-        List<CardItem> cardItems = new ArrayList<>(articleList.size());
+    private List<NewsHeadlineItem> convertArticleToCardItems(final List<Article> articleList) {
+        List<NewsHeadlineItem> newsHeadlineItems = new ArrayList<>(articleList.size());
 
         int MAX_TAGS = 3;
         for (final Article article : articleList) {
@@ -134,8 +135,8 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
             Uri image = article.getImage();
             Uri source = article.getSource();
 
-            cardItems.add(
-                    CardItem.Companion.create(
+            newsHeadlineItems.add(
+                    NewsHeadlineItem.Companion.create(
                             article.getId(), // id,
                             article.getTitle(), // title,
                             article.getDescription(), // description,
@@ -153,7 +154,7 @@ public abstract class RssFeedNewsProvider implements NewsProvider {
                     )
             );
         }
-        return cardItems;
+        return newsHeadlineItems;
     }
 
 

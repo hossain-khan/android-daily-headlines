@@ -36,8 +36,9 @@ import android.view.View
 import android.widget.Toast
 import info.hossainkhan.android.core.headlines.HeadlinesContract
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter
-import info.hossainkhan.android.core.model.CardItem
-import info.hossainkhan.android.core.model.NavigationRow
+import info.hossainkhan.android.core.model.NewsHeadlineItem
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines
+import info.hossainkhan.android.core.model.NewsHeadlines
 import info.hossainkhan.android.core.model.ScreenType
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager
 import kotlinx.android.synthetic.main.activity_headlines_nav_and_content.*
@@ -130,8 +131,8 @@ class HeadlinesBrowseActivity
     /**
      * Setups the navigation bar with all the news sources which can be selected.
      */
-    private fun setupNavigationDrawerAdapter(headlines: List<NavigationRow>?) {
-        nav_drawer_recycler_view.adapter = NewsSourceAdapter(headlines ?: emptyList(),
+    private fun setupNavigationDrawerAdapter(headlines: List<NewsHeadlines>) {
+        nav_drawer_recycler_view.adapter = NewsSourceAdapter(headlines,
                 this::onNewsSourceSelected)
     }
 
@@ -142,7 +143,7 @@ class HeadlinesBrowseActivity
         toolbar.title = title
     }
 
-    fun onNewsSourceSelected(selectedRow: NavigationRow) {
+    fun onNewsSourceSelected(selectedRow: NewsCategoryHeadlines) {
         Timber.d("onNewsSourceSelected() called with: row = [${selectedRow}]")
 
         updateToolbarTitle(selectedRow.displayTitle ?: selectedRow.title!!)
@@ -151,10 +152,10 @@ class HeadlinesBrowseActivity
         // primary sections of the activity.
         if (headlinesPagerAdapter == null) {
             // Set up the ViewPager with the sections adapter.
-            headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.cards!!)
+            headlinesPagerAdapter = HeadlinesPagerAdapter(fragmentManager, selectedRow.newsHeadlines!!)
             news_headlines_pager_container.adapter = headlinesPagerAdapter
         } else {
-            headlinesPagerAdapter!!.setData(selectedRow.cards!!)
+            headlinesPagerAdapter!!.setData(selectedRow.newsHeadlines!!)
             news_headlines_pager_container.setCurrentItem(0, true)
         }
 
@@ -166,16 +167,13 @@ class HeadlinesBrowseActivity
     //
     // HeadlinesContract.View
     //
-    override fun showHeadlines(headlines: MutableList<NavigationRow>?) {
-        Timber.d("showHeadlines() called with: headlines = [${headlines}]")
-        setupNavigationDrawerAdapter(headlines?.filter {
-            // Only provide news source category (not divider or header)
-            it.type == NavigationRow.TYPE_DEFAULT
-        })
+    override fun showHeadlines(headlines: MutableList<NewsHeadlines>) {
+        Timber.d("showHeadlines() called with: categoriesHeadlines = [${headlines}]")
+        setupNavigationDrawerAdapter(headlines)
     }
 
-    override fun showHeadlineDetailsUi(cardItem: CardItem?) {
-        Timber.d("showHeadlineDetailsUi() called with: cardItem = [${cardItem}]")
+    override fun showHeadlineDetailsUi(newsHeadlineItem: NewsHeadlineItem?) {
+        Timber.d("showHeadlineDetailsUi() called with: newsHeadlineItem = [${newsHeadlineItem}]")
         // NOTE: Details view on mobile is not supported to keep it minimal.
     }
 
@@ -203,6 +201,8 @@ class HeadlinesBrowseActivity
 
     override fun showDataLoadingError() {
         Timber.d("showDataLoadingError() called")
+
+        Toast.makeText(this, "Failed to load news.", Toast.LENGTH_LONG).show()
     }
 
     override fun showDataNotAvailable() {

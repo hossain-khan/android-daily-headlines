@@ -33,14 +33,16 @@ import android.os.Bundle;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
 import info.hossainkhan.android.core.headlines.HeadlinesPresenter;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
+import info.hossainkhan.android.core.model.NewsHeadlines;
 import info.hossainkhan.android.core.model.ScreenType;
-import info.hossainkhan.android.core.model.NavigationRow;
+import info.hossainkhan.android.core.model.NewsCategoryHeadlines;
 import info.hossainkhan.android.core.newsprovider.NewsProviderManager;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.about.DisplayInfoActivity;
@@ -144,13 +146,13 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
     @Override
-    public void showHeadlines(final List<NavigationRow> headlines) {
+    public void showHeadlines(final List<NewsHeadlines> headlines) {
         loadRows(headlines);
         setupEventListeners();
     }
 
     @Override
-    public void showHeadlineDetailsUi(final CardItem item) {
+    public void showHeadlineDetailsUi(final NewsHeadlineItem item) {
         Timber.d("Load details view for item: %s", item);
         startActivity(HeadlinesDetailsActivity.createLaunchIntent(getActivity().getBaseContext(),item));
     }
@@ -203,8 +205,21 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
 
-    private void loadRows(final List<NavigationRow> list) {
-        applyStaticNavigationItems(list);
+    private void loadRows(final List<NewsHeadlines> list) {
+        ArrayList<NewsCategoryHeadlines> newsCategoryHeadlines = new ArrayList<>();
+        for (final NewsHeadlines newsHeadlines : list) {
+
+            // Builds the header for each news source.
+            newsCategoryHeadlines.add(NewsCategoryHeadlines.Companion.builder(newsHeadlines.getNewsSource().getId())
+                    .title(newsHeadlines.getNewsSource().getName())
+                    .displayTitle(newsHeadlines.getNewsSource().getName())
+                    .type(NewsCategoryHeadlines.TYPE_SECTION_HEADER)
+                    .build());
+
+            newsCategoryHeadlines.addAll(newsHeadlines.getCategoriesHeadlines());
+        }
+
+        applyStaticNavigationItems(newsCategoryHeadlines);
 
 
         mRowsAdapter = new ArrayObjectAdapter(new ShadowRowPresenterSelector());
@@ -212,8 +227,8 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
         int totalNavigationItems = list.size();
         int i;
         for (i = 0; i < totalNavigationItems; i++) {
-            NavigationRow navigationRow = list.get(i);
-            mRowsAdapter.add(buildCardRow(mApplicationContext, navigationRow));
+            NewsCategoryHeadlines categoryHeadlines = newsCategoryHeadlines.get(i);
+            mRowsAdapter.add(buildCardRow(mApplicationContext, categoryHeadlines));
         }
 
         setAdapter(mRowsAdapter);
@@ -223,7 +238,7 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
      * Adds static navigation items like Menu and settings to existing list of navigation.
      * @param list Existing list of items.
      */
-    private void applyStaticNavigationItems(final List<NavigationRow> list) {
+    private void applyStaticNavigationItems(final List<NewsCategoryHeadlines> list) {
         addSettingsNavigation(mResources, list);
     }
 

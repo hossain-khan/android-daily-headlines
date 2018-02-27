@@ -34,7 +34,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import info.hossainkhan.android.core.gson.AutoValueAdapterFactory;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.dailynewsheadlines.R;
 
 /**
@@ -42,20 +42,20 @@ import info.hossainkhan.dailynewsheadlines.R;
  */
 public class HeadlinesDetailsActivity extends Activity {
     private static final String BUNDLE_KEY_CARD_DATA = "KEY_CARD_DATA";
-    private CardItem mCardItem;
+    private NewsHeadlineItem mNewsHeadlineItem;
 
 
     /**
      * Creates launch intent with required information.
      *
      * @param activityContext Activity context.
-     * @param cardItem        The card item data.
+     * @param newsHeadlineItem        The card item data.
      * @return Intent that launches this activity with provided data.
      */
-    public static Intent createLaunchIntent(Context activityContext, CardItem cardItem) {
+    public static Intent createLaunchIntent(Context activityContext, NewsHeadlineItem newsHeadlineItem) {
         Intent intent = new Intent(activityContext, HeadlinesDetailsActivity.class);
 
-        intent.putExtra(BUNDLE_KEY_CARD_DATA, new Gson().toJson(cardItem));
+        intent.putExtra(BUNDLE_KEY_CARD_DATA, new Gson().toJson(newsHeadlineItem));
 
         return intent;
     }
@@ -70,18 +70,18 @@ public class HeadlinesDetailsActivity extends Activity {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new AutoValueAdapterFactory())
                 .create();
-        mCardItem = gson.fromJson(extras.getString(BUNDLE_KEY_CARD_DATA), CardItem.class);
+        mNewsHeadlineItem = gson.fromJson(extras.getString(BUNDLE_KEY_CARD_DATA), NewsHeadlineItem.class);
 
         setContentView(R.layout.activity_headlines_details);
     }
 
     /**
-     * Provides {@link CardItem} instance that was sent via {@link #createLaunchIntent(Context, CardItem)}.
+     * Provides {@link NewsHeadlineItem} instance that was sent via {@link #createLaunchIntent(Context, NewsHeadlineItem)}.
      *
-     * @return The {@link CardItem} from intent data.
+     * @return The {@link NewsHeadlineItem} from intent data.
      */
-    public CardItem getCardItem() {
-        return mCardItem;
+    public NewsHeadlineItem getCardItem() {
+        return mNewsHeadlineItem;
     }
 
 }

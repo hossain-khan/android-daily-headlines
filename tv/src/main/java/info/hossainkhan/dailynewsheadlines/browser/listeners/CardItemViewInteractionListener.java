@@ -33,7 +33,7 @@ import android.support.v17.leanback.widget.RowPresenter;
 import java.lang.ref.WeakReference;
 
 import info.hossainkhan.android.core.headlines.HeadlinesContract;
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import timber.log.Timber;
 
 
@@ -49,7 +49,7 @@ public class CardItemViewInteractionListener implements OnItemViewClickedListene
     public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                               RowPresenter.ViewHolder rowViewHolder, Row row) {
         Timber.d("onItemClicked: %s", item);
-        final CardItem card = (CardItem) item;
+        final NewsHeadlineItem card = (NewsHeadlineItem) item;
 
         HeadlinesContract.Presenter presenter = mHeadlinesPresenterRef.get();
         if(presenter != null) {
@@ -63,12 +63,12 @@ public class CardItemViewInteractionListener implements OnItemViewClickedListene
 
         Timber.d("onItemSelected: %s", item);
 
-        if (item instanceof CardItem) {
-            CardItem cardItem = ((CardItem) item);
+        if (item instanceof NewsHeadlineItem) {
+            NewsHeadlineItem newsHeadlineItem = ((NewsHeadlineItem) item);
 
             HeadlinesContract.Presenter presenter = mHeadlinesPresenterRef.get();
             if(presenter != null) {
-                presenter.onHeadlineItemSelected(cardItem);
+                presenter.onHeadlineItemSelected(newsHeadlineItem);
             }
         }
     }

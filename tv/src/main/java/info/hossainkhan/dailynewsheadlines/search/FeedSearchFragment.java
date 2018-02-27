@@ -35,7 +35,7 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import info.hossainkhan.android.core.model.CardItem;
+import info.hossainkhan.android.core.model.NewsHeadlineItem;
 import info.hossainkhan.android.core.search.SearchContract;
 import info.hossainkhan.android.core.search.SearchPresenter;
 import info.hossainkhan.android.core.util.StringUtils;
@@ -50,7 +50,7 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
 
     private ArrayObjectAdapter mRowsAdapter;
     private SearchPresenter mPresenter;
-    private CardItem mSelectedCardItem;
+    private NewsHeadlineItem mSelectedNewsHeadlineItem;
 
     /**
      * Creates new instance of this fragment.
@@ -78,11 +78,11 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
             Timber.d("onItemClicked() called with: itemViewHolder = [" + itemViewHolder + "], item = [" + item +
                     "], rowViewHolder = [" + rowViewHolder + "], row = [" + row + "]");
 
-            if(item instanceof CardItem) {
-                mSelectedCardItem = (CardItem) item;
-                if(StringUtils.isNotEmpty(mSelectedCardItem.getContentUrl())) {
+            if(item instanceof NewsHeadlineItem) {
+                mSelectedNewsHeadlineItem = (NewsHeadlineItem) item;
+                if(StringUtils.isNotEmpty(mSelectedNewsHeadlineItem.getContentUrl())) {
                     GuidedStepFragment fragment = ValidateNewsSourceDialogFragment
-                            .newInstance(mSelectedCardItem.getTitle(), mSelectedCardItem.getContentUrl());
+                            .newInstance(mSelectedNewsHeadlineItem.getTitle(), mSelectedNewsHeadlineItem.getContentUrl());
                     GuidedStepFragment.add(getFragmentManager(), fragment);
                 } else {
                     Toast.makeText(getActivity(), R.string.search_result_no_feed_url, Toast.LENGTH_SHORT).show();
@@ -98,7 +98,7 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
     @Override
     public void onResume() {
         super.onResume();
-        Timber.d("onResume() - past items selected: %s", mSelectedCardItem);
+        Timber.d("onResume() - past items selected: %s", mSelectedNewsHeadlineItem);
     }
 
     @Override
@@ -125,12 +125,12 @@ public class FeedSearchFragment extends SearchFragment implements SearchContract
     }
 
     @Override
-    public void showSearchResults(final List<CardItem> cardItems) {
-        Timber.d("Found search items. Total: %d", cardItems.size());
+    public void showSearchResults(final List<NewsHeadlineItem> newsHeadlineItems) {
+        Timber.d("Found search items. Total: %d", newsHeadlineItems.size());
         mRowsAdapter.clear();
         mRowsAdapter.add(RowBuilderFactory.buildSearchResultCardRow(getActivity().getApplicationContext(),
-                cardItems));
-        mRowsAdapter.notifyArrayItemRangeChanged(0, cardItems.size());
+                newsHeadlineItems));
+        mRowsAdapter.notifyArrayItemRangeChanged(0, newsHeadlineItems.size());
     }
 
     public static class SearchQueryObserver {

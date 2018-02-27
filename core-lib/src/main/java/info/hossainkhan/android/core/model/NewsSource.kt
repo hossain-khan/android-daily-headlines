@@ -22,9 +22,10 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.model;
+package info.hossainkhan.android.core.model
 
-import com.google.gson.annotations.SerializedName;
+import android.support.annotation.NonNull
+import com.google.gson.annotations.SerializedName
 
 /**
  * A model class to define information on news source or publisher.
@@ -33,8 +34,9 @@ data class NewsSource(
         /**
          * A unique identifier for the news-source/publication.
          */
+        @NonNull
         @SerializedName("id")
-        val id: String?,
+        val id: String,
 
         /**
          * The publication's name.

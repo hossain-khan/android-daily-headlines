@@ -24,10 +24,10 @@
 
 package info.hossainkhan.android.core.model;
 
-import java.util.List;
+import android.support.annotation.NonNull;
+
 import java.util.Set;
 
-import info.hossainkhan.android.core.model.NewsSource;
 import io.swagger.client.model.ArticleCategory;
 import rx.Observable;
 
@@ -41,17 +41,20 @@ public interface NewsProvider {
      *
      * @return {@link NewsSource}
      */
+    @NonNull
     NewsSource getNewsSource();
 
     /**
      * Provide list of supported categories for the current {@link NewsSource}.
-     * @return Unique list of categories.
+     * @return Unique list of categories or empty if it does not support any.
      */
+    @NonNull
     Set<ArticleCategory> getSupportedCategories();
 
     /**
      * Provides {@link Observable} containing all the headlines.
      * @return Observable.
      */
-    Observable<List<NavigationRow>> getNewsObservable();
+    @NonNull
+    Observable<NewsHeadlines> getNewsObservable();
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2016 Hossain Khan
+ * Copyright (c) 2018 Hossain Khan
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,31 +22,28 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.android.core.headlines;
-
-import info.hossainkhan.android.core.base.MvpPresenter;
-import info.hossainkhan.android.core.base.MvpView;
-import info.hossainkhan.android.core.model.NewsHeadlineItem;
+package info.hossainkhan.android.core.model
 
 /**
- * Contract for headlines details view
+ * Data class consisting for the news source and it's headlines.
+ *
+ * Example:
+ *    newsSource -> NY Times Source Info
+ *    headlines -> Top Category Headlines    1 -> List of top headlines
+ *              -> Sports Category Headlines 2 -> List of sports headlines
  */
-public interface HeadlinesDetailsContract {
-    int ACTION_ID_OPEN_NEWS_URL = 101;
+data class NewsHeadlines(
+        /**
+         * News source information.
+         */
+        val newsSource: NewsSource,
+        /**
+         * List of news navigation categories containing headlines.
+         */
+        val categoriesHeadlines: List<NewsCategoryHeadlines>) {
 
-    interface View extends MvpView {
-        void updateScreenTitle(String title);
-
-        void openArticleWebUrl(String contentUrl);
-
-        void showHeadlineDetails(NewsHeadlineItem newsHeadlineItem);
-
-        void loadDetailsImage(String imageUrl);
-
-        void loadDefaultImage();
-    }
-
-    interface Presenter extends MvpPresenter<HeadlinesDetailsContract.View> {
-        void onActionItemClicked(final int action);
-    }
+    /**
+     * News source ID from the [NewsSource]. This may be used for caching in database.
+     */
+    val newsSourceId = newsSource.id
 }

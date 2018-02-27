@@ -26,6 +26,7 @@ package info.hossainkhan.android.core;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.leakcanary.LeakCanary;
@@ -42,7 +43,7 @@ import timber.log.Timber;
 /**
  * Extended {@link Application} that is shared among all the android application modules.
  */
-public class CoreApplication extends Application {
+public class CoreApplication extends MultiDexApplication {
     private static final String TAG = "CoreApplication";
 
     private static AppComponent sAppComponent;
@@ -91,7 +92,7 @@ public class CoreApplication extends Application {
         sAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .interactorsModule(new InteractorsModule())
-                .networkModule(new NetworkModule())
+                .networkModule(new NetworkModule(this))
                 .build();
 
     }

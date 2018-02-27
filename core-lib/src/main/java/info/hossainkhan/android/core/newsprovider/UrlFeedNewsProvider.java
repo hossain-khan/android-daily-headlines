@@ -25,13 +25,14 @@
 package info.hossainkhan.android.core.newsprovider;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.concurrent.TimeUnit;
 
 import info.hossainkhan.android.core.model.NewsSource;
 
 /**
- * Android Police news provider using RSS feed.
+ * A generic news provider using RSS feed.
  */
 public class UrlFeedNewsProvider extends RssFeedNewsProvider {
     private final String mFeedUrl;
@@ -39,11 +40,14 @@ public class UrlFeedNewsProvider extends RssFeedNewsProvider {
 
     /**
      * URL based feed news provider.
-     * @param context Application context.
+     *
+     * @param context      Application context.
      * @param providerName News provider name.
-     * @param feedUrl News provider feed URL.
+     * @param feedUrl      News provider feed URL.
      */
-    public UrlFeedNewsProvider(final Context context, final String providerName, final String feedUrl) {
+    public UrlFeedNewsProvider(@NonNull final Context context,
+                               @NonNull final String providerName,
+                               @NonNull final String feedUrl) {
         super(context);
 
         mFeedUrl = feedUrl;
@@ -56,11 +60,13 @@ public class UrlFeedNewsProvider extends RssFeedNewsProvider {
                 TimeUnit.HOURS.toSeconds(24));
     }
 
+    @NonNull
     @Override
     public String getFeedUrl() {
         return mFeedUrl;
     }
 
+    @NonNull
     @Override
     public NewsSource getNewsSource() {
         return mNewsSource;
