@@ -32,63 +32,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
+import info.hossainkhan.android.core.onboarding.OnboardingData;
 import info.hossainkhan.android.core.util.PreferenceUtils;
 import info.hossainkhan.dailynewsheadlines.R;
 import info.hossainkhan.dailynewsheadlines.browser.MainActivity;
 
 public class OnboardingFragment extends android.support.v17.leanback.app.OnboardingFragment {
-    /**
-     * Unique screen name used for reporting and analytics.
-     */
-    private static final String ANALYTICS_SCREEN_NAME = "onboarding";
-
-    private static final int[] pageTitles = {
-            R.string.onboarding_title_welcome,
-            R.string.onboarding_title_contribute,
-            R.string.onboarding_title_relax
-    };
-
-    /**
-     * String formatting arguments for the resource to avoid issue on older android. See {@link Emoji} for more information.
-     */
-    private static final SparseArray<List<String>> pageTitleFormatArgs = new SparseArray<>(pageTitles.length);
-    static {
-        pageTitleFormatArgs.put(R.string.onboarding_title_relax, Arrays.asList(Emoji.THUMBS_UP));
-    }
-
-    private static final int[] pageDescriptions = {
-            R.string.onboarding_description_welcome,
-            R.string.onboarding_description_contribute,
-            R.string.onboarding_description_relax
-    };
-
-    /**
-     * String formatting arguments for the resource to avoid issue on older android. See {@link Emoji} for more information.
-     */
-    private static final SparseArray<List<String>> pageDescriptionsFormatArgs = new SparseArray<>(pageTitles.length);
-    static {
-        pageDescriptionsFormatArgs.put(R.string.onboarding_description_welcome, Arrays.asList(Emoji.TELEVISION, Emoji.EYE_GLASS, Emoji.COFFEE, Emoji.NEWS_PAPER));
-        pageDescriptionsFormatArgs.put(R.string.onboarding_description_contribute, Arrays.asList(Emoji.COMPUTER));
-        pageDescriptionsFormatArgs.put(R.string.onboarding_description_relax, Arrays.asList(Emoji.HAMMER, Emoji.WRENCH, Emoji.LIGHT, Emoji.BUG, Emoji.LADY_BUG));
-    }
-
-
-    private static final int[] pageIcons = {
-            R.drawable.vector_icon_newspaper,
-            R.drawable.vector_icon_github_circle,
-            R.drawable.vector_icon_lab_flask_outline
-    };
 
     private static final long ANIMATION_DURATION = 500;
     private Animator mContentAnimator;
@@ -106,7 +64,7 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
     public void onStart() {
         super.onStart();
         CoreApplication.getAnalyticsReporter().reportOnBoardingTutorialBeingEvent();
-        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(ANALYTICS_SCREEN_NAME);
+        CoreApplication.getAnalyticsReporter().reportScreenLoadedEvent(OnboardingData.ANALYTICS_SCREEN_NAME);
     }
 
     @Override
@@ -125,14 +83,14 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
 
     @Override
     protected int getPageCount() {
-        return pageTitles.length;
+        return OnboardingData.pageTitles.length;
     }
 
     @Override
     protected String getPageTitle(int pageIndex) {
-        int pageTitleResId = pageTitles[pageIndex];
+        int pageTitleResId = OnboardingData.pageTitles[pageIndex];
 
-        List<String> formatArgs = pageTitleFormatArgs.get(pageTitleResId);
+        List<String> formatArgs = OnboardingData.pageTitleFormatArgs.get(pageTitleResId);
         if(formatArgs != null) {
             return getString(pageTitleResId, formatArgs.toArray());
         }
@@ -141,9 +99,9 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
 
     @Override
     protected String getPageDescription(int pageIndex) {
-        int pageDescriptionResId = pageDescriptions[pageIndex];
+        int pageDescriptionResId = OnboardingData.pageDescriptions[pageIndex];
 
-        List<String> formatArgs = pageDescriptionsFormatArgs.get(pageDescriptionResId);
+        List<String> formatArgs = OnboardingData.pageDescriptionsFormatArgs.get(pageDescriptionResId);
         if(formatArgs != null) {
             return getString(pageDescriptionResId, formatArgs.toArray());
         }
@@ -186,7 +144,7 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
         fadeOut.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                mContentView.setImageDrawable(getResources().getDrawable(pageIcons[newPage]));
+                mContentView.setImageDrawable(getResources().getDrawable(OnboardingData.pageIcons[newPage]));
             }
         });
         animators.add(fadeOut);
@@ -198,7 +156,7 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
     }
     @Override
     protected Animator onCreateEnterAnimation() {
-        mContentView.setImageDrawable(getResources().getDrawable(pageIcons[0]));
+        mContentView.setImageDrawable(getResources().getDrawable(OnboardingData.pageIcons[0]));
         mContentAnimator = createFadeInAnimator(mContentView);
         return mContentAnimator;
     }

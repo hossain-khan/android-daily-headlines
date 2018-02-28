@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2016 Hossain Khan
+ * Copyright (c) 2018 Hossain Khan
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.hossainkhan.dailynewsheadlines.onboarding;
+package info.hossainkhan.android.core.onboarding;
 
 /**
  * Emoji constants using unicode to avoid issue found in following sources
