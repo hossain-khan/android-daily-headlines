@@ -38,7 +38,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import info.hossainkhan.android.core.CoreApplication;
 import info.hossainkhan.android.core.onboarding.OnboardingData;
@@ -83,30 +82,17 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
 
     @Override
     protected int getPageCount() {
-        return OnboardingData.pageTitles.length;
+        return OnboardingData.getTotalPages();
     }
 
     @Override
     protected String getPageTitle(int pageIndex) {
-        int pageTitleResId = OnboardingData.pageTitles[pageIndex];
-
-        List<String> formatArgs = OnboardingData.pageTitleFormatArgs.get(pageTitleResId);
-        if(formatArgs != null) {
-            return getString(pageTitleResId, formatArgs.toArray());
-        }
-        return getString(pageTitleResId);
+        return OnboardingData.getPageTitle(getResources(), pageIndex);
     }
 
     @Override
     protected String getPageDescription(int pageIndex) {
-        int pageDescriptionResId = OnboardingData.pageDescriptions[pageIndex];
-
-        List<String> formatArgs = OnboardingData.pageDescriptionsFormatArgs.get(pageDescriptionResId);
-        if(formatArgs != null) {
-            return getString(pageDescriptionResId, formatArgs.toArray());
-        }
-        return getString(pageDescriptionResId);
-
+        return OnboardingData.getPageDescription(getResources(), pageIndex);
     }
 
     @Nullable
@@ -154,12 +140,14 @@ public class OnboardingFragment extends android.support.v17.leanback.app.Onboard
         set.start();
         mContentAnimator = set;
     }
+
     @Override
     protected Animator onCreateEnterAnimation() {
         mContentView.setImageDrawable(getResources().getDrawable(OnboardingData.pageIcons[0]));
         mContentAnimator = createFadeInAnimator(mContentView);
         return mContentAnimator;
     }
+
     private Animator createFadeInAnimator(View view) {
         return ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f, 1.0f).setDuration(ANIMATION_DURATION);
     }

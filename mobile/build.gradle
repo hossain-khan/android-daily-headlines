@@ -75,6 +75,10 @@ dependencies {
 
     implementation "com.android.support.constraint:constraint-layout:1.0.2"
 
+    // Guided steps / Onboarding lib
+    // https://github.com/codemybrainsout/ahoy-onboarding
+    implementation 'com.codemybrainsout.onboarding:onboarder:1.0.4'
+
     // ----------------------------------------------------------------
     // Android Unit and Instrumentation test
     // ----------------------------------------------------------------

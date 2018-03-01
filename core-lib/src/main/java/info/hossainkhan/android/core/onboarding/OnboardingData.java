@@ -25,6 +25,8 @@
 package info.hossainkhan.android.core.onboarding;
 
 
+import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
 import java.util.Arrays;
@@ -41,7 +43,7 @@ public final class OnboardingData {
      */
     public static final String ANALYTICS_SCREEN_NAME = "onboarding";
 
-    public static final int[] pageTitles = {
+    private static final int[] pageTitles = {
             R.string.onboarding_title_welcome,
             R.string.onboarding_title_contribute,
             R.string.onboarding_title_relax
@@ -50,13 +52,13 @@ public final class OnboardingData {
     /**
      * String formatting arguments for the resource to avoid issue on older android. See {@link Emoji} for more information.
      */
-    public static final SparseArray<List<String>> pageTitleFormatArgs = new SparseArray<>(pageTitles.length);
+    private static final SparseArray<List<String>> pageTitleFormatArgs = new SparseArray<>(pageTitles.length);
 
     static {
         pageTitleFormatArgs.put(R.string.onboarding_title_relax, Arrays.asList(Emoji.THUMBS_UP));
     }
 
-    public static final int[] pageDescriptions = {
+    private static final int[] pageDescriptions = {
             R.string.onboarding_description_welcome,
             R.string.onboarding_description_contribute,
             R.string.onboarding_description_relax
@@ -65,7 +67,7 @@ public final class OnboardingData {
     /**
      * String formatting arguments for the resource to avoid issue on older android. See {@link Emoji} for more information.
      */
-    public static final SparseArray<List<String>> pageDescriptionsFormatArgs = new SparseArray<>(pageTitles.length);
+    private static final SparseArray<List<String>> pageDescriptionsFormatArgs = new SparseArray<>(pageTitles.length);
 
     static {
         pageDescriptionsFormatArgs.put(R.string.onboarding_description_welcome,
@@ -82,5 +84,49 @@ public final class OnboardingData {
             R.drawable.vector_icon_github_circle,
             R.drawable.vector_icon_lab_flask_outline
     };
+
+    /**
+     * Provides total number pages available.
+     * @return Total pages.
+     */
+    public static int getTotalPages() {
+        return pageTitles.length;
+    }
+
+
+    /**
+     * Provides onboarding page title with formatted args if available.
+     *
+     * @param resources Android resources
+     * @param pageIndex Index of page, can't be more than {@link #getTotalPages()}.
+     * @return Formatted page title.
+     */
+    public static String getPageTitle(@NonNull final Resources resources, final int pageIndex) {
+        int pageTitleResId = OnboardingData.pageTitles[pageIndex];
+
+        List<String> formatArgs = OnboardingData.pageTitleFormatArgs.get(pageTitleResId);
+        if (formatArgs != null) {
+            return resources.getString(pageTitleResId, formatArgs.toArray());
+        }
+        return resources.getString(pageTitleResId);
+    }
+
+    /**
+     * Provides onboarding page description with formatted args if available.
+     *
+     * @param resources Android resources
+     * @param pageIndex Index of page, can't be more than {@link #getTotalPages()}.
+     * @return Formatted page description.
+     */
+    public static String getPageDescription(@NonNull final Resources resources, final int pageIndex) {
+        int pageDescriptionResId = OnboardingData.pageDescriptions[pageIndex];
+
+        List<String> formatArgs = OnboardingData.pageDescriptionsFormatArgs.get(pageDescriptionResId);
+        if (formatArgs != null) {
+            return resources.getString(pageDescriptionResId, formatArgs.toArray());
+        }
+        return resources.getString(pageDescriptionResId);
+
+    }
 
 }
