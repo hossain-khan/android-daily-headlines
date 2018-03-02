@@ -42,7 +42,7 @@ import info.hossainkhan.android.core.usersource.UserSourceAddContract;
 import info.hossainkhan.android.core.usersource.UserSourceAddPresenter;
 import info.hossainkhan.android.core.usersource.UserSourceManager;
 import info.hossainkhan.dailynewsheadlines.R;
-import info.hossainkhan.dailynewsheadlines.onboarding.Emoji;
+import info.hossainkhan.android.core.onboarding.Emoji;
 import timber.log.Timber;
 
 /**

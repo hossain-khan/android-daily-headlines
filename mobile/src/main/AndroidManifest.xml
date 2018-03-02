@@ -13,7 +13,7 @@
         <activity-alias
             android:name=".Launcher"
             android:label="@string/app_name"
-            android:targetActivity=".HeadlinesBrowseActivity">
+            android:targetActivity=".launcher.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,10 +21,18 @@
         </activity-alias>
 
         <activity
+            android:name=".launcher.LauncherActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
-            android:theme="@style/AppTheme.NoActionBar"
+        <activity
+            android:name=".onboarding.OnboardingActivity"
+            android:label="@string/title_activity_on_boarding"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".HeadlinesBrowseActivity"
-            android:label="@string/title_activity_headlines_browse" />
+            android:label="@string/title_activity_headlines_browse"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
