@@ -62,7 +62,6 @@ class OnboardingActivity : AhoyOnboarderActivity() {
         val onboardingScreens = mutableListOf<AhoyOnboarderCard>()
 
         val resources = resources
-        // FIXME - Use loop
         for (screenIndex in 0 until OnboardingData.getTotalPages()) {
             onboardingScreens.add(
                     AhoyOnboarderCard(

@@ -75,7 +75,7 @@ public final class OnboardingData {
         pageDescriptionsFormatArgs.put(R.string.onboarding_description_contribute,
                 Arrays.asList(Emoji.COMPUTER));
         pageDescriptionsFormatArgs.put(R.string.onboarding_description_relax,
-                Arrays.asList(Emoji.HAMMER, Emoji.WRENCH, Emoji.LIGHT, Emoji.BUG, Emoji.LADY_BUG));
+                Arrays.asList(Emoji.HAMMER, Emoji.WRENCH, Emoji.LIGHT, Emoji.WORM_BUG, Emoji.LADY_BUG));
     }
 
 

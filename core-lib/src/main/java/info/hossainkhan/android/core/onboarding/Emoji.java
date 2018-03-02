@@ -50,7 +50,7 @@ public class Emoji {
     public static final String NEWS_PAPER = "\uD83D\uDCF0";
     public static final String COFFEE = "\u2615";
     public static final String LIGHT = "\uD83D\uDCA1";
-    public static final String BUG = "\uD83D\uDC1B";
+    public static final String WORM_BUG = "\uD83D\uDC1B";
     public static final String LADY_BUG = "\uD83D\uDC1E";
     public static final String HAMMER = "\uD83D\uDD28";
     public static final String WRENCH = "\uD83D\uDD27";
