@@ -43,6 +43,22 @@ class OnboardingActivity : AhoyOnboarderActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val onboardingScreens = createOnboardingScreens()
+
+        setFinishButtonTitle(getString(R.string.button_text_finish_on_boarding))
+        showNavigationControls(true)
+
+        val colorList = ArrayList<Int>()
+        colorList.add(R.color.palette_primary1)
+        colorList.add(R.color.palette_secondary1)
+        colorList.add(R.color.palette_secondary3)
+
+        setColorBackground(colorList)
+
+        setOnboardPages(onboardingScreens)
+    }
+
+    private fun createOnboardingScreens(): List<AhoyOnboarderCard> {
         val onboardingScreens = mutableListOf<AhoyOnboarderCard>()
 
         val resources = resources
@@ -62,18 +78,7 @@ class OnboardingActivity : AhoyOnboarderActivity() {
             page.setDescriptionColor(R.color.black)
             page.setBackgroundColor(R.color.white)
         }
-
-        setFinishButtonTitle(getString(R.string.button_text_finish_on_boarding))
-        showNavigationControls(true)
-
-        val colorList = ArrayList<Int>()
-        colorList.add(R.color.palette_primary1)
-        colorList.add(R.color.palette_secondary1)
-        colorList.add(R.color.palette_secondary3)
-
-        setColorBackground(colorList)
-
-        setOnboardPages(onboardingScreens)
+        return onboardingScreens
     }
 
     override fun onFinishButtonPressed() {

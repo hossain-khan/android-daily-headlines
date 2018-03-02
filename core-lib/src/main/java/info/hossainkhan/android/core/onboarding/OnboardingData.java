@@ -87,6 +87,7 @@ public final class OnboardingData {
 
     /**
      * Provides total number pages available.
+     *
      * @return Total pages.
      */
     public static int getTotalPages() {
@@ -102,13 +103,8 @@ public final class OnboardingData {
      * @return Formatted page title.
      */
     public static String getPageTitle(@NonNull final Resources resources, final int pageIndex) {
-        int pageTitleResId = OnboardingData.pageTitles[pageIndex];
-
-        List<String> formatArgs = OnboardingData.pageTitleFormatArgs.get(pageTitleResId);
-        if (formatArgs != null) {
-            return resources.getString(pageTitleResId, formatArgs.toArray());
-        }
-        return resources.getString(pageTitleResId);
+        return getFormattedText(resources, pageIndex,
+                OnboardingData.pageTitles, OnboardingData.pageTitleFormatArgs);
     }
 
     /**
@@ -119,14 +115,29 @@ public final class OnboardingData {
      * @return Formatted page description.
      */
     public static String getPageDescription(@NonNull final Resources resources, final int pageIndex) {
-        int pageDescriptionResId = OnboardingData.pageDescriptions[pageIndex];
-
-        List<String> formatArgs = OnboardingData.pageDescriptionsFormatArgs.get(pageDescriptionResId);
-        if (formatArgs != null) {
-            return resources.getString(pageDescriptionResId, formatArgs.toArray());
-        }
-        return resources.getString(pageDescriptionResId);
-
+        return getFormattedText(resources, pageIndex,
+                OnboardingData.pageDescriptions, OnboardingData.pageDescriptionsFormatArgs);
     }
 
+    /**
+     * Provides formatted text using text and it's respective args.
+     *
+     * @param resources      Android resources
+     * @param pageIndex      Index of page, can't be more than {@link #getTotalPages()}.
+     * @param texts          Texts array.
+     * @param textFormatArgs Text formatting arguments.
+     * @return formatted text
+     */
+    private static String getFormattedText(@NonNull final Resources resources,
+                                           final int pageIndex,
+                                           int[] texts,
+                                           SparseArray<List<String>> textFormatArgs) {
+        int textResId = texts[pageIndex];
+
+        List<String> formatArgs = textFormatArgs.get(textResId);
+        if (formatArgs != null) {
+            return resources.getString(textResId, formatArgs.toArray());
+        }
+        return resources.getString(textResId);
+    }
 }

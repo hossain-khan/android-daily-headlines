@@ -37,6 +37,9 @@ android {
          * https://github.com/square/okio/issues/58
          */
         warning 'InvalidPackage'
+
+        // Disabled `GradleCompatible` warning because play-services-basement:11.8.0 depends on support-v4:25.2.0
+        disable 'GradleCompatible'
     }
 
     compileOptions {
