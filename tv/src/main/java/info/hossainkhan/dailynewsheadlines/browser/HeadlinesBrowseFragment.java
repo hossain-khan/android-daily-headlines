@@ -205,9 +205,9 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
     }
 
 
-    private void loadRows(final List<NewsHeadlines> list) {
+    private void loadRows(final List<NewsHeadlines> headlinesList) {
         ArrayList<NewsCategoryHeadlines> newsCategoryHeadlines = new ArrayList<>();
-        for (final NewsHeadlines newsHeadlines : list) {
+        for (final NewsHeadlines newsHeadlines : headlinesList) {
 
             // Builds the header for each news source.
             newsCategoryHeadlines.add(NewsCategoryHeadlines.Companion.builder(newsHeadlines.getNewsSource().getId())
@@ -219,14 +219,15 @@ public class HeadlinesBrowseFragment extends BrowseFragment implements Headlines
             newsCategoryHeadlines.addAll(newsHeadlines.getCategoriesHeadlines());
         }
 
+        // Adds settings and info card rows
         applyStaticNavigationItems(newsCategoryHeadlines);
 
 
         mRowsAdapter = new ArrayObjectAdapter(new ShadowRowPresenterSelector());
 
-        int totalNavigationItems = list.size();
-        int i;
-        for (i = 0; i < totalNavigationItems; i++) {
+        // Build the actual card row for each NewsCategoryHeadlines for adapter
+        int totalNavigationItems = newsCategoryHeadlines.size();
+        for (int i = 0; i < totalNavigationItems; i++) {
             NewsCategoryHeadlines categoryHeadlines = newsCategoryHeadlines.get(i);
             mRowsAdapter.add(buildCardRow(mApplicationContext, categoryHeadlines));
         }
