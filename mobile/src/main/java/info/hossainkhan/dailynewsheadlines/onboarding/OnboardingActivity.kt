@@ -26,6 +26,7 @@ package info.hossainkhan.dailynewsheadlines.onboarding
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 
 import com.codemybrainsout.onboarder.AhoyOnboarderActivity
 import com.codemybrainsout.onboarder.AhoyOnboarderCard
@@ -48,12 +49,14 @@ class OnboardingActivity : AhoyOnboarderActivity() {
         setFinishButtonTitle(getString(R.string.button_text_finish_on_boarding))
         showNavigationControls(true)
 
-        val colorList = ArrayList<Int>()
-        colorList.add(R.color.palette_primary1)
-        colorList.add(R.color.palette_secondary1)
-        colorList.add(R.color.palette_secondary3)
+        setImageBackground(R.drawable.side_nav_bar_item_bg)
 
-        setColorBackground(colorList)
+        //Set pager indicator colors
+        setInactiveIndicatorColor(R.color.palette_primary1)
+        setActiveIndicatorColor(R.color.palette_primary2)
+
+        //Set the finish button style
+        setFinishButtonDrawableStyle(ContextCompat.getDrawable(this, R.drawable.rounded_button))
 
         setOnboardPages(onboardingScreens)
     }
@@ -63,20 +66,19 @@ class OnboardingActivity : AhoyOnboarderActivity() {
 
         val resources = resources
         for (screenIndex in 0 until OnboardingData.getTotalPages()) {
-            onboardingScreens.add(
-                    AhoyOnboarderCard(
-                            OnboardingData.getPageTitle(resources, screenIndex),
-                            OnboardingData.getPageDescription(resources, screenIndex),
-                            OnboardingData.pageIcons[screenIndex])
-            )
+            val onboarderCard = AhoyOnboarderCard(
+                    OnboardingData.getPageTitle(resources, screenIndex),
+                    OnboardingData.getPageDescription(resources, screenIndex),
+                    OnboardingData.pageIcons[screenIndex])
+
+            onboarderCard.setTitleColor(R.color.white)
+            onboarderCard.setDescriptionColor(R.color.white)
+            onboarderCard.setBackgroundColor(R.color.black_opaque)
+
+            // Add the configured card to the list for adapter
+            onboardingScreens.add(onboarderCard)
         }
 
-
-        for (page in onboardingScreens) {
-            page.setTitleColor(R.color.black)
-            page.setDescriptionColor(R.color.black)
-            page.setBackgroundColor(R.color.white)
-        }
         return onboardingScreens
     }
 
