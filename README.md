@@ -36,7 +36,7 @@ For more infromation check **[project wiki](https://github.com/amardeshbd/androi
 
 ![device-2016-11-09-231920](https://cloud.githubusercontent.com/assets/99822/20164469/1947d71a-a6d3-11e6-9e17-e357daca49d9.png)
 
-[![mobile-demo](https://user-images.githubusercontent.com/99822/37881457-397e4712-3066-11e8-9109-cf9b0a663caa.png)](https://user-images.githubusercontent.com/99822/37881767-6b22debe-306a-11e8-848c-4175dd5e358f.gif)
+[![mobile-demo](https://user-images.githubusercontent.com/99822/37881945-6e1e44e4-306c-11e8-814e-32f2fddc215b.png)](https://user-images.githubusercontent.com/99822/37881767-6b22debe-306a-11e8-848c-4175dd5e358f.gif)
 
 ----
 
