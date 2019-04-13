@@ -44,7 +44,11 @@ import info.hossainkhan.android.core.newsprovider.NewsProviderManager
 import kotlinx.android.synthetic.main.activity_headlines_nav_and_content.*
 import kotlinx.android.synthetic.main.headlines_item_viewpager_container.*
 import kotlinx.android.synthetic.main.headlines_main_content_container.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class HeadlinesBrowseActivity
@@ -68,8 +72,17 @@ class HeadlinesBrowseActivity
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_headlines_nav_and_content)
         setSupportActionBar(toolbar)
+        supportActionBar?.title =  getString(R.string.choose_source_title)
 
+        setupNavigationDrawer()
 
+        // NOTE use DI to inject
+        val context = applicationContext
+        val newsProviderManager = NewsProviderManager(context)
+        headlinesPresenter = HeadlinesPresenter(context, this, newsProviderManager)
+    }
+
+    private fun setupNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -77,10 +90,7 @@ class HeadlinesBrowseActivity
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        // NOTE use DI to inject
-        val context = applicationContext
-        val newsProviderManager = NewsProviderManager(context)
-        headlinesPresenter = HeadlinesPresenter(context, this, newsProviderManager)
+        sidebar_subtitle.text = SimpleDateFormat("EEE, d MMM yyy", Locale.getDefault()).format(Date())
     }
 
     override fun onStop() {
