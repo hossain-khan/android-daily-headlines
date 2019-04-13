@@ -38,6 +38,7 @@ import info.hossainkhan.android.core.model.NewsHeadlineItem;
  *
  * @param <T> View type for the card.
  */
+@SuppressWarnings("unchecked")
 public abstract class AbstractCardPresenter<T extends BaseCardView> extends Presenter {
 
     private final Context mContext;

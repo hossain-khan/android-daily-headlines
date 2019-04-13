@@ -25,6 +25,7 @@ public class ResourceCache {
 
     private final SparseArray<View> mCachedViews = new SparseArray<View>();
 
+    @SuppressWarnings("unchecked")
     public <ViewType extends View> ViewType getViewById(View view, int resId) {
         View child = mCachedViews.get(resId, null);
         if (child == null) {

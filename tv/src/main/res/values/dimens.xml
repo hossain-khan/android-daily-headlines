@@ -36,4 +36,6 @@
     <dimen name="default_image_card_width">224dp</dimen>
     <dimen name="default_image_card_height">126dp</dimen>
     <integer name="info_dialog_guidedactions_item_description_min_lines">4</integer>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
 </resources>

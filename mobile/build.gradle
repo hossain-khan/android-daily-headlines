@@ -8,7 +8,6 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     // https://developer.android.com/studio/releases/build-tools.html
-    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "info.hossainkhan.dailynewsheadlines"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -91,7 +90,7 @@ dependencies {
     testImplementation "junit:junit:$rootProject.junitVersion"
 
     // Kotlin support
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
 
 // **IMPORTANT** Add to the bottom of the file
