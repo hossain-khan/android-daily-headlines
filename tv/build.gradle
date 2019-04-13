@@ -6,7 +6,6 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     // https://developer.android.com/studio/releases/build-tools.html
-    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "info.hossainkhan.dailynewsheadlines"
         minSdkVersion rootProject.ext.minSdkVersion
