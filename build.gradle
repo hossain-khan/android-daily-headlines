@@ -93,7 +93,7 @@ ext {
     butterKnifeVersion = '8.8.1' // https://github.com/JakeWharton/butterknife/releases
     jodaTimeVersion = '2.9.4'
     glassfishJavaxAnnotationVersion = '10.0-b28'
-    timberLibraryVersion = '4.6.0' // https://github.com/JakeWharton/timber
+    timberLibraryVersion = '4.7.1' // https://github.com/JakeWharton/timber
     leakcanaryLibraryVersion = '1.5.4' // https://github.com/square/leakcanary/releases
     pkrssLibraryVersion = '1.2'
     // NOTE: Use new version on https://github.com/Pkmmte/PkRSS/issues/31 is addressed.
